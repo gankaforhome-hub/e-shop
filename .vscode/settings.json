@@ -1,0 +1,28 @@
+{
+    "cSpell.words": [
+        "gankaforhome"
+    ],
+
+    "eslint.useFlatConfig": true,
+
+    // Автофікс ESLint при збереженні
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always",
+        "source.fixAll.eslint": "always",
+        "source.organizeImports": "always",
+
+    },
+    // ESLint перевіряє TS/JS/React
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    // Prettier як дефолтний форматер
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "files.eol": "\n"
+}
+    
