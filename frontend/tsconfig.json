@@ -16,7 +16,7 @@
     "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,
     "types": ["node"],
-    "typeRoots": ["node_modules/@types","../node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "../node_modules/@types"],
     "plugins": [
       {
         "name": "next"
@@ -32,5 +32,5 @@
     "noUncheckedIndexedAccess": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules","../node_modules"]
+  "exclude": ["node_modules", "../node_modules"]
 }

@@ -18,6 +18,7 @@ const eslintConfig = [
       'plugin:import/recommended',
       'plugin:import/typescript',
       'plugin:boundaries/recommended',
+      'plugin:react-hooks/recommended',
       'prettier',
     ],
     plugins: ['@typescript-eslint', 'import', 'boundaries', 'prettier'],

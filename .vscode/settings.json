@@ -3,6 +3,7 @@
         "gankaforhome"
     ],
 
+    
     "eslint.useFlatConfig": true,
 
     // Автофікс ESLint при збереженні
@@ -21,7 +22,7 @@
     ],
     // Prettier як дефолтний форматер
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+//   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "files.eol": "\n",
 
