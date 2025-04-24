@@ -47,6 +47,3 @@ from the creators of Next.js.
 Check out our
 [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
 for more details.
-
-, "lint-staged": { "src/\*_/_.{ts,tsx}": [ "pnpm lint --file", "pnpm prettier
---write" ] }

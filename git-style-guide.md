@@ -8,7 +8,7 @@
 
 #### 📘 Decryption:
    - **scope** — part of the project (*cms, backend, frontend, devops, etc*)
-   - **type** — type of changes (*feat, fix, hotfix, chore, docs, refactor, test*)
+   - **type** — type of changes (*feat, fix, hotfix, chore, docs, refactor, test, bugfix, ci, style, revert*)
    - **short-description-kebab-case** — short description (in English)
 ---
 

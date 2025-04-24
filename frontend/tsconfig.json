@@ -15,6 +15,7 @@
     "incremental": true,
     "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "../node_modules/@types"],
     "plugins": [
@@ -28,8 +29,7 @@
       "@/features/*": ["./src/features/*"],
       "@/entities/*": ["./src/entities/*"],
       "@/shared/*": ["./src/shared/*"]
-    },
-    "noUncheckedIndexedAccess": true
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "../node_modules"]
