@@ -25,7 +25,8 @@
     "check-format": "prettier --check .",
     "fix": "pnpm run prettier && pnpm run lint --fix",
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build",
-    "test": ""
+    "test": "",
+    "commit": "cz"
   },
   "dependencies": {
     "next": "15.3.1",
