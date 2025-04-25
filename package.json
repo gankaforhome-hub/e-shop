@@ -33,7 +33,9 @@
     "lint-staged": "^15.5.1",
     "open-cli": "^8.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11"
   },
   "devEngines": {
     "node": ">=22.14.0",
@@ -49,5 +51,11 @@
     "cz-customizable": {
       "config": ".cz-config.js"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "pnpm run --filter frontend lint --file",
+      "pnpm run --filter frontend prettier --write"
+    ]
   }
 }

@@ -1,31 +1,40 @@
 {
-    "cSpell.words": [
-      "commitlint",
-      "gankaforhome"
-    ],
+  "cSpell.words": ["commitlint", "gankaforhome"],
 
-    
-    "eslint.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
 
-    // Автофікс ESLint при збереженні
-    "editor.codeActionsOnSave": {
-        "source.fixAll": "always",
-        "source.fixAll.eslint": "always",
-        "source.organizeImports": "always",
-
-    },
-    // ESLint перевіряє TS/JS/React
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact"
-    ],
-    // Prettier як дефолтний форматер
+  // Автофікс ESLint при збереженні
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+  // ESLint перевіряє TS/JS/React
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "editor.formatOnSave": true,
-//   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "files.eol": "\n",
 
+  "prettier.configPath": "./.prettierrc",
+
+  "yaml.maxItemsComputed": 10000
+
+  // "files.autoSave": "onFocusChange",
+  // "editor.formatOnPaste": true,
+  // "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  // "[typescriptreact]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  // "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  // "[javascriptreact]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  // "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  // "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  // "[tailwindcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }
-    
