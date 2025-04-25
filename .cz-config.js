@@ -6,17 +6,19 @@ module.exports = {
   // prompter: inquirer.prompt,
   // Type commit
   types: [
-    { value: 'chore', name: 'chore:    maintenance tasks' },
-    { value: 'feat', name: 'feat:    new features' },
-    { value: 'style', name: 'style:     code style change' },
-    { value: 'refactor', name: 'refactor: code refactoring' },
-    { value: 'revert', name: 'revert: revert to previous commit' },
-    { value: 'fix', name: 'fix:      bug fix' },
-    { value: 'hotfix', name: 'hotfix:  fast fix' },
-    { value: 'perf', name: 'perf:     performance improvements' },
-    { value: 'test', name: 'test:     testing' },
-    { value: 'ci', name: 'ci:     CI configuration change' },
-    { value: 'docs', name: 'docs:     documentation updates' },
+    { value: "chore",    name: "🔨 chore:    Miscellaneous chores", emoji: "🔨" },
+    { value: 'feat', name: '✨feat:    new features', emoji: "✨" },
+    { value: "style",    name: "🎨 style:    Code style changes (formatting, etc)", emoji: "🎨" },
+    { value: "refactor", name: "♻️ refactor: Code refactoring", emoji: "♻️" },
+    { value: "revert",   name: "⏪ revert:   Revert to a commit", emoji: "⏪" },
+    { value: "fix",      name: "🐛 fix:      A bug fix", emoji: "🐛" },
+    { value: 'hotfix', name: '🩹 hotfix:  fast fix',emoji: "🩹" },
+    { value: "perf",     name: "⚡ perf:     Performance improvements", emoji: "⚡" },
+    { value: "test",     name: "✅ test:     Adding or fixing tests", emoji: "✅" },
+    { value: "ci",       name: "🔧 ci:       CI configuration", emoji: "🔧" },
+    { value: "docs",     name: "📝 docs:     Documentation only changes", emoji: "📝" },
+
+
   ],
     // Select scope changes (scope)
   scopes: [

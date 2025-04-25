@@ -20,7 +20,7 @@
     "backend:lint": "pnpm --filter cms lint",
     "cms:lint": "pnpm --filter backend lint",
     "prepare": "husky install",
-    "commitlint": "commitlint --edit",
+    "commitlint": "commitlint --edit ",
     "commit": "cz"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-customizable"
+      "path": "./node_modules/cz-customizable"
     },
     "cz-customizable": {
       "config": ".cz-config.js"
