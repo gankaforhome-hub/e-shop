@@ -3,13 +3,18 @@
 
   "eslint.useFlatConfig": true,
 
-  // Автофікс ESLint при збереженні
+  // Avtofix ESLint on save
   "editor.codeActionsOnSave": {
     "source.fixAll": "always",
     "source.fixAll.eslint": "always",
     "source.organizeImports": "always"
   },
-  // ESLint перевіряє TS/JS/React
+  "editor.codeActionsOnType": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+  // ESLint check TS/JS/React
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -17,17 +22,28 @@
     "typescriptreact"
   ],
   "editor.formatOnSave": true,
-  "editor.formatOnType": false,
-  "editor.formatOnPaste": false,
+  "editor.formatOnType": true,
+  "editor.formatOnPaste": true,
+
+  //fix compliting
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
 
   "files.eol": "\n",
 
   "prettier.configPath": "./.prettierrc",
 
-  "yaml.maxItemsComputed": 10000
+  "yaml.maxItemsComputed": 10000,
+  "tailwindCSS.classFunctions": ["tw", "clsx", "cva", "cx", "className"],
+  "files.autoSave": "onFocusChange"
 
-  // "files.autoSave": "onFocusChange",
-  // "editor.formatOnPaste": true,
   // "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   // "[typescriptreact]": {
   //   "editor.defaultFormatter": "esbenp.prettier-vscode"

@@ -12,5 +12,5 @@
   "endOfLine": "lf",
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindStylesheet": "./frontend/src/shared/styles/globals.css",
-  "tailwindAttributes": ["buttonVariants"]
+  "tailwindFunctions": ["clsx", "cva", "tw"]
 }
