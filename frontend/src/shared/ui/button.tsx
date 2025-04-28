@@ -45,13 +45,13 @@ export const buttonVariants = cva(
     ],
   }
 );
-export interface IButton
+export interface IButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
-export const Button: FC<IButton> = ({
+export const Button: FC<IButtonProps> = ({
   className,
   variant,
   size,

@@ -26,8 +26,19 @@ const eslintConfig = [
 
     settings: {
       "import/resolver": {
-        typescript: true,
-        node: true,
+        typescript: {
+          project: "./tsconfig.json", // Вказуємо на ваш tsconfig.json
+        },
+        alias: {
+          map: [
+            ["@", "./src"],
+            ["@/widgets", "./src/widgets"],
+            ["@/features", "./src/features"],
+            ["@/entities", "./src/entities"],
+            ["@/shared", "./src/shared"],
+          ],
+          extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
+        },
       },
       "boundaries/mode": "strict",
       "boundaries/elements": [

@@ -1,3 +1,1 @@
-import { mergeStyleTailwindAndObjectStyle } from "./style-merge";
-
-export const cn = mergeStyleTailwindAndObjectStyle;
+export { mergeStyleTailwindAndObjectStyle as cn } from "./style-merge";

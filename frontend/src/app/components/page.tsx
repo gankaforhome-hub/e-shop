@@ -1,7 +1,7 @@
-import { Button, IButton } from "@/shared/ui/button";
+import { Button, IButtonProps } from "@/shared/ui/button";
 
-const btnSizes: IButton["size"][] = ["sm", "lg", "xl"];
-const btnOption: IButton["variant"][] = [
+const btnSizes: IButtonProps["size"][] = ["sm", "lg", "xl"];
+const btnOption: IButtonProps["variant"][] = [
   "default",
   "destructive",
   "outline",
