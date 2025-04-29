@@ -28,7 +28,6 @@
       "*.prettierrc": "json",
       "*.eslintrc": "json",
     },
-    "cSpell.words": ["Stylesheet"],
   },
   "extensions": {
     "recommendations": [

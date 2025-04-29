@@ -119,10 +119,14 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* .container {
-    @apply mx-auto px-4;
+
+  img {
+    @apply block h-full w-full;
   }
+}
+
+@layer utilities {
   .visually-hidden {
     @apply absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0;
-  } */
+  }
 }

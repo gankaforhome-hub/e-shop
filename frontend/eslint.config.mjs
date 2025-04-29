@@ -31,11 +31,11 @@ const eslintConfig = [
         },
         alias: {
           map: [
-            ["@", "./src"],
-            ["@/widgets", "./src/widgets"],
-            ["@/features", "./src/features"],
-            ["@/entities", "./src/entities"],
-            ["@/shared", "./src/shared"],
+            ["@/*", "./src/*"],
+            ["@/widgets/*", "./src/widgets/*"],
+            ["@/features/*", "./src/features/*"],
+            ["@/entities/*", "./src/entities/*"],
+            ["@/shared/*", "./src/shared/*"],
           ],
           extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
         },
@@ -113,6 +113,7 @@ const eslintConfig = [
           ],
         },
       ],
+
       // '@typescript-eslint/consistent-type-imports': [
       //   'error',
       //   {
@@ -120,6 +121,7 @@ const eslintConfig = [
       //     fixStyle: 'inline-type-imports',
       //   },
       // ],
+      "import/newline-after-import": ["error", { count: 1 }],
       "import/no-duplicates": "error",
       "boundaries/element-types": [
         "error",

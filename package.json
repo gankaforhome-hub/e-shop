@@ -14,11 +14,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "frontend:dev": "pnpm --filter frontend run dev",
-    "frontend:build": "pnpm --filter frontend run build",
-    "frontend:lint": "pnpm --filter frontend lint",
-    "backend:lint": "pnpm --filter cms lint",
-    "cms:lint": "pnpm --filter backend lint",
+    "fdev": "pnpm --filter frontend run dev",
+    "fbuild": "pnpm --filter frontend run build",
+    "flint": "pnpm --filter frontend lint",
+    "blint": "pnpm --filter cms lint",
+    "clint": "pnpm --filter backend lint",
     "prepare": "husky install",
     "commitlint": "commitlint --edit ",
     "commit": "cz"
