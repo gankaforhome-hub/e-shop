@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { Section } from "../shared/ui/section";
+import { Button } from "@/shared/ui/button";
+import { Section } from "@/shared/ui/section";
 
 export default function Home() {
   return (
@@ -16,7 +17,9 @@ export default function Home() {
             </Link>
           </Section>
         </main>
-        <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]"></footer>
+        <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
+          <Button></Button>
+        </footer>
       </div>
     </div>
   );
