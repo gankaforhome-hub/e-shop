@@ -32,6 +32,7 @@ const eslintConfig = [
         alias: {
           map: [
             ["@/*", "./src/*"],
+            ["@/pages/*", "./src/pages/*"],
             ["@/widgets/*", "./src/widgets/*"],
             ["@/features/*", "./src/features/*"],
             ["@/entities/*", "./src/entities/*"],
@@ -45,6 +46,11 @@ const eslintConfig = [
         {
           type: "app",
           pattern: "src/app/**",
+        },
+        {
+          type: "pages",
+          pattern: "src/pages/**",
+          capture: ["pages"],
         },
         {
           type: "widgets",
@@ -132,33 +138,40 @@ const eslintConfig = [
           rules: [
             {
               from: "app",
+              allow: ["pages", "widgets", "features", "entities", "shared"],
+            },
+            {
+              from: "pages",
               allow: ["widgets", "features", "entities", "shared"],
+              disallow: ["app"],
+              message:
+                '❌"${dependency.type}" are not allowed to be imported into "${file.type}" by the Feature-Sliced Design (FSD)',
             },
             {
               from: "widgets",
               allow: ["features", "entities", "shared"],
-              disallow: ["app"],
+              disallow: ["app", "pages"],
               message:
                 '❌"${dependency.type}" are not allowed to be imported into "${file.type}" by the Feature-Sliced Design (FSD)',
             },
             {
               from: "features",
               allow: ["entities", "shared"],
-              disallow: ["app", "widgets"],
+              disallow: ["app", "pages", "widgets"],
               message:
                 '❌"${dependency.type}" are not allowed to be imported into "${file.type}" by the Feature-Sliced Design (FSD)',
             },
             {
               from: "entities",
               allow: ["shared"],
-              disallow: ["app", "widgets", "features"],
+              disallow: ["app", "pages", "widgets", "features"],
               message:
                 '❌"${dependency.type}" are not allowed to be imported into "${file.type}" by the Feature-Sliced Design (FSD)',
             },
             {
               from: "shared",
               allow: ["shared"],
-              disallow: ["app", "widgets", "features", "entities"],
+              disallow: ["app", "pages", "widgets", "features", "entities"],
               message:
                 '❌"${dependency.type}" are not allowed to be imported into "${file.type}" by the Feature-Sliced Design (FSD)',
             },
