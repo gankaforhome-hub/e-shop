@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   // eslint: {
   //   dirs: ['src'],
   // },
+
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
 };
 
 export default nextConfig;
