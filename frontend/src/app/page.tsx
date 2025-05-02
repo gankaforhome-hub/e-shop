@@ -1,27 +1,37 @@
 import Link from "next/link";
 
-import { Button } from "@/shared/ui/button";
+import { Box } from "@/shared/ui/box";
 import { Container } from "@/shared/ui/container";
 import { Section } from "@/shared/ui/section";
 
-export default function Home() {
+const routes = [
+  "/components",
+  "/about-us",
+  "/contacts",
+  "/cart",
+  "/collections",
+  "/collections/collectionSlug",
+  "/not-found",
+];
+
+export default function Page() {
   return (
     <>
-      <main className="flex min-h-screen w-full items-center justify-center">
-        <Container className="max-sm:bg-red-300 sm:bg-amber-200 md:bg-amber-400 lg:bg-amber-600 xl:bg-amber-900 2xl:bg-black">
-          <Section>
-            <Link
-              href={"./components"}
-              className="mx-auto block text-4xl text-rose-500 hover:text-blue-400"
-            >
-              Example Components
-            </Link>
-          </Section>
+      <Section>
+        <Container>
+          <Box className="flex flex-col items-start gap-5">
+            {routes.map((route, index) => (
+              <Link
+                key={index}
+                href={route}
+                className="mx-auto block text-4xl text-rose-500 hover:text-blue-400"
+              >
+                page {route}
+              </Link>
+            ))}
+          </Box>
         </Container>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <Button></Button>
-      </footer>
+      </Section>
     </>
   );
 }
