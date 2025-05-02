@@ -10,7 +10,7 @@ interface ISectionProps {
 export const Section = ({ className, children }: ISectionProps) => {
   return (
     <>
-      <section className={cn("py-12.5", className)}>{children}</section>
+      <section className={cn("w-full", className)}>{children}</section>
     </>
   );
 };

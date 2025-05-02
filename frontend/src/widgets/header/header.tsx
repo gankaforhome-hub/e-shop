@@ -11,8 +11,8 @@ interface IHeaderProps {
 export const Header: FC<IHeaderProps> = ({ className }) => {
   return (
     <header className={cn("", className)}>
-      <Container>
-        <Box className="flex h-20 items-center justify-center bg-teal-300">
+      <Container className="bg-teal-300">
+        <Box className="flex h-20 items-center justify-center">
           <p className="text-6xl font-bold">Header</p>
         </Box>
       </Container>
