@@ -1,15 +1,29 @@
 import "@/shared/styles/global.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito_Sans, Tinos } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+import { Footer } from "@/widgets/footer";
+import { Header } from "@/widgets/header";
+
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+const tinos = Tinos({
+  variable: "--font-tinos",
+  weight: ["400", "700"],
+  subsets: ["latin", "cyrillic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const nunitoSans = Nunito_Sans({
+  variable: "--font-nunito-sans",
+  weight: ["400", "700"],
+  subsets: ["latin", "cyrillic"],
 });
 
 // export const viewport: Viewport = {
@@ -35,9 +49,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[1fr_auto] antialiased md:grid-rows-[auto_1fr_auto]`}
+        className={`${tinos.variable} ${nunitoSans.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[1fr_auto] antialiased md:grid-rows-[auto_1fr_auto]`}
       >
-        {children}
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

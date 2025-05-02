@@ -2,8 +2,16 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
 @theme inline {
+  --font-header: var(--font-tinos);
+  --font-text: var(--font-nunito-sans);
+
+  --card-gap: 0;
+  --card-item: 1;
+  --start: 100%;
+  --duration: 250ms;
+  --h-header: 5rem;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -128,5 +136,12 @@
 @layer utilities {
   .visually-hidden {
     @apply absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0;
+  }
+  .card-set {
+    @apply flex flex-wrap gap-[var(--card-gap)];
+  }
+
+  .card-set-item {
+    @apply basis-[calc(calc((100%-((var(--card-item)-1)*var(--card-gap)))/var(--card-item)))];
   }
 }
