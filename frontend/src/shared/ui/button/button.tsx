@@ -5,28 +5,34 @@ import { ButtonHTMLAttributes, FC } from "react";
 import { cn } from "@/shared/lib/utils";
 
 export const buttonVariants = cva(
-  "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "font-button duration-250 inline-flex shrink-0 items-center justify-center whitespace-nowrap text-lg font-normal outline-none transition",
   {
     variants: {
       variant: {
         default:
-          "text-primary-foreground bg-primary shadow-xs hover:bg-primary/90",
-        destructive:
-          "bg-destructive shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 text-white",
-        outline:
-          "bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 border",
+          "text-button text-btn-text-primary bg-btn-bg-primary focus:text-btn-text-accent-primary hover:text-btn-text-accent-primary focus:bg-btn-bg-accent-primary hover:bg-btn-bg-accent-primary hover:shadow-lg",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "text-button text-btn-text-secondary bg-btn-bg-secondary focus:text-btn-text-accent-secondary hover:text-btn-text-accent-secondary focus:bg-btn-bg-accent-secondary hover:bg-btn-bg-accent-secondary hover:shadow-lg",
+        subscribe:
+          "text-button text-btn-text-subscribe bg-btn-bg-subscribe focus:text-btn-text-accent-subscribe hover:text-btn-text-accent-subscribe focus:bg-btn-bg-accent-subscribe hover:bg-btn-bg-accent-subscribe hover:shadow-lg",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          "text-button text-btn-text-ghost bg-btn-bg-ghost focus:text-btn-text-accent-ghost hover:text-btn-text-accent-ghost focus:bg-btn-bg-accent-ghost hover:bg-btn-bg-accent-ghost hover:shadow-lg",
+        addToBag:
+          "text-button text-btn-text-addToBag bg-btn-bg-addToBag focus:text-btn-text-accent-addToBag hover:text-btn-text-accent-addToBag focus:bg-btn-bg-accent-addToBag hover:bg-btn-bg-accent-addToBag hover:shadow-lg",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
-        icon: "size-9",
+        default: "px-6 py-5",
+        sm: "px-5 py-4",
+        lg: "",
+        xl: "px-21 py-5",
+        spaced: "justify-between px-5 py-4",
+        // sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
+        // lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        // xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
+      },
+      border: {
+        border: "border-btn-border border",
+        withOutBorder: "",
       },
       btnType: {
         button: "",
@@ -36,11 +42,12 @@ export const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
+      border: "border",
       btnType: "button",
     },
     compoundVariants: [
-      { btnType: "icon", size: "sm", class: "h-10 w-10" },
-      { btnType: "icon", size: "lg", class: "h-11 w-11" },
+      { variant: "default", size: "lg", class: "h-10 w-10" },
+      // { variant: "addToBag", size: "default", class: "w-full" },
       { btnType: "icon", size: "xl", class: "h-12 w-12" },
     ],
   }
@@ -55,6 +62,7 @@ export const Button: FC<IButtonProps> = ({
   className,
   variant,
   size,
+  border,
   btnType,
   asChild = false,
   ...props
@@ -64,7 +72,9 @@ export const Button: FC<IButtonProps> = ({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, btnType, className }))}
+      className={cn(
+        buttonVariants({ variant, size, border, btnType, className })
+      )}
       {...props}
     />
   );

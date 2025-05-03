@@ -5,30 +5,45 @@
 @theme inline {
   --font-header: var(--font-tinos);
   --font-text: var(--font-nunito-sans);
+  --font-button: var(--font-nunito-sans);
 
   --card-gap: 0;
   --card-item: 1;
   --start: 100%;
-  --duration: 250ms;
+  --transition-duration: 250ms;
   --h-header: 5rem;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+
+  --color-btn-border: #080808;
+  --color-btn-accent-border: #ffffff;
+
+  --color-btn-bg-primary: #ffffff;
+  --color-btn-bg-accent-primary: #080808;
+  --color-btn-text-primary: #080808;
+  --color-btn-text-accent-primary: #ffffff;
+
+  --color-btn-bg-secondary: #080808;
+  --color-btn-bg-accent-secondary: #ffffff;
+  --color-btn-text-secondary: #ffffff;
+  --color-btn-text-accent-secondary: #080808;
+
+  --color-btn-bg-subscribe: #81d8d0;
+  --color-btn-bg-accent-subscribe: #5cbfb5;
+  --color-btn-text-subscribe: ##080808;
+  --color-btn-text-accent-subscribe: #080808;
+
+  --color-btn-bg-addToBag: #080808;
+  --color-btn-bg-accent-addToBag: #ffffff;
+  --color-btn-text-addToBag: #ffffff;
+  --color-btn-text-accent-addToBag: #080808;
+
+  --color-btn-bg-ghost: #f7f7f7;
+  --color-btn-bg-accent-ghost: #e5e5e5;
+  --color-btn-text-ghost: #080808;
+  --color-btn-text-accent-ghost: #262626;
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -143,5 +158,10 @@
 
   .card-set-item {
     @apply basis-[calc(calc((100%-((var(--card-item)-1)*var(--card-gap)))/var(--card-item)))];
+  }
+
+  .custom-transition {
+    transition-duration: var(--transition-duration);
+    transition-timing-function: var(--transition-duration, ease-in-out);
   }
 }
