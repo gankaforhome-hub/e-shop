@@ -15,7 +15,7 @@
     "tailwindcss"
   ],
   "scripts": {
-    "dev": "open-cli http://localhost:3001 && next dev --turbopack",
+    "dev": "open-cli http://localhost:3000 && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

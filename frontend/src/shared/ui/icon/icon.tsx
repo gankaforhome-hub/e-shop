@@ -1,13 +1,18 @@
 import { FC, SVGProps } from "react";
 
 import Four from "@/shared/icons/four.svg";
+import Instagram from "@/shared/icons/instagram.svg";
+import Location from "@/shared/icons/location.svg";
+import Phone from "@/shared/icons/phone.svg";
+import Telegram from "@/shared/icons/telegram.svg";
 import { cn } from "@/shared/lib/utils";
 
 const icons = {
   // cart: Cart,
-  // instagram: Instagram,
-  // telegram: Telegram,
-  // phone: Phone,
+  location: Location,
+  instagram: Instagram,
+  telegram: Telegram,
+  phone: Phone,
   four: Four,
 };
 

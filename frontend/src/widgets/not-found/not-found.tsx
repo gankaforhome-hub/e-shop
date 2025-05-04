@@ -87,7 +87,6 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
             {contactLinks.map(({ href, label, icon, external }) => (
               <li key={href} className="card-set-item [--card-item:2]">
                 <Button
-                  variant={"link"}
                   asChild
                   className="font-text px-13 flex border-2 py-5 text-lg"
                 >
@@ -100,7 +99,6 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
           </ul>
 
           <Button
-            variant={"link"}
             asChild
             className="font-text px-13 flex border-2 py-5 text-lg"
           >

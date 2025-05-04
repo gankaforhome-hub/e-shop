@@ -46,9 +46,9 @@ export const buttonVariants = cva(
       btnType: "button",
     },
     compoundVariants: [
-      { variant: "default", size: "lg", class: "h-10 w-10" },
+      // { variant: "default", size: "lg", class: "h-10 w-10" },
       // { variant: "addToBag", size: "default", class: "w-full" },
-      { btnType: "icon", size: "xl", class: "h-12 w-12" },
+      // { btnType: "icon", size: "xl", class: "h-12 w-12" },
     ],
   }
 );

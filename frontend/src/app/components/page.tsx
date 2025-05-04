@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Box } from "@/shared/ui/box";
 import { Button } from "@/shared/ui/button";
 import { Container } from "@/shared/ui/container";
+import { ExternalLink } from "@/shared/ui/external-link";
+import { Icon } from "@/shared/ui/icon";
 import { Section } from "@/shared/ui/section";
 
 // const btnSizes: IButtonProps["size"][] = ["sm", "lg", "xl"];
@@ -67,6 +69,18 @@ export default function ComponentsPage() {
           <Box className="h-50 w-50 bg-btn-bg-ghost flex items-center justify-center gap-6">
             <Button variant={"ghost"} size={"sm"}>
               <p>Download</p>
+            </Button>
+          </Box>
+
+          <Box className="flex items-center justify-center">
+            <Button size={"sm"} asChild>
+              <ExternalLink
+                href="google.com"
+                className="stroke-btn-text-primary hover:fill-btn-text-primary hover:stroke-btn-text-accent-primary gap-2.5 fill-none"
+              >
+                <Icon name="instagram" className="h-6 w-6"></Icon>
+                <span>Instagram</span>
+              </ExternalLink>
             </Button>
           </Box>
 
