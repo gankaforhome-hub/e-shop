@@ -87,10 +87,11 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
       </Box>
       <Box className="px-50 bg-amber-100">
         <p className="font-text mb-11 text-center text-xl">{t.CanWeHelp}</p>
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {/* grid grid-cols-1 gap-4 sm:grid-cols-2 */}
+        <ul className={cn("card-set-1/5 xl:card-set-2/5")}>
           {contactLinks.map(({ href, label, icon }) => (
-            <li key={href}>
-              <Button size={"lg"} asChild>
+            <li key={href} className="card-set-item">
+              <Button size={"lg"} asChild className="">
                 <ExternalLink
                   href={href}
                   className="stroke-btn-text-primary hover:fill-btn-text-primary hover:stroke-btn-text-accent-primary gap-2.5 fill-none"

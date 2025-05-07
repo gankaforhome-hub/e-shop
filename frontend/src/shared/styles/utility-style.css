@@ -8,14 +8,24 @@
 @utility visually-hidden {
   @apply absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0;
 }
-@utility card-set {
-  @apply flex flex-wrap gap-[var(--card-gap)];
+@utility card-set-* {
+  --card-item: calc(--value(integer));
+  --card-gap: calc(--modifier(number) * var(--spacing));
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--card-gap);
+  justify-items: center;
+  align-items: center;
 }
-
 @utility card-set-item {
   @apply basis-[calc(calc((100%-((var(--card-item)-1)*var(--card-gap)))/var(--card-item)))];
 }
-
+@utility card-gap-* {
+  --card-gap: calc(--value(number) * var(--spacing));
+}
+@utility card-item-* {
+  --card-item: calc(--value(integer));
+}
 @utility custom-transition {
   transition-duration: var(--transition-duration);
   transition-timing-function: var(--transition-duration, ease-in-out);
