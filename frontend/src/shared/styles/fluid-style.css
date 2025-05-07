@@ -31,6 +31,10 @@
 
   --fluid-gap-min: 0;
   --fluid-gap-max: 0;
+  --fluid-gapc-min: 0;
+  --fluid-gapc-max: 0;
+  --fluid-gapr-min: 0;
+  --fluid-gapr-max: 0;
 
   --fluid-width-min: 0;
   --fluid-width-max: 0;
@@ -269,30 +273,30 @@
 }
 
 @utility fgapr-* {
-  --fluid-gap-min: calc(--value(number));
-  --fluid-gap-max: calc(--modifier(number));
+  --fluid-gapr-min: calc(--value(number));
+  --fluid-gapr-max: calc(--modifier(number));
 
   row-gap: clamp(
-    calc((var(--fluid-gap-min)) * var(--spacing)),
+    calc((var(--fluid-gapr-min)) * var(--spacing)),
     calc(
-      calc(var(--fluid-gap-min) * var(--spacing)) +
-        (var(--fluid-gap-max) - var(--fluid-gap-min)) * var(--ratio)
+      calc(var(--fluid-gapr-min) * var(--spacing)) +
+        (var(--fluid-gapr-max) - var(--fluid-gapr-min)) * var(--ratio)
     ),
-    calc(var(--fluid-gap-max) * var(--spacing))
+    calc(var(--fluid-gapr-max) * var(--spacing))
   );
 }
 
 @utility fgapc-* {
-  --fluid-gap-min: calc(--value(number));
-  --fluid-gap-max: calc(--modifier(number));
+  --fluid-gapc-min: calc(--value(number));
+  --fluid-gapc-max: calc(--modifier(number));
 
   column-gap: clamp(
-    calc((var(--fluid-gap-min)) * var(--spacing)),
+    calc((var(--fluid-gapc-min)) * var(--spacing)),
     calc(
-      calc(var(--fluid-gap-min) * var(--spacing)) +
-        (var(--fluid-gap-max) - var(--fluid-gap-min)) * var(--ratio)
+      calc(var(--fluid-gapc-min) * var(--spacing)) +
+        (var(--fluid-gapc-max) - var(--fluid-gapc-min)) * var(--ratio)
     ),
-    calc(var(--fluid-gap-max) * var(--spacing))
+    calc(var(--fluid-gapc-max) * var(--spacing))
   );
 }
 
