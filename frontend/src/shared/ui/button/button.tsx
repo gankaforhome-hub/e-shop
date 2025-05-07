@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes, FC } from "react";
 import { cn } from "@/shared/lib/utils";
 
 export const buttonVariants = cva(
-  "font-button duration-250 inline-flex shrink-0 items-center justify-center whitespace-nowrap text-lg font-normal outline-none transition",
+  "font-button duration-250 m-0 inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap p-0 text-lg font-normal outline-none transition",
   {
     variants: {
       variant: {
@@ -23,7 +23,7 @@ export const buttonVariants = cva(
       size: {
         default: "px-6 py-5",
         sm: "px-5 py-4",
-        lg: "",
+        lg: "px-14 py-5",
         xl: "px-21 py-5",
         spaced: "justify-between px-5 py-4",
         // sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
@@ -31,7 +31,7 @@ export const buttonVariants = cva(
         // xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
       },
       border: {
-        border: "border-btn-border border",
+        border: "border-btn-border border border-solid",
         withOutBorder: "",
       },
       btnType: {
