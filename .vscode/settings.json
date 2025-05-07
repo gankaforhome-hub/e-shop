@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["commitlint", "gankaforhome", "nowrap", "gapr", "gapc"],
+  "cSpell.words": [
+    "commitlint",
+    "gankaforhome",
+    "nowrap",
+    "fgap",
+    "fgapr",
+    "fgapc",
+    "ftext"
+  ],
 
   "eslint.useFlatConfig": true,
 

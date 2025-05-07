@@ -1,0 +1,343 @@
+:root {
+  --fluid-m-min: 0;
+  --fluid-m-max: 0;
+  --fluid-mx-min: 0;
+  --fluid-mx-max: 0;
+  --fluid-my-min: 0;
+  --fluid-my-max: 0;
+  --fluid-mt-min: 0;
+  --fluid-mt-max: 0;
+  --fluid-mr-min: 0;
+  --fluid-mr-max: 0;
+  --fluid-mb-min: 0;
+  --fluid-mb-max: 0;
+  --fluid-ml-min: 0;
+  --fluid-ml-max: 0;
+
+  --fluid-p-min: 0;
+  --fluid-p-max: 0;
+  --fluid-px-min: 0;
+  --fluid-px-max: 0;
+  --fluid-py-min: 0;
+  --fluid-py-max: 0;
+  --fluid-pt-min: 0;
+  --fluid-pt-max: 0;
+  --fluid-pr-min: 0;
+  --fluid-pr-max: 0;
+  --fluid-pb-min: 0;
+  --fluid-pb-max: 0;
+  --fluid-pl-min: 0;
+  --fluid-pl-max: 0;
+
+  --fluid-gap-min: 0;
+  --fluid-gap-max: 0;
+
+  --fluid-width-min: 0;
+  --fluid-width-max: 0;
+
+  --fluid-height-min: 0;
+  --fluid-height-max: 0;
+
+  --fluid-text-min: 0;
+  --fluid-text-max: 0;
+
+  --fluid-max-viewport: 432; /**max value container 108rem (108rem*16)/4*/
+  --fluid-min-viewport: 80; /**min value container 108rem (108rem*16)/4*/
+
+  --ratio: calc(
+    (100vw - calc(var(--fluid-min-viewport) * var(--spacing))) /
+      (var(--fluid-max-viewport) - var(--fluid-min-viewport))
+  );
+}
+
+/**------------Fluid spacing utility-------------------------------- */
+
+/*------------Margin-------------------------------- */
+
+@utility fm-* {
+  --fluid-m-min: calc(--value(number));
+  --fluid-m-max: calc(--modifier(number));
+
+  margin: clamp(
+    calc((var(--fluid-m-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-m-min) * var(--spacing)) +
+        (var(--fluid-m-max) - var(--fluid-m-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-m-max) * var(--spacing))
+  );
+}
+
+@utility fmx-* {
+  --fluid-mx-min: calc(--value(number));
+  --fluid-mx-max: calc(--modifier(number));
+
+  margin-inline: clamp(
+    calc((var(--fluid-mx-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-mx-min) * var(--spacing)) +
+        (var(--fluid-mx-max) - var(--fluid-mx-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-mx-max) * var(--spacing))
+  );
+}
+
+@utility fmy-* {
+  --fluid-my-min: calc(--value(number));
+  --fluid-my-max: calc(--modifier(number));
+
+  margin-block: clamp(
+    calc((var(--fluid-my-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-my-min) * var(--spacing)) +
+        (var(--fluid-my-max) - var(--fluid-my-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-my-max) * var(--spacing))
+  );
+}
+
+@utility fmt-* {
+  --fluid-mt-min: calc(--value(number));
+  --fluid-mt-max: calc(--modifier(number));
+
+  margin-top: clamp(
+    calc((var(--fluid-mt-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-mt-min) * var(--spacing)) +
+        (var(--fluid-mt-max) - var(--fluid-mt-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-mt-max) * var(--spacing))
+  );
+}
+
+@utility fmr-* {
+  --fluid-mr-min: calc(--value(number));
+  --fluid-mr-max: calc(--modifier(number));
+
+  margin-right: clamp(
+    calc((var(--fluid-mr-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-mr-min) * var(--spacing)) +
+        (var(--fluid-mr-max) - var(--fluid-mr-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-mr-max) * var(--spacing))
+  );
+}
+
+@utility fmb-* {
+  --fluid-mb-min: calc(--value(number));
+  --fluid-mb-max: calc(--modifier(number));
+
+  margin-bottom: clamp(
+    calc((var(--fluid-mb-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-mb-min) * var(--spacing)) +
+        (var(--fluid-mb-max) - var(--fluid-mb-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-mb-max) * var(--spacing))
+  );
+}
+
+@utility fml-* {
+  --fluid-ml-min: calc(--value(number));
+  --fluid-ml-max: calc(--modifier(number));
+
+  margin-left: clamp(
+    calc((var(--fluid-ml-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-ml-min) * var(--spacing)) +
+        (var(--fluid-ml-max) - var(--fluid-ml-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-ml-max) * var(--spacing))
+  );
+}
+
+/*------------Padding-------------------------------- */
+
+@utility fp-* {
+  --fluid-p-min: calc(--value(number));
+  --fluid-p-max: calc(--modifier(number));
+
+  padding: clamp(
+    calc((var(--fluid-p-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-p-min) * var(--spacing)) +
+        (var(--fluid-p-max) - var(--fluid-p-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-p-max) * var(--spacing))
+  );
+}
+
+@utility fpx-* {
+  --fluid-px-min: calc(--value(number));
+  --fluid-px-max: calc(--modifier(number));
+
+  padding-inline: clamp(
+    calc((var(--fluid-px-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-px-min) * var(--spacing)) +
+        (var(--fluid-px-max) - var(--fluid-px-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-px-max) * var(--spacing))
+  );
+}
+
+@utility fpy-* {
+  --fluid-py-min: calc(--value(number));
+  --fluid-py-max: calc(--modifier(number));
+
+  padding-block: clamp(
+    calc((var(--fluid-py-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-py-min) * var(--spacing)) +
+        (var(--fluid-py-max) - var(--fluid-py-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-py-max) * var(--spacing))
+  );
+}
+
+@utility fpt-* {
+  --fluid-pt-min: calc(--value(number));
+  --fluid-pt-max: calc(--modifier(number));
+
+  padding-top: clamp(
+    calc((var(--fluid-pt-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-pt-min) * var(--spacing)) +
+        (var(--fluid-pt-max) - var(--fluid-pt-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-pt-max) * var(--spacing))
+  );
+}
+
+@utility fpr-* {
+  --fluid-pr-min: calc(--value(number));
+  --fluid-pr-max: calc(--modifier(number));
+
+  padding-right: clamp(
+    calc((var(--fluid-pr-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-pr-min) * var(--spacing)) +
+        (var(--fluid-pr-max) - var(--fluid-pr-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-pr-max) * var(--spacing))
+  );
+}
+
+@utility fpb-* {
+  --fluid-pb-min: calc(--value(number));
+  --fluid-pb-max: calc(--modifier(number));
+
+  padding-bottom: clamp(
+    calc((var(--fluid-pb-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-pb-min) * var(--spacing)) +
+        (var(--fluid-pb-max) - var(--fluid-pb-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-pb-max) * var(--spacing))
+  );
+}
+
+@utility fpl-* {
+  --fluid-pl-min: calc(--value(number));
+  --fluid-pl-max: calc(--modifier(number));
+
+  padding-left: clamp(
+    calc((var(--fluid-pl-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-pl-min) * var(--spacing)) +
+        (var(--fluid-pl-max) - var(--fluid-pl-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-pl-max) * var(--spacing))
+  );
+}
+
+/*------------Gap-------------------------------- */
+
+@utility fgap-* {
+  --fluid-gap-min: calc(--value(number));
+  --fluid-gap-max: calc(--modifier(number));
+
+  gap: clamp(
+    calc((var(--fluid-gap-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-gap-min) * var(--spacing)) +
+        (var(--fluid-gap-max) - var(--fluid-gap-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-gap-max) * var(--spacing))
+  );
+}
+
+@utility fgapr-* {
+  --fluid-gap-min: calc(--value(number));
+  --fluid-gap-max: calc(--modifier(number));
+
+  row-gap: clamp(
+    calc((var(--fluid-gap-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-gap-min) * var(--spacing)) +
+        (var(--fluid-gap-max) - var(--fluid-gap-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-gap-max) * var(--spacing))
+  );
+}
+
+@utility fgapc-* {
+  --fluid-gap-min: calc(--value(number));
+  --fluid-gap-max: calc(--modifier(number));
+
+  column-gap: clamp(
+    calc((var(--fluid-gap-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-gap-min) * var(--spacing)) +
+        (var(--fluid-gap-max) - var(--fluid-gap-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-gap-max) * var(--spacing))
+  );
+}
+
+/**------------Fluid size utility-------------------------------- */
+
+@utility fh-* {
+  --fluid-height-min: calc(--value(number));
+  --fluid-height-max: calc(--modifier(number));
+
+  height: clamp(
+    calc((var(--fluid-height-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-height-min) * var(--spacing)) +
+        (var(--fluid-height-max) - var(--fluid-height-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-height-max) * var(--spacing))
+  );
+}
+
+@utility fw-* {
+  --fluid-width-min: calc(--value(number));
+  --fluid-width-max: calc(--modifier(number));
+
+  width: clamp(
+    calc((var(--fluid-width-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-width-min) * var(--spacing)) +
+        (var(--fluid-width-max) - var(--fluid-width-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-width-max) * var(--spacing))
+  );
+}
+
+/**------------Fluid text utility-------------------------------- */
+
+@utility ftext-* {
+  --fluid-text-min: calc(--value(number));
+  --fluid-text-max: calc(--modifier(number));
+
+  font-size: clamp(
+    calc((var(--fluid-text-min)) * var(--spacing)),
+    calc(
+      calc(var(--fluid-text-min) * var(--spacing)) +
+        (var(--fluid-text-max) - var(--fluid-text-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-text-max) * var(--spacing))
+  );
+}
