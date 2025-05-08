@@ -43,6 +43,9 @@
   --color-btn-text-ghost: #080808;
   --color-btn-text-accent-ghost: #262626;
 
+  --color-border-primary: #e7e7e7;
+  --color-border-accent: #81d8d0;
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
