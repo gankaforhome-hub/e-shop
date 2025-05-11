@@ -7,6 +7,7 @@ import { Button } from "@/shared/ui/button";
 import { ExternalLink } from "@/shared/ui/external-link";
 import { Icon } from "@/shared/ui/icon";
 import { Section } from "@/shared/ui/section";
+import { Text } from "@/shared/ui/text";
 
 interface ContactLink {
   href: string;
@@ -80,9 +81,9 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
           <h1 className="mb-7.5 font-header text-center text-3xl uppercase">
             {t.PageNotFound}
           </h1>
-          <p className="max-w-181 font-text text-center text-lg tracking-tighter">
+          <Text className="max-w-181 font-text text-center text-lg tracking-tighter">
             {t.Description}
-          </p>
+          </Text>
         </Box>
       </Box>
       <Box className="px-50 bg-amber-100">
