@@ -70,12 +70,14 @@ export const Button: FC<IButtonProps> = ({
   const Comp = asChild ? Slot : "button";
 
   return (
-    <Comp
-      data-slot="button"
-      className={cn(
-        buttonVariants({ variant, size, border, btnType, className })
-      )}
-      {...props}
-    />
+    <>
+      <Comp
+        data-slot="button"
+        className={cn(
+          buttonVariants({ variant, size, border, btnType, className })
+        )}
+        {...props}
+      />
+    </>
   );
 };

@@ -1,22 +1,26 @@
 import { FC, SVGProps } from "react";
 
 import Four from "@/shared/icons/four.svg";
-import Instagram from "@/shared/icons/instagram.svg";
-import Location from "@/shared/icons/location.svg";
-import Phone from "@/shared/icons/phone.svg";
-import Telegram from "@/shared/icons/telegram.svg";
+import LogoFull from "@/shared/icons/logo/logo_full_ganka_for_home.svg";
+import LogoMin from "@/shared/icons/logo/logo_min_ganka_for_home.svg";
+import Instagram from "@/shared/icons/social/instagram.svg";
+import Location from "@/shared/icons/social/location.svg";
+import Phone from "@/shared/icons/social/phone.svg";
+import Telegram from "@/shared/icons/social/telegram.svg";
 import { cn } from "@/shared/lib/utils";
 
 const icons = {
-  // cart: Cart,
+  logoFull: LogoFull,
+  logoMin: LogoMin,
   location: Location,
   instagram: Instagram,
   telegram: Telegram,
   phone: Phone,
   four: Four,
+  // cart: Cart,
 };
 
-export type IconName = keyof typeof icons;
+type IconName = keyof typeof icons;
 
 interface IIconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
