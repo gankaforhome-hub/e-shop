@@ -8,7 +8,8 @@
     "fgapc",
     "gapc",
     "gapr",
-    "ftext"
+    "ftext",
+    "ganka"
   ],
 
   "eslint.useFlatConfig": true,
@@ -52,17 +53,17 @@
 
   "yaml.maxItemsComputed": 10000,
   "tailwindCSS.classFunctions": ["tw", "clsx", "cva", "cx", "className"],
-  "files.autoSave": "onFocusChange"
+  "files.autoSave": "onFocusChange",
 
-  // "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  // "[typescriptreact]": {
-  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
-  // },
-  // "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  // "[javascriptreact]": {
-  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
-  // },
-  // "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  // "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  // "[tailwindcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[tailwindcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }

@@ -29,17 +29,20 @@ const eslintConfig = [
         typescript: {
           project: "./tsconfig.json", // Вказуємо на ваш tsconfig.json
         },
-        alias: {
-          map: [
-            ["@/*", "./src/*"],
-            ["@/pages/*", "./src/pages/*"],
-            ["@/widgets/*", "./src/widgets/*"],
-            ["@/features/*", "./src/features/*"],
-            ["@/entities/*", "./src/entities/*"],
-            ["@/shared/*", "./src/shared/*"],
-          ],
-          extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
+        node: {
+          extensions: [".js", ".jsx", ".ts", ".tsx", "json", ".css"],
         },
+        // alias: {
+        //   map: [
+        //     ["@/*", "./src/*"],
+        //     ["@/pages/*", "./src/pages/*"],
+        //     ["@/widgets/*", "./src/widgets/*"],
+        //     ["@/features/*", "./src/features/*"],
+        //     ["@/entities/*", "./src/entities/*"],
+        //     ["@/shared/*", "./src/shared/*"],
+        //   ],
+        // extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
+        // },
       },
       "boundaries/mode": "strict",
       "boundaries/elements": [
@@ -88,12 +91,7 @@ const eslintConfig = [
       //     ],
       //   },
       // ],
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "auto",
-        },
-      ],
+      // "prettier/prettier": ["error"],
       "import/order": [
         "error",
         {
