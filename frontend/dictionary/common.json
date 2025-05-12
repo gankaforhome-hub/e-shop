@@ -1,0 +1,91 @@
+{
+  "header": {
+    "topBar": {
+      "socialLink": [
+        {
+          "icon": "map",
+          "title": "",
+          "href": "https://www.google.com/maps",
+          "ariaLabel": "link to site google maps"
+        },
+        {
+          "icon": "facebook",
+          "title": "",
+          "href": "www.facebook.com",
+          "ariaLabel": "link to site facebook"
+        },
+        {
+          "icon": "instagram",
+          "title": "",
+          "href": "https://www.instagram.com/ganka_for_home/",
+          "ariaLabel": "link to site instagram"
+        }
+      ],
+      "logo": {
+        "icon": "logoFull",
+        "ariaLLabel": "ganka for home logo",
+        "href": ""
+      },
+      "userActions": {
+        "contactUs": {
+          "icon": "contactUs",
+          "title": "Contact Us",
+          "ariaLabel": "Open contact us button"
+        },
+        "language": {
+          "icon": "language",
+          "title": "",
+          "ariaLabel": "Language switch"
+        },
+        "favorite": {
+          "icon": "favorite",
+          "title": "",
+          "ariaLabel": "Open favorite button"
+        },
+        "basket": {
+          "icon": "cart",
+          "title": "",
+          "ariaLabel": "Open cart button"
+        }
+      }
+    },
+    "navMenu": [
+      {
+        "id": "1",
+        "title": "All Collections",
+        "href": "/collections",
+        "ariaLabel": "link to all collection"
+      },
+      {
+        "id": "2",
+        "title": "Products",
+        "href": "/products",
+        "ariaLabel": "link to site facebook"
+      },
+      {
+        "id": "3",
+        "title": "About Us",
+        "href": "/about-us",
+        "ariaLabel": "link to site instagram"
+      },
+      {
+        "id": "4",
+        "title": "Exclusive",
+        "href": "/exclusive",
+        "ariaLabel": "link to site instagram"
+      }
+    ]
+  },
+  "footer": "",
+  "buttons": {
+    "viewCollection": "view collection",
+    "addToBag": "add to bag",
+    "goToCatalog": "go to catalog",
+    "discoverMore": "discover More",
+    "sendRequest": "send request",
+    "addFile": "add file",
+    "viewMore": "view more",
+    "shopNow": "shop now"
+  },
+  "inputs": { "firstName": "first name", "email": "email" }
+}

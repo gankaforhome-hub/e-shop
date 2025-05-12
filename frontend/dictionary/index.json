@@ -1,0 +1,289 @@
+{
+  "hero": {
+    "sectionTitle": "Ganka for home",
+    "banners": [
+      {
+        "id": 1,
+        "type": "hero",
+        "title": "konyushina",
+        "subTitle": "new collection",
+        "assets": {
+          "attributes": {
+            "url": "/images/hero_images.png",
+            "alt": ""
+          }
+        }
+      },
+      {
+        "id": 2,
+        "type": "hero",
+        "title": "easter",
+        "subTitle": "new collection",
+        "assets": {
+          "attributes": {
+            "url": "/images/hero_images.png",
+            "alt": ""
+          }
+        }
+      }
+    ]
+  },
+  "productTypesSection": {
+    "sectionTitle": "Products:",
+    "productsType": [
+      {
+        "id": 1,
+        "title": "Platters",
+        "images": {
+          "url": "/images/productTypePlatters.png",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Kettles",
+        "images": {
+          "url": "/images/productTypeKettles.png",
+          "alt": "Kettles"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Cups",
+        "images": {
+          "url": "/images/productTypeCups.png",
+          "alt": "Cups"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Candlesticks",
+        "images": {
+          "url": "/images/productTypeCandlesticks.png",
+          "alt": "Candlesticks"
+        }
+      }
+    ]
+  },
+  "newProductsSection": {
+    "sectionTitle": "Popular Products",
+    "products": [
+      {
+        "id": 1,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Last",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      }
+    ]
+  },
+  "newCollectionSection": {
+    "hiddenSectionTitle": "Popular collections",
+    "collections": [
+      {
+        "id": 1,
+        "type": "new",
+        "title": "Gifts from Ganka",
+        "images": {
+          "url": "/images/collection.png",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 2,
+        "type": "new",
+        "title": "Hare - Сorolla",
+        "images": {
+          "url": "/images/collection.png",
+          "alt": "Hare - Сorolla"
+        }
+      }
+    ]
+  },
+  "exclusiveSection": {
+    "sectionTitle": "INTRODUCING CREATE YOOOOOUR PLATE",
+    "description": "Ganka exclusive provide the opportunity to create your customized plate. This tradition reaches back.",
+    "image": { "url": "/images", "alt": "" }
+  },
+  "recommendedCollectionSection": {
+    "hiddenSectionTitle": "Popular collections",
+    "collections": [
+      {
+        "id": 3,
+        "type": "recommended",
+        "title": "Gifts from Ganka",
+        "images": {
+          "url": "/images/collection.png",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 4,
+        "type": "recommended",
+        "title": "Hare - Сorolla",
+        "images": {
+          "url": "/images/collection.png",
+          "alt": "Hare - Сorolla"
+        }
+      }
+    ]
+  },
+  "recommendedProductsSection": {
+    "hiddenSectionTitle": "Popular Products",
+    "products": [
+      {
+        "id": 5,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Last",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.png",
+            "alt": "Platters"
+          }
+        ]
+      }
+    ]
+  },
+  "newsLetterSection": {
+    "sectionTitle": "LATEST FROM GANKA",
+    "image": { "url": "/images", "alt": "" }
+  },
+  "featuresSection": {
+    "sectionTitle": "Features ganka for home",
+    "features": [
+      {
+        "icon": "delivery",
+        "title": "Complimentary Shipping & Returns",
+        "description": "We offer shipping and return on all Ganka orders."
+      },
+      {
+        "icon": "contactUs",
+        "title": "Ganka At Your Service",
+        "description": "Our client care experts are always here to help."
+      },
+      {
+        "icon": "gift",
+        "title": "The Iconic Blue Box",
+        "description": "Your Ganka purchase comes wrapped in our Blue Box."
+      }
+    ]
+  }
+}
