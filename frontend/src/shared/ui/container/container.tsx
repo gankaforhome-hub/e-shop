@@ -12,7 +12,7 @@ export const Container: FC<IContainerProps> = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "@container/main fpx-4/13.5 container m-[1,2] mx-auto my-0 w-full",
+        "@container/main fpx-4/13.5 container mx-auto my-0 w-full",
         className
       )}
     >
