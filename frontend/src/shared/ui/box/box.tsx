@@ -1,6 +1,6 @@
-import { FC, HTMLAttributes, ReactNode } from "react";
+import { FC, HTMLAttributes, ReactNode } from 'react';
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 interface IBoxProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface IBoxProps extends HTMLAttributes<HTMLDivElement> {
 export const Box: FC<IBoxProps> = ({ children, className, ...rest }) => {
   return (
     <>
-      <div className={cn("", className)} {...rest}>
+      <div className={cn('', className)} {...rest}>
         {children}
       </div>
     </>

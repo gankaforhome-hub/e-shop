@@ -1,4 +1,4 @@
-import { BlankPage } from "@/widgets/blank-page";
+import { BlankPage } from '@/widgets/blank-page';
 
 export default function AboutUsPage() {
   return (

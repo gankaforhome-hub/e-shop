@@ -1,4 +1,4 @@
-import type { CommonIcon, LogoIcon, SocialIcon } from "./";
+import type { CommonIcon, LogoIcon, SocialIcon } from './';
 
 type SocialLink = {
   icon: SocialIcon;
@@ -47,7 +47,7 @@ type CommonDictionary = {
   footer: string;
 };
 
-declare module "@/dictionary/common.json" {
+declare module '@/dictionary/common.json' {
   const value: CommonDictionary;
   export default value;
 }

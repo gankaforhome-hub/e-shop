@@ -1,7 +1,7 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "./utility-style";
-@import "./fluid-style";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './utility-style';
+@import './fluid-style';
 
 @custom-variant dark (&: is(.dark *));
 
@@ -45,6 +45,9 @@
 
   --color-border-primary: #e7e7e7;
   --color-border-accent: #81d8d0;
+
+  --color-icon: #81d8d0;
+  --stroke-icon: #080808;
 
   --color-ring: var(--ring);
   --color-input: var(--input);

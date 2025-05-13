@@ -1,6 +1,6 @@
-import { AnchorHTMLAttributes, FC, ReactNode } from "react";
+import { AnchorHTMLAttributes, FC, ReactNode } from 'react';
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 interface IExternalLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -23,7 +23,7 @@ export const ExternalLink: FC<IExternalLinkProps> = ({
       href={formattedHref}
       className={cn(
         className,
-        "relative flex shrink-0 items-center justify-center before:content-['']"
+        "relative flex shrink-0 items-center justify-center before:content-['']",
       )}
       target="_blank"
       rel="noopener noreferrer nofollow"

@@ -1,1 +1,1 @@
-export {BurgerIcon} from './burger-icon';
+export { BurgerIcon } from './burger-icon';

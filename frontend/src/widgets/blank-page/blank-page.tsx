@@ -1,11 +1,11 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FC } from "react";
+'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { FC } from 'react';
 
-import { Box } from "@/shared/ui/box";
-import { Container } from "@/shared/ui/container";
-import { Section } from "@/shared/ui/section";
+import { Box } from '@/shared/ui/box';
+import { Container } from '@/shared/ui/container';
+import { Section } from '@/shared/ui/section';
 
 interface IBlankPageProps {
   className?: string;

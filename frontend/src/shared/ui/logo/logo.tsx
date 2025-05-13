@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { FC } from "react";
+import Link from 'next/link';
+import { FC } from 'react';
 
-import { cn } from "@/shared/lib/utils";
-import { LogoIcon } from "@/shared/types";
-import { Icon } from "@/shared/ui/icon";
+import { cn } from '@/shared/lib/utils';
+import { LogoIcon } from '@/shared/types/icon';
+import { Icon } from '@/shared/ui/icon';
 
 interface ILogoProps {
   className?: string;
@@ -12,16 +12,16 @@ interface ILogoProps {
 }
 
 export const Logo: FC<ILogoProps> = ({
-  variant = "logoFull",
+  variant = 'logoFull',
   className,
-  aria = "",
+  aria = '',
 }) => {
   return (
     <Link
       href="/"
       className={cn(
-        "fh-5/6 fw-48/56 inline-flex items-center justify-center",
-        className
+        'fh-5/6 fw-48/56 inline-flex items-center justify-center',
+        className,
       )}
       aria-label={aria}
     >

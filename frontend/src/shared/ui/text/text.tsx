@@ -1,23 +1,23 @@
-import { cva, VariantProps } from "class-variance-authority";
-import { FC, HTMLAttributes } from "react";
+import { cva, VariantProps } from 'class-variance-authority';
+import { FC, HTMLAttributes } from 'react';
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
-export const textVariants = cva("font-text ftext-4/4.5", {
+export const textVariants = cva('font-text ftext-4/4.5', {
   variants: {
     variant: {
-      default: "text-gray-900",
-      subtitle: "text-gray-500",
-      accent: "text-blue-600",
-      danger: "text-red-600",
+      default: 'text-gray-900',
+      subtitle: 'text-gray-500',
+      accent: 'text-blue-600',
+      danger: 'text-red-600',
     },
     size: {
-      xs: "text-xs",
-      sm: "text-sm",
-      md: "text-base",
-      lg: "text-lg",
-      xl: "text-xl",
-      "2xl": "text-2xl",
+      xs: 'text-xs',
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
+      xl: 'text-xl',
+      '2xl': 'text-2xl',
     },
     // weight: {
     //   normal: "font-normal",
@@ -34,8 +34,8 @@ export const textVariants = cva("font-text ftext-4/4.5", {
   },
 
   defaultVariants: {
-    variant: "default",
-    size: "md",
+    variant: 'default',
+    size: 'md',
     // weight: "normal",
     // align: "left",
   },
@@ -48,14 +48,14 @@ interface ITextProps
   extends HTMLAttributes<HTMLElement>,
     VariantProps<typeof textVariants> {
   className?: string;
-  as?: "p" | "span";
+  as?: 'p' | 'span';
 }
 
 export const Text: FC<ITextProps> = ({
   className,
   variant,
   size,
-  as = "p",
+  as = 'p',
   ...props
 }) => {
   const Component = as;

@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { FC } from "react";
+import Link from 'next/link';
+import { FC } from 'react';
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 export type NavLink = {
   id: string;
@@ -23,8 +23,8 @@ export const NavigationMenu: FC<INavigationMenuProps> = ({
     <nav>
       <ul
         className={cn(
-          "md:fgap-8/12.5 md:flex md:items-center md:justify-center",
-          className
+          'md:fgap-8/12.5 md:flex md:items-center md:justify-center',
+          className,
         )}
       >
         {links.map(({ title, href, ariaLabel, id }) => (

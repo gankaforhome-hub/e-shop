@@ -1,5 +1,9 @@
-import { NotFoundWidget } from "@/widgets/not-found";
+import { NotFoundWidget } from '@/widgets/not-found';
 
 export default function NotFound() {
-  return <NotFoundWidget />;
+  return (
+    <>
+      <NotFoundWidget />
+    </>
+  );
 }

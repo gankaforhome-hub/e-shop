@@ -50,6 +50,7 @@
   "files.eol": "\n",
 
   "prettier.configPath": "./.prettierrc",
+  "prettier.ignorePath": ".prettierignore",
 
   "yaml.maxItemsComputed": 10000,
   "tailwindCSS.classFunctions": ["tw", "clsx", "cva", "cx", "className"],

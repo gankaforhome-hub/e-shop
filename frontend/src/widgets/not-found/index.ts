@@ -1,1 +1,1 @@
-export { NotFoundWidget } from "./not-found";
+export { NotFoundWidget } from './ui/not-found';

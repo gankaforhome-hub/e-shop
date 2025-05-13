@@ -1,11 +1,11 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Box } from "@/shared/ui/box";
-import { Button } from "@/shared/ui/button";
-import { Container } from "@/shared/ui/container";
-import { ExternalLink } from "@/shared/ui/external-link";
-import { Icon } from "@/shared/ui/icon";
-import { Section } from "@/shared/ui/section";
+import { Box } from '@/shared/ui/box';
+import { Button } from '@/shared/ui/button';
+import { Container } from '@/shared/ui/container';
+import { ExternalLink } from '@/shared/ui/external-link';
+import { Icon } from '@/shared/ui/icon';
+import { Section } from '@/shared/ui/section';
 
 // const btnSizes: IButtonProps["size"][] = ["sm", "lg", "xl"];
 // const btnBorder: IButtonProps["border"][] = ["border", "withOutBorder"];
@@ -34,46 +34,46 @@ export default function ComponentsPage() {
         <Box className="grid place-items-center gap-10">
           <Box className="flex items-center justify-center gap-6">
             <Button>View Collection</Button>
-            <Button border={"withOutBorder"}>View Collection</Button>
+            <Button border={'withOutBorder'}>View Collection</Button>
           </Box>
 
           <Box className="flex items-center justify-center gap-6">
-            <Button size={"xl"}>View More</Button>
+            <Button size={'xl'}>View More</Button>
           </Box>
 
           <Box className="flex items-center justify-center gap-6">
-            <Button variant={"secondary"} size={"sm"}>
+            <Button variant={'secondary'} size={'sm'}>
               Discover more
             </Button>
           </Box>
 
           <Box className="flex items-center justify-center gap-6">
-            <Button variant={"secondary"} size={"sm"}>
+            <Button variant={'secondary'} size={'sm'}>
               Discover more
             </Button>
           </Box>
 
           <Box className="w-50 h-50 bg-btn-bg-subscribe flex items-center justify-center gap-6">
-            <Button variant={"subscribe"} size={"sm"}>
+            <Button variant={'subscribe'} size={'sm'}>
               Discover more
             </Button>
           </Box>
 
           <Box className="w-100 flex items-center justify-center gap-6">
-            <Button variant={"addToBag"} size={"spaced"} className="w-full">
+            <Button variant={'addToBag'} size={'spaced'} className="w-full">
               <p>50$</p>
               <p>Discover more</p>
             </Button>
           </Box>
 
           <Box className="h-50 w-50 bg-btn-bg-ghost flex items-center justify-center gap-6">
-            <Button variant={"ghost"} size={"sm"}>
+            <Button variant={'ghost'} size={'sm'}>
               <p>Download</p>
             </Button>
           </Box>
 
           <Box className="flex items-center justify-center">
-            <Button size={"sm"} asChild>
+            <Button size={'sm'} asChild>
               <ExternalLink
                 href="google.com"
                 className="stroke-btn-text-primary hover:fill-btn-text-primary hover:stroke-btn-text-accent-primary gap-2.5 fill-none"
@@ -87,7 +87,7 @@ export default function ComponentsPage() {
           {/* Icons */}
           <Box className="flex items-center justify-center gap-6">
             <Button>View Collection</Button>
-            <Button border={"withOutBorder"}>View Collection</Button>
+            <Button border={'withOutBorder'}>View Collection</Button>
           </Box>
         </Box>
         {/* <Box className="mt-16 grid place-items-center gap-12">

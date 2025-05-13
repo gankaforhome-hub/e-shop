@@ -1,1 +1,1 @@
-export { BlankPage } from "./blank-page";
+export { BlankPage } from './blank-page';

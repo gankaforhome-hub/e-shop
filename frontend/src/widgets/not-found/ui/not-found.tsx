@@ -1,43 +1,45 @@
-import Image from "next/image";
-import { FC } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { FC } from 'react';
 
-import { cn } from "@/shared/lib/utils";
-import { Box } from "@/shared/ui/box";
-import { Button } from "@/shared/ui/button";
-import { ExternalLink } from "@/shared/ui/external-link";
-import { Icon } from "@/shared/ui/icon";
-import { Section } from "@/shared/ui/section";
-import { Text } from "@/shared/ui/text";
+import { cn } from '@/shared/lib/utils';
+import { CommonIcon, SocialIcon } from '@/shared/types/icon';
+import { Box } from '@/shared/ui/box';
+import { Button } from '@/shared/ui/button';
+// import { ExternalLink } from '@/shared/ui/external-link';
+import { Icon } from '@/shared/ui/icon';
+import { Section } from '@/shared/ui/section';
+import { Text } from '@/shared/ui/text';
 
 interface ContactLink {
   href: string;
   label: string;
-  icon: "phone" | "telegram" | "instagram" | "location";
+  icon: SocialIcon | CommonIcon;
   external?: boolean;
 }
 
 const contactLinks: ContactLink[] = [
   {
-    href: "tel:+123456789",
-    label: "Phone number",
-    icon: "phone",
+    href: 'tel:+123456789',
+    label: 'Phone number',
+    icon: 'phone',
   },
   {
-    href: "https://t.me/",
-    label: "Telegram",
-    icon: "telegram",
+    href: 'https://t.me/',
+    label: 'Telegram',
+    icon: 'telegram',
     external: true,
   },
   {
-    href: "https://instagram.com/",
-    label: "Instagram",
-    icon: "instagram",
+    href: 'https://instagram.com/',
+    label: 'Instagram',
+    icon: 'instagram',
     external: true,
   },
   {
-    href: "/collections",
-    label: "Find a store",
-    icon: "location",
+    href: '/collections',
+    label: 'Find a store',
+    icon: 'map',
   },
 ];
 
@@ -46,11 +48,11 @@ interface INotFoundWidgetProps {
 }
 
 const t = {
-  ImageAlt: "clay plate",
-  PageNotFound: "page not found",
+  ImageAlt: 'clay plate',
+  PageNotFound: 'page not found',
   Description:
-    "We cannot find the page you were looking for. Please check the URL or navigate to another page. We apologize for inconvenience.",
-  CanWeHelp: "Can we help you?",
+    'We cannot find the page you were looking for. Please check the URL or navigate to another page. We apologize for inconvenience.',
+  CanWeHelp: 'Can we help you?',
 };
 
 export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
@@ -59,7 +61,7 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
       {/* <Container className="h-full"> */}
       <Box
         className={cn(
-          "flex flex-col items-center justify-center border-b-[1px] pb-14"
+          'flex flex-col items-center justify-center border-b-[1px] pb-14',
         )}
       >
         <Box className="relative mb-12 flex items-center">
@@ -89,17 +91,17 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
       <Box className="px-50 bg-amber-100">
         <p className="font-text mb-11 text-center text-xl">{t.CanWeHelp}</p>
         {/* grid grid-cols-1 gap-4 sm:grid-cols-2 */}
-        <ul className={cn("card-set-1/5 xl:card-set-2/5")}>
+        <ul className={cn('card-set-1/5 xl:card-set-2/5')}>
           {contactLinks.map(({ href, label, icon }) => (
             <li key={href} className="card-set-item">
-              <Button size={"lg"} asChild className="">
-                <ExternalLink
+              <Button size={'lg'} asChild className="">
+                <Link
                   href={href}
                   className="stroke-btn-text-primary hover:fill-btn-text-primary hover:stroke-btn-text-accent-primary gap-2.5 fill-none"
                 >
                   <Icon name={icon} className="flex h-6 w-6 shrink-0"></Icon>
                   <span>{label}</span>
-                </ExternalLink>
+                </Link>
               </Button>
             </li>
           ))}
