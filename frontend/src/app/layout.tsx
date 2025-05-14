@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${tinos.variable} ${nunitoSans.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[1fr_auto] antialiased md:grid-rows-[auto_1fr_auto]`}
+        className={`${tinos.variable} ${nunitoSans.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] antialiased`}
       >
         <Header />
         <main>{children}</main>

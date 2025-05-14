@@ -20,7 +20,7 @@ export const Logo: FC<ILogoProps> = ({
     <Link
       href="/"
       className={cn(
-        'fh-5/6 fw-48/56 inline-flex items-center justify-center',
+        'w-46 inline-flex h-5 items-center justify-center',
         className,
       )}
       aria-label={aria}

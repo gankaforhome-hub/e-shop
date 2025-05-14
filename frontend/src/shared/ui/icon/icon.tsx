@@ -47,7 +47,7 @@ export const Icon: FC<IIconProps> = ({ name, className = '', ...props }) => {
   return (
     <SvgIcon
       className={cn(
-        'stroke-icon fw-4/6 fh-4/6 shrink-0 overflow-visible fill-none',
+        'stroke-icon h-4 w-4 shrink-0 overflow-visible fill-none',
         className,
       )}
       {...props}

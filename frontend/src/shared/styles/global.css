@@ -12,6 +12,17 @@
   --font-text: var(--font-nunito-sans);
   --font-button: var(--font-nunito-sans);
 
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-text: var(--text);
+  --color-header: var(--header);
+
+  --color-icon: var(--icon);
+  --stroke-icon: var(--icon);
+  --color-icon-accent: var(--accent);
+  --stroke-icon-accent: var(--accent);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -46,15 +57,14 @@
   --color-border-primary: #e7e7e7;
   --color-border-accent: #81d8d0;
 
-  --color-icon: #81d8d0;
-  --stroke-icon: #080808;
+  /* --color-icon: #81d8d0;
+  --stroke-icon: #080808; */
 
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
+
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -71,8 +81,34 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* 
+- Background
+    - #FFFFFF
+    - #171715
+    - #F7F7F7
+    - #81D8D026
+    - #81D8D0
+    - #E7E7E7
+- Text
+    - #FFFFFF
+    - #080808
+- Border
+    - #81D8D0
+    - #080808
+- Button
+    - #FFFFFF
+    - #080808
+     */
 :root {
   --h-header: 5rem;
+
+  --accent: oklch(0.8358 0.1031 188.24);
+  --accent-foreground: oklch(0.8358 0.1031 188.24);
+
+  --text: oklch(0.027 0.0005 247.85);
+  --header: oklch(0.027 0.0005 247.85);
+  --icon: oklch(0.027 0.0005 247.85);
+  --stroke: oklch(0.027 0.0005 247.85);
 
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -87,8 +123,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -109,6 +144,9 @@
 }
 
 .dark {
+  /* --accent: oklch(0.269 0 0); */
+  /* --accent-foreground: oklch(0.985 0 0); */
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -121,8 +159,6 @@
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
