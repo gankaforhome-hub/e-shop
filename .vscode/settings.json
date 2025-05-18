@@ -9,7 +9,9 @@
     "gapc",
     "gapr",
     "ftext",
-    "ganka"
+    "ganka",
+    "tinos",
+    "nunito"
   ],
 
   "eslint.useFlatConfig": true,
