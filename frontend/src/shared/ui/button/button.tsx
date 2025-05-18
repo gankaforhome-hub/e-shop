@@ -5,24 +5,18 @@ import { ButtonHTMLAttributes, FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 export const buttonVariants = cva(
-  'font-button duration-250 m-0 inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap p-0 text-lg font-normal outline-none transition',
+  'font-button custom-transition m-0 inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap p-0 text-lg font-normal outline-none transition',
   {
     variants: {
       variant: {
-        default:
-          'text-button text-btn-text-primary bg-btn-bg-primary focus:text-btn-text-accent-primary hover:text-btn-text-accent-primary focus:bg-btn-bg-accent-primary hover:bg-btn-bg-accent-primary hover:shadow-lg',
-        secondary:
-          'text-button text-btn-text-secondary bg-btn-bg-secondary focus:text-btn-text-accent-secondary hover:text-btn-text-accent-secondary focus:bg-btn-bg-accent-secondary hover:bg-btn-bg-accent-secondary hover:shadow-lg',
-        subscribe:
-          'text-button text-btn-text-subscribe bg-btn-bg-subscribe focus:text-btn-text-accent-subscribe hover:text-btn-text-accent-subscribe focus:bg-btn-bg-accent-subscribe hover:bg-btn-bg-accent-subscribe hover:shadow-lg',
-        ghost:
-          'text-button text-btn-text-ghost bg-btn-bg-ghost focus:text-btn-text-accent-ghost hover:text-btn-text-accent-ghost focus:bg-btn-bg-accent-ghost hover:bg-btn-bg-accent-ghost hover:shadow-lg',
-        addToBag:
-          'text-button text-btn-text-addToBag bg-btn-bg-addToBag focus:text-btn-text-accent-addToBag hover:text-btn-text-accent-addToBag focus:bg-btn-bg-accent-addToBag hover:bg-btn-bg-accent-addToBag hover:shadow-lg',
-        icon: 'text-btn-text-primary',
+        default: 'text-btn-fg-primary bg-btn-bg-primary hover:shadow-lg',
+        secondary: 'text-btn-fg-secondary bg-btn-bg-secondary hover:shadow-lg',
+        outline: 'text-btn-fg-primary bg-transparent hover:shadow-lg',
+        ghost: 'text-btn-fg-ghost bg-btn-bg-ghost group hover:shadow-lg',
+        icon: 'group shrink-0 border-0 p-1',
       },
       size: {
-        default: 'px-6 py-5',
+        default: 'px-5 py-4',
         sm: 'px-5 py-4',
         lg: 'px-14 py-5',
         xl: 'px-21 py-5',
@@ -33,7 +27,7 @@ export const buttonVariants = cva(
         // xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
       },
       border: {
-        border: 'border-btn-border border border-solid',
+        border: 'border-border border-solid',
         withOutBorder: '',
       },
       btnType: {
@@ -47,7 +41,7 @@ export const buttonVariants = cva(
       btnType: 'button',
     },
     compoundVariants: [
-      { variant: 'icon', class: 'h-6 w-6 border-0 p-0' },
+      { variant: 'icon', class: 'border-0 p-1' },
       // { variant: "addToBag", size: "default", class: "w-full" },
       // { btnType: "icon", size: "xl", class: "h-12 w-12" },
     ],

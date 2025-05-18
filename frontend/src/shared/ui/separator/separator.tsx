@@ -6,13 +6,16 @@ import { cn } from '@/shared/lib/utils';
 export const separatorVariants = cva('', {
   variants: {
     variant: {
-      default: 'border-border-primary',
+      default: 'border-border',
       accent: 'border-border-accent',
+      muted: 'border-border-muted',
     },
     size: {
       xs: 'border',
-      sm: 'border-3',
-      md: 'border-10',
+      sm: 'border-4',
+      md: 'border-5',
+      lg: 'border-8',
+      xl: 'border-10',
     },
     orientation: {
       horizontal: 'w-full',
@@ -22,7 +25,7 @@ export const separatorVariants = cva('', {
 
   defaultVariants: {
     variant: 'default',
-    size: 'xs',
+    size: 'sm',
     orientation: 'horizontal',
   },
 });
