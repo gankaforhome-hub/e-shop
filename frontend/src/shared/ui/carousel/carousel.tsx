@@ -1,7 +1,7 @@
 'use client';
-
+import Autoplay from 'embla-carousel-autoplay';
+import Fade from 'embla-carousel-fade';
 import useEmblaCarousel from 'embla-carousel-react';
-// import { ArrowLeft, ArrowRight } from 'Icon';
 import {
   FC,
   HTMLAttributes,
@@ -27,26 +27,42 @@ export const Carousel: FC<ICarouselProps> = ({
   opts,
   setApi,
   plugins,
+  isAutoplay,
+  isFade,
   className,
   children,
   ...props
 }) => {
+  const mergedPlugins = [
+    ...(plugins ?? []), // будь-які плагіни, передані напряму
+    ...(isAutoplay
+      ? [
+          Autoplay({
+            delay: 4000,
+          }),
+        ]
+      : []),
+    ...(isFade ? [Fade()] : []),
+  ];
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
     },
-    plugins,
+    mergedPlugins,
   );
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [current, setCurrent] = useState(0);
+  const [slideCount, setSlideCount] = useState(0);
 
   const onSelect = useCallback((api: CarouselApi) => {
     if (!api) return;
     setCanScrollPrev(api.canScrollPrev());
     setCanScrollNext(api.canScrollNext());
-    setCurrent(api.selectedScrollSnap() + 1);
+    setCurrent(api.selectedScrollSnap());
+    setSlideCount(api.scrollSnapList().length);
   }, []);
 
   const scrollPrev = useCallback(() => {
@@ -103,10 +119,11 @@ export const Carousel: FC<ICarouselProps> = ({
           orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollPrev,
         scrollNext,
+        scrollTo,
         canScrollPrev,
         canScrollNext,
         current,
-        scrollTo,
+        slideCount,
       }}
     >
       <div

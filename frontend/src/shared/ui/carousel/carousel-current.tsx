@@ -1,6 +1,5 @@
 import { ComponentProps, FC } from 'react';
 
-import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 
 import { useCarousel } from './useCarousel';
@@ -11,27 +10,21 @@ interface ICarouselCurrentProps extends ComponentProps<typeof Button> {
 
 export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
   className,
-  variant = 'outline',
+  variant = 'icon',
   size = 'icon',
   to = 1,
   children,
   ...props
 }) => {
-  const { scrollTo } = useCarousel();
+  const { scrollTo, current } = useCarousel();
 
   return (
     <Button
       data-slot="carousel-current"
       variant={variant}
       size={size}
-      className={cn(
-        'absolute size-10 h-5 w-5 rounded-full bg-amber-400',
-        // orientation === 'horizontal'
-        //   ? '-left-2 top-1/2 -translate-y-1/2'
-        //   : '-top-2 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
-      // disabled={!canScrollPrev}
+      className={className}
+      disabled={to === current}
       onClick={() => scrollTo(to)}
       {...props}
     >

@@ -12,6 +12,8 @@ export type CarouselProps = {
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
+  isAutoplay?: boolean;
+  isFade?: boolean;
 };
 
 export type CarouselContextProps = {
@@ -23,4 +25,5 @@ export type CarouselContextProps = {
   canScrollPrev: boolean;
   canScrollNext: boolean;
   current: number;
+  slideCount: number;
 } & CarouselProps;

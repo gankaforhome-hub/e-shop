@@ -11,7 +11,8 @@
     "ftext",
     "ganka",
     "tinos",
-    "nunito"
+    "nunito",
+    "xlink"
   ],
 
   "eslint.useFlatConfig": true,
@@ -55,7 +56,7 @@
   "prettier.ignorePath": ".prettierignore",
 
   "yaml.maxItemsComputed": 10000,
-  "tailwindCSS.classFunctions": ["tw", "clsx", "cva", "cx", "className"],
+  "tailwindCSS.classFunctions": ["tw", "clsx", "cva", "cx", "className", "cn"],
   "files.autoSave": "onFocusChange",
 
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
