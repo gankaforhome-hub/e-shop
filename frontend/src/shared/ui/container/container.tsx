@@ -20,4 +20,3 @@ export const Container: FC<IContainerProps> = ({ className, children }) => {
     </div>
   );
 };
-// "fluid-padding px-fluid [--fluid-padding-max:3.375] [--fluid-padding-min:1]",
