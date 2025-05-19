@@ -25,5 +25,6 @@ export type CarouselContextProps = {
   canScrollPrev: boolean;
   canScrollNext: boolean;
   current: number;
+  isPaused: boolean;
   slideCount: number;
 } & CarouselProps;

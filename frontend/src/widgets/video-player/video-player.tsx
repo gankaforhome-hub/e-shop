@@ -13,6 +13,7 @@ interface IVideoPlayerProps extends IVideoProps {
   showPlay?: boolean;
   showMute?: boolean;
   className: string;
+  isPaused?: boolean;
 }
 
 export const VideoPlayer: FC<IVideoPlayerProps> = ({
@@ -24,13 +25,15 @@ export const VideoPlayer: FC<IVideoPlayerProps> = ({
   showMute = true,
   //   showProgressBar = true,
   className,
+  isPaused = false,
 }) => {
   const {
     videoRef,
-    isPlaying,
     isMuted,
+    isPlaying,
     togglePlay,
     toggleMute,
+
     // progress,
     // handleTimeUpdate,
   } = useVideoControl();

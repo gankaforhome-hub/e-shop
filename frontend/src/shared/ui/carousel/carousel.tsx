@@ -54,16 +54,44 @@ export const Carousel: FC<ICarouselProps> = ({
   );
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [current, setCurrent] = useState(0);
   const [slideCount, setSlideCount] = useState(0);
 
-  const onSelect = useCallback((api: CarouselApi) => {
+  const pauseInactiveVideos = useCallback((api: CarouselApi) => {
     if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
-    setCurrent(api.selectedScrollSnap());
-    setSlideCount(api.scrollSnapList().length);
+    const currentIndex = api.selectedScrollSnap();
+    const slideNodes = api.slideNodes();
+
+    let anyVideoPaused = false;
+
+    slideNodes.forEach((slide, index) => {
+      const videos = slide.getElementsByTagName('video');
+
+      Array.from(videos).forEach(video => {
+        if (index !== currentIndex && !video.paused) {
+          video.pause();
+          anyVideoPaused = true;
+        }
+      });
+    });
+
+    if (currentIndex === 0 || !anyVideoPaused) {
+      setIsPaused(false);
+    }
   }, []);
+
+  const onSelect = useCallback(
+    (api: CarouselApi) => {
+      if (!api) return;
+      setCanScrollPrev(api.canScrollPrev());
+      setCanScrollNext(api.canScrollNext());
+      setCurrent(api.selectedScrollSnap());
+      setSlideCount(api.scrollSnapList().length);
+      pauseInactiveVideos(api);
+    },
+    [pauseInactiveVideos],
+  );
 
   const scrollPrev = useCallback(() => {
     api?.scrollPrev();
@@ -107,7 +135,7 @@ export const Carousel: FC<ICarouselProps> = ({
     return () => {
       api?.off('select', onSelect);
     };
-  }, [api, onSelect]);
+  }, [api, onSelect, pauseInactiveVideos]);
 
   return (
     <CarouselContext.Provider
@@ -123,6 +151,7 @@ export const Carousel: FC<ICarouselProps> = ({
         canScrollPrev,
         canScrollNext,
         current,
+        isPaused,
         slideCount,
       }}
     >
