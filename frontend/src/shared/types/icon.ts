@@ -12,3 +12,5 @@ export type CommonIcon =
 export type LogoIcon = 'logoFull' | 'logoMin';
 
 export type SocialIcon = 'map' | 'instagram' | 'facebook' | 'telegram';
+
+export type MedialIcon = 'play' | 'pause' | 'mute' | 'sound';

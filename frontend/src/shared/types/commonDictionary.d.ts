@@ -14,7 +14,7 @@ type Logo = {
 };
 
 type UserAction = {
-  icon: CommonIcon;
+  icon: CommonIcon | MedialIcon;
   title: string;
   ariaLabel: string;
 };

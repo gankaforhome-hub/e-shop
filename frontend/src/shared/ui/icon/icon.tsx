@@ -3,6 +3,10 @@ import { FC, SVGProps } from 'react';
 import Four from '@/shared/icons/four.svg';
 import LogoFull from '@/shared/icons/logo/logo_full_ganka_for_home.svg';
 import LogoMin from '@/shared/icons/logo/logo_min_ganka_for_home.svg';
+import Mute from '@/shared/icons/media/mute.svg';
+import Pause from '@/shared/icons/media/pause.svg';
+import Play from '@/shared/icons/media/play.svg';
+import Sound from '@/shared/icons/media/sound.svg';
 import Cart from '@/shared/icons/shop/cart.svg';
 import ContactUs from '@/shared/icons/shop/contact-us.svg';
 import Delivery from '@/shared/icons/shop/delivery.svg';
@@ -16,7 +20,12 @@ import Map from '@/shared/icons/social/location.svg';
 import Phone from '@/shared/icons/social/phone.svg';
 import Telegram from '@/shared/icons/social/telegram.svg';
 import { cn } from '@/shared/lib/utils';
-import { CommonIcon, LogoIcon, SocialIcon } from '@/shared/types/icon';
+import {
+  CommonIcon,
+  LogoIcon,
+  MedialIcon,
+  SocialIcon,
+} from '@/shared/types/icon';
 
 const icons = {
   logoFull: LogoFull,
@@ -34,10 +43,14 @@ const icons = {
   gift: Gift,
   language: Language,
   plus: Plus,
+  play: Play,
+  pause: Pause,
+  mute: Mute,
+  sound: Sound,
 };
 
 interface IIconProps extends SVGProps<SVGSVGElement> {
-  name: CommonIcon | LogoIcon | SocialIcon;
+  name: CommonIcon | LogoIcon | SocialIcon | MedialIcon;
   className?: string;
 }
 
