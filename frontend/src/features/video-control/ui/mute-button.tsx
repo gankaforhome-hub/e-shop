@@ -1,0 +1,44 @@
+import { FC } from 'react';
+
+import { cn } from '@/shared/lib/utils';
+import { Button } from '@/shared/ui/button';
+import { Icon } from '@/shared/ui/icon';
+
+interface IMuteButtonProps {
+  isMuted: boolean;
+  onToggleMute: () => void;
+  className?: string;
+  theme?: 'white' | 'black';
+}
+
+export const MuteButton: FC<IMuteButtonProps> = ({
+  isMuted,
+  onToggleMute,
+  className,
+  theme = 'white',
+}) => {
+  const themeIcon = cn(
+    'w-6 h-6 fill-none translate-y-1/2',
+    theme === 'white'
+      ? 'fill-none hover:fill-icon-secondary focus:fill-icon-secondary stroke-icon-secondary'
+      : 'hover:fill-icon focus:fill-icon stroke-icon',
+  );
+  return (
+    <Button
+      variant="icon"
+      onClick={onToggleMute}
+      className={cn(
+        theme === 'white'
+          ? 'fill-btn-fg-secondary stroke-btn-fg-secondary'
+          : 'fill-btn-fg-primary stroke-btn-fg-primary',
+        className,
+      )}
+    >
+      {isMuted ? (
+        <Icon name="mute" className={themeIcon} />
+      ) : (
+        <Icon name="sound" className={themeIcon} />
+      )}
+    </Button>
+  );
+};

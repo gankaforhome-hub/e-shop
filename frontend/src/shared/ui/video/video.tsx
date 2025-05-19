@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { forwardRef, HTMLAttributes } from 'react';
 
-interface IVideoProps {
+export interface IVideoProps extends HTMLAttributes<HTMLVideoElement> {
   src: string;
   poster: string;
   preload?: string;
@@ -12,30 +12,38 @@ interface IVideoProps {
   className?: string;
 }
 
-export const Video: FC<IVideoProps> = ({
-  src,
-  className,
-  preload = 'none',
-  controls = false,
-  autoPlay = false,
-  muted = true,
-  loop = false,
-  poster = '',
-  playsInline = true,
-}) => {
-  return (
-    <>
-      <video
-        src={src}
-        preload={preload}
-        className={className}
-        controls={controls}
-        autoPlay={autoPlay}
-        muted={muted}
-        loop={loop}
-        playsInline={playsInline}
-        poster={poster ?? ''}
-      />
-    </>
-  );
-};
+export const Video = forwardRef<HTMLVideoElement, IVideoProps>(
+  (
+    {
+      src,
+      className,
+      preload = 'none',
+      controls = false,
+      autoPlay = false,
+      muted = true,
+      loop = false,
+      poster = '',
+      playsInline = true,
+    },
+    ref,
+  ) => {
+    return (
+      <>
+        <video
+          ref={ref}
+          src={src}
+          preload={preload}
+          className={className}
+          controls={controls}
+          autoPlay={autoPlay}
+          muted={muted}
+          loop={loop}
+          playsInline={playsInline}
+          poster={poster ?? ''}
+        />
+      </>
+    );
+  },
+);
+
+Video.displayName = 'Video';
