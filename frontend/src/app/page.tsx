@@ -1,4 +1,4 @@
-import { Text } from '@/shared/ui/text';
+import { Hero } from '@/widgets/sections/home/hero';
 
 // const routes = [
 //   "/components",
@@ -16,8 +16,7 @@ import { Text } from '@/shared/ui/text';
 export default function Page() {
   return (
     <>
-      {/* <Hero /> */}
-      <Text>Main Page</Text>
+      <Hero />
       {/* <ProductTypesSection /> */}
 
       {/* <Box className="flex flex-col items-start gap-5">
