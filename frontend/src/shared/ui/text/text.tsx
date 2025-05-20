@@ -3,46 +3,49 @@ import { FC, HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
-export const textVariants = cva('font-text ftext-4/4.5', {
-  variants: {
-    variant: {
-      default: 'text-gray-900',
-      subtitle: 'text-gray-500',
-      accent: 'text-blue-600',
-      danger: 'text-red-600',
+export const textVariants = cva(
+  'font-text text-base font-normal tracking-tight',
+  {
+    variants: {
+      variant: {
+        default: 'text-fg',
+        secondary: 'text-fg-secondary text-lg tracking-wider',
+        accent: 'text-fg-accent',
+        danger: 'text-red-600',
+      },
+      size: {
+        xs: 'text-xs',
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+        xl: 'text-xl',
+        '2xl': 'text-2xl',
+      },
+      // weight: {
+      //   normal: "font-normal",
+      //   medium: "font-medium",
+      //   semibold: "font-semibold",
+      //   bold: "font-bold",
+      // },
+      // align: {
+      //   left: "text-left",
+      //   center: "text-center",
+      //   right: "text-right",
+      //   justify: "text-justify",
+      // },
     },
-    size: {
-      xs: 'text-xs',
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-      '2xl': 'text-2xl',
-    },
-    // weight: {
-    //   normal: "font-normal",
-    //   medium: "font-medium",
-    //   semibold: "font-semibold",
-    //   bold: "font-bold",
-    // },
-    // align: {
-    //   left: "text-left",
-    //   center: "text-center",
-    //   right: "text-right",
-    //   justify: "text-justify",
-    // },
-  },
 
-  defaultVariants: {
-    variant: 'default',
-    size: 'md',
-    // weight: "normal",
-    // align: "left",
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      // weight: "normal",
+      // align: "left",
+    },
+    compoundVariants: [
+      // { variant: "default", size: "lg", class: "h-10 w-10" },
+    ],
   },
-  compoundVariants: [
-    // { variant: "default", size: "lg", class: "h-10 w-10" },
-  ],
-});
+);
 
 interface ITextProps
   extends HTMLAttributes<HTMLElement>,
