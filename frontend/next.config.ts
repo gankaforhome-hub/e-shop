@@ -4,10 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   productionBrowserSourceMaps: false,
   experimental: { serverSourceMaps: false },
-  // eslint: {
-  //   dirs: ['src'],
-  // },
-
+  allowedDevOrigins: ['http://localhost:3000', 'http://172.19.16.1:3000'],
   turbopack: {
     rules: {
       '*.svg': {
