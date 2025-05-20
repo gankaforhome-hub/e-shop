@@ -19,10 +19,7 @@ export const Logo: FC<ILogoProps> = ({
   return (
     <Link
       href="/"
-      className={cn(
-        'w-46 inline-flex h-5 items-center justify-center',
-        className,
-      )}
+      className={cn('inline-flex h-5 items-center justify-center', className)}
       aria-label={aria}
     >
       <Icon name={variant} className="h-full w-full" />
