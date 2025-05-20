@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 import { cn, getBase64, shimmer } from '@/shared/lib/utils';
+import { Overlay } from '@/shared/ui/overlay';
 import { VideoPlayer } from '@/widgets/video-player';
 
 type MediaType = 'image' | 'video';
@@ -16,6 +17,7 @@ export interface IMediaSlideProps {
   width: number;
   height: number;
   sizes: string;
+  overlay?: boolean;
 }
 
 export const MediaSlide: FC<IMediaSlideProps> = ({
@@ -27,23 +29,34 @@ export const MediaSlide: FC<IMediaSlideProps> = ({
   width,
   height,
   sizes,
+  overlay = false,
 }) => {
-  const baseClass = cn('object-cover object-center  w-full h-full', className);
+  const baseClass = cn('object-cover object-center  w-full h-full ', className);
 
   if (type === 'image') {
     return (
-      <Image
-        src={src}
-        alt={alt ?? ''}
-        width={width}
-        height={height}
-        sizes={sizes}
-        className={baseClass}
-        placeholder="blur"
-        blurDataURL={`data:image/svg+xml;base64,${getBase64(shimmer(700, 475))}`}
-      />
+      <>
+        <Image
+          src={src}
+          alt={alt ?? ''}
+          width={width}
+          height={height}
+          sizes={sizes}
+          className={baseClass}
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${getBase64(shimmer(700, 475))}`}
+        />
+        {overlay && <Overlay />}
+      </>
     );
   }
 
-  return <VideoPlayer src={src} poster={poster} className={baseClass} />;
+  return (
+    <VideoPlayer
+      src={src}
+      poster={poster}
+      className={baseClass}
+      overlay={overlay}
+    />
+  );
 };
