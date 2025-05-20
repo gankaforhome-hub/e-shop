@@ -8,6 +8,7 @@ import {
   KeyboardEvent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -20,7 +21,13 @@ import { CarouselApi } from '.';
 
 interface ICarouselProps extends HTMLAttributes<HTMLDivElement>, CarouselProps {
   orientation?: 'horizontal' | 'vertical';
+  isOpacityTween?: boolean;
 }
+
+const TWEEN_FACTOR_BASE = 0.84;
+
+const numberWithinRange = (num: number, min: number, max: number): number =>
+  Math.min(Math.max(num, min), max);
 
 export const Carousel: FC<ICarouselProps> = ({
   orientation = 'horizontal',
@@ -31,6 +38,7 @@ export const Carousel: FC<ICarouselProps> = ({
   isFade,
   className,
   children,
+  isOpacityTween,
   ...props
 }) => {
   const mergedPlugins = [
@@ -57,6 +65,7 @@ export const Carousel: FC<ICarouselProps> = ({
   const [isPaused, setIsPaused] = useState(false);
   const [current, setCurrent] = useState(0);
   const [slideCount, setSlideCount] = useState(0);
+  const tweenFactor = useRef(0);
 
   const pauseInactiveVideos = useCallback((api: CarouselApi) => {
     if (!api) return;
@@ -79,6 +88,44 @@ export const Carousel: FC<ICarouselProps> = ({
     if (currentIndex === 0 || !anyVideoPaused) {
       setIsPaused(false);
     }
+  }, []);
+
+  const tweenOpacity = useCallback((api: CarouselApi, eventName?: string) => {
+    if (!api) return;
+
+    const engine = api.internalEngine();
+    const scrollProgress = api.scrollProgress();
+    const slidesInView = api.slidesInView();
+    const isScrollEvent = eventName === 'scroll';
+
+    api.scrollSnapList().forEach((snap, snapIndex) => {
+      let diffToTarget = snap - scrollProgress;
+      const slidesInSnap = engine.slideRegistry[snapIndex];
+
+      if (slidesInSnap) {
+        slidesInSnap.forEach(slideIndex => {
+          if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
+
+          if (engine.options.loop) {
+            engine.slideLooper.loopPoints.forEach(loopItem => {
+              const target = loopItem.target();
+              if (slideIndex === loopItem.index && target !== 0) {
+                const sign = Math.sign(target);
+                if (sign === -1) diffToTarget = snap - (1 + scrollProgress);
+                if (sign === 1) diffToTarget = snap + (1 - scrollProgress);
+              }
+            });
+          }
+
+          const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
+          const opacity = numberWithinRange(tweenValue, 0, 1).toString();
+          const slideNode = api.slideNodes()[slideIndex];
+          if (slideNode) {
+            slideNode.style.opacity = opacity;
+          }
+        });
+      }
+    });
   }, []);
 
   const onSelect = useCallback(
@@ -136,6 +183,22 @@ export const Carousel: FC<ICarouselProps> = ({
       api?.off('select', onSelect);
     };
   }, [api, onSelect, pauseInactiveVideos]);
+
+  useEffect(() => {
+    if (!api || !isOpacityTween) return;
+
+    tweenFactor.current = TWEEN_FACTOR_BASE * api.scrollSnapList().length;
+    tweenOpacity(api);
+    api.on('scroll', tweenOpacity);
+    api.on('reInit', tweenOpacity);
+    api.on('slideFocus', tweenOpacity);
+
+    return () => {
+      api.off('scroll', tweenOpacity);
+      api.off('reInit', tweenOpacity);
+      api.off('slideFocus', tweenOpacity);
+    };
+  }, [api, isOpacityTween, tweenOpacity]);
 
   return (
     <CarouselContext.Provider
