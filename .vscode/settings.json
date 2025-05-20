@@ -12,7 +12,8 @@
     "ganka",
     "tinos",
     "nunito",
-    "xlink"
+    "xlink",
+    "embla"
   ],
 
   "eslint.useFlatConfig": true,

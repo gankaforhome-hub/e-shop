@@ -1,4 +1,5 @@
 import { Hero } from '@/widgets/sections/home/hero';
+import { ProductTypes } from '@/widgets/sections/product-types/ui/product-types';
 
 // const routes = [
 //   "/components",
@@ -17,8 +18,7 @@ export default function Page() {
   return (
     <>
       <Hero />
-      {/* <ProductTypesSection /> */}
-
+      <ProductTypes />
       {/* <Box className="flex flex-col items-start gap-5">
             {routes.map((route, index) => (
               <Link

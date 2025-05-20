@@ -10,7 +10,7 @@ interface ISectionProps {
 export const Section = ({ className, children }: ISectionProps) => {
   return (
     <>
-      <section className={cn('h-full w-full', className)}>{children}</section>
+      <section className={cn('w-full', className)}>{children}</section>
     </>
   );
 };
