@@ -18,17 +18,22 @@ export const PlayButton: FC<IPlayButtonProps> = ({
   theme = 'white',
 }) => {
   const themeIcon = cn(
-    'w-6 h-6 fill-none translate-y-1/2',
+    'w-6 h-6 fill-none ',
     theme === 'white'
       ? 'fill-none hover:fill-icon-secondary focus:fill-icon-secondary stroke-icon-secondary'
       : 'hover:fill-icon focus:fill-icon stroke-icon',
   );
   return (
-    <Button variant="icon" onClick={onTogglePlay} className={cn('', className)}>
+    <Button
+      variant="icon"
+      size="icon"
+      onClick={onTogglePlay}
+      className={cn(className)}
+    >
       {isPlaying ? (
-        <Icon name="play" className={themeIcon} />
-      ) : (
         <Icon name="pause" className={themeIcon} />
+      ) : (
+        <Icon name="play" className={themeIcon} />
       )}
     </Button>
   );

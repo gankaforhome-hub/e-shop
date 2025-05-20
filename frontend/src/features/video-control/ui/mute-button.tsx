@@ -18,7 +18,7 @@ export const MuteButton: FC<IMuteButtonProps> = ({
   theme = 'white',
 }) => {
   const themeIcon = cn(
-    'w-6 h-6 fill-none translate-y-1/2',
+    'w-6 h-6 fill-none ',
     theme === 'white'
       ? 'fill-none hover:fill-icon-secondary focus:fill-icon-secondary stroke-icon-secondary'
       : 'hover:fill-icon focus:fill-icon stroke-icon',
@@ -26,13 +26,9 @@ export const MuteButton: FC<IMuteButtonProps> = ({
   return (
     <Button
       variant="icon"
+      size="icon"
       onClick={onToggleMute}
-      className={cn(
-        theme === 'white'
-          ? 'fill-btn-fg-secondary stroke-btn-fg-secondary'
-          : 'fill-btn-fg-primary stroke-btn-fg-primary',
-        className,
-      )}
+      className={cn(className)}
     >
       {isMuted ? (
         <Icon name="mute" className={themeIcon} />
