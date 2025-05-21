@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { FC } from 'react';
 
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
@@ -73,7 +74,9 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
                   border="withOutBorder"
                   className="mt-4 capitalize"
                 >
-                  <Link href={slug}>View Collection</Link>
+                  <AppLink href={routes.collection(slug)}>
+                    View Collection
+                  </AppLink>
                 </Button>
               </Box>
             </CarouselItem>

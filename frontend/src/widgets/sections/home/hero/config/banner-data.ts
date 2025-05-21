@@ -5,7 +5,7 @@ export const bannerSlides: BannerSlide[] = [
     id: '1',
     title: 'konyushina',
     subTitle: 'new collection',
-    slug: `collections/1`,
+    slug: `konyushina`,
     media: {
       type: 'image',
       src: '/images/hero_image.png',
@@ -16,7 +16,7 @@ export const bannerSlides: BannerSlide[] = [
     id: '2',
     title: 'Winter',
     subTitle: 'popular collection',
-    slug: `collections/2`,
+    slug: `winter`,
     media: {
       type: 'image',
       src: '/images/product.png',
@@ -27,7 +27,7 @@ export const bannerSlides: BannerSlide[] = [
     id: '3',
     title: 'Осіння колекція',
     subTitle: 'popular collection',
-    slug: `collections/3`,
+    slug: `autumn`,
     media: {
       type: 'video',
       src: '/videos/pottery_platter.mp4',

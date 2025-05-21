@@ -33,14 +33,14 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
               >
                 <Link
                   href={slug}
-                  className="bg-bg-secondary custom-transition inline-flex h-full w-full shrink-0 rounded-full p-6 transition hover:shadow-2xl"
+                  className="bg-bg-secondary custom-transition inline-flex h-full w-full shrink-0 overflow-hidden rounded-full p-6 transition hover:shadow-2xl"
                 >
                   <Image
                     src={url}
                     alt={alt}
                     width={200}
                     height={200}
-                    className="overflow-hidden object-cover"
+                    className="object-cover"
                   />
                 </Link>
                 <Heading headingLevel="h3" variant="card">
