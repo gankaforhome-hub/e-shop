@@ -1,5 +1,6 @@
 import { Hero } from '@/widgets/sections/home/hero';
 import { ProductTypes } from '@/widgets/sections/product-types/ui/product-types';
+import { Products } from '@/widgets/sections/products';
 
 // const routes = [
 //   "/components",
@@ -19,6 +20,8 @@ export default function Page() {
     <>
       <Hero />
       <ProductTypes />
+      <Products />
+      <Products />
       {/* <Box className="flex flex-col items-start gap-5">
             {routes.map((route, index) => (
               <Link
@@ -81,71 +84,7 @@ export default function Page() {
         </header>
         MAIN
         <main className="grid grid-cols-1 justify-items-center gap-10">
-          <section className="hero">
-            <div className="container">
-              <h1 className="visually-hidden">Ganka for home</h1>
-              <ul>
-                <li>
-                  <div>MediaFrame</div>
-                  <h3 className="frame-subtitle">Konyushina</h3>
-                  <h2 className="frame-title">Konyushina</h2>
-                  <a href="/colectionSlug"></a>
-                  <span>IconSound</span>
-                  <span>IconPlay</span>
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section className="products">
-            <div className="container">
-              <h2 className="section-tittle">Products</h2>
-              <ul>
-                <li>
-                  <a href="/productsSlug">
-                    <div>
-                      Card
-                      <div>CardImage </div>
-                      <div>CardTitle</div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section className="popular-products">
-            <div className="container">
-              <h2 className="popular-products visually-hidden"></h2>
-              <ul>
-                <li>
-                  <a href="">
-                    <div>
-                      Card
-                      <div>
-                        Card
-                        <div>
-                          CardContent
-                          <ul>
-                            <li>
-                              <span>IconBack</span>
-                              <img src="" alt="" />
-                              <span>IconForward</span>
-                              <span>Bage</span>
-                              <span>IconFavorite</span>
-
-                              <button>Add to Bag</button>
-                            </li>
-                          </ul>
-                          <h3>CardTitle</h3>
-                          <p>CardDescription</p>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-              <a href="/products">Go to Catalog</a>
-            </div>
-          </section>
+         
           <section className="collections">
             <div className="container">
               <h2 className="popular-colection visually-hidden"></h2>

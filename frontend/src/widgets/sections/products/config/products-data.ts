@@ -1,0 +1,128 @@
+import { ProductCardBase } from '@/entities/product-card';
+
+export const products: ProductCardBase[] = [
+  {
+    id: '1',
+    title: 'Adam & Eva',
+    description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
+    media: [
+      {
+        id: '1',
+        type: 'image',
+        src: '/images/products/1/product1.png',
+        alt: 'product1',
+      },
+      {
+        id: '2',
+        type: 'image',
+        src: '/images/products/1/product2.png',
+        alt: 'product2',
+      },
+      {
+        id: '3',
+        type: 'image',
+        src: '/images/products/1/product3.png',
+        alt: 'product3',
+      },
+    ],
+    price: 2350,
+    currency: '$',
+    popular: false,
+    isNew: false,
+    tags: 'popular',
+    available: true,
+  },
+  {
+    id: '2',
+    title: 'Adam & Eva',
+    description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
+    media: [
+      {
+        id: '1',
+        type: 'image',
+        src: '/images/products/1/product1.png',
+        alt: 'product1',
+      },
+      {
+        id: '2',
+        type: 'image',
+        src: '/images/products/1/product2.png',
+        alt: 'product2',
+      },
+      {
+        id: '3',
+        type: 'image',
+        src: '/images/products/1/product3.png',
+        alt: 'product3',
+      },
+    ],
+    price: 2350,
+    currency: '$',
+    popular: false,
+    isNew: false,
+    tags: 'popular',
+    available: true,
+  },
+  {
+    id: '3',
+    title: 'Adam & Eva',
+    description: 'Ganka T T1 Ring in Yellow Gold',
+    media: [
+      {
+        id: '1',
+        type: 'image',
+        src: '/images/products/1/product1.png',
+        alt: 'product1',
+      },
+      {
+        id: '2',
+        type: 'image',
+        src: '/images/products/1/product2.png',
+        alt: 'product2',
+      },
+      {
+        id: '3',
+        type: 'image',
+        src: '/images/products/1/product3.png',
+        alt: 'product3',
+      },
+    ],
+    price: 2350,
+    currency: '$',
+    popular: false,
+    isNew: false,
+    tags: 'popular',
+    available: true,
+  },
+  {
+    id: '4',
+    title: 'Adam & Eva',
+    description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
+    media: [
+      {
+        id: '1',
+        type: 'image',
+        src: '/images/products/1/product1.png',
+        alt: 'product1',
+      },
+      {
+        id: '2',
+        type: 'image',
+        src: '/images/products/1/product2.png',
+        alt: 'product2',
+      },
+      {
+        id: '3',
+        type: 'image',
+        src: '/images/products/1/product3.png',
+        alt: 'product3',
+      },
+    ],
+    price: 2350,
+    currency: '$',
+    popular: false,
+    isNew: false,
+    tags: 'popular',
+    available: true,
+  },
+];
