@@ -1,10 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
+import { Button } from '@/shared/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
+import { Heading } from '@/shared/ui/heading';
+import { Text } from '@/shared/ui/text';
 import { MediaSlide } from '@/widgets/media-slide';
 
 import { bannerSlides } from '../config/banner-data';
@@ -29,21 +33,52 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
       }}
     >
       <CarouselContent className="h-100vw z-20 w-full">
-        {bannerSlides.map(({ src, alt, poster, type }) => (
-          <CarouselItem key={`${src}`}>
-            <MediaSlide
-              width={1620}
-              height={850}
-              sizes="(max-width: 768px) 100vw, 1200px"
-              type={type}
-              src={src}
-              alt={alt ?? ''}
-              poster={poster ?? ''}
-              className="h-[calc(90vh-var(--h-mob-header))] sm:h-[calc(80vh-var(--h-mob-header))]"
-              overlay
-            />
-          </CarouselItem>
-        ))}
+        {bannerSlides.map(
+          ({
+            media: { src, alt, poster, type },
+            id,
+            slug,
+            title,
+            subTitle,
+          }) => (
+            <CarouselItem key={id}>
+              <MediaSlide
+                width={1620}
+                height={850}
+                sizes="(max-width: 768px) 100vw, 1200px"
+                type={type}
+                src={src}
+                alt={alt ?? ''}
+                poster={poster ?? ''}
+                className="h-[calc(90vh-var(--h-mob-header))] sm:h-[calc(80vh-var(--h-mob-header))]"
+                overlay
+              />
+              <Box
+                className={cn(
+                  'absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center justify-end uppercase',
+                )}
+              >
+                <Text variant="secondary">{subTitle}</Text>
+                <Heading
+                  headingLevel="h2"
+                  tone="secondary"
+                  className="text-center text-5xl font-bold tracking-widest"
+                >
+                  {title}
+                </Heading>
+                <Button
+                  asChild
+                  variant="default"
+                  size="default"
+                  border="withOutBorder"
+                  className="mt-4 capitalize"
+                >
+                  <Link href={slug}>View Collection</Link>
+                </Button>
+              </Box>
+            </CarouselItem>
+          ),
+        )}
       </CarouselContent>
 
       <Box className="-translate-1/2 absolute bottom-12 left-1/2 z-50 flex items-center justify-center gap-2">

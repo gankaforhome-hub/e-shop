@@ -51,6 +51,7 @@ export const VideoPlayer: FC<IVideoPlayerProps> = ({
         loop={loop}
         muted={isMuted}
         onClick={togglePlay}
+        preload="metadata"
         // onTimeUpdate={handleTimeUpdate}
         className={cn(className)}
       />

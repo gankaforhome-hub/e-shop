@@ -16,7 +16,6 @@ export const ProductsPagination: FC<IProductsPaginationProps> = ({
 }) => {
   const { current } = useCarousel();
   const isActive = current === to;
-  console.log(current);
 
   return (
     <>
