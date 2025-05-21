@@ -1,13 +1,14 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { FC } from 'react';
 
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 
 import { productTypes } from '../config/product-types-data';
+import { AppLink } from '@/shared/ui/app-link';
 
 interface IProductTypesProps {
   className?: string;
@@ -31,8 +32,8 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
                 key={id}
                 className="card-set-item flex flex-col items-center justify-center gap-2"
               >
-                <Link
-                  href={slug}
+                <AppLink
+                  href={routes.category(slug)}
                   className="bg-bg-secondary custom-transition inline-flex h-full w-full shrink-0 overflow-hidden rounded-full p-6 transition hover:shadow-2xl"
                 >
                   <Image
@@ -42,7 +43,7 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
                     height={200}
                     className="object-cover"
                   />
-                </Link>
+                </AppLink>
                 <Heading headingLevel="h3" variant="card">
                   {title}
                 </Heading>

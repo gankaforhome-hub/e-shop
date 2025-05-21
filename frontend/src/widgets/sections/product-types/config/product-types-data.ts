@@ -8,7 +8,7 @@ export const productTypes: ProductType[] = [
       url: '/images/productTypePlatters.png',
       alt: 'Platters',
     },
-    slug: '/platters',
+    slug: 'platters',
   },
   {
     id: '2',
@@ -17,7 +17,7 @@ export const productTypes: ProductType[] = [
       url: '/images/productTypeKettles.png',
       alt: 'Kettles',
     },
-    slug: '/kettles',
+    slug: 'kettles',
   },
   {
     id: '3',
@@ -26,7 +26,7 @@ export const productTypes: ProductType[] = [
       url: '/images/productTypeCups.png',
       alt: 'Cups',
     },
-    slug: '/cups',
+    slug: 'cups',
   },
   {
     id: '4',
@@ -35,6 +35,6 @@ export const productTypes: ProductType[] = [
       url: '/images/productTypeCandlesticks.png',
       alt: 'Candlesticks',
     },
-    slug: '/candlesticks',
+    slug: 'candlesticks',
   },
 ];
