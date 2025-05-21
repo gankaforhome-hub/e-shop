@@ -7,7 +7,8 @@ export type CommonIcon =
   | 'gift'
   | 'language'
   | 'phone'
-  | 'plus';
+  | 'plus'
+  | 'arrow';
 
 export type LogoIcon = 'logoFull' | 'logoMin';
 

@@ -9,6 +9,7 @@ export const CarouselNext: FC<ComponentProps<typeof Button>> = ({
   className,
   variant = 'outline',
   size = 'icon',
+  children,
   ...props
 }) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
@@ -19,9 +20,9 @@ export const CarouselNext: FC<ComponentProps<typeof Button>> = ({
       variant={variant}
       size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute h-full w-2 rotate-180 rounded-full',
         orientation === 'horizontal'
-          ? '-right-2 top-1/2 -translate-y-1/2'
+          ? '-right-4 top-1/2 -translate-y-1/2'
           : '-bottom-2 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
@@ -29,7 +30,7 @@ export const CarouselNext: FC<ComponentProps<typeof Button>> = ({
       onClick={scrollNext}
       {...props}
     >
-      ArrowRight
+      {children}
       <span className="sr-only">Next slide</span>
     </Button>
   );

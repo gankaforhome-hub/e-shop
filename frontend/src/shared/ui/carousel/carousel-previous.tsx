@@ -9,6 +9,7 @@ export const CarouselPrevious: FC<ComponentProps<typeof Button>> = ({
   className,
   variant = 'outline',
   size = 'icon',
+  children,
   ...props
 }) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
@@ -19,9 +20,9 @@ export const CarouselPrevious: FC<ComponentProps<typeof Button>> = ({
       variant={variant}
       size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute h-full w-2 rounded-full',
         orientation === 'horizontal'
-          ? '-left-2 top-1/2 -translate-y-1/2'
+          ? '-left-4 top-1/2 -translate-y-1/2'
           : '-top-2 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
@@ -29,7 +30,7 @@ export const CarouselPrevious: FC<ComponentProps<typeof Button>> = ({
       onClick={scrollPrev}
       {...props}
     >
-      ArrowLeft
+      {children}
       <span className="sr-only">Previous slide</span>
     </Button>
   );

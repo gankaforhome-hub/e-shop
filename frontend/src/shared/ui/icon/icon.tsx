@@ -7,6 +7,7 @@ import Mute from '@/shared/icons/media/mute.svg';
 import Pause from '@/shared/icons/media/pause.svg';
 import Play from '@/shared/icons/media/play.svg';
 import Sound from '@/shared/icons/media/sound.svg';
+import Arrow from '@/shared/icons/shop/arrow.svg';
 import Cart from '@/shared/icons/shop/cart.svg';
 import ContactUs from '@/shared/icons/shop/contact-us.svg';
 import Delivery from '@/shared/icons/shop/delivery.svg';
@@ -47,6 +48,7 @@ const icons = {
   pause: Pause,
   mute: Mute,
   sound: Sound,
+  arrow: Arrow,
 };
 
 interface IIconProps extends SVGProps<SVGSVGElement> {
