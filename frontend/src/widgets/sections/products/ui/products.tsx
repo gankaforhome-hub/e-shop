@@ -1,9 +1,10 @@
 'use client';
-import Link from 'next/link';
 import { FC } from 'react';
 
 import { ProductCard } from '@/entities/product-card/ui/product-card';
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
@@ -43,7 +44,12 @@ export const Products: FC<IProductsProps> = ({ className }) => {
                   className="min-w-0 basis-[75%] transform-gpu pl-4"
                 >
                   <ProductCard
-                    mediaData={<ProductsMedia media={product.media} />}
+                    mediaData={
+                      <ProductsMedia
+                        media={product.media}
+                        slug={product.slug}
+                      />
+                    }
                     addToBag={addToBag}
                     onAddToBag={onAddToBag}
                     onAddFavorite={onAddFavorite}
@@ -60,7 +66,7 @@ export const Products: FC<IProductsProps> = ({ className }) => {
             </Box>
           </Carousel>
           <Button asChild border="border" className="max-sm:w-full">
-            <Link href="/collections">Go to Catalog</Link>
+            <AppLink href={routes.categories}>Go to Catalog</AppLink>
           </Button>
         </Container>
       </Section>

@@ -20,9 +20,9 @@ export const CarouselNext: FC<ComponentProps<typeof Button>> = ({
       variant={variant}
       size={size}
       className={cn(
-        'absolute h-full w-2 rotate-180 rounded-full',
+        'absolute h-full w-full rotate-180',
         orientation === 'horizontal'
-          ? '-right-4 top-1/2 -translate-y-1/2'
+          ? 'top-1/2 -translate-y-1/2'
           : '-bottom-2 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}

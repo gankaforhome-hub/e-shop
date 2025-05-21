@@ -4,6 +4,7 @@ export const products: ProductCardBase[] = [
   {
     id: '1',
     title: 'Adam & Eva',
+    slug: 'adam-eva',
     description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
     media: [
       {
@@ -34,7 +35,8 @@ export const products: ProductCardBase[] = [
   },
   {
     id: '2',
-    title: 'Adam & Eva',
+    title: 'Adam & Ira',
+    slug: 'adam-ira',
     description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
     media: [
       {
@@ -65,7 +67,8 @@ export const products: ProductCardBase[] = [
   },
   {
     id: '3',
-    title: 'Adam & Eva',
+    title: 'Adam & Luda',
+    slug: 'adam-luda',
     description: 'Ganka T T1 Ring in Yellow Gold',
     media: [
       {
@@ -96,7 +99,8 @@ export const products: ProductCardBase[] = [
   },
   {
     id: '4',
-    title: 'Adam & Eva',
+    title: 'Adam & Oly',
+    slug: 'adam-oly',
     description: 'Ganka T T1 Ring in Yellow Gold with Platter,2.5 mm Wide',
     media: [
       {

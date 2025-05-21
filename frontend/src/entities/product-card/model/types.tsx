@@ -25,6 +25,7 @@ export type ProductVariant = {
 export interface ProductCardBase {
   id: string;
   title: string;
+  slug: string;
   description?: string;
   media: ProductMedia[];
   price: number;

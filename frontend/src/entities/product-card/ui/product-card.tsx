@@ -2,7 +2,9 @@
 
 import { FC, ReactNode } from 'react';
 
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Heading } from '@/shared/ui/heading';
@@ -32,8 +34,8 @@ export const ProductCard: FC<IProductCardProps> = ({
   mediaData,
 }) => {
   return (
-    <Box className={cn('flex flex-col p-1', className)}>
-      <Box className="bg-bg-secondary min-h-75 relative flex items-center justify-center p-6">
+    <Box className={cn('flex flex-col', className)}>
+      <Box className="bg-bg-secondary min-h-75 pointer-events-auto relative flex items-center justify-center p-6">
         {mediaData}
         <Text
           as="span"
@@ -41,6 +43,7 @@ export const ProductCard: FC<IProductCardProps> = ({
         >
           {product.tags}
         </Text>
+
         <Button
           variant="icon"
           size="icon"
@@ -50,12 +53,15 @@ export const ProductCard: FC<IProductCardProps> = ({
           <Icon name="favorite" className="size-4 align-middle" />
         </Button>
       </Box>
-      <Box className="grow px-2 pb-3 pt-5">
+      <AppLink
+        href={routes.product(product.slug)}
+        className="custom-transition flex w-full grow flex-col px-2 pb-3 pt-5 transition-opacity hover:opacity-80"
+      >
         <Heading headingLevel="h3" variant="card">
           {product.title}
         </Heading>
         <Text className="opacity-65">{product.description}</Text>
-      </Box>
+      </AppLink>
       <Button
         onClick={onAddToBag}
         variant="secondary"

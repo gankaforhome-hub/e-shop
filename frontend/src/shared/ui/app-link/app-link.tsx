@@ -33,7 +33,7 @@ export const AppLink = forwardRef<HTMLAnchorElement, IAppLinkProps>(
       <Comp
         href={formattedHref}
         ref={ref}
-        className={cn(className, 'flex shrink-0')}
+        className={cn('flex shrink-0 p-0', className)}
         {...(isExternal && {
           target: '_blank',
           rel: 'noopener noreferrer',
