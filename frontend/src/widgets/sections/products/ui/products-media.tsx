@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { ProductMedia } from '@/entities/product';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
+import { Media } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import {
@@ -18,7 +18,7 @@ import { MediaSlide } from '@/widgets/media-slide';
 import { ProductPagination } from './product-pagination';
 
 interface IProductsMediaProps {
-  media: ProductMedia[];
+  media: Media[];
   slug: string;
   className?: string;
 }

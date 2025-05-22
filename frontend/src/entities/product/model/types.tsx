@@ -1,16 +1,10 @@
 // entities/productCard/model/types.ts
 
+import { Media } from '@/shared/types/media/media';
+
 export type ProductOption = {
   name: string;
   value: string;
-};
-
-export type ProductMedia = {
-  id: string;
-  type: 'image' | 'video';
-  src: string;
-  alt?: string;
-  poster?: string;
 };
 
 export type ProductVariant = {
@@ -27,7 +21,7 @@ export interface ProductCardBase {
   title: string;
   slug: string;
   description?: string;
-  media: ProductMedia[];
+  media: Media[];
   price: number;
   currency: string;
   popular?: boolean;
