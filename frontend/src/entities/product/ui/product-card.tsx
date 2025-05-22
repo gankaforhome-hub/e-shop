@@ -1,5 +1,3 @@
-// entities/productCard/ui/ProductCard.tsx
-
 import { FC, ReactNode } from 'react';
 
 import { routes } from '@/shared/config/routes';

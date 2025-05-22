@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
 
-import { ProductCard } from '@/entities/product-card/ui/product-card';
+import { ProductCard } from '@/entities/product';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';

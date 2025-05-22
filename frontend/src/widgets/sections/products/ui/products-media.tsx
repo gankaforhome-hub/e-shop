@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ProductMedia } from '@/entities/product-card';
+import { ProductMedia } from '@/entities/product';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
