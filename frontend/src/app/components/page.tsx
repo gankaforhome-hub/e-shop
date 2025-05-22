@@ -54,13 +54,13 @@ export default function ComponentsPage() {
           </Box>
 
           <Box className="w-50 h-50 bg-btn-bg-subscribe flex items-center justify-center gap-6">
-            <Button variant={'subscribe'} size={'sm'}>
+            <Button variant="outline" size={'sm'}>
               Discover more
             </Button>
           </Box>
 
           <Box className="w-100 flex items-center justify-center gap-6">
-            <Button variant={'addToBag'} size={'spaced'} className="w-full">
+            <Button variant={'outline'} size={'spaced'} className="w-full">
               <p>50$</p>
               <p>Discover more</p>
             </Button>

@@ -3,12 +3,12 @@ import { FC } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 
 import { productTypes } from '../config/product-types-data';
-import { AppLink } from '@/shared/ui/app-link';
 
 interface IProductTypesProps {
   className?: string;

@@ -17,7 +17,7 @@ const staticRoutes = {
 //INFO Functions for dynamic routes
 const dynamicRoutes = {
   product: (id: string) => `/product/${id}` as const,
-  category: (slug: string) => `/category/${slug}` as const,
+  category: (slug: string) => `/categories/${slug}` as const,
   collection: (slug: string) => `/collections/${slug}` as const,
 };
 
