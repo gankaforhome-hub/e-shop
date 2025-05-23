@@ -9,7 +9,7 @@
         "subTitle": "new collection",
         "assets": {
           "attributes": {
-            "url": "/images/hero_images.png",
+            "url": "/images/hero_images.webp",
             "alt": ""
           }
         }
@@ -21,7 +21,7 @@
         "subTitle": "new collection",
         "assets": {
           "attributes": {
-            "url": "/images/hero_images.png",
+            "url": "/images/hero_images.webp",
             "alt": ""
           }
         }
@@ -35,7 +35,7 @@
         "id": 1,
         "title": "Platters",
         "images": {
-          "url": "/images/productTypePlatters.png",
+          "url": "/images/productTypePlatters.webp",
           "alt": "Platters"
         }
       },
@@ -43,7 +43,7 @@
         "id": 2,
         "title": "Kettles",
         "images": {
-          "url": "/images/productTypeKettles.png",
+          "url": "/images/productTypeKettles.webp",
           "alt": "Kettles"
         }
       },
@@ -51,7 +51,7 @@
         "id": 3,
         "title": "Cups",
         "images": {
-          "url": "/images/productTypeCups.png",
+          "url": "/images/productTypeCups.webp",
           "alt": "Cups"
         }
       },
@@ -59,7 +59,7 @@
         "id": 4,
         "title": "Candlesticks",
         "images": {
-          "url": "/images/productTypeCandlesticks.png",
+          "url": "/images/productTypeCandlesticks.webp",
           "alt": "Candlesticks"
         }
       }
@@ -76,11 +76,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -93,11 +93,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -110,11 +110,11 @@
         "badge": "Last",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -127,11 +127,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -146,7 +146,7 @@
         "type": "new",
         "title": "Gifts from Ganka",
         "images": {
-          "url": "/images/collection.png",
+          "url": "/images/collection.webp",
           "alt": "Platters"
         }
       },
@@ -155,7 +155,7 @@
         "type": "new",
         "title": "Hare - Сorolla",
         "images": {
-          "url": "/images/collection.png",
+          "url": "/images/collection.webp",
           "alt": "Hare - Сorolla"
         }
       }
@@ -174,7 +174,7 @@
         "type": "recommended",
         "title": "Gifts from Ganka",
         "images": {
-          "url": "/images/collection.png",
+          "url": "/images/collection.webp",
           "alt": "Platters"
         }
       },
@@ -183,7 +183,7 @@
         "type": "recommended",
         "title": "Hare - Сorolla",
         "images": {
-          "url": "/images/collection.png",
+          "url": "/images/collection.webp",
           "alt": "Hare - Сorolla"
         }
       }
@@ -200,11 +200,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -217,11 +217,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -234,11 +234,11 @@
         "badge": "Last",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
@@ -251,11 +251,11 @@
         "badge": "Most popular",
         "images": [
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           },
           {
-            "url": "/images/product.png",
+            "url": "/images/product.webp",
             "alt": "Platters"
           }
         ]
