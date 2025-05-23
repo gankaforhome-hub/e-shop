@@ -1,3 +1,4 @@
+import { Collections } from '@/widgets/sections/home/collections';
 import { Hero } from '@/widgets/sections/home/hero';
 import { ProductTypes } from '@/widgets/sections/product-types/ui/product-types';
 import { Products } from '@/widgets/sections/products';
@@ -21,6 +22,8 @@ export default function Page() {
       <Hero />
       <ProductTypes />
       <Products />
+      <Collections />
+      <Collections className="" />
       <Products />
       {/* <Box className="flex flex-col items-start gap-5">
             {routes.map((route, index) => (
@@ -85,47 +88,7 @@ export default function Page() {
         MAIN
         <main className="grid grid-cols-1 justify-items-center gap-10">
          
-          <section className="collections">
-            <div className="container">
-              <h2 className="popular-colection visually-hidden"></h2>
-              <ul>
-                <li>
-                  <div>
-                    Card
-                    <div>
-                      CardContent
-                      <div>
-                        CardHeader
-                        <img src="" alt="" />
-                      </div>
-                      <h3>CardTittle</h3>
-                      <div>
-                        CardFooter
-                        <a href=""></a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    Card
-                    <div>
-                      CardContent
-                      <div>
-                        CardHeader
-                        <img src="" alt="" />
-                      </div>
-                      <h3>CardTittle</h3>
-                      <div>
-                        CardFooter
-                        <a href=""></a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </section>
+         
           <section className="exlusive">
             <div className="container">
               <div>
