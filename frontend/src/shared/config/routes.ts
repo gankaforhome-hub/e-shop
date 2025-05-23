@@ -4,7 +4,7 @@ export type ExternalHref = `http${'s' | ''}://${string}`;
 const staticRoutes = {
   home: '/' as const,
   about: '/about-us' as const,
-  exclusive_ganka: '/exclusive-ganka' as const,
+  exclusive: '/exclusive' as const,
   collections: '/collections' as const,
   categories: '/categories' as const,
   contacts: '/contacts' as const,

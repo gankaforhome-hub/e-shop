@@ -1,4 +1,5 @@
 import { Collections } from '@/widgets/sections/home/collections';
+import { Exclusive } from '@/widgets/sections/home/exclusive';
 import { Hero } from '@/widgets/sections/home/hero';
 import { ProductTypes } from '@/widgets/sections/product-types/ui/product-types';
 import { Products } from '@/widgets/sections/products';
@@ -23,6 +24,7 @@ export default function Page() {
       <ProductTypes />
       <Products />
       <Collections />
+      <Exclusive />
       <Collections className="" />
       <Products />
       {/* <Box className="flex flex-col items-start gap-5">
@@ -104,81 +106,7 @@ export default function Page() {
               </div>
             </div>
           </section>
-          <section className="collections">
-            <div className="container">
-              <h2 className="popular-colection visually-hidden"></h2>
-              <ul>
-                <li>
-                  <div>
-                    Card
-                    <div>
-                      CardContent
-                      <div>
-                        CardHeader
-                        <img src="" alt="" />
-                      </div>
-                      <h3>CardTittle</h3>
-                      <div>
-                        CardFooter
-                        <a href=""></a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    Card
-                    <div>
-                      CardContent
-                      <div>
-                        CardHeader
-                        <img src="" alt="" />
-                      </div>
-                      <h3>CardTittle</h3>
-                      <div>
-                        CardFooter
-                        <a href=""></a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section className="popular-products">
-            <div className="container">
-              <h2 className="popular-products visually-hidden"></h2>
-              <ul>
-                <li>
-                  <a href="">
-                    <div>
-                      Card
-                      <div>
-                        Card
-                        <div>
-                          CardContent
-                          <ul>
-                            <li>
-                              <span>IconBack</span>
-                              <img src="" alt="" />
-                              <span>IconForward</span>
-                              <span>Bage</span>
-                              <span>IconFavorite</span>
-
-                              <button>Add to Bag</button>
-                            </li>
-                          </ul>
-                          <h3>CardTitle</h3>
-                          <p>CardDescription</p>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-              <a href="/products">Go to Catalog</a>
-            </div>
-          </section>
+          
           <section className="news-letter">
             <div className="container">
               <div>
