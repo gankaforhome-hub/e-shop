@@ -8,7 +8,7 @@ export const bannerSlides: BannerSlide[] = [
     slug: `konyushina`,
     media: {
       type: 'image',
-      src: '/images/hero_image.png',
+      src: '/images/hero_image.webp',
       alt: 'Весняна колекція',
     },
   },
@@ -19,19 +19,19 @@ export const bannerSlides: BannerSlide[] = [
     slug: `winter`,
     media: {
       type: 'image',
-      src: '/images/product.png',
+      src: '/images/product.webp',
       alt: 'Зимова колекція',
     },
   },
-  {
-    id: '3',
-    title: 'Осіння колекція',
-    subTitle: 'popular collection',
-    slug: `autumn`,
-    media: {
-      type: 'video',
-      src: '/videos/pottery_platter.mp4',
-      poster: '/videos/poster-video.png',
-    },
-  },
+  // {
+  //   id: '3',
+  //   title: 'Осіння колекція',
+  //   subTitle: 'popular collection',
+  //   slug: `autumn`,
+  //   media: {
+  //     type: 'video',
+  //     src: '/videos/pottery_platter.mp4',
+  //     poster: '/videos/poster-video.webp',
+  //   },
+  // },
 ];

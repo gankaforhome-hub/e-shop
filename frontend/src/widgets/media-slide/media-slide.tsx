@@ -17,6 +17,7 @@ export interface IMediaSlideProps {
   width: number;
   height: number;
   sizes: string;
+  priority?: boolean;
   overlay?: boolean;
 }
 
@@ -29,6 +30,7 @@ export const MediaSlide: FC<IMediaSlideProps> = ({
   width,
   height,
   sizes,
+  priority = false,
   overlay = false,
 }) => {
   const baseClass = cn('object-cover object-center  w-full h-full ', className);
@@ -45,6 +47,7 @@ export const MediaSlide: FC<IMediaSlideProps> = ({
           className={baseClass}
           placeholder="blur"
           blurDataURL={`data:image/svg+xml;base64,${getBase64(shimmer(700, 475))}`}
+          priority={priority}
         />
         {overlay && <Overlay />}
       </>

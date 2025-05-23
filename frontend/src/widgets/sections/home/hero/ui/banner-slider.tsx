@@ -46,12 +46,13 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
               <MediaSlide
                 width={1620}
                 height={850}
-                sizes="(max-width: 768px) 100vw, 1200px"
+                sizes="(max-width: 768px) 100vw,(max-width: 1600px) 100vw, 1200px"
                 type={type}
                 src={src}
                 alt={alt ?? ''}
                 poster={poster ?? ''}
                 className="h-[calc(90vh-var(--h-mob-header))] sm:h-[calc(80vh-var(--h-mob-header))]"
+                priority
                 overlay
               />
               <Box
