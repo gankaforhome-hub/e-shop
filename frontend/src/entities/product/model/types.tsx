@@ -29,6 +29,10 @@ export interface ProductCardBase {
   tags?: string;
   isDiscounted?: boolean;
   available: boolean;
+  // categoryId: string; //Category reference
+  // collectionId: string; //Link to the collection
+  // material?: string; // Ceramics, porcelain, etc.
+  // dimensions?: string; // sizes
 }
 
 export interface Product extends ProductCardBase {
