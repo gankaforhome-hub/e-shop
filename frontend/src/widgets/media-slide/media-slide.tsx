@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { cn, getBase64, shimmer } from '@/shared/lib/utils';
 import { Overlay } from '@/shared/ui/overlay';
@@ -17,6 +17,7 @@ export interface IMediaSlideProps {
   width: number;
   height: number;
   sizes: string;
+  fill?: boolean;
   priority?: boolean;
   overlay?: boolean;
 }
@@ -32,8 +33,13 @@ export const MediaSlide: FC<IMediaSlideProps> = ({
   sizes,
   priority = false,
   overlay = false,
+  fill = false,
 }) => {
   const baseClass = cn('object-cover object-center  w-full h-full ', className);
+  const shimmerBase64 = useMemo(
+    () => getBase64(shimmer(width, height)),
+    [width, height],
+  );
 
   if (type === 'image') {
     return (
@@ -44,9 +50,10 @@ export const MediaSlide: FC<IMediaSlideProps> = ({
           width={width}
           height={height}
           sizes={sizes}
+          fill={fill}
           className={baseClass}
           placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${getBase64(shimmer(700, 475))}`}
+          blurDataURL={`data:image/svg+xml;base64,${shimmerBase64}`}
           priority={priority}
         />
         {overlay && <Overlay />}

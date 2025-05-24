@@ -22,6 +22,9 @@ export const CarouselItem: FC<ICarouselItemProps> = ({
       className={cn(
         'min-w-0 shrink-0 grow-0 basis-full',
         orientation === 'horizontal' ? 'pl-0' : 'pt-0',
+        // current && isInitialize
+        //   ? 'opacity-100'
+        //   : 'pointer-events-none select-none opacity-0',
         className,
       )}
       {...props}

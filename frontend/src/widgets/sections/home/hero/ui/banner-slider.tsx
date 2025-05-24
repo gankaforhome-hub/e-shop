@@ -2,19 +2,14 @@
 
 import { FC } from 'react';
 
-import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
-import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
-import { Button } from '@/shared/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
-import { Heading } from '@/shared/ui/heading';
-import { Text } from '@/shared/ui/text';
-import { MediaSlide } from '@/widgets/media-slide';
 
 import { bannerSlides } from '../config/banner-data';
 
 import { BannerPagination } from './banner-pagination';
+import { BannerSlide } from './banner-slide';
 
 interface IBannerSliderProps {
   className?: string;
@@ -27,6 +22,7 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
       isAutoplay
       isFade
       opts={{
+        startIndex: 0,
         align: 'start',
         loop: true,
         containScroll: false,
@@ -43,43 +39,17 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
             subTitle,
           }) => (
             <CarouselItem key={id}>
-              <MediaSlide
+              <BannerSlide
                 width={1620}
                 height={850}
-                sizes="(max-width: 768px) 100vw,(max-width: 1600px) 100vw, 1200px"
                 type={type}
                 src={src}
                 alt={alt ?? ''}
                 poster={poster ?? ''}
-                className="h-[calc(90vh-var(--h-mob-header))] sm:h-[calc(80vh-var(--h-mob-header))]"
-                priority
-                overlay
+                slug={slug}
+                title={title}
+                subTitle={subTitle ?? ''}
               />
-              <Box
-                className={cn(
-                  'absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center justify-end uppercase',
-                )}
-              >
-                <Text variant="secondary">{subTitle}</Text>
-                <Heading
-                  headingLevel="h2"
-                  tone="secondary"
-                  className="text-center text-5xl font-bold tracking-widest"
-                >
-                  {title}
-                </Heading>
-                <Button
-                  asChild
-                  variant="default"
-                  size="default"
-                  border="withOutBorder"
-                  className="mt-4 capitalize"
-                >
-                  <AppLink href={routes.collection(slug)}>
-                    View Collection
-                  </AppLink>
-                </Button>
-              </Box>
             </CarouselItem>
           ),
         )}

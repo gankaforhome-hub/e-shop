@@ -11,7 +11,7 @@ export const Overlay: FC<IOverlayProps> = ({ className }) => {
   return (
     <Box
       className={cn(
-        'custom-transition absolute inset-0 z-0 bg-[linear-gradient(rgba(47,48,58,0.3),rgba(47,48,58,0.3))] transition-all',
+        'custom-transition absolute inset-0 z-0 bg-[linear-gradient(rgba(47,48,58,0.3),rgba(47,48,58,0.3))] transition-opacity',
         className,
       )}
     />

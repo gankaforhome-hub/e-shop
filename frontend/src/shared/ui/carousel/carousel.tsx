@@ -65,6 +65,7 @@ export const Carousel: FC<ICarouselProps> = ({
   const [isPaused, setIsPaused] = useState(false);
   const [current, setCurrent] = useState(0);
   const [slideCount, setSlideCount] = useState(0);
+  const [isInitialize, setIsInitialize] = useState(false);
   const tweenFactor = useRef(0);
 
   const pauseInactiveVideos = useCallback((api: CarouselApi) => {
@@ -136,6 +137,7 @@ export const Carousel: FC<ICarouselProps> = ({
       setCurrent(api.selectedScrollSnap());
       setSlideCount(api.scrollSnapList().length);
       pauseInactiveVideos(api);
+      setIsInitialize(true);
     },
     [pauseInactiveVideos],
   );
@@ -178,7 +180,6 @@ export const Carousel: FC<ICarouselProps> = ({
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
-
     return () => {
       api?.off('select', onSelect);
     };
@@ -214,6 +215,7 @@ export const Carousel: FC<ICarouselProps> = ({
         canScrollPrev,
         canScrollNext,
         current,
+        isInitialize,
         isPaused,
         slideCount,
       }}

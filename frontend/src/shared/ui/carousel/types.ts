@@ -27,4 +27,5 @@ export type CarouselContextProps = {
   current: number;
   isPaused: boolean;
   slideCount: number;
+  isInitialize: boolean;
 } & CarouselProps;

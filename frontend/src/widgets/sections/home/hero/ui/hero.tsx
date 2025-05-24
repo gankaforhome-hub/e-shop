@@ -5,6 +5,8 @@ import { Section } from '@/shared/ui/section';
 
 import { BannerSlider } from './banner-slider';
 
+// import { BannerSlider } from './banner-slider';
+
 export const Hero = () => {
   return (
     <Section>

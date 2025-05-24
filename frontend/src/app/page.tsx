@@ -4,18 +4,15 @@ import { Hero } from '@/widgets/sections/home/hero';
 import { ProductTypes } from '@/widgets/sections/product-types/ui/product-types';
 import { Products } from '@/widgets/sections/products';
 
-// const routes = [
-//   "/components",
-//   "/about-us",
-//   "/contacts",
-//   "/cart",
-//   "/collections",
-//   "/collections/collectionSlug",
-//   "/not-found",
-//   "./m-s/vidzone",
-//   "./m-s/ks",
-//   "./m-s/sweet-tv",
-// ];
+// const Products = dynamic(
+//   () => import('@/widgets/sections/products').then(mod => mod.Products),
+//   {
+//     ssr: true,
+//     //TODO add carousel fallback Skeleton
+//     loading: () => <p>Loading...</p>,
+//   },
+// );
+// Динамічне завантаження каруселі — ТІЛЬКИ на клієнті
 
 export default function Page() {
   return (
@@ -25,19 +22,9 @@ export default function Page() {
       <Products />
       <Collections />
       <Exclusive />
-      <Collections className="" />
+      <Collections />
       <Products />
-      {/* <Box className="flex flex-col items-start gap-5">
-            {routes.map((route, index) => (
-              <Link
-                key={index}
-                href={route}
-                className="mx-auto block text-4xl text-rose-500 hover:text-blue-400"
-              >
-                page {route}
-              </Link>
-            ))}
-          </Box> */}
+
       {/* Draft markup */}
       {/* <div className="grid grid-cols-1 justify-items-center gap-10">
         HEADER
@@ -90,22 +77,6 @@ export default function Page() {
         MAIN
         <main className="grid grid-cols-1 justify-items-center gap-10">
          
-         
-          <section className="exlusive">
-            <div className="container">
-              <div>
-                <img src="" alt="" />
-              </div>
-              <div>
-                <h2>INTRODUCING CREATE YOOOOOUR PLATE</h2>
-                <p>
-                  Ganka exclusive provide the opportunity to create your
-                  customized plate. This tradition reaches back.
-                </p>
-                <a href="/exlusive">Discover more</a>
-              </div>
-            </div>
-          </section>
           
           <section className="news-letter">
             <div className="container">
