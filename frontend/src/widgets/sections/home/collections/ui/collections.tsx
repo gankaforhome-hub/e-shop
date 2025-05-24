@@ -30,7 +30,8 @@ export const Collections: FC<ICollectionProps> = ({ className }) => {
             {collections.map(collection => (
               <li key={collection.id} className="group">
                 <CollectionCard collection={collection} className="">
-                  <Box className="bg-radial from-bg to-bg-accent flex h-full w-full items-center justify-center rounded-3xl from-20% px-14 py-20">
+                  {/* <Box className="bg-radial from-bg to-bg-accent flex h-full w-full items-center justify-center rounded-3xl from-20% px-14 py-20"> */}
+                  <Box className="collection-bg flex h-full w-full items-center justify-center rounded-3xl px-14 py-20">
                     <MediaSlide
                       type={collection.media.type}
                       src={collection.media.src}

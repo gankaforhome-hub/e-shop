@@ -1,3 +1,3 @@
-import Category from './Category.tsx'
+import Category from './category';
 
-export { Category }
+export { Category };
