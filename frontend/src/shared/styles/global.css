@@ -106,4 +106,8 @@
   video {
     @apply aspect-auto h-full w-full object-cover object-center;
   }
+
+  /* * {
+    @apply outline-1 outline-amber-600;
+  } */
 }

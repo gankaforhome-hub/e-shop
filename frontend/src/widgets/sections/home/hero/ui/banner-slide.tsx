@@ -44,7 +44,7 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
         src={src}
         alt={alt ?? ''}
         poster={poster ?? ''}
-        className="h-[calc(90vh-var(--h-mob-header))] sm:h-[calc(80vh-var(--h-mob-header))]"
+        className="h-[calc(90vh-var(--h-mob-header))] md:h-[calc(80vh-var(--h-mob-header))]"
         priority
         overlay
       />

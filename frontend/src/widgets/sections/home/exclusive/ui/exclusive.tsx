@@ -19,8 +19,8 @@ interface IExclusiveProps {
 export const Exclusive: FC<IExclusiveProps> = ({ className }) => {
   return (
     <>
-      <Section className={cn('relative', className)}>
-        <Container className="gap-4 md:grid md:grid-cols-2">
+      <Section className={cn('lg:py-25 relative', className)}>
+        <Container className="gap-4 sm:grid sm:grid-cols-2">
           <Box className="max-sm:h-100 sm:hidden" />
           <MediaSlide
             type="image"
