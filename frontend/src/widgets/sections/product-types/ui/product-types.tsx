@@ -18,15 +18,17 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
   return (
     <>
       <Section className={cn('py-20', className)}>
-        <Container>
+        <Container className="items-center xl:flex xl:justify-between">
           <Heading
             headingLevel="h2"
             variant="section"
-            className="mb-10 text-center uppercase"
+            className="mx-auto mb-10 flex-1 text-center uppercase"
           >
             Product:
           </Heading>
-          <ul className={`card-set-2/5 sm:card-set-${productTypes.length}`}>
+          <ul
+            className={`card-set-2/5 sm:card-set-${productTypes.length} sm:flex-nowrap`}
+          >
             {productTypes.map(({ id, images: { url, alt }, title, slug }) => (
               <li
                 key={id}
@@ -34,13 +36,13 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
               >
                 <AppLink
                   href={routes.category(slug)}
-                  className="bg-bg-secondary custom-transition inline-flex h-full w-full shrink-0 overflow-hidden rounded-full p-6 transition hover:shadow-2xl"
+                  className="max-h:40 max-w:40 bg-bg-secondary custom-transition flex shrink-0 overflow-hidden rounded-full p-6 transition hover:shadow-2xl"
                 >
                   <Image
                     src={url}
                     alt={alt}
-                    width={200}
-                    height={200}
+                    width={150}
+                    height={150}
                     className="object-cover"
                   />
                 </AppLink>

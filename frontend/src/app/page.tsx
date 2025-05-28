@@ -19,6 +19,7 @@ export default function Page() {
     <>
       <Hero />
       <ProductTypes />
+      {/* <ExampleCard /> */}
       <Products />
       <Collections />
       <Exclusive />

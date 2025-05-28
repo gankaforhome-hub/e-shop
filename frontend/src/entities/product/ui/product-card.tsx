@@ -21,6 +21,8 @@ interface IProductCardProps {
   showRating?: boolean;
   showVariants?: boolean;
   addToBag: string;
+  hideDesc?: boolean;
+  hideTitle?: boolean;
 }
 
 export const ProductCard: FC<IProductCardProps> = ({
@@ -30,49 +32,103 @@ export const ProductCard: FC<IProductCardProps> = ({
   onAddFavorite,
   onAddToBag,
   mediaData,
+  hideDesc,
+  hideTitle,
 }) => {
   return (
-    <Box className={cn('flex flex-col', className)}>
-      <Box className="bg-bg-secondary min-h-75 pointer-events-auto relative flex items-center justify-center p-6">
-        {mediaData}
-        <Text
-          as="span"
-          className="bg-bg leading-0 absolute left-3 top-3 z-10 inline-flex items-center justify-center px-2.5 py-1 text-xs capitalize tracking-wide"
+    <article
+      className={cn(
+        'relative flex flex-col items-center justify-center transition-all duration-500',
+        'group-hover:z-100 group-hover:bg-bg group-hover:scale-105',
+        'group-hover:rounded-2xl group-hover:shadow-2xl xl:py-5',
+        '',
+        className,
+      )}
+    >
+      <Box
+        className={cn(
+          'relative z-10 flex flex-col items-center justify-center p-10 transition-transform duration-500 max-lg:flex-1 xl:p-0',
+          'bg-bg-secondary lg:flex-0',
+          hideDesc ? `-translate-y-10 group-hover:-translate-y-0` : '',
+          'xl:group-hover:scale-80',
+          hideTitle && '-translate-y-5 group-hover:translate-y-0',
+        )}
+      >
+        <Box className={cn('bg-bg-secondary')}>
+          {mediaData}
+          <Text
+            as="span"
+            className={cn(
+              'bg-bg leading-0 absolute left-3 top-3 z-50 px-2.5 py-1 text-sm capitalize tracking-wide',
+            )}
+          >
+            {product.tags}
+          </Text>
+
+          <Button
+            variant="icon"
+            size="icon"
+            onClick={onAddFavorite}
+            className="absolute right-3 top-3 z-50"
+          >
+            <Icon name="favorite" className="size-5" />
+          </Button>
+        </Box>
+      </Box>
+
+      <Box
+        className={cn(
+          'relative flex h-full w-full flex-col items-center justify-center transition-all duration-300 max-xl:pt-8',
+          hideDesc
+            ? `flex-0 flex h-0 opacity-0 group-hover:flex-1 group-hover:opacity-100`
+            : '',
+          'xl:px-[10%]',
+          hideTitle &&
+            'xl:-translate-y-10 xl:flex-col-reverse xl:opacity-100 xl:group-hover:translate-y-0 xl:group-hover:flex-col',
+        )}
+      >
+        <Heading
+          headingLevel="h3"
+          variant="card"
+          className={cn(
+            'custom-transition relative text-start transition-opacity',
+            hideTitle &&
+              'mx-auto group-hover:mx-0 group-hover:mr-auto xl:opacity-100',
+          )}
         >
-          {product.tags}
+          <AppLink href={routes.product(product.slug)}>{product.title}</AppLink>
+        </Heading>
+
+        {/* <AppLink
+          href={routes.product(product.slug)}
+          className={cn(sAppLink, 'h-full shrink')}
+        > */}
+        <Text
+          className={cn(
+            'mb-6 mt-4 opacity-65 transition-all duration-500',
+            'line-clamp-2 h-full w-full shrink text-ellipsis',
+          )}
+        >
+          {product.description}
         </Text>
+        {/* </AppLink> */}
 
         <Button
-          variant="icon"
-          size="icon"
-          onClick={onAddFavorite}
-          className="absolute right-3 top-3 z-10"
+          onClick={onAddToBag}
+          variant="secondary"
+          className={cn(
+            'relative mt-auto flex w-full items-center justify-between',
+          )}
         >
-          <Icon name="favorite" className="size-4 align-middle" />
+          <Text as="span" variant="inherit">
+            {product.currency}
+            {product.price}
+          </Text>
+          <Text as="span" variant="inherit">
+            {addToBag}
+          </Text>
         </Button>
       </Box>
-      <AppLink
-        href={routes.product(product.slug)}
-        className="custom-transition flex w-full grow flex-col px-2 pb-3 pt-5 transition-opacity hover:opacity-80"
-      >
-        <Heading headingLevel="h3" variant="card">
-          {product.title}
-        </Heading>
-        <Text className="opacity-65">{product.description}</Text>
-      </AppLink>
-      <Button
-        onClick={onAddToBag}
-        variant="secondary"
-        className="flex w-full items-center justify-between"
-      >
-        <Text as="span" variant="inherit">
-          {product.currency}
-          {product.price}
-        </Text>
-        <Text as="span" variant="inherit">
-          {addToBag}
-        </Text>
-      </Button>
-    </Box>
+    </article>
   );
 };

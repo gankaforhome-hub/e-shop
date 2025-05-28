@@ -23,7 +23,7 @@ export const ProductPagination: FC<IProductPaginationProps> = ({
         to={to}
         className={cn(
           'custom-transition h-1 flex-1 rounded-full p-0 transition-all',
-          isActive ? 'bg-btn-bg-secondary' : 'bg-btn-bg-secondary/15',
+          isActive ? 'bg-btn-bg-secondary' : 'bg-btn-bg-secondary/5',
           className,
         )}
       />

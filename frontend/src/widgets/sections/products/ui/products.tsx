@@ -31,18 +31,15 @@ export const Products: FC<IProductsProps> = ({ className }) => {
   };
   return (
     <>
-      <Section className={cn('py-5', className)}>
+      <Section className={cn('', className)}>
         <Container>
           <Heading headingLevel="h2" visibility="hidden">
             Ganka for home products
           </Heading>
-          <Carousel isOpacityTween opts={{ loop: true }}>
-            <CarouselContent className="ml-[-0.5rem] touch-pan-y gap-2">
+          <Carousel className="xl:hidden">
+            <CarouselContent className="gap-4">
               {products.map(product => (
-                <CarouselItem
-                  key={product.id}
-                  className="min-w-0 basis-[75%] transform-gpu pl-4"
-                >
+                <CarouselItem key={product.id} className="basis-75">
                   <ProductCard
                     mediaData={
                       <ProductsMedia
@@ -59,13 +56,41 @@ export const Products: FC<IProductsProps> = ({ className }) => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <Box className="mb-10 mt-5 flex items-center justify-center gap-4">
+            <Box className="mb-10 mt-10 flex items-center justify-center gap-4">
               {products.map((_, idx) => (
                 <ProductsPagination key={idx} to={idx} />
               ))}
             </Box>
           </Carousel>
-          <Button asChild border="border" className="max-sm:w-full">
+          <ul
+            className={cn(
+              'xl:mb-30 xl:gap:10 mx-auto hidden',
+              'gap-5 xl:grid xl:grid-cols-4',
+              // 'lg:card-set-4/5',
+            )}
+          >
+            {products.map(product => (
+              <li key={product.id} className="group">
+                <ProductCard
+                  mediaData={
+                    <ProductsMedia media={product.media} slug={product.slug} />
+                  }
+                  addToBag={addToBag}
+                  onAddToBag={onAddToBag}
+                  onAddFavorite={onAddFavorite}
+                  product={product}
+                  className="h-full"
+                  hideDesc={true}
+                  hideTitle={true}
+                />
+              </li>
+            ))}
+          </ul>
+          <Button
+            asChild
+            border="border"
+            className="max-sm:w-full sm:mx-auto sm:flex sm:max-w-40"
+          >
             <AppLink href={routes.categories}>Go to Catalog</AppLink>
           </Button>
         </Container>

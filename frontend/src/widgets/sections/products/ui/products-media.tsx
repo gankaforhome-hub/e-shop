@@ -29,18 +29,11 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
   className,
 }) => {
   return (
-    <Carousel
-      className={cn('relative', className)}
-      isOpacityTween
-      opts={{ loop: true }}
-    >
-      <CarouselContent className="h-full w-full">
+    <Carousel className={cn('', className)} opts={{ loop: true }}>
+      <CarouselContent className="touch-pan-y">
         {media.map(({ id, src, alt, poster, type }) => (
           <CarouselItem key={id}>
-            <AppLink
-              href={routes.product(slug)}
-              className="custom-transition inline-flex h-full w-full transition-transform hover:scale-110"
-            >
+            <AppLink href={routes.product(slug)}>
               <MediaSlide
                 width={270}
                 height={270}
@@ -58,17 +51,30 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
 
       <CarouselPrevious
         variant="icon"
-        className="-left-3 z-50 w-4 -translate-x-1/2 p-1"
+        className={cn(
+          'custom-transition -left-5 z-50 w-4 -translate-x-1/2 p-1 transition-opacity',
+          'lg:-left-4 xl:opacity-0 xl:group-hover:opacity-100',
+          'xl:w-5 xl:group-hover:-left-5',
+        )}
       >
         <Icon name="arrow" />
       </CarouselPrevious>
       <CarouselNext
         variant="icon"
-        className="-right-3 z-50 w-4 translate-x-1/2 p-1"
+        className={cn(
+          'custom-transition -right-5 z-50 w-4 translate-x-1/2 p-1 transition-opacity',
+          'lg:-right-4 xl:opacity-0 xl:group-hover:opacity-100',
+          'xl:w-5 xl:group-hover:-right-5',
+        )}
       >
         <Icon name="arrow" />
       </CarouselNext>
-      <Box className="-translate-1/2 absolute -bottom-6 left-1/2 z-50 flex w-full max-w-full items-center justify-center gap-2">
+      <Box
+        className={cn(
+          'absolute -bottom-10 z-50 flex w-full items-center justify-center gap-2 lg:bottom-0',
+          'custom-transition transition-opacity lg:opacity-0 lg:group-hover:opacity-100',
+        )}
+      >
         {media.map((_, idx) => (
           <ProductPagination key={idx} to={idx} />
         ))}
