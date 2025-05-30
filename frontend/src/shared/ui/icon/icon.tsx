@@ -21,7 +21,7 @@ export const Icon: FC<IIconProps> = ({
     return (
       <span
         className={cn(
-          `font-text inline-flex items-center gap-2.5`,
+          `font-text inline-flex shrink-0 items-center gap-2.5`,
           childClassName,
         )}
       >
@@ -33,7 +33,10 @@ export const Icon: FC<IIconProps> = ({
   return (
     <svg
       {...props}
-      className={cn('stroke-icon inline h-4 w-4 self-center', className)}
+      className={cn(
+        'stroke-icon fh-4/4 fw-4/4 inline shrink-0 self-center',
+        className,
+      )}
     >
       <use href={`./icons/sprite.svg#${name}`} />
     </svg>
