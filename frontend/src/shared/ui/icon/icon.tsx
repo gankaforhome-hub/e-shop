@@ -1,23 +1,41 @@
-import { FC, SVGProps } from 'react';
+import { FC, ReactNode, type SVGProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { IconName, icons } from '@/shared/types';
+import { type IconName } from '@/shared/types';
 
 interface IIconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   className?: string;
+  childClassName?: string;
+  children?: ReactNode;
 }
 
-export const Icon: FC<IIconProps> = ({ name, className = '', ...props }) => {
-  const SvgIcon = icons[name];
-
+export const Icon: FC<IIconProps> = ({
+  name,
+  className = '',
+  childClassName = '',
+  children,
+  ...props
+}) => {
+  if (children) {
+    return (
+      <span
+        className={cn(
+          `font-text inline-flex items-center gap-2.5`,
+          childClassName,
+        )}
+      >
+        {children}
+        <Icon name={name} className={className} {...props} />
+      </span>
+    );
+  }
   return (
-    <SvgIcon
-      className={cn(
-        'stroke-icon h-4 w-4 shrink-0 overflow-visible fill-none',
-        className,
-      )}
+    <svg
       {...props}
-    />
+      className={cn('stroke-icon inline h-4 w-4 self-center', className)}
+    >
+      <use href={`./icons/sprite.svg#${name}`} />
+    </svg>
   );
 };
