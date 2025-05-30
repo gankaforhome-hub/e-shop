@@ -36,7 +36,7 @@ export const Products: FC<IProductsProps> = ({ className }) => {
           <Heading headingLevel="h2" visibility="hidden">
             Ganka for home products
           </Heading>
-          <Carousel className="xl:hidden">
+          <Carousel className="xl:hidden" opts={{ inViewThreshold: 0.01 }}>
             <CarouselContent className="gap-4">
               {products.map(product => (
                 <CarouselItem key={product.id} className="basis-75">

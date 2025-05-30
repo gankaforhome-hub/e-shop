@@ -1,23 +1,18 @@
 import Image from 'next/image';
-import { FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 
-interface IExampleCardProps {
-  classNameName?: string;
-}
-
-export const ExampleCard: FC<IExampleCardProps> = ({ className }) => {
-  const showDesc = true;
-  const description = true;
-  const showButton = true;
-  const sAppLink = cn('custom-transition w-full transition-opacity');
+export const ExampleCard = () => {
+  // const showDesc = true;
+  // const description = true;
+  // const showButton = true;
+  // const sAppLink = cn('custom-transition w-full transition-opacity');
 
   return (
-    <Section className="">
+    <Section>
       <Container>
         {/* <div className="grid grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-4">
           {[1, 2, 3, 4].map(i => (

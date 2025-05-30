@@ -32,7 +32,7 @@ export const Header: FC<IHeaderProps> = () => {
             border="withOutBorder"
             className="flex items-center justify-center gap-2 p-1"
           >
-            <Icon name="cart" />
+            <Icon name="cart" className="fill-none" />
             <span className="text-sm">2</span>
           </Button>
         </Box>

@@ -32,7 +32,7 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
     <Carousel className={cn('', className)} opts={{ loop: true }}>
       <CarouselContent className="touch-pan-y">
         {media.map(({ id, src, alt, poster, type }) => (
-          <CarouselItem key={id}>
+          <CarouselItem key={id} className="h-full w-full">
             <AppLink href={routes.product(slug)}>
               <MediaSlide
                 width={270}
@@ -43,6 +43,7 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
                 alt={alt ?? ''}
                 poster={poster ?? ''}
                 className="h-full w-full"
+                priority
               />
             </AppLink>
           </CarouselItem>

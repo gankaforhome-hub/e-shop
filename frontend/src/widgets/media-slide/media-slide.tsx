@@ -20,6 +20,7 @@ export interface IMediaSlideProps {
   fill?: boolean;
   priority?: boolean;
   overlay?: boolean;
+  loading?: 'eager' | 'lazy';
 }
 
 export const MediaSlide: FC<IMediaSlideProps> = ({

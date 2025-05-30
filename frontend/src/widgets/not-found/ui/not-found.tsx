@@ -67,7 +67,7 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
         <Box className="relative mb-12 flex items-center">
           <Icon name="four" className="w-22 h-34 shrink-0 fill-[#080808]" />
           <Image
-            src="/images/pages/not-found/plate.png"
+            src="/images/pages/not-found/plate.webp"
             alt={t.ImageAlt}
             width={224}
             height={224}

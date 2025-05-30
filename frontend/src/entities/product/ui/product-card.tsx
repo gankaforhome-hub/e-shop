@@ -71,20 +71,21 @@ export const ProductCard: FC<IProductCardProps> = ({
             onClick={onAddFavorite}
             className="absolute right-3 top-3 z-50"
           >
-            <Icon name="favorite" className="size-5" />
+            <Icon name="favorite" className="size-5 fill-none" />
           </Button>
         </Box>
       </Box>
 
       <Box
         className={cn(
-          'relative flex h-full w-full flex-col items-center justify-center transition-all duration-300 max-xl:pt-8',
+          'relative flex flex-1 flex-col items-center justify-center transition-all duration-300 max-xl:pt-8',
           hideDesc
             ? `flex-0 flex h-0 opacity-0 group-hover:flex-1 group-hover:opacity-100`
             : '',
           'xl:px-[10%]',
           hideTitle &&
             'xl:-translate-y-10 xl:flex-col-reverse xl:opacity-100 xl:group-hover:translate-y-0 xl:group-hover:flex-col',
+          'h-full w-full',
         )}
       >
         <Heading

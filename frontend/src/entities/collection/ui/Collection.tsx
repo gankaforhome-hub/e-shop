@@ -5,7 +5,6 @@ import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
-import { Text } from '@/shared/ui/text';
 
 import { Collection } from '../model/types';
 
@@ -36,16 +35,14 @@ export const CollectionCard: FC<ICollectionCardProps> = ({
       >
         {collection.title}
       </Heading>
-      <Text
-        as="span"
-        className="leading-0 group-hover:text-fg-accent custom-transition mx-auto flex items-center justify-center gap-2 text-base transition-colors"
+
+      <Icon
+        name="arrow"
+        className="group-hover:stroke-icon-accent custom-transition h-3 rotate-180"
+        childClassName="leading-0 group-hover:text-fg-accent custom-transition mx-auto text-base transition-colors"
       >
         View Now
-        <Icon
-          name="arrow"
-          className="group-hover:stroke-icon-accent custom-transition h-3 rotate-180"
-        />
-      </Text>
+      </Icon>
     </AppLink>
   );
 };
