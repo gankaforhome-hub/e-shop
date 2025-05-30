@@ -1,5 +1,8 @@
 //INFO List of static paths
-export type ExternalHref = `http${'s' | ''}://${string}`;
+export type ExternalHref =
+  | `http${'s' | ''}://${string}`
+  | `mailto:${string}`
+  | `tel:${string}`;
 
 const staticRoutes = {
   home: '/' as const,

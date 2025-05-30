@@ -19,22 +19,27 @@ interface IAppLinkProps extends ComponentPropsWithoutRef<'a'> {
 
 export const AppLink = forwardRef<HTMLAnchorElement, IAppLinkProps>(
   ({ href, asChild = false, className, children, ...props }, ref) => {
-    const isExternal = /^https?:\/\//.test(href);
+    const isHttp = /^https?:\/\//.test(href);
+    const isMailOrTel = /^(mailto:|tel:)/.test(href);
+    const isExternal = isHttp || isMailOrTel;
 
     const Comp: ElementType = asChild ? Slot : isExternal ? 'a' : Link;
 
-    const formattedHref = isExternal
-      ? href.startsWith('http')
-        ? href
-        : `https://${href}`
-      : href;
+    // Runtime validation
+    if (process.env.NODE_ENV !== 'production') {
+      if (typeof href === 'string' && !href.startsWith('/') && !isExternal) {
+        console.warn(
+          `[AppLink] Incorrect href: "${href}". The way is expected, http(s), mailto: або tel:`,
+        );
+      }
+    }
 
     return (
       <Comp
-        href={formattedHref}
+        href={href}
         ref={ref}
         className={cn('flex shrink-0 p-0', className)}
-        {...(isExternal && {
+        {...(isHttp && {
           target: '_blank',
           rel: 'noopener noreferrer',
         })}
