@@ -13,7 +13,10 @@
     "tinos",
     "nunito",
     "xlink",
-    "embla"
+    "embla",
+    "applepay",
+    "googlepay",
+    "liqpay"
   ],
 
   "eslint.useFlatConfig": true,
