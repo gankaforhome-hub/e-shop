@@ -1,14 +1,30 @@
+export type Media = {
+  id: string;
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  poster?: string;
+};
+
+type Section = {
+  sectionTitle: string;
+};
+
 type Image = {
   url: string;
   alt: string;
 };
 
-type Banner = {
-  type: 'hero';
+type BannerSlide = {
+  id: string;
   title: string;
-  subTitle: string;
-  assets: {
-    attributes: Image;
+  subTitle?: string;
+  slug: string;
+  media: {
+    type: 'image' | 'video';
+    src: string;
+    alt?: string;
+    poster?: string;
   };
 };
 
@@ -40,12 +56,8 @@ type Feature = {
   description: string;
 };
 
-export type Section = {
-  sectionTitle: string;
-};
-
 type HeroSection = {
-  banners: Banner[];
+  banners: BannerSlide[];
 } & Section;
 
 type ProductTypesSection = {
@@ -74,8 +86,30 @@ type RecommendedProductsSection = {
   products: Product[];
 } & Section;
 
+type SubscribeFormField = {
+  name: firstName | emailSubscription;
+  type: 'email' | 'text';
+  label: string;
+  placeholder: string;
+};
+
+type Notifications = {
+  success: {
+    title: string;
+    text: string;
+  };
+  error: string;
+};
+
+type FormSubscribe = {
+  inputs: SubscribeFormField[];
+  buttonText: string;
+  notifications: Notifications;
+};
+
 type NewsletterSection = {
-  image: Image;
+  description: string;
+  form: FormSubscribe;
 } & Section;
 
 type FeaturesSection = {

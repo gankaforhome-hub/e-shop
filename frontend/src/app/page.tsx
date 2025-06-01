@@ -1,3 +1,5 @@
+import { getCurrentYear } from '@/shared/lib/utils';
+import { NewsLetter } from '@/widgets/news-letter';
 import { Collections } from '@/widgets/sections/home/collections';
 import { Exclusive } from '@/widgets/sections/home/exclusive';
 import { Hero } from '@/widgets/sections/home/hero';
@@ -25,9 +27,17 @@ export default function Page() {
       <Exclusive />
       <Collections />
       <Products />
+      <NewsLetter />
+      <p>{getCurrentYear()}</p>
+    </>
+  );
+}
 
-      {/* Draft markup */}
-      {/* <div className="grid grid-cols-1 justify-items-center gap-10">
+{
+  /* Draft markup */
+}
+{
+  /* <div className="grid grid-cols-1 justify-items-center gap-10">
         HEADER
         <header className="grid grid-cols-1 justify-items-center gap-10">
           <div className="container">
@@ -157,7 +167,5 @@ export default function Page() {
             </ul>
           </div>
         </footer>
-      </div> */}
-    </>
-  );
+      </div> */
 }
