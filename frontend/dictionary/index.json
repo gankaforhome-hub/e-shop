@@ -3,27 +3,25 @@
     "sectionTitle": "Ganka for home",
     "banners": [
       {
-        "id": 1,
-        "type": "hero",
+        "id": "1",
         "title": "konyushina",
         "subTitle": "new collection",
-        "assets": {
-          "attributes": {
-            "url": "/images/hero_images.webp",
-            "alt": ""
-          }
+        "slug": "konyushina",
+        "media": {
+          "type": "image",
+          "src": "/images/hero_image.webp",
+          "alt": "Весняна колекція"
         }
       },
       {
-        "id": 2,
-        "type": "hero",
-        "title": "easter",
-        "subTitle": "new collection",
-        "assets": {
-          "attributes": {
-            "url": "/images/hero_images.webp",
-            "alt": ""
-          }
+        "id": "2",
+        "title": "Winter",
+        "subTitle": "popular collection",
+        "slug": "winter",
+        "media": {
+          "type": "image",
+          "src": "/images/product.webp",
+          "alt": "Зимова колекція"
         }
       }
     ]
@@ -139,7 +137,7 @@
     ]
   },
   "newCollectionSection": {
-    "hiddenSectionTitle": "Popular collections",
+    "sectionTitle": "Popular collections",
     "collections": [
       {
         "id": 1,
@@ -167,7 +165,7 @@
     "image": { "url": "/images", "alt": "" }
   },
   "recommendedCollectionSection": {
-    "hiddenSectionTitle": "Popular collections",
+    "sectionTitle": "Popular collections",
     "collections": [
       {
         "id": 3,
@@ -190,7 +188,7 @@
     ]
   },
   "recommendedProductsSection": {
-    "hiddenSectionTitle": "Popular Products",
+    "sectionTitle": "Popular Products",
     "products": [
       {
         "id": 5,
@@ -263,8 +261,32 @@
     ]
   },
   "newsLetterSection": {
-    "sectionTitle": "LATEST FROM GANKA",
-    "image": { "url": "/images", "alt": "" }
+    "sectionTitle": "latest from ganka",
+    "description": "Sign up for the newsletter to stay up to date with collection updates and major new products",
+    "form": {
+      "inputs": [
+        {
+          "name": "firstName",
+          "label": "First name",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "name": "emailSubscription",
+          "label": "Email",
+          "placeholder": "",
+          "type": "email"
+        }
+      ],
+      "buttonText": "subscribe",
+      "notifications": {
+        "success": {
+          "title": "You have successfully signed up 🖤",
+          "text": "Expect to be on our novelties"
+        },
+        "error": "An error occurred while sending a request"
+      }
+    }
   },
   "featuresSection": {
     "sectionTitle": "Features ganka for home",
