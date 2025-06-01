@@ -40,3 +40,19 @@
     ),
     url('/images/pages/home/collection-bg.webp');
 }
+
+@utility disable {
+  pointer-events: none;
+  cursor: default;
+  box-shadow: none;
+  background-color: transparent;
+  outline: none;
+  &:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  &:focus {
+    background-color: transparent;
+    outline: none;
+  }
+}
