@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import { FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { LogoIcon } from '@/shared/types/icon';
+import { IconName } from '@/shared/types';
+import { AppLink } from '@/shared/ui/app-link';
 import { Icon } from '@/shared/ui/icon';
 
 interface ILogoProps {
   className?: string;
-  variant?: LogoIcon;
+  variant?: Extract<IconName, 'logoFull' | 'logoMin'>;
   aria?: string;
 }
 
@@ -17,12 +17,15 @@ export const Logo: FC<ILogoProps> = ({
   aria = '',
 }) => {
   return (
-    <Link
+    <AppLink
       href="/"
-      className={cn('inline-flex h-5 items-center justify-center', className)}
+      className={cn('group items-center justify-center', className)}
       aria-label={aria}
     >
-      <Icon name={variant} className="h-full w-full" />
-    </Link>
+      <Icon
+        name={variant}
+        className="text-fg fh-5/7 custom-transition w-full transition-transform group-hover:scale-105"
+      />
+    </AppLink>
   );
 };
