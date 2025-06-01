@@ -24,7 +24,7 @@ export const Exclusive: FC<IExclusiveProps> = ({ className }) => {
           <Box className="max-sm:h-100 sm:hidden" />
           <MediaSlide
             type="image"
-            src={'/images/pages/home/exclusive.webp'}
+            src={'/images/pages/home/exclusive-bg.webp'}
             alt={'exclusive'}
             poster={''}
             className="max-sm:h-100 left-0 top-0 max-sm:absolute md:rounded-2xl"
