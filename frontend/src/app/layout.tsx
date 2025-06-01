@@ -22,7 +22,7 @@ const tinos = Tinos({
 
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
-  weight: ['400', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   subsets: ['latin', 'cyrillic'],
 });
 
