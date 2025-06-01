@@ -29,7 +29,7 @@ export const AppLink = forwardRef<HTMLAnchorElement, IAppLinkProps>(
     if (process.env.NODE_ENV !== 'production') {
       if (typeof href === 'string' && !href.startsWith('/') && !isExternal) {
         console.warn(
-          `[AppLink] Incorrect href: "${href}". The way is expected, http(s), mailto: або tel:`,
+          `[AppLink] Incorrect href: "${href}". The way is expected, http(s), mailto: or tel:`,
         );
       }
     }
@@ -38,7 +38,7 @@ export const AppLink = forwardRef<HTMLAnchorElement, IAppLinkProps>(
       <Comp
         href={href}
         ref={ref}
-        className={cn('flex shrink-0 p-0', className)}
+        className={cn('flex shrink-0', className)}
         {...(isHttp && {
           target: '_blank',
           rel: 'noopener noreferrer',
