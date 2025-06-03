@@ -34,7 +34,7 @@ export const Icon: FC<IIconProps> = ({
     <svg
       {...props}
       className={cn(
-        'stroke-icon fh-4/4 fw-4/4 inline shrink-0 self-center',
+        'stroke-icon fh-full fw-full inline shrink-0 fill-none',
         className,
       )}
     >

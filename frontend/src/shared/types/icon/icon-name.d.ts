@@ -24,6 +24,7 @@ export type IconName =
   | 'language'
   | 'plus'
   | 'spinner'
+  | 'email'
   | 'facebook'
   | 'instagram'
   | 'location'
