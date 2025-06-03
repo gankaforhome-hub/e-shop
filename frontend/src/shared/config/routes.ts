@@ -13,7 +13,7 @@ const staticRoutes = {
   contacts: '/contacts' as const,
   checkouts: '/checkouts' as const,
   privacy_policy: '/privacy-policy' as const,
-  legal_terms: '/legal-terms' as const,
+  terms_conditions: '/terms-conditions' as const,
   cookie_policy: '/cookie-policy' as const,
 };
 
@@ -42,3 +42,5 @@ export const routes = {
   ...staticRoutes,
   ...dynamicRoutes,
 };
+
+export type RouteValue = (typeof staticRoutes)[keyof typeof staticRoutes];
