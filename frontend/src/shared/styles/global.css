@@ -122,4 +122,26 @@
     -webkit-text-fill-color: inherit !important;
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f0f1f3;
+    border-radius: 8px;
+    margin-block: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    transform: scale(1.1);
+  }
+}
+
+@layer components {
 }
