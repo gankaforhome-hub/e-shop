@@ -9,7 +9,7 @@ const staticRoutes = {
   about: '/about-us' as const,
   exclusive: '/exclusive' as const,
   collections: '/collections' as const,
-  categories: '/categories' as const,
+  products: '/products' as const,
   contacts: '/contacts' as const,
   checkouts: '/checkouts' as const,
   privacy_policy: '/privacy-policy' as const,

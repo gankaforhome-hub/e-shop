@@ -4,27 +4,28 @@ import { cn } from '@/shared/lib/utils';
 
 interface IBurgerIconProps {
   isOpen: boolean;
+  className?: string;
 }
 
-export const BurgerIcon: FC<IBurgerIconProps> = ({ isOpen }) => {
+export const BurgerIcon: FC<IBurgerIconProps> = ({ isOpen, className }) => {
   return (
-    <div className="group relative flex h-6 w-6 items-center justify-center">
+    <div className={cn('relative flex items-center justify-center', className)}>
       <span
         className={cn(
-          'bg-icon group-hover:bg-icon-accent custom-transition absolute h-0.5 w-5 transition-all',
-          isOpen ? 'translate-y-0 rotate-45' : '-translate-y-2',
+          'custom-transition bg-icon group-hover:bg-icon-accent absolute h-0.5 transition-all',
+          isOpen ? 'w-4/5 translate-y-0 rotate-45' : '-translate-y-1.25 w-full',
         )}
       />
       <span
         className={cn(
-          'bg-icon group-hover:bg-icon-accent custom-transition absolute h-0.5 w-5 transition-all',
-          isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100',
+          'custom-transition bg-icon group-hover:bg-icon-accent absolute h-0.5 transition-all',
+          isOpen ? 'scale-0 opacity-0' : 'w-full scale-100 opacity-100',
         )}
       />
       <span
         className={cn(
-          'bg-icon group-hover:bg-icon-accent custom-transition absolute h-0.5 w-5 transition-all',
-          isOpen ? 'translate-y-0 -rotate-45' : 'translate-y-2',
+          'custom-transition bg-icon group-hover:bg-icon-accent absolute h-0.5 transition-all',
+          isOpen ? 'w-4/5 translate-y-0 -rotate-45' : 'translate-y-1.25 w-full',
         )}
       />
     </div>

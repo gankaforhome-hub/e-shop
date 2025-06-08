@@ -18,7 +18,7 @@ interface IBannerSliderProps {
 export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
   return (
     <Carousel
-      className={cn('absolute inset-0 left-0 top-0 h-full w-full', className)}
+      className={cn('absolute inset-0 z-10 h-full w-full', className)}
       isAutoplay
       isFade
       opts={{
@@ -29,7 +29,7 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
         duration: 100,
       }}
     >
-      <CarouselContent className="h-100vw z-20 w-full">
+      <CarouselContent className="h-100vh w-full">
         {bannerSlides.map(
           ({
             media: { src, alt, poster, type },
@@ -55,7 +55,7 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
         )}
       </CarouselContent>
 
-      <Box className="-translate-1/2 absolute bottom-12 left-1/2 z-50 flex items-center justify-center gap-2">
+      <Box className="-translate-1/2 absolute bottom-12 left-1/2 z-30 flex items-center justify-center gap-2">
         {bannerSlides.map((_, idx) => (
           <BannerPagination key={idx} to={idx} />
         ))}

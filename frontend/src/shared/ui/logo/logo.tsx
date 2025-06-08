@@ -24,7 +24,7 @@ export const Logo: FC<ILogoProps> = ({
     >
       <Icon
         name={variant}
-        className="text-fg fh-5/7 custom-transition w-full transition-transform group-hover:scale-105"
+        className="text-fg custom-transition fw-40/56 fh-5/6 group-hover:text-icon-accent transition-color"
       />
     </AppLink>
   );

@@ -40,7 +40,7 @@ export const Features: FC<IFeaturesProps> = () => {
                   as="span"
                   className="bg-bg-accent flex size-11 items-center justify-center rounded-full"
                 >
-                  <Icon name={icon} className="fh-5/6 w-auto" />
+                  <Icon name={icon} className="h-6 w-6" />
                 </Text>
                 <Box className="flex-1">
                   <Heading

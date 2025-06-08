@@ -26,7 +26,14 @@ export const Icon: FC<IIconProps> = ({
         )}
       >
         {children}
-        <Icon name={name} className={className} {...props} />
+        <Icon
+          name={name}
+          className={cn(
+            'transition-color custom-transition group-hover:stroke-current',
+            className,
+          )}
+          {...props}
+        />
       </span>
     );
   }
@@ -34,7 +41,7 @@ export const Icon: FC<IIconProps> = ({
     <svg
       {...props}
       className={cn(
-        'stroke-icon fh-full fw-full inline shrink-0 fill-none',
+        'transition-color custom-transition fh-full fw-full inline shrink-0 fill-none stroke-current group-hover:stroke-current',
         className,
       )}
     >

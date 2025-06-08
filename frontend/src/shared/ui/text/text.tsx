@@ -12,15 +12,16 @@ export const textVariants = cva(
         secondary: 'text-fg-secondary text-lg tracking-wider',
         accent: 'text-fg-accent',
         danger: 'text-red-600',
+        inherit: 'text-inherit',
       },
-      size: {
-        xs: 'text-xs',
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-lg',
-        xl: 'text-xl',
-        '2xl': 'text-2xl',
-      },
+      // size: {
+      //   xs: 'text-xs',
+      //   sm: 'text-sm',
+      //   md: 'text-base',
+      //   lg: 'text-lg',
+      //   xl: 'text-xl',
+      //   '2xl': 'text-2xl',
+      // },
       // weight: {
       //   normal: "font-normal",
       //   medium: "font-medium",
@@ -37,7 +38,7 @@ export const textVariants = cva(
 
     defaultVariants: {
       variant: 'default',
-      size: 'md',
+      // size: 'md',
       // weight: "normal",
       // align: "left",
     },
@@ -57,14 +58,14 @@ interface ITextProps
 export const Text: FC<ITextProps> = ({
   className,
   variant,
-  size,
+  // size,
   as = 'p',
   ...props
 }) => {
   const Component = as;
   return (
     <Component
-      className={cn(textVariants({ variant, size, className }))}
+      className={cn(textVariants({ variant, className }))}
       {...props}
     />
   );

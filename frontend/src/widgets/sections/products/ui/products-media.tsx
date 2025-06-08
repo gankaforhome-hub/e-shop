@@ -58,7 +58,7 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
           'xl:w-5 xl:group-hover:-left-5',
         )}
       >
-        <Icon name="arrow" />
+        <Icon name="arrow" className="fill-fg h-6 w-6" />
       </CarouselPrevious>
       <CarouselNext
         variant="icon"
@@ -68,7 +68,7 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
           'xl:w-5 xl:group-hover:-right-5',
         )}
       >
-        <Icon name="arrow" />
+        <Icon name="arrow" className="fill-fg h-6 w-6" />
       </CarouselNext>
       <Box
         className={cn(

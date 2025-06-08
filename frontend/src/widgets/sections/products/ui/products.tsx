@@ -31,7 +31,7 @@ export const Products: FC<IProductsProps> = ({ className }) => {
   };
   return (
     <>
-      <Section className={cn('', className)}>
+      <Section className={cn('fpt-5/10 fpb-8/10', className)}>
         <Container>
           <Heading headingLevel="h2" visibility="hidden">
             Ganka for home products
@@ -91,7 +91,7 @@ export const Products: FC<IProductsProps> = ({ className }) => {
             border="border"
             className="max-sm:w-full sm:mx-auto sm:flex sm:max-w-40"
           >
-            <AppLink href={routes.categories}>Go to Catalog</AppLink>
+            <AppLink href={routes.products}>Go to Catalog</AppLink>
           </Button>
         </Container>
       </Section>

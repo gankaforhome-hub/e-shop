@@ -11,11 +11,11 @@ export const Hero = () => {
   return (
     <Section>
       <Container className="relative overflow-hidden">
-        <Box className="block h-[calc(90vh-var(--h-mob-header))] md:hidden" />
+        <Box className="block h-[calc(100vh-var(--h-mob-header))] md:hidden" />
         <Heading headingLevel="h1" className="visually-hidden">
           Ganka for home
         </Heading>
-        <BannerSlider className="z-10 w-screen md:static md:w-full" />
+        <BannerSlider className="w-screen md:static md:w-full" />
       </Container>
     </Section>
   );
