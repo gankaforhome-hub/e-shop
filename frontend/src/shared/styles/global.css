@@ -144,4 +144,20 @@
 }
 
 @layer components {
+  .link {
+    @apply relative no-underline before:content-[""];
+  }
+
+  .link::before {
+    @apply custom-transition bg-bg-accent absolute bottom-[-3px] left-0 block h-0.5 w-full scale-x-0 transition-transform;
+  }
+
+  a:hover .link::before,
+  a:active .link:before,
+  a:focus-visible .link::before,
+  .link:hover::before,
+  .link:active:before,
+  .link:focus-visible::before {
+    @apply scale-x-100;
+  }
 }

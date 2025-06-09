@@ -40,7 +40,7 @@ export const UnderFooter: FC<IUnderFooterProps> = ({ data }) => {
           </Box>
           <ul className="fgap-6/10 flex max-xl:-order-1 max-xl:justify-center max-xl:py-7 max-sm:flex-wrap xl:flex-1 xl:justify-end">
             {services.map(({ title, href }) => (
-              <li key={href} className="">
+              <li key={href} className="link link-gradient">
                 <AppLink
                   href={href}
                   className="ftext-4/4.5 leading-0 tracking-wide"

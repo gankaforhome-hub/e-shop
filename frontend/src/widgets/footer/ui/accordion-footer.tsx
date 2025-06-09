@@ -21,7 +21,7 @@ export const AccordionFooter: FC<IAccordionFooterProps> = ({
 }) => {
   return (
     <AccordionItem value={item} className={className}>
-      <AccordionTrigger className="font-text text-xl font-medium uppercase tracking-wide">
+      <AccordionTrigger className="font-text data-[state=open]:text-fg-accent custom-transition text-xl font-medium uppercase tracking-wide transition-colors">
         {heading}
       </AccordionTrigger>
       <AccordionContent>{content}</AccordionContent>

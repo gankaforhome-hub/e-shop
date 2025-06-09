@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Icon } from '@/shared/ui/icon';
+import { Text } from '@/shared/ui/text';
 
 import { SectionConfig } from '../model/types';
 
@@ -23,26 +24,32 @@ export const FooterSection: FC<IFooterSectionProps> = props => {
         {type === 'contacts' &&
           items.map(item => (
             <li key={item.href} className={cn(classNameLi)}>
-              <Icon name={item.icon} className="-order-1 size-4">
-                <AppLink href={item.href}>{item.text}</AppLink>
-              </Icon>
+              <AppLink href={item.href} className="items-center gap-2">
+                <Icon name={item.icon} className="size-4" />
+                <Text as="span" className="link">
+                  {item.text}
+                </Text>
+              </AppLink>
             </li>
           ))}
         {/* nav & customerService */}
         {(type === 'nav' || type === 'customerService') &&
           items.map(item => (
             <li key={item.href} className={cn(classNameLi)}>
-              <AppLink href={item.href}>{item.title}</AppLink>
+              <AppLink href={item.href} className="link">
+                {item.title}
+              </AppLink>
             </li>
           ))}
         {/* social */}
         {type === 'social' &&
           items.map(item => (
             <li key={item.href} className={cn(classNameLi)}>
-              <AppLink href={item.href} className="flex items-center">
-                <Icon name={item.icon} className="-order-1 h-4 w-4">
+              <AppLink href={item.href} className="items-center gap-2">
+                <Icon name={item.icon} className="size-4" />
+                <Text as="span" className="link">
                   {item.title}
-                </Icon>
+                </Text>
               </AppLink>
             </li>
           ))}
