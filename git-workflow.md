@@ -1,5 +1,5 @@
-
 # Git Flow
+
 ```mermaid
 %%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true,'showCommitLabel': true}} }%%
 gitGraph
@@ -49,4 +49,3 @@ gitGraph
     checkout stable
     commit id:"chore:stable production"
 ```
-

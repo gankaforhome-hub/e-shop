@@ -31,7 +31,8 @@ export const separatorVariants = cva('', {
 });
 
 interface ISeparatorProps
-  extends HTMLAttributes<HTMLDivElement>,
+  extends
+    HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof separatorVariants> {
   className?: string;
   orientation?: 'horizontal' | 'vertical';

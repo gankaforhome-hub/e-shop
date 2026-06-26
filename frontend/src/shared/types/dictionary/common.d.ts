@@ -1,53 +1,124 @@
-import type { CommonIcon, LogoIcon, SocialIcon } from './';
+import { RouteValue } from '@/shared/config/routes';
+import { IconName, IconT } from '@/shared/types';
 
-type SocialLink = {
-  icon: SocialIcon;
-  title: string;
+export type Logo = {
+  icon: Extract<IconName, 'logoFull' | 'logoMin'>;
   href: string;
   ariaLabel: string;
 };
 
-type Logo = {
-  icon: LogoIcon;
-  ariaLLabel: string;
-  href: string;
-};
-
-type UserAction = {
-  icon: CommonIcon | MedialIcon;
-  title: string;
+export type Contact = {
+  icon: Extract<IconName, 'phone' | 'email'>;
+  href: RouteValue;
+  text: string;
   ariaLabel: string;
 };
 
-type TopBar = {
-  socialLink: SocialLink[];
-  logo: Logo;
-  userActions: {
-    contactUs: UserAction;
-    language: UserAction;
-    favorite: UserAction;
-    basket: UserAction;
-  };
-};
-
-type NavMenuItem = {
+export type NavItem = {
   id: string;
   title: string;
-  href: string;
+  href: Extract<
+    RouteValue,
+    '/collections' | '/products' | '/about-us' | '/exclusive'
+  >;
   ariaLabel: string;
 };
 
-type HeaderData = {
+export type SocialLink = {
+  icon: Extract<IconName, 'telegram' | 'facebook' | 'instagram' | 'location'>;
+  title: string;
+  href: RouteValue;
+  ariaLabel: string;
+};
+
+export type PaymentIcon = {
+  icon: Extract<
+    IconName,
+    'mastercard' | 'visa' | 'paypal' | 'applepay' | 'googlepay' | 'liqpay'
+  >;
+  ariaLabel: string;
+};
+
+//Header types
+type Submenu = {
+  subTittle: string;
+  subDescription: string;
+  subNav: IconT[];
+};
+
+type NavIconItem = IconT & {
+  submenu?: Submenu;
+};
+
+type NavIcon = {
+  contactUs: NavIconItem;
+  language: NavIconItem;
+  favorite: NavIconItem;
+};
+
+export type TopBar = {
+  socialLink: SocialLink[];
+  logo: Logo;
+  navIcon: NavIcon;
+  basket: IconT;
+};
+
+export type Header = {
   topBar: TopBar;
-  navMenu: NavMenuItem[];
+  navMenu: NavItem[];
 };
 
-type CommonDictionary = {
-  header: HeaderData;
-  footer: string;
+//Footer types
+export type UnderFooterServiceT = {
+  id: number;
+  title: string;
+  href: Extract<
+    RouteValue,
+    '/terms-conditions' | '/privacy-policy' | '/cookie-policy'
+  >;
+  ariaLabel: string;
 };
 
+export type UnderFooterT = {
+  copyright: {
+    icon: Extract<IconName, 'copyright'>;
+    yearStart: string;
+    TM: string;
+  };
+  logo: Logo;
+  services: UnderFooterServiceT[];
+};
+
+export type FooterT = {
+  contacts: {
+    title: string;
+    description: string;
+    navContacts: Contact[];
+  };
+  nav: {
+    title: string;
+    navMenu: NavItem[];
+  };
+  social: {
+    title: string;
+    socialLink: SocialLink[];
+  };
+  customerService: {
+    title: string;
+    navCustomerService: NavItem[];
+  };
+  payments: {
+    title: string;
+    paymentIcons: PaymentIcon[];
+  };
+  underFooter: UnderFooter;
+};
+
+export type CommonPage = {
+  header: Header;
+  footer: FooterT;
+};
 declare module '@/dictionary/common.json' {
-  const value: CommonDictionary;
+  const value: CommonPage;
   export default value;
 }

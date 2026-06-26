@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,7 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,
@@ -19,20 +19,23 @@
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "../node_modules/@types"],
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
-      "@/dictionary/*": ["dictionary/*"],
-      "@/*": ["src/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/widgets/*": ["src/widgets/*"],
-      "@/features/*": ["src/features/*"],
-      "@/entities/*": ["src/entities/*"],
-      "@/shared/*": ["src/shared/*"]
+      // "@/*": ["./*"],
+      "src": ["./src"],
+      "src/*": ["./src/*"],
+      "@/*": ["./src/*"],
+      "@/dictionary/*": ["./dictionary/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/widgets/*": ["./src/widgets/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/entities/*": ["./src/entities/*"],
+      "@/shared/*": ["./src/shared/*"]
     }
   },
   "include": [
@@ -40,7 +43,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/*.json"
+    "**/*.json",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules", "../node_modules"]
 }

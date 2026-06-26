@@ -63,9 +63,9 @@
   }
 }
 
-@utility scrollbar-hide::-webkit-scrollbar {
+/* @utility scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 @utility scrollbar-hide {
   scrollbar-width: none;
-}
+} */

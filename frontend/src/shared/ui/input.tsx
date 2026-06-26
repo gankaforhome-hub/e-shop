@@ -24,7 +24,8 @@ export const inputVariants = cva(
 );
 
 export interface IInputProps
-  extends InputHTMLAttributes<HTMLInputElement>,
+  extends
+    InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
   className?: string;
 }

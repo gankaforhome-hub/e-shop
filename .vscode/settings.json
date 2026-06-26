@@ -73,5 +73,8 @@
   },
   "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[tailwindcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+  "[tailwindcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

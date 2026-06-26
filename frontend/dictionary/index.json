@@ -24,7 +24,29 @@
           "alt": "Зимова колекція"
         }
       }
-    ]
+    ],
+    "videoPlayerControls": {
+      "play": {
+        "icon": "play",
+        "title": "",
+        "ariaLabel": "play video"
+      },
+      "pause": {
+        "icon": "pause",
+        "title": "",
+        "ariaLabel": "stop video"
+      },
+      "mute": {
+        "icon": "mute",
+        "title": "",
+        "ariaLabel": "turn off video sound"
+      },
+      "sound": {
+        "icon": "sound",
+        "title": "",
+        "ariaLabel": "turn on video sound"
+      }
+    }
   },
   "productTypesSection": {
     "sectionTitle": "Products:",

@@ -63,6 +63,10 @@ const eslintConfig = [
       ],
     },
     rules: {
+      // 'no-console': 'warn',
+      // eqeqeq: 'warn',
+      // curly: 'warn',
+      // 'no-else-return': 'warn',
       // "tailwindcss/classnames-order": [
       //   "error",
       //   {
@@ -180,6 +184,14 @@ const eslintConfig = [
       '**/yarn-error.log*',
     ],
   }),
+  {
+    rules: {
+      'no-console': 'warn',
+      eqeqeq: 'warn',
+      // curly: 'warn',
+      'no-else-return': 'warn',
+    },
+  },
 ];
 
 export default eslintConfig;

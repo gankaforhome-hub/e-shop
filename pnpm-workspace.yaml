@@ -2,3 +2,7 @@ packages:
   - 'frontend'
   - 'backend'
   - 'cms'
+allowBuilds:
+  '@tailwindcss/oxide': set this to true or false
+  sharp: false
+  unrs-resolver: false

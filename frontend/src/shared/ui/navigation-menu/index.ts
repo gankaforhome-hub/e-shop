@@ -1,1 +1,1 @@
-export { NavigationMenu, type NavLink } from './navigation-menu';
+export { NavigationMenu } from './navigation-menu';

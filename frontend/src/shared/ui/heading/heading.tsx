@@ -26,7 +26,8 @@ export const headingVariants = cva('', {
 });
 
 interface IHeadingProps
-  extends HTMLAttributes<HTMLHeadingElement>,
+  extends
+    HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
   headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }

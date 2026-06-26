@@ -1,9 +1,10 @@
-export type Media = {
-  id: string;
-  type: 'image' | 'video';
-  src: string;
-  alt?: string;
-  poster?: string;
+import { IconName, IconT, Media } from '@/shared/types';
+
+type VideoPlayerControls = {
+  play: IconT;
+  pause: IconT;
+  mute: IconT;
+  sound: IconT;
 };
 
 type Section = {
@@ -20,12 +21,7 @@ type BannerSlide = {
   title: string;
   subTitle?: string;
   slug: string;
-  media: {
-    type: 'image' | 'video';
-    src: string;
-    alt?: string;
-    poster?: string;
-  };
+  media: Media;
 };
 
 type ProductType = {
@@ -51,13 +47,14 @@ type Collection = {
 };
 
 type Feature = {
-  icon: string;
+  icon: IconName;
   title: string;
   description: string;
 };
 
 type HeroSection = {
   banners: BannerSlide[];
+  videoPlayerControls: VideoPlayerControls;
 } & Section;
 
 type ProductTypesSection = {

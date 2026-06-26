@@ -49,8 +49,7 @@ export const textVariants = cva(
 );
 
 interface ITextProps
-  extends HTMLAttributes<HTMLElement>,
-    VariantProps<typeof textVariants> {
+  extends HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
   className?: string;
   as?: 'p' | 'span';
 }

@@ -1,13 +1,16 @@
+import type { NextConfig } from 'next';
 import path from 'path';
 
-import type { NextConfig } from 'next';
-
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
   productionBrowserSourceMaps: false,
   experimental: { serverSourceMaps: false },
   allowedDevOrigins: ['http://localhost:3000', 'http://172.19.16.1:3000'],
+
   turbopack: {
+    // resolveAlias: {
+    //   '@/*': './src/*',
+    // },
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'],
@@ -17,14 +20,15 @@ const nextConfig: NextConfig = {
   },
 
   webpack(config) {
-    // If Turbopack is not used, we use Webpack for SVG
+    // Якщо Turbopack не використовується, налаштовуємо Webpack
     if (!process.env.NEXT_PRIVATE_TURBO) {
+      // 2. Робимо аліас ідентичним за логікою
       config.resolve.alias['@'] = path.resolve(__dirname, 'src');
 
-      // Add the Lader to process SVG
+      // Додаємо лоадер для SVG
       config.module.rules.push({
         test: /\.svg$/,
-        use: ['@svgr/webpack'], // Use @svgr to process SVG
+        use: ['@svgr/webpack'],
       });
     }
 
