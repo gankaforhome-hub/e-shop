@@ -6,12 +6,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --breakpoint-3xl: 108rem;
+  --breakpoint-3xl: 120rem;
 
   /* fonts */
-  --font-heading: var(--font-tinos);
-  --font-text: var(--font-nunito-sans);
-  --font-button: var(--font-nunito-sans);
+  --font-heading: var(--font-lora);
+  --font-text: var(--font-inter);
+  --font-button: var(--font-inter);
 
   /* colors */
   --color-bg: var(--background);
@@ -53,39 +53,42 @@
 :root {
   --h-mob-header: 5.125rem;
 
-  --accent: #81d8d0;
+  --accent: oklch(49.6% 0.216 22.9);
 
-  --background: #ffffff;
-  --background-muted: #f7f7f7;
-  --background-secondary: #f7f7f7;
-  --background-accent: #81d8d0;
+  --color-header: oklch(0 0 0);
+  --color-text: oklch(3.2% 0 0);
 
-  --foreground: #080808;
-  --foreground-secondary: #ffffff;
-  --foreground-accent: #81d8d0;
+  --background-primary: oklch(100% 0 0);
+  --background-secondary: oklch(97.2% 0.004 264.5);
 
-  --border: #080808;
-  --border-muted: #e7e7e7;
-  --border-accent: #81d8d0;
-
+  --border: oklch(49.6% 0.216 22.9);
+  --border-btn-bg-hover: oklch(37.5% 0.176 25.5);
+  -btn-bg-focus: oklch(34.5% 0.154 25.2);
+  --border-input: oklch(46.2% 0.038 262.3);
+  /* --border-muted: #e7e7e7;
+  --border-accent: #81d8d0; */
   --overlay: #ffffff03;
 
-  --icon: #080808;
-  --icon-secondary: #ffffff;
-  --icon-accent: #81d8d0;
+  --icon: oklch(0.032 0 0);
+  --icon-secondary: oklch(49.6% 0.216 22.9);
+  --icon-disabled: oklch(0 0 0 / 0.2);
+  --icon-hover: oklch(27.3% 0.119 24.5);
 
   --card-background: #f7f7f703;
   --card-background-secondary: #ffffff;
 
-  --btn-bg-primary: #ffffff;
-  --btn-bg-ghost: #f7f7f710;
-  --btn-bg-secondary: #080808;
-  --btn-bg-accent: #81d8d0;
+  --btn-bg-primary: oklch(49.6% 0.216 22.9);
+  --btn-bg-primary-disable: oklch(94.1% 0.022 12.8);
+  --btn-bg-primary-hover: oklch(37.5% 0.176 25.5);
+  --btn-bg-primary-focus: oklch(34.5% 0.154 25.2);
+  --btn-bg-outline: oklch(100% 0 0);
+  --btn-bg-outline-disable: oklch(97.4% 0.014 12.6);
+  --btn-bg-disabled: oklch(0 0 0 / 0.2);
 
-  --btn-fg-primary: #080808;
-  --btn-fg-ghost: #080808;
-  --btn-fg-secondary: #ffffff;
-  --btn-fg-accent: #81d8d0;
+  --btn-fg-primary: oklch(100% 0 0);
+  --btn-fg-primary-disable: oklch(0 0 0 / 0.2);
+  --btn-fg-secondary: oklch(3.2% 0 0);
+  --btn-fg-secondary-disable: oklch(0 0 0 / 0.2);
 
   --destructive: #990000;
   --input: #ffffff70;

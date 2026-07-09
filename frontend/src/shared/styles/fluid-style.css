@@ -45,8 +45,11 @@
   --fluid-text-min: 0;
   --fluid-text-max: 0;
 
-  --fluid-max-viewport: 432; /**max value container 108rem (108rem*16)/4*/
-  --fluid-min-viewport: 80; /**min value container 108rem (108rem*16)/4*/
+  --fluid-leading-min: 0;
+  --fluid-leading-max: 0;
+
+  --fluid-max-viewport: 480; /**max value container 108rem (108rem*16)/4*/
+  --fluid-min-viewport: 80; /**min value container 20rem (20rem*16)/4*/
 
   --ratio: calc(
     (100vw - calc(var(--fluid-min-viewport) * var(--spacing))) /
@@ -343,5 +346,19 @@
         (var(--fluid-text-max) - var(--fluid-text-min)) * var(--ratio)
     ),
     calc(var(--fluid-text-max) * var(--spacing))
+  );
+}
+
+@utility fleading-* {
+  --fluid-leading-min: calc(--value(number));
+  --fluid-leading-max: calc(--modifier(number));
+
+  line-height: clamp(
+    calc(var(--fluid-leading-min) * var(--spacing)),
+    calc(
+      calc(var(--fluid-leading-min) * var(--spacing)) +
+        (var(--fluid-leading-max) - var(--fluid-leading-min)) * var(--ratio)
+    ),
+    calc(var(--fluid-leading-max) * var(--spacing))
   );
 }
