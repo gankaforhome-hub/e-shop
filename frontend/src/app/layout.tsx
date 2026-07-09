@@ -1,28 +1,19 @@
 import '@/shared/styles/global.css';
 import type { Metadata } from 'next';
-import { Nunito_Sans, Tinos } from 'next/font/google';
+import { Inter, Lora } from 'next/font/google';
 
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header';
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-const tinos = Tinos({
-  variable: '--font-tinos',
-  weight: ['400', '700'],
+const inter = Inter({
+  variable: '--font-inter',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
 });
 
-const nunitoSans = Nunito_Sans({
-  variable: '--font-nunito-sans',
-  weight: ['400', '500', '600', '700', '800', '900'],
+const lora = Lora({
+  variable: '--font-lora',
+  weight: ['400'],
   subsets: ['latin', 'cyrillic'],
 });
 
@@ -49,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${tinos.variable} ${nunitoSans.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
+        className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
         <Header />
         <main>{children}</main>

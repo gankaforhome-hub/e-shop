@@ -10,12 +10,7 @@ interface IContainerProps {
 
 export const Container: FC<IContainerProps> = ({ className, children }) => {
   return (
-    <div
-      className={cn(
-        '@container/main container mx-auto my-0 w-full px-4',
-        className,
-      )}
-    >
+    <div className={cn('fpx-4/20 container mx-auto my-0 w-full', className)}>
       {children}
     </div>
   );

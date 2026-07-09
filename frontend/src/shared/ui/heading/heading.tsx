@@ -3,22 +3,22 @@ import { FC, HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
-export const headingVariants = cva('', {
+export const headingVariants = cva('font-text font-normal tracking-normal', {
   variants: {
     variant: {
-      default: 'font-heading text-3xl font-bold tracking-wide',
-      section: 'font-text text-2xl font-bold tracking-wide',
-      card: 'font-text text-xl font-medium tracking-wide',
+      pageHeader: 'ftext-6/12 fleading-8/14',
+      section: 'ftext-6/12 fleading-8/14',
+      productItem: 'ftext-6/8 fleading-8/9',
+      productCard: 'ftext-4/5 fleading-6/7',
     },
     tone: {
-      primary: 'text-fg',
-      secondary: 'text-fg-secondary',
+      primary: 'text-header',
     },
-    visibility: { hidden: 'visually-hidden', visible: 'block' },
+    visibility: { hidden: 'sr-only', visible: 'block' },
   },
 
   defaultVariants: {
-    variant: 'section',
+    variant: 'pageHeader',
     tone: 'primary',
     visibility: 'visible',
   },

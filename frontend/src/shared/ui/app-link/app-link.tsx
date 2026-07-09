@@ -1,54 +1,47 @@
-import { Slot } from '@radix-ui/react-slot';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import {
-  ComponentPropsWithoutRef,
-  ElementType,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
   forwardRef,
-  ReactNode,
 } from 'react';
 
 import { AppRoutes, ExternalHref } from '@/shared/config';
 import { cn } from '@/shared/lib/utils';
 
-interface IAppLinkProps extends ComponentPropsWithoutRef<'a'> {
-  href: AppRoutes | ExternalHref;
-  asChild?: boolean;
-  className?: string;
-  children: ReactNode;
-}
+type AppLinkProps = Omit<ComponentPropsWithoutRef<'a'>, 'href'> &
+  Omit<LinkProps, 'href'> & {
+    href: AppRoutes | ExternalHref;
+    children: ReactNode;
+  };
 
-export const AppLink = forwardRef<HTMLAnchorElement, IAppLinkProps>(
-  ({ href, asChild = false, className, children, ...props }, ref) => {
-    const isHttp = /^https?:\/\//.test(href);
-    const isMailOrTel = /^(mailto:|tel:)/.test(href);
-    const isExternal = isHttp || isMailOrTel;
+export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>(
+  ({ href, className, children, ...props }, ref) => {
+    const classNames = cn('group inline-flex shrink-0', className);
 
-    const Comp: ElementType = asChild ? Slot : isExternal ? 'a' : Link;
+    const isExternalLink = /^(https?:\/\/|mailto:|tel:)/.test(href);
+    const shouldOpenNewTab = /^https?:\/\//.test(href);
 
-    // Runtime validation
-    if (process.env.NODE_ENV !== 'production') {
-      if (typeof href === 'string' && !href.startsWith('/') && !isExternal) {
-        console.warn(
-          `[AppLink] Incorrect href: "${href}". The way is expected, http(s), mailto: or tel:`,
-        );
-      }
-    }
-
-    return (
-      <>
-        <Comp
-          href={href}
+    if (isExternalLink) {
+      return (
+        <a
           ref={ref}
-          className={cn('group inline-flex shrink-0', className)}
-          {...(isHttp && {
+          href={href}
+          className={classNames}
+          {...(shouldOpenNewTab && {
             target: '_blank',
             rel: 'noopener noreferrer',
           })}
           {...props}
         >
           {children}
-        </Comp>
-      </>
+        </a>
+      );
+    }
+
+    return (
+      <Link ref={ref} href={href} className={classNames} {...props}>
+        {children}
+      </Link>
     );
   },
 );

@@ -5,32 +5,27 @@ import { ButtonHTMLAttributes, FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 export const buttonVariants = cva(
-  'font-button custom-transition disabled:disable m-0 inline-flex shrink-0 items-center justify-center whitespace-nowrap p-0 text-lg font-normal tracking-wide outline-none transition disabled:opacity-65',
+  'font-button custom-transition disabled:disable ftext-4/5 fleading-6/7 m-0 inline-flex w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl border-0 p-4 font-normal tracking-wide outline-none transition hover:shadow-lg focus:shadow-lg disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
-        default: 'text-btn-fg-primary bg-btn-bg-primary hover:shadow-lg',
-        secondary: 'text-btn-fg-secondary bg-btn-bg-secondary hover:shadow-lg',
-        outline: 'text-btn-fg-primary bg-transparent hover:shadow-lg',
-        ghost: 'text-btn-fg-ghost bg-btn-bg-ghost group hover:shadow-lg',
+        default:
+          'text-btn-fg-primary bg-btn-bg-primary disabled:bg-btn-bg-primary-disabled disabled:text-btn-fg-primary-disabled hover:bg-btn-bg-primary-hover focus:bg-btn-bg-primary-hover',
+        outline:
+          'border-border text-btn-fg-secondary bg-btn-bg-outline disabled:bg-btn-outline-disabled disabled:text-btn-fg-secondary-disabled hover:border-border-btn-bg-hover focus:border-border-btn-bg-hover border-2 border-solid',
+        //TODO add styles for link
         icon: 'group shrink-0 border-0',
-        link: '',
+        link: 'text-btn-fg-primary bg-btn-bg-primary disabled:bg-btn-bg-primary-disabled disabled:text-btn-fg-primary-disabled hover:bg-btn-bg-primary-focus focus:bg-btn-bg-primary-focus',
       },
       size: {
-        default: 'px-5 py-3',
         sm: 'px-5 py-4',
-        lg: 'px-14 py-5',
-        xl: 'px-21 py-5',
+        lg: 'max-w-75',
+        xl: 'max-w-130',
         spaced: 'justify-between px-5 py-4',
         icon: 'p-1',
-        link: '',
-        // sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
-        // lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        // xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
       },
       border: {
         border: 'border-border border border-solid',
-        withOutBorder: 'border-0',
       },
       btnType: {
         button: '',
@@ -38,8 +33,7 @@ export const buttonVariants = cva(
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
-      border: 'border',
+      size: 'lg',
       btnType: 'button',
     },
     compoundVariants: [
