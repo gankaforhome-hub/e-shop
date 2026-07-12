@@ -8,7 +8,7 @@ export const collections: CollectionSlide[] = [
     media: {
       id: '1',
       type: 'image',
-      src: '/images/collections/collection1.webp',
+      src: '/images/collections/easter_2025.webp',
       alt: 'Gifts from Ganka',
     },
   },
@@ -19,7 +19,7 @@ export const collections: CollectionSlide[] = [
     media: {
       id: '2',
       type: 'image',
-      src: '/images/collections/collection2.webp',
+      src: '/images/collections/ptahy.webp',
       alt: 'Adam & Eva',
     },
   },

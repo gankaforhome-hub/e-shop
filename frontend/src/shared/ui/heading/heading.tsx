@@ -8,7 +8,7 @@ export const headingVariants = cva('font-text font-normal tracking-normal', {
     variant: {
       pageHeader: 'ftext-6/12 fleading-8/14',
       section: 'ftext-6/12 fleading-8/14',
-      productItem: 'ftext-6/8 fleading-8/9',
+      cardItem: 'ftext-6/8 fleading-8/9',
       productCard: 'ftext-4/5 fleading-6/7',
     },
     tone: {

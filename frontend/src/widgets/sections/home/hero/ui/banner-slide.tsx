@@ -57,18 +57,11 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
         <Text variant="secondary">{subTitle}</Text>
         <Heading
           headingLevel="h2"
-          tone="secondary"
           className="text-center text-5xl font-bold tracking-widest"
         >
           {title}
         </Heading>
-        <Button
-          asChild
-          variant="default"
-          size="default"
-          border="withOutBorder"
-          className="mt-4 capitalize"
-        >
+        <Button asChild variant="default" className="mt-4 capitalize">
           <AppLink href={routes.collection(slug)}>View Collection</AppLink>
         </Button>
       </Box>

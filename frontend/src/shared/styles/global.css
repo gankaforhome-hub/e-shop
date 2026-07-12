@@ -64,7 +64,7 @@
   --border: oklch(49.6% 0.216 22.9);
   --border-btn-bg-hover: oklch(37.5% 0.176 25.5);
   -btn-bg-focus: oklch(34.5% 0.154 25.2);
-  --border-input: oklch(46.2% 0.038 262.3);
+  --border-input: oklch(46.2 0.038 262.3);
   /* --border-muted: #e7e7e7;
   --border-accent: #81d8d0; */
   --overlay: #ffffff03;
@@ -131,7 +131,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #f0f1f3;
+    background: var(--accent);
     border-radius: 8px;
     margin-block: 4px;
   }
@@ -152,7 +152,7 @@
   }
 
   .link::before {
-    @apply custom-transition bg-bg-accent absolute bottom-[-3px] left-0 block h-0.5 w-full scale-x-0 transition-transform;
+    @apply custom-transition bg-bg-accent absolute bottom-[-0.75] left-0 block h-0.5 w-full scale-x-0 transition-transform;
   }
 
   a:hover .link::before,

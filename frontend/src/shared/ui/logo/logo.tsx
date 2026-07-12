@@ -7,12 +7,12 @@ import { Icon } from '@/shared/ui/icon';
 
 interface ILogoProps {
   className?: string;
-  variant?: Extract<IconName, 'logoFull' | 'logoMin'>;
+  variant?: Extract<IconName, 'logo'>;
   aria?: string;
 }
 
 export const Logo: FC<ILogoProps> = ({
-  variant = 'logoFull',
+  variant = 'logo',
   className,
   aria = '',
 }) => {
@@ -24,7 +24,7 @@ export const Logo: FC<ILogoProps> = ({
     >
       <Icon
         name={variant}
-        className="text-fg custom-transition fw-40/56 fh-5/6 group-hover:text-icon-accent transition-color"
+        className="custom-transition fw-10/16 fh-10/16 group-hover:text-icon-accent transition-color"
       />
     </AppLink>
   );

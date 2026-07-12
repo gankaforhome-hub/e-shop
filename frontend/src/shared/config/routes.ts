@@ -6,22 +6,27 @@ export type ExternalHref =
 
 const staticRoutes = {
   home: '/' as const,
-  about: '/about-us' as const,
-  exclusive: '/exclusive' as const,
   collections: '/collections' as const,
   products: '/products' as const,
+  about: '/about-us' as const,
+  exclusive: '/exclusive' as const,
+  releases: '/releases' as const,
   contacts: '/contacts' as const,
-  checkouts: '/checkouts' as const,
+  faq: '/faq' as const,
+  delivery: '/delivery' as const,
+  returns: '/returns' as const,
+  payments: '/payments' as const,
   privacy_policy: '/privacy-policy' as const,
   terms_conditions: '/terms-conditions' as const,
   cookie_policy: '/cookie-policy' as const,
+  checkouts: '/checkouts' as const,
 };
 
 //INFO Functions for dynamic routes
 const dynamicRoutes = {
-  product: (id: string) => `/product/${id}` as const,
-  category: (slug: string) => `/categories/${slug}` as const,
-  collection: (slug: string) => `/collections/${slug}` as const,
+  product: (productSlug: string) => `/product/${productSlug}` as const,
+  collection: (collectionSlug: string) =>
+    `/collections/${collectionSlug}` as const,
 };
 
 //INFO Getting types from static routes
@@ -32,7 +37,6 @@ export type StaticRoutes = ValueOf<typeof staticRoutes>;
 
 export type DynamicRoutes =
   | ReturnType<typeof dynamicRoutes.product>
-  | ReturnType<typeof dynamicRoutes.category>
   | ReturnType<typeof dynamicRoutes.collection>;
 
 //INFO General type

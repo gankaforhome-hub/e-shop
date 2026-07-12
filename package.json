@@ -16,6 +16,7 @@
     "preinstall": "npx only-allow pnpm",
     "test": "echo \"Error: no test specified\" && exit 1",
     "fdev": "pnpm --filter frontend run dev",
+    "fstart": "pnpm --filter frontend run start",
     "fbuild": "pnpm --filter frontend run build",
     "flint": "pnpm --filter frontend lint",
     "blint": "pnpm --filter cms lint",

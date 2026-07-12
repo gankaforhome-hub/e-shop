@@ -30,7 +30,7 @@ export const CollectionCard: FC<ICollectionCardProps> = ({
       {children}
       <Heading
         headingLevel="h3"
-        variant="card"
+        variant="cardItem"
         className="mt-8 text-center transition-opacity group-hover:opacity-70"
       >
         {collection.title}

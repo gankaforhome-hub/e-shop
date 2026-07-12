@@ -2,8 +2,7 @@
 
 export type IconName =
   | 'four'
-  | 'logoFull'
-  | 'logoMin'
+  | 'logo'
   | 'mute'
   | 'pause'
   | 'play'

@@ -4,7 +4,7 @@ import { FC, HTMLAttributes } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 export const textVariants = cva(
-  'font-text text-base font-normal tracking-tight',
+  'font-text text-base font-normal tracking-normal',
   {
     variants: {
       variant: {

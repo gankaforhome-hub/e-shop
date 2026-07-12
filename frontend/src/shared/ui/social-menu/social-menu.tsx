@@ -29,7 +29,7 @@ export const SocialMenu: FC<ISocialMenuProps> = ({
           <AppLink
             href={social.href}
             className="flex items-center"
-            onClick={closeMenu}
+            onClick={() => closeMenu?.()}
           >
             <Icon
               name={social.icon}

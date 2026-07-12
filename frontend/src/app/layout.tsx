@@ -1,9 +1,7 @@
 import '@/shared/styles/global.css';
 import type { Metadata } from 'next';
 import { Inter, Lora } from 'next/font/google';
-
-import { Footer } from '@/widgets/footer';
-import { Header } from '@/widgets/header';
+import { Footer } from 'src/widgets/footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -42,7 +40,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
-        <Header />
+        {/* <Header /> */}
         <main>{children}</main>
         <Footer />
         <div id="modal-root" />

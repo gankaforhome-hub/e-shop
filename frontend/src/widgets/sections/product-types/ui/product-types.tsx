@@ -35,7 +35,7 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
                 className="card-set-item flex flex-col items-center justify-center gap-2"
               >
                 <AppLink
-                  href={routes.category(slug)}
+                  href={routes.products}
                   className="max-h:40 max-w:40 bg-bg-secondary custom-transition flex shrink-0 overflow-hidden rounded-full p-6 transition hover:shadow-2xl"
                 >
                   <Image
@@ -46,7 +46,7 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
                     className="object-cover"
                   />
                 </AppLink>
-                <Heading headingLevel="h3" variant="card">
+                <Heading headingLevel="h3" variant="cardItem">
                   {title}
                 </Heading>
               </li>

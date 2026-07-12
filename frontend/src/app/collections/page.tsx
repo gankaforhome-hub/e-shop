@@ -1,9 +1,16 @@
-import { BlankPage } from '@/widgets/blank-page';
+import {
+  CollectionsSection,
+  CollectionsSectionSkeleton,
+} from 'src/widgets/sections/collections';
+
+import { Suspense } from 'react';
 
 export default function CollectionsPage() {
   return (
     <>
-      <BlankPage />
+      <Suspense fallback={<CollectionsSectionSkeleton />}>
+        <CollectionsSection />
+      </Suspense>
     </>
   );
 }

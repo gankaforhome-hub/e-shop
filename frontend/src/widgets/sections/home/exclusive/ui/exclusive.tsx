@@ -45,7 +45,7 @@ export const Exclusive: FC<IExclusiveProps> = ({ className }) => {
               Ganka exclusive provide the opportunity to create your customized
               plate. This tradition reaches back.
             </Text>
-            <Button asChild variant="secondary" className="rounded-2xl">
+            <Button asChild className="rounded-2xl">
               <AppLink href={routes.exclusive}>Discover more</AppLink>
             </Button>
           </Box>

@@ -39,7 +39,7 @@ export const NavigationMenu: FC<INavigationMenuProps> = ({
             <AppLink
               href={href}
               aria-label={ariaLabel}
-              onClick={closeMenu}
+              onClick={() => closeMenu?.()}
               className={cn('w-full items-center justify-between text-base', {
                 'max-lg:text-fg-accent max-lg:border-border-accent':
                   pathname === href,

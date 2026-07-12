@@ -1,84 +1,59 @@
 import { FC } from 'react';
 
-import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
-import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
-import { Icon } from '@/shared/ui/icon';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
-
-import { contactLinks } from '../config/not-found.data';
+import Image from 'next/image';
+import { Button } from 'src/shared/ui/button';
 
 interface INotFoundWidgetProps {
   className?: string;
 }
 
 const t = {
-  ImageAlt: 'clay plate',
-  PageNotFound: 'page not found',
-  Description:
-    'We cannot find the page you were looking for. Please check the URL or navigate to another page. We apologize for inconvenience.',
-  CanWeHelp: 'Can we help you?',
+  ImageAlt: 'snail with error number 404',
+  TextError: 'Error 404',
+  PageHeader: 'Page not found',
+  Description: "The page you were looking for doesn't exist or has been moved.",
+  ButtonText: 'Back home',
+  ButtonAriaLabel: ' Go back to the home page',
 };
 
 export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
   return (
-    <Section className="fpt-18/38 fpb-13/25">
-      <Container className="flex flex-col items-center justify-center">
-        <Box
-          className={cn(
-            'fw-80/100 fmb-22/30 relative flex items-center justify-between',
-            "before:fh-50/63 before:fw-50/63 before:absolute before:left-1/2 before:z-0 before:-translate-x-8 before:overflow-hidden before:rounded-full before:bg-[url('/images/pages/not-found/plate.webp')] before:bg-cover before:bg-center before:content-['']",
-            'before:-translate-x-1/2',
-          )}
-        >
-          <Icon name="four" className="fh-30/38 fw-20/25 fill-icon shrink-0" />
-          <Icon
-            name="four"
-            className="fh-30/38 fw-20/25 fill-icon z-10 shrink-0"
-          />
-        </Box>
-        <Box className="border-b-1 fpb-13/16 fmb-10/13">
+    <Section className="fpy-6/30">
+      <Container className="max-xl:fgap-8/16 flex flex-col items-center justify-center lg:flex-row-reverse lg:justify-between">
+        <Image
+          src="/images/not-found.webp"
+          alt={t.ImageAlt}
+          width={820}
+          height={620}
+          priority
+          sizes="(max-width: 1024px) 100vw, 66vw"
+          className="h-auto w-full max-w-5xl"
+        />
+        <Box className="text-header max-w-lg">
+          <Text className="ftext-3/4 fleading-8/9 fmb-2/4 uppercase tracking-wider">
+            {t.TextError}
+          </Text>
           <Heading
             headingLevel="h1"
-            className="fmb-6/7.5 ftext-6/8 text-center uppercase"
+            className="ftext-6/8 fleading-8/9 fmb-2/4 tracking-tight"
           >
-            {t.PageNotFound}
+            {t.PageHeader}
           </Heading>
-          <Text className="max-w-181 font-text ftext-4/4.5 text-center leading-[1.5]">
+          <Text className="ftext-4/6 fleading-6/8 fmb-8/16">
             {t.Description}
           </Text>
+          <Button asChild variant="link">
+            <AppLink href="/" aria-label={t.ButtonAriaLabel}>
+              {t.ButtonText}
+            </AppLink>
+          </Button>
         </Box>
-        <Text className="ftext-4/5 fmb-9/11 text-center">{t.CanWeHelp}</Text>
-        <Box className="flex flex-col items-center justify-center">
-          <ul
-            className={cn(
-              'fgap-2/5 max-[22.5rem]:grid-cols-1 grid grid-cols-2',
-            )}
-          >
-            {contactLinks.map(({ href, label, icon }) => (
-              <li key={href} className="group">
-                <Button size={'link'} variant="link" asChild>
-                  <AppLink
-                    href={href}
-                    className="fpy-4/5 fw-40/63 fill-none px-1 capitalize"
-                  >
-                    <Icon
-                      name={icon}
-                      className="group-hover:stroke-fg-accent -order-1 h-6 w-6"
-                    >
-                      {label}
-                    </Icon>
-                  </AppLink>
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </Box>
-        {/* //TODO add button move to collection */}
       </Container>
     </Section>
   );

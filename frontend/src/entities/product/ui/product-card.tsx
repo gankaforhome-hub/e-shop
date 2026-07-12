@@ -49,7 +49,7 @@ export const ProductCard: FC<IProductCardProps> = ({
         className={cn(
           'relative z-10 flex flex-col items-center justify-center p-10 transition-transform duration-500 max-lg:flex-1 xl:p-0',
           'bg-bg-secondary lg:flex-0',
-          hideDesc ? `-translate-y-10 group-hover:-translate-y-0` : '',
+          hideDesc ? `-translate-y-10 group-hover:translate-y-0` : '',
           'xl:group-hover:scale-80',
           hideTitle && '-translate-y-5 group-hover:translate-y-0',
         )}
@@ -90,7 +90,7 @@ export const ProductCard: FC<IProductCardProps> = ({
       >
         <Heading
           headingLevel="h3"
-          variant="card"
+          variant="cardItem"
           className={cn(
             'custom-transition relative text-start transition-opacity',
             hideTitle &&
@@ -116,7 +116,6 @@ export const ProductCard: FC<IProductCardProps> = ({
 
         <Button
           onClick={onAddToBag}
-          variant="secondary"
           className={cn(
             'relative mt-auto flex w-full items-center justify-between',
           )}
