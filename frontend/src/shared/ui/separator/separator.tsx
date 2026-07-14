@@ -6,12 +6,13 @@ import { cn } from '@/shared/lib/utils';
 export const separatorVariants = cva('', {
   variants: {
     variant: {
-      default: 'bg-border',
-      accent: 'bg-border-accent',
+      default: 'bg-bg-primary',
       muted: 'bg-border-muted',
+      accent: 'bg-border-accent',
+      accentMuted: 'bg-border-accent/40',
     },
     size: {
-      xs: 'h-0.25',
+      xs: 'h-px',
       sm: 'h-0.5',
       md: 'h-1',
       lg: 'h-2',

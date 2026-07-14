@@ -8,12 +8,14 @@ interface IIconProps extends SVGProps<SVGSVGElement> {
   className?: string;
   childClassName?: string;
   children?: ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
 export const Icon: FC<IIconProps> = ({
   name,
   className = '',
   childClassName = '',
+  iconPosition = 'right',
   children,
   ...props
 }) => {
@@ -21,7 +23,8 @@ export const Icon: FC<IIconProps> = ({
     return (
       <span
         className={cn(
-          `font-text inline-flex shrink-0 items-center gap-2.5`,
+          `font-text text-fg-primary inline-flex min-w-0 items-center gap-4 break-all`,
+          iconPosition === 'right' ? 'flex-row' : 'flex-row-reverse',
           childClassName,
         )}
       >
@@ -29,7 +32,7 @@ export const Icon: FC<IIconProps> = ({
         <Icon
           name={name}
           className={cn(
-            'transition-color custom-transition group-hover:stroke-current',
+            'transition-color custom-transition group-hover:stroke-icon-primary',
             className,
           )}
           {...props}
@@ -41,7 +44,7 @@ export const Icon: FC<IIconProps> = ({
     <svg
       {...props}
       className={cn(
-        'transition-color custom-transition fh-full fw-full inline shrink-0 fill-none stroke-current group-hover:stroke-current',
+        'transition-color custom-transition stroke-text inline h-full w-full shrink-0 fill-none stroke-current',
         className,
       )}
     >

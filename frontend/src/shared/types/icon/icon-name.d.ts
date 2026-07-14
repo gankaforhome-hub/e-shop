@@ -3,6 +3,7 @@
 export type IconName =
   | 'four'
   | 'logo'
+  | 'logoFooter'
   | 'mute'
   | 'pause'
   | 'play'

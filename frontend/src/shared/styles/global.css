@@ -9,45 +9,30 @@
   --breakpoint-3xl: 120rem;
 
   /* fonts */
+  --font-logo: var(--font-lora);
   --font-heading: var(--font-lora);
   --font-text: var(--font-inter);
   --font-button: var(--font-inter);
 
-  /* colors */
-  --color-bg: var(--background);
-  --color-bg-muted: var(--background-muted);
-  --color-bg-secondary: var(--background-secondary);
-  --color-bg-accent: var(--background-accent);
+  /*background colors */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
 
   --color-overlay: var(--overlay);
 
-  --color-fg: var(--foreground);
-  --color-fg-secondary: var(--foreground-secondary);
-  --color-fg-accent: var(--foreground-accent);
+  /*text colors*/
+  --color-fg-logo: var(--fg-logo);
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-accent: var(--fg-accent);
 
-  --color-border: var(--border);
+  /*icon colors*/
+  --color-icon-primary: var(--icon-primary);
+
+  /*border-color*/
+  --color-border-primary: var(--border-primary);
   --color-border-muted: var(--border-muted);
   --color-border-accent: var(--border-accent);
-
-  --color-icon: var(--icon);
-  --color-icon-secondary: var(--icon-secondary);
-  --color-icon-accent: var(--icon-accent);
-
-  --color-card-bg: var(--card-background);
-  --color-card-bg-secondary: var(#ffffff);
-
-  --color-btn-bg-primary: var(--btn-bg-primary);
-  --color-btn-bg-secondary: var(--btn-bg-secondary);
-  --color-btn-bg-ghost: var(--btn-bg-ghost);
-  --color-btn-bg-accent: var(--btn-bg-accent);
-
-  --color-btn-fg-primary: var(--btn-fg-primary);
-  --color-btn-fg-secondary: var(--btn-fg-secondary);
-  --color-btn-fg-ghost: var(--btn-fg-ghost);
-  --color-btn-fg-accent: var(--btn-fg-accent);
-
-  --color-destructive: var(--destructive);
-  --color-input: var(--input);
 }
 
 :root {
@@ -55,21 +40,36 @@
 
   --accent: oklch(49.6% 0.216 22.9);
 
+  /*background colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f5f7;
+
+  /* text colors*/
+  --fg-logo: #231f20;
+  --fg-primary: #080808;
+  --fg-secondary: #ffffff;
+  --fg-accent: #b11226;
+
+  /* 
   --color-header: oklch(0 0 0);
   --color-text: oklch(3.2% 0 0);
 
-  --background-primary: oklch(100% 0 0);
-  --background-secondary: oklch(97.2% 0.004 264.5);
+  */
 
+  --border-primary: #000000;
+  --border-muted: #e7e7e7;
+  --border-accent: #b11226;
+
+  /*  
   --border: oklch(49.6% 0.216 22.9);
   --border-btn-bg-hover: oklch(37.5% 0.176 25.5);
-  -btn-bg-focus: oklch(34.5% 0.154 25.2);
+  --btn-bg-focus: oklch(34.5% 0.154 25.2);
   --border-input: oklch(46.2 0.038 262.3);
-  /* --border-muted: #e7e7e7;
-  --border-accent: #81d8d0; */
   --overlay: #ffffff03;
-
-  --icon: oklch(0.032 0 0);
+  
+*/
+  --icon-primary: #000000
+    /*
   --icon-secondary: oklch(49.6% 0.216 22.9);
   --icon-disabled: oklch(0 0 0 / 0.2);
   --icon-hover: oklch(27.3% 0.119 24.5);
@@ -91,7 +91,7 @@
   --btn-fg-secondary-disable: oklch(0 0 0 / 0.2);
 
   --destructive: #990000;
-  --input: #ffffff70;
+  --input: #ffffff70; */;
 }
 
 /* .dark { 
@@ -99,7 +99,7 @@
 
 @layer base {
   body {
-    @apply bg-bg text-fg;
+    @apply bg-bg-primary text-fg-primary;
   }
 
   img {
@@ -152,7 +152,7 @@
   }
 
   .link::before {
-    @apply custom-transition bg-bg-accent absolute bottom-[-0.75] left-0 block h-0.5 w-full scale-x-0 transition-transform;
+    @apply custom-transition bg-fg-accent absolute bottom-[-0.75] left-0 block h-0.5 w-full scale-x-0 transition-transform;
   }
 
   a:hover .link::before,

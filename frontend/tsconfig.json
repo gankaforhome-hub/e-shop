@@ -19,7 +19,7 @@
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "../node_modules/@types"],
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    // "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
@@ -28,8 +28,6 @@
     "paths": {
       // "@/*": ["./*"],
       "src": ["./src"],
-      "src/*": ["./src/*"],
-      "@/*": ["./src/*"],
       "@/dictionary/*": ["./dictionary/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/widgets/*": ["./src/widgets/*"],

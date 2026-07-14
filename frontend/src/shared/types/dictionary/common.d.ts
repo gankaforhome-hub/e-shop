@@ -26,9 +26,8 @@ export type NavItem = {
 
 export type SocialLink = {
   icon: Extract<IconName, 'telegram' | 'facebook' | 'instagram' | 'location'>;
-  title: string;
-  href: RouteValue;
-  ariaLabel: string;
+  label: string;
+  href: ExternalHref;
 };
 
 export type PaymentIcon = {
