@@ -6,7 +6,7 @@
 }
 
 @utility visually-hidden {
-  @apply absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0;
+  @apply absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0;
 }
 @utility card-set-* {
   --card-item: calc(--value(integer));
