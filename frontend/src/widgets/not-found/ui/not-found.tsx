@@ -2,12 +2,12 @@ import { FC } from 'react';
 
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
+import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
 import Image from 'next/image';
-import { Button } from 'src/shared/ui/button';
 
 interface INotFoundWidgetProps {
   className?: string;

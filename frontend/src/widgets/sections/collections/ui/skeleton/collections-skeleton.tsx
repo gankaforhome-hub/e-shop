@@ -1,6 +1,6 @@
-import { CollectionCardSkeleton } from 'src/entities/collection';
-import { Container } from 'src/shared/ui/container';
-import { Section } from 'src/shared/ui/section';
+import { CollectionCardSkeleton } from '@/entities/collection';
+import { Container } from '@/shared/ui/container';
+import { Section } from '@/shared/ui/section';
 
 export const CollectionsSectionSkeleton = () => (
   <Section className="fpt-4/6 fpb-10/30">

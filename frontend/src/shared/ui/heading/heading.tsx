@@ -9,18 +9,20 @@ export const headingVariants = cva('font-text font-normal tracking-normal', {
       pageHeader: 'ftext-6/12 fleading-8/14',
       section: 'ftext-6/12 fleading-8/14',
       cardItem: 'ftext-6/8 fleading-8/9',
-      productCard: 'ftext-4/5 fleading-6/7',
+      productCard: 'ftext-4 fleading-7',
+      footer:
+        'font-heading text-fg-accent text-xl uppercase tracking-wider lg:text-2xl',
     },
     tone: {
       primary: 'text-header',
+      accent: 'text-fg-accent',
     },
-    visibility: { hidden: 'sr-only', visible: 'block' },
+    visibility: { hidden: 'sr-only' },
   },
 
   defaultVariants: {
     variant: 'pageHeader',
     tone: 'primary',
-    visibility: 'visible',
   },
   compoundVariants: [],
 });

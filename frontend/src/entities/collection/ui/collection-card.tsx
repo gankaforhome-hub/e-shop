@@ -5,8 +5,8 @@ import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
 
+import { Box } from '@/shared/ui/box';
 import Image from 'next/image';
-import { Box } from 'src/shared/ui/box';
 import { Collection } from '../model/types';
 
 interface ICollectionCardProps {

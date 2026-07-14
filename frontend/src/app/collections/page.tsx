@@ -1,16 +1,11 @@
-import {
-  CollectionsSection,
-  CollectionsSectionSkeleton,
-} from 'src/widgets/sections/collections';
-
-import { Suspense } from 'react';
+import { CollectionsSection } from '@/widgets/sections/collections';
 
 export default function CollectionsPage() {
   return (
     <>
-      <Suspense fallback={<CollectionsSectionSkeleton />}>
-        <CollectionsSection />
-      </Suspense>
+      {/* <Suspense fallback={<CollectionsSectionSkeleton />}> */}
+      <CollectionsSection />
+      {/* </Suspense> */}
     </>
   );
 }
