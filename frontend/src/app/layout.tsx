@@ -1,20 +1,8 @@
+import { inter, lora } from '@/shared/config';
 import '@/shared/styles/global.css';
 import { Footer } from '@/widgets/layout/footer';
 
 import type { Metadata } from 'next';
-import { Inter, Lora } from 'next/font/google';
-
-const inter = Inter({
-  variable: '--font-inter',
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin', 'cyrillic'],
-});
-
-const lora = Lora({
-  variable: '--font-lora',
-  weight: ['400'],
-  subsets: ['latin', 'cyrillic'],
-});
 
 // export const viewport: Viewport = {
 //   width: 'device-width',
