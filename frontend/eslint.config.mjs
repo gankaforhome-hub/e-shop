@@ -64,9 +64,9 @@ const eslintConfig = [
     },
     rules: {
       // 'no-console': 'warn',
-      // eqeqeq: 'warn',
-      // curly: 'warn',
-      // 'no-else-return': 'warn',
+      eqeqeq: 'error',
+      curly: ['error', 'all'],
+      'no-else-return': 'warn',
       // "tailwindcss/classnames-order": [
       //   "error",
       //   {
@@ -82,7 +82,8 @@ const eslintConfig = [
       //     ],
       //   },
       // ],
-      // "prettier/prettier": ["error"],
+      // 'prettier/prettier': ['error'],
+
       'import/order': [
         'error',
         {
@@ -93,6 +94,8 @@ const eslintConfig = [
             'parent',
             'sibling',
             'index',
+            'object',
+            'type',
           ],
           'newlines-between': 'always',
           alphabetize: {
@@ -101,21 +104,42 @@ const eslintConfig = [
           },
           pathGroups: [
             {
+              pattern: 'next',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: 'react',
+              group: 'external',
+              position: 'before',
+            },
+            {
               pattern: '@/**',
               group: 'internal',
               position: 'after',
             },
+            {
+              pattern: '**/*.css',
+              group: 'index',
+              position: 'after',
+            },
+            {
+              pattern: '**/*.scss',
+              group: 'index',
+              position: 'after',
+            },
           ],
+          pathGroupsExcludedImportTypes: ['builtin', 'external'],
         },
       ],
 
-      // '@typescript-eslint/consistent-type-imports': [
-      //   'error',
-      //   {
-      //     prefer: 'type-imports',
-      //     fixStyle: 'inline-type-imports',
-      //   },
-      // ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+        },
+      ],
       'import/newline-after-import': ['error', { count: 1 }],
       'import/no-duplicates': 'error',
       'boundaries/element-types': [

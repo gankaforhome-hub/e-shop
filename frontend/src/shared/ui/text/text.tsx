@@ -4,24 +4,26 @@ import { FC, HTMLAttributes } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 export const textVariants = cva(
-  'font-text text-base font-normal tracking-normal',
+  'text-balance text-base font-normal tracking-normal',
   {
     variants: {
       variant: {
-        default: 'text-fg',
+        default: 'text-fg-primary',
         secondary: 'text-fg-secondary text-lg tracking-wider',
         accent: 'text-fg-accent',
         danger: 'text-red-600',
         inherit: 'text-inherit',
       },
-      // size: {
-      //   xs: 'text-xs',
-      //   sm: 'text-sm',
-      //   md: 'text-base',
-      //   lg: 'text-lg',
-      //   xl: 'text-xl',
-      //   '2xl': 'text-2xl',
-      // },
+      size: {
+        main: 'ftext-4/6 fleading-5/8',
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+        xl: 'text-xl',
+        '2xl': 'text-2xl',
+      },
+      position: { center: 'mx-auto max-w-[95%] text-center' },
+      font: { primary: 'font-text', secondary: 'font-heading' },
       // weight: {
       //   normal: "font-normal",
       //   medium: "font-medium",
@@ -38,7 +40,8 @@ export const textVariants = cva(
 
     defaultVariants: {
       variant: 'default',
-      // size: 'md',
+      size: 'main',
+      font: 'primary',
       // weight: "normal",
       // align: "left",
     },
@@ -57,6 +60,9 @@ interface ITextProps
 export const Text: FC<ITextProps> = ({
   className,
   variant,
+  size,
+  position,
+  font,
   // size,
   as = 'p',
   ...props
@@ -64,7 +70,7 @@ export const Text: FC<ITextProps> = ({
   const Component = as;
   return (
     <Component
-      className={cn(textVariants({ variant, className }))}
+      className={cn(textVariants({ variant, font, size, position, className }))}
       {...props}
     />
   );

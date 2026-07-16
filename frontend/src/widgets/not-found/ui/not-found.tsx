@@ -48,7 +48,7 @@ export const NotFoundWidget: FC<INotFoundWidgetProps> = () => {
           <Text className="ftext-4/6 fleading-6/8 fmb-8/16">
             {t.Description}
           </Text>
-          <Button asChild variant="link">
+          <Button asChild>
             <AppLink href="/" aria-label={t.ButtonAriaLabel}>
               {t.ButtonText}
             </AppLink>

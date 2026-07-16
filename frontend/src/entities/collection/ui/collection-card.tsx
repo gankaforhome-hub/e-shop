@@ -31,7 +31,7 @@ export const CollectionCard: FC<ICollectionCardProps> = ({
           src={collection.media.src}
           alt={collection.media.alt || collection.title}
           fill
-          className="object-cover object-center transition-transform duration-300 hover:scale-105"
+          className="object-contain transition-transform duration-300 hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </Box>

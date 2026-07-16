@@ -1,0 +1,328 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './utility-style';
+@import './fluid-style';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+==========================================================================
+E-COMMERCE DESIGN SYSTEM
+
+Architecture:
+
+1. Primitive tokens
+   Raw colors only. No UI meaning.
+
+2. Semantic tokens
+   Describe interface meaning.
+
+3. Commerce tokens
+   Business-specific meanings:
+   products, prices, discounts, checkout.
+
+4. Shadcn bridge
+   Connects the system with shadcn/ui.
+
+==========================================================================
+*/
+
+:root {
+  /*
+==========================================================================
+LAYER 1 — PRIMITIVES
+==========================================================================
+*/
+
+  /* Brand palette */
+
+  --color-brand-primary: #b11226;
+  --color-brand-hover: #8f0e1d;
+  --color-brand-active: #760b17;
+  --color-brand-soft: #fde1e3;
+
+  /* Neutral palette */
+
+  --color-white: #ffffff;
+
+  --color-black: #000000;
+
+  --color-neutral-950: #080808;
+
+  --color-neutral-900: #231f20;
+
+  --color-neutral-700: #555555;
+
+  --color-neutral-500: #9d9d9d;
+
+  --color-neutral-200: #e7e7e7;
+
+  --color-neutral-100: #f4f5f7;
+
+  /* Status colors */
+
+  --color-success: #16803c;
+
+  --color-warning: #b7791f;
+
+  --color-error: #990000;
+
+  --color-info: #2563eb;
+
+  /* Alpha */
+
+  --color-black-20: rgba(0, 0, 0, 0.2);
+
+  --color-black-50: rgba(0, 0, 0, 0.5);
+
+  --color-white-70: rgba(255, 255, 255, 0.7);
+
+  /* Radius */
+
+  --radius-none: 0px;
+
+  --radius-sm: 4px;
+
+  --radius-md: 8px;
+
+  --radius-lg: 16px;
+
+  /*
+==========================================================================
+LAYER 2 — SEMANTIC TOKENS
+==========================================================================
+*/
+
+  /* Surfaces */
+
+  --surface-page: var(--color-white);
+
+  --surface-card: var(--color-white);
+
+  --surface-muted: var(--color-neutral-100);
+
+  --surface-dark: var(--color-neutral-950);
+
+  --surface-overlay: var(--color-black-50);
+
+  /* Text */
+
+  --text-primary: var(--color-neutral-950);
+
+  --text-secondary: var(--color-neutral-700);
+
+  --text-muted: var(--color-neutral-500);
+
+  --text-inverse: var(--color-white);
+
+  --text-brand: var(--color-brand-primary);
+
+  --text-disabled: var(--color-black-20);
+
+  /* Borders */
+
+  --border-default: var(--color-neutral-200);
+
+  --border-strong: var(--color-black);
+
+  --border-brand: var(--color-brand-primary);
+
+  --border-focus: var(--color-brand-primary);
+
+  /* Actions */
+
+  --action-primary: var(--color-brand-primary);
+
+  --action-primary-hover: var(--color-brand-hover);
+
+  --action-primary-active: var(--color-brand-active);
+
+  --action-primary-text: var(--color-white);
+
+  --action-secondary: var(--color-white);
+
+  --action-secondary-hover: var(--color-neutral-100);
+
+  --action-secondary-text: var(--color-neutral-950);
+
+  --action-danger: var(--color-error);
+
+  --action-danger-text: var(--color-white);
+
+  /* Inputs */
+
+  --input-background: var(--color-white);
+
+  --input-border: var(--border-default);
+
+  --input-focus: var(--color-brand-primary);
+
+  /*
+==========================================================================
+LAYER 3 — E-COMMERCE TOKENS
+==========================================================================
+*/
+
+  /* Product */
+
+  --commerce-product-background: var(--surface-card);
+
+  --commerce-product-border: var(--border-default);
+
+  --commerce-product-title: var(--text-primary);
+
+  --commerce-product-description: var(--text-secondary);
+
+  /* Pricing */
+
+  --commerce-price-current: var(--color-neutral-950);
+
+  --commerce-price-old: var(--color-neutral-500);
+
+  --commerce-price-sale: var(--color-brand-primary);
+
+  /* Discount */
+
+  --commerce-discount-background: var(--color-brand-primary);
+
+  --commerce-discount-text: var(--color-white);
+
+  /* Product states */
+
+  --commerce-stock-success: var(--color-success);
+
+  --commerce-stock-warning: var(--color-warning);
+
+  --commerce-stock-out: var(--color-neutral-500);
+
+  /* Cart */
+
+  --commerce-cart-background: var(--surface-muted);
+
+  --commerce-cart-highlight: var(--color-brand-soft);
+
+  /* Checkout */
+
+  --commerce-checkout-accent: var(--color-brand-primary);
+
+  /* Promo */
+
+  --commerce-promo-background: var(--surface-dark);
+
+  --commerce-promo-text: var(--text-inverse);
+
+  /* Reviews */
+
+  --commerce-rating-active: #f59e0b;
+
+  --commerce-rating-empty: var(--color-neutral-200);
+
+  /*
+==========================================================================
+LAYER 4 — COMPONENT TOKENS
+Structural only.
+==========================================================================
+*/
+
+  --button-height-sm: 32px;
+
+  --button-height-md: 40px;
+
+  --button-height-lg: 48px;
+
+  --input-height: 44px;
+
+  --card-radius: var(--radius-md);
+
+  --button-radius: var(--radius-none);
+
+  --badge-radius: var(--radius-none);
+}
+
+/*
+==========================================================================
+SHADCN BRIDGE
+==========================================================================
+*/
+
+@theme inline {
+  --font-logo: var(--font-lora);
+
+  --font-heading: var(--font-lora);
+
+  --font-text: var(--font-inter);
+
+  /* Core */
+
+  --color-background: var(--surface-page);
+
+  --color-foreground: var(--text-primary);
+
+  --color-card: var(--surface-card);
+
+  --color-card-foreground: var(--text-primary);
+
+  --color-popover: var(--surface-card);
+
+  --color-popover-foreground: var(--text-primary);
+
+  --color-primary: var(--action-primary);
+
+  --color-primary-foreground: var(--action-primary-text);
+
+  --color-secondary: var(--surface-muted);
+
+  --color-secondary-foreground: var(--text-primary);
+
+  --color-muted: var(--surface-muted);
+
+  --color-muted-foreground: var(--text-secondary);
+
+  --color-accent: var(--text-brand);
+
+  --color-accent-foreground: var(--text-inverse);
+
+  --color-destructive: var(--action-danger);
+
+  --color-destructive-foreground: var(--color-white);
+
+  --color-border: var(--border-default);
+
+  --color-input: var(--input-background);
+
+  --color-ring: var(--input-focus);
+
+  --radius: var(--radius-md);
+
+  /* Commerce utilities */
+
+  --color-product-background: var(--commerce-product-background);
+
+  --color-price-current: var(--commerce-price-current);
+
+  --color-price-sale: var(--commerce-price-sale);
+
+  --color-discount-background: var(--commerce-discount-background);
+
+  --color-stock-success: var(--commerce-stock-success);
+
+  --color-stock-warning: var(--commerce-stock-warning);
+
+  --color-checkout-accent: var(--commerce-checkout-accent);
+}
+
+.dark {
+  --surface-page: #080808;
+
+  --surface-card: #231f20;
+
+  --surface-muted: #111111;
+
+  --text-primary: #ffffff;
+
+  --text-secondary: #d1d1d1;
+
+  --text-muted: #999999;
+
+  --border-default: #333333;
+}

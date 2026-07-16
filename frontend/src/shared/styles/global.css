@@ -7,6 +7,7 @@
 
 @theme inline {
   --breakpoint-3xl: 120rem;
+  --shadow-card: -8.43px 8.43px 42.13px 0 rgba(8, 8, 8, 0.1);
 
   /* fonts */
   --font-logo: var(--font-lora);
@@ -33,6 +34,26 @@
   --color-border-primary: var(--border-primary);
   --color-border-muted: var(--border-muted);
   --color-border-accent: var(--border-accent);
+
+  /*buttons color*/
+  --color-btn-bg-primary: var(--btn-bg-primary);
+  --color-btn-bg-primary-disable: var(--btn-bg-primary-disable);
+  --color-btn-bg-primary-hover: var(--btn-bg-primary-hover);
+  --color-btn-bg-primary-focus: var(--btn-bg-primary-focus);
+  --color-btn-bg-outline: var(--btn-bg-outline);
+  --color-btn-bg-outline-disable: var(--btn-bg-outline-disable);
+  --color-btn-bg-disabled: var(--btn-bg-disabled);
+
+  --color-btn-fg-primary: var(--btn-fg-primary);
+  --color-btn-fg-primary-disable: var(--btn-fg-primary-disable);
+  --color-btn-fg-secondary: var(--btn-fg-secondary);
+  --color-btn-fg-secondary-disable: var(--btn-fg-secondary-disable);
+
+  --color-btn-dot-active-primary: var(--btn-dot-active-primary);
+  --color-btn-dot-inactive-primary: var(--btn-dot-inactive-primary);
+  --color-btn-dot-active-secondary: var(--btn-dot-active-secondary);
+  --color-btn-dot-inactive-secondary: var(--btn-dot-inactive-secondary);
+  --color-btn-dot-hover: var(--btn-dot-hover);
 }
 
 :root {
@@ -67,7 +88,7 @@
   --border-input: oklch(46.2 0.038 262.3);
   --overlay: #ffffff03;
   
-*/
+
   --icon-primary: #000000
     /*
   --icon-secondary: oklch(49.6% 0.216 22.9);
@@ -76,7 +97,7 @@
 
   --card-background: #f7f7f703;
   --card-background-secondary: #ffffff;
-
+*/
   --btn-bg-primary: oklch(49.6% 0.216 22.9);
   --btn-bg-primary-disable: oklch(94.1% 0.022 12.8);
   --btn-bg-primary-hover: oklch(37.5% 0.176 25.5);
@@ -84,14 +105,19 @@
   --btn-bg-outline: oklch(100% 0 0);
   --btn-bg-outline-disable: oklch(97.4% 0.014 12.6);
   --btn-bg-disabled: oklch(0 0 0 / 0.2);
-
   --btn-fg-primary: oklch(100% 0 0);
   --btn-fg-primary-disable: oklch(0 0 0 / 0.2);
   --btn-fg-secondary: oklch(3.2% 0 0);
   --btn-fg-secondary-disable: oklch(0 0 0 / 0.2);
 
+  --btn-dot-active-primary: #b11226;
+  --btn-dot-inactive-primary: #fde1e3;
+  --btn-dot-active-secondary: #c92330;
+  --btn-dot-inactive-secondary: #9d9d9d;
+  --btn-dot-hover: oklch(37.5% 0.176 25.5);
+
   --destructive: #990000;
-  --input: #ffffff70; */;
+  --input: #ffffff70;
 }
 
 /* .dark { 
