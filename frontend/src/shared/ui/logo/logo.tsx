@@ -1,7 +1,8 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { IconName } from '@/shared/types';
+import { type IconName } from '@/shared/types';
+
 import { AppLink } from '../app-link';
 import { Icon } from '../icon';
 

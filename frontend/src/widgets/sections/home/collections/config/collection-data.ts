@@ -1,4 +1,4 @@
-import { CollectionSlide } from '../model/types';
+import { type CollectionSlide } from '../model/types';
 
 export const collections: CollectionSlide[] = [
   {

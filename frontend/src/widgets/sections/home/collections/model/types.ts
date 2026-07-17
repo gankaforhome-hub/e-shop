@@ -1,5 +1,5 @@
-import { Category } from '@/entities/category';
-import { Product } from '@/entities/product/model/types';
+import { type Category } from '@/entities/category';
+import { type Product } from '@/entities/product/model/types';
 
 export type CollectionSlide = {
   id: string;

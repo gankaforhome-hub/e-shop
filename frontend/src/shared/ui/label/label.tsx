@@ -1,4 +1,4 @@
-import { FC, LabelHTMLAttributes } from 'react';
+import { type FC, type LabelHTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 

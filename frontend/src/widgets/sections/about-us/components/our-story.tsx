@@ -1,8 +1,11 @@
+import Image from 'next/image';
+
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import Image from 'next/image';
-import { StorySectionContent } from '../api';
+
+import { type StorySectionContent } from '../api';
+
 import { SectionIntro } from './section-intro';
 
 export function OurStorySection({

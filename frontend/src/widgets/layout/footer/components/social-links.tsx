@@ -1,8 +1,9 @@
-import { SocialLink } from '@/shared/types';
+import { type FC } from 'react';
+
+import { type SocialLink } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
-import { FC } from 'react';
 
 interface ISocialLinks {
   links: SocialLink[];

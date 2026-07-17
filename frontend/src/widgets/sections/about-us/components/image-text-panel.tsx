@@ -1,6 +1,8 @@
+import Image from 'next/image';
+
 import { Box } from '@/shared/ui/box';
 import { Text } from '@/shared/ui/text';
-import Image from 'next/image';
+
 import type { ImageTextPanelContent } from '../api';
 
 export function ImageTextPanel({

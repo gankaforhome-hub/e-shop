@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 
 export const useToggleModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

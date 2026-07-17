@@ -1,8 +1,11 @@
+import Image from 'next/image';
+
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import Image from 'next/image';
-import { MapSectionContent } from '../api';
+
+import { type MapSectionContent } from '../api';
+
 import { SectionIntro } from './section-intro';
 
 export function CitronelleSection({

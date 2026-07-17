@@ -1,6 +1,6 @@
 import { CollectionCard } from '@/entities/collection';
-import { Collection } from '@/entities/collection/model/types';
-import { Media } from '@/shared/types';
+import { type Collection } from '@/entities/collection/model/types';
+import { type Media } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 

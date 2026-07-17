@@ -1,9 +1,9 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { NavItem } from '@/shared/types';
+import { type NavItem } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { Icon } from '@/shared/ui/icon';
 

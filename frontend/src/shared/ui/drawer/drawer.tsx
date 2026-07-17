@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { cn } from '@/shared/lib/utils';

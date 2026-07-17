@@ -1,16 +1,19 @@
 'use client';
 
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
 import { useMatchMedia } from '@/shared/lib/hooks/useMatchMedia';
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import type { GallerySectionContent } from '../api';
+
 import { GalleryPagination } from './gallery-pagination';
 import { SectionIntro } from './section-intro';
+
+import type { GallerySectionContent } from '../api';
 
 export function GankaGallery({
   heading,

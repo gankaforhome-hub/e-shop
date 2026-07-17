@@ -1,4 +1,4 @@
-import { BannerSlide } from '../model/types';
+import { type BannerSlide } from '../model/types';
 
 export const bannerSlides: BannerSlide[] = [
   {

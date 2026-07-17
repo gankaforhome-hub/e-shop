@@ -1,5 +1,5 @@
-import { AppRoutes, ExternalHref } from '@/shared/config';
-import { IconName, SocialLink } from '@/shared/types';
+import { type AppRoutes, type ExternalHref } from '@/shared/config';
+import { type IconName, type SocialLink } from '@/shared/types';
 
 export interface FooterLink {
   label: string;

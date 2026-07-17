@@ -1,4 +1,4 @@
-import { FC, ReactNode, type SVGProps } from 'react';
+import { type FC, type ReactNode, type SVGProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { type IconName } from '@/shared/types';

@@ -1,5 +1,4 @@
 'use client';
-import { FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { CarouselCurrent } from '@/shared/ui/carousel';
@@ -11,11 +10,11 @@ interface IGalleryPaginationProps {
   dotsType?: 'primary' | 'secondary';
 }
 
-export const GalleryPagination: FC<IGalleryPaginationProps> = ({
+export function GalleryPagination({
   className,
   to,
   dotsType = 'primary',
-}) => {
+}: IGalleryPaginationProps) {
   const { current } = useCarousel();
   const isActive = current === to;
 
@@ -31,4 +30,4 @@ export const GalleryPagination: FC<IGalleryPaginationProps> = ({
       />
     </>
   );
-};
+}

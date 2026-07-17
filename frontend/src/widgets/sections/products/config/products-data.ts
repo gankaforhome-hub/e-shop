@@ -1,4 +1,4 @@
-import { ProductCardBase } from '@/entities/product';
+import { type ProductCardBase } from '@/entities/product';
 
 export const products: ProductCardBase[] = [
   {

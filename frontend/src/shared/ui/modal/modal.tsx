@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { Nunito_Sans, Tinos } from 'next/font/google';
 import {
-  FC,
-  HTMLAttributes,
-  MouseEvent,
-  ReactNode,
+  type FC,
+  type HTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
   useEffect,
   useRef,
   useState,

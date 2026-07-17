@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';

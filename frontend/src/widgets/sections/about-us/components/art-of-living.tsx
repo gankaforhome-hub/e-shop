@@ -1,9 +1,11 @@
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import type { ImageTextSectionContent } from '../api';
+
 import { ImageTextPanel } from './image-text-panel';
 import { SectionIntro } from './section-intro';
+
+import type { ImageTextSectionContent } from '../api';
 
 export function ArtOfLivingSection({
   heading,

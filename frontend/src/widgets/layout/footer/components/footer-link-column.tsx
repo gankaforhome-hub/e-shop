@@ -1,7 +1,9 @@
+import { type FC } from 'react';
+
 import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
-import { FC } from 'react';
-import { FooterLink } from '../api';
+
+import { type FooterLink } from '../api';
 
 interface IFooterLinkColumn {
   heading: string;

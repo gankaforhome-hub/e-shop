@@ -1,4 +1,4 @@
-import { Media } from '@/shared/types';
+import { type Media } from '@/shared/types';
 
 export type Category = {
   id: string;

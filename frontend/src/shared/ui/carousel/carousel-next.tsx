@@ -1,4 +1,4 @@
-import { ComponentProps, FC } from 'react';
+import { type ComponentProps, type FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';

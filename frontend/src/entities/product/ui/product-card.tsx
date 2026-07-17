@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
@@ -9,7 +9,7 @@ import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 import { Text } from '@/shared/ui/text';
 
-import { Product } from '../model/types';
+import { type Product } from '../model/types';
 
 interface IProductCardProps {
   className: string;

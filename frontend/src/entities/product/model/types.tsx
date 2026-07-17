@@ -1,6 +1,6 @@
 // entities/productCard/model/types.ts
 
-import { Media } from '@/shared/types/media/media';
+import { type Media } from '@/shared/types/media/media';
 
 export type ProductOption = {
   name: string;

@@ -1,5 +1,5 @@
 'use client';
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { ProductCard } from '@/entities/product';
 import { routes } from '@/shared/config/routes';

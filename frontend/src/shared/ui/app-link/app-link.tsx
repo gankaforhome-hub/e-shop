@@ -1,11 +1,11 @@
-import Link, { LinkProps } from 'next/link';
+import Link, { type LinkProps } from 'next/link';
 import {
   type ComponentPropsWithoutRef,
   type ReactNode,
   forwardRef,
 } from 'react';
 
-import { AppRoutes, ExternalHref } from '@/shared/config';
+import { type AppRoutes, type ExternalHref } from '@/shared/config';
 import { cn } from '@/shared/lib/utils';
 
 type AppLinkProps = Omit<ComponentPropsWithoutRef<'a'>, 'href'> &

@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import {
   AboutGankaSection,
   AboutHeroSection,
@@ -7,7 +9,6 @@ import {
   GankaGallery,
   OurStorySection,
 } from '@/widgets/sections/about-us';
-import type { Metadata } from 'next';
 
 const {
   aboutHero,

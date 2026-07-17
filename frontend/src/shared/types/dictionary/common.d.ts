@@ -1,5 +1,5 @@
-import { RouteValue } from '@/shared/config/routes';
-import { IconName, IconT } from '@/shared/types';
+import { type ExternalHref, type RouteValue } from '@/shared/config/routes';
+import { type IconName, type IconT } from '@/shared/types';
 
 export type Logo = {
   icon: Extract<IconName, 'logoFull' | 'logoMin'>;
@@ -110,7 +110,6 @@ export type FooterT = {
     title: string;
     paymentIcons: PaymentIcon[];
   };
-  underFooter: UnderFooter;
 };
 
 export type CommonPage = {

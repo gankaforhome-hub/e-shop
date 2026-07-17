@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import Image from 'next/image';
+import { type FC } from 'react';
 
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
@@ -7,7 +8,6 @@ import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
-import Image from 'next/image';
 
 interface INotFoundWidgetProps {
   className?: string;

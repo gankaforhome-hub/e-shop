@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import rawJson from '@/dictionary/index.json';
 import { cn } from '@/shared/lib/utils';
-import { IndexPage } from '@/shared/types/dictionary/index-page';
+import { type IndexPage } from '@/shared/types/dictionary/index-page';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';

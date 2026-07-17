@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import Image from 'next/image';
+import { type FC } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 
-import { Box } from '@/shared/ui/box';
-import Image from 'next/image';
-import { Collection } from '../model/types';
+import { type Collection } from '../model/types';
 
 interface ICollectionCardProps {
   className?: string;

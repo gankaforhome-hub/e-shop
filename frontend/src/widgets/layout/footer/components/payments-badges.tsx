@@ -1,7 +1,8 @@
-import { IconName } from '@/shared/types';
+import { type FC } from 'react';
+
+import { type IconName } from '@/shared/types';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
-import { FC } from 'react';
 
 interface IPaymentBadges {
   methods: { label: string; icon: IconName }[];

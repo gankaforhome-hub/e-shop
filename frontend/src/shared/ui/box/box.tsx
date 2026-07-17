@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, ReactNode } from 'react';
+import { type FC, type HTMLAttributes, type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 

@@ -4,6 +4,7 @@ import { Container } from '@/shared/ui/container';
 import { Icon } from '@/shared/ui/icon';
 import { Logo } from '@/shared/ui/logo';
 import { Separator } from '@/shared/ui/separator';
+
 import { footerData } from '../api';
 import {
   FooterLinkColumn,
@@ -31,6 +32,7 @@ export const Footer = () => {
           {/* Brand + contact */}
           <Box className="col-span-2 mt-4 flex flex-col">
             <Logo
+              aria={brand.name}
               variant="logoFooter"
               className="max-h-30 md mx-auto mb-8 max-w-60 md:mx-0"
             />

@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';

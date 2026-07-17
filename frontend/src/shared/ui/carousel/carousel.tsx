@@ -3,9 +3,9 @@ import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 import useEmblaCarousel from 'embla-carousel-react';
 import {
-  FC,
-  HTMLAttributes,
-  KeyboardEvent,
+  type FC,
+  type HTMLAttributes,
+  type KeyboardEvent,
   useCallback,
   useEffect,
   useRef,
@@ -14,10 +14,10 @@ import {
 
 import { cn } from '@/shared/lib/utils/index';
 
-import { CarouselProps } from './types';
+import { type CarouselProps } from './types';
 import { CarouselContext } from './useCarousel';
 
-import { CarouselApi } from '.';
+import { type CarouselApi } from '.';
 
 interface ICarouselProps extends HTMLAttributes<HTMLDivElement>, CarouselProps {
   orientation?: 'horizontal' | 'vertical';
@@ -69,7 +69,9 @@ export const Carousel: FC<ICarouselProps> = ({
   const tweenFactor = useRef(0);
 
   const pauseInactiveVideos = useCallback((api: CarouselApi) => {
-    if (!api) return;
+    if (!api) {
+      return;
+    }
     const currentIndex = api.selectedScrollSnap();
     const slideNodes = api.slideNodes();
 
@@ -92,7 +94,9 @@ export const Carousel: FC<ICarouselProps> = ({
   }, []);
 
   const tweenOpacity = useCallback((api: CarouselApi, eventName?: string) => {
-    if (!api) return;
+    if (!api) {
+      return;
+    }
 
     const engine = api.internalEngine();
     const scrollProgress = api.scrollProgress();
@@ -105,15 +109,21 @@ export const Carousel: FC<ICarouselProps> = ({
 
       if (slidesInSnap) {
         slidesInSnap.forEach(slideIndex => {
-          if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
+          if (isScrollEvent && !slidesInView.includes(slideIndex)) {
+            return;
+          }
 
           if (engine.options.loop) {
             engine.slideLooper.loopPoints.forEach(loopItem => {
               const target = loopItem.target();
               if (slideIndex === loopItem.index && target !== 0) {
                 const sign = Math.sign(target);
-                if (sign === -1) diffToTarget = snap - (1 + scrollProgress);
-                if (sign === 1) diffToTarget = snap + (1 - scrollProgress);
+                if (sign === -1) {
+                  diffToTarget = snap - (1 + scrollProgress);
+                }
+                if (sign === 1) {
+                  diffToTarget = snap + (1 - scrollProgress);
+                }
               }
             });
           }
@@ -131,7 +141,9 @@ export const Carousel: FC<ICarouselProps> = ({
 
   const onSelect = useCallback(
     (api: CarouselApi) => {
-      if (!api) return;
+      if (!api) {
+        return;
+      }
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
       setCurrent(api.selectedScrollSnap());
@@ -171,12 +183,16 @@ export const Carousel: FC<ICarouselProps> = ({
   );
 
   useEffect(() => {
-    if (!api || !setApi) return;
+    if (!api || !setApi) {
+      return;
+    }
     setApi(api);
   }, [api, setApi]);
 
   useEffect(() => {
-    if (!api) return;
+    if (!api) {
+      return;
+    }
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
@@ -186,7 +202,9 @@ export const Carousel: FC<ICarouselProps> = ({
   }, [api, onSelect, pauseInactiveVideos]);
 
   useEffect(() => {
-    if (!api || !isOpacityTween) return;
+    if (!api || !isOpacityTween) {
+      return;
+    }
 
     tweenFactor.current = TWEEN_FACTOR_BASE * api.scrollSnapList().length;
     tweenOpacity(api);

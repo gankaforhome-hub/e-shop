@@ -1,7 +1,7 @@
 'use client';
 
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ComponentProps, FC } from 'react';
+import { type ComponentProps, type FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Icon } from '@/shared/ui/icon';

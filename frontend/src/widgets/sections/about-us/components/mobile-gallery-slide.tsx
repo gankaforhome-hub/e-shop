@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { ImageAsset } from '../api';
+
+import { type ImageAsset } from '../api';
 
 export default function MobileGallerySlider(images: ImageAsset[]) {
   return (

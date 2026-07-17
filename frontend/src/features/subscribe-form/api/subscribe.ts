@@ -3,8 +3,8 @@
 import { wait } from '@/shared/lib/utils';
 
 import {
-  SubscribeFormData,
-  SubscribeFormState,
+  type SubscribeFormData,
+  type SubscribeFormState,
   subscribeSchema,
 } from '../model/subscribe.schema';
 

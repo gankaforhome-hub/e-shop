@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 
 import { cn, getBase64, shimmer } from '@/shared/lib/utils';
 import { Overlay } from '@/shared/ui/overlay';

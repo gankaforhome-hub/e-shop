@@ -1,10 +1,10 @@
-import { inter, lora } from '@/shared/config';
-import '@/shared/styles/global.css';
-import { Footer } from '@/widgets/layout/footer';
-
 import type { Metadata } from 'next';
 
-// export const viewport: Viewport = {
+import React from 'react';
+
+import { inter, lora } from '@/shared/config';
+import '@/shared/styles/global.css';
+import { Footer } from '@/widgets/layout/footer'; // export const viewport: Viewport = {
 //   width: 'device-width',
 //   initialScale: 1,
 //   maximumScale: 1,

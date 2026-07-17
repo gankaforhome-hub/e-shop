@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
-import { Media } from '@/shared/types';
+import { type Media } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import {

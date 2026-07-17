@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';

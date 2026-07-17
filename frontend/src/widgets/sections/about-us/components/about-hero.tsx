@@ -2,6 +2,7 @@ import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
+
 import type { AboutHeroContent } from '../api';
 
 export function AboutHeroSection({ heading, paragraph }: AboutHeroContent) {

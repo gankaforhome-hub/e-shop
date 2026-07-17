@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import { FC, InputHTMLAttributes } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { type FC, type InputHTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 

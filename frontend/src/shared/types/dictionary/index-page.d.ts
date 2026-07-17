@@ -1,4 +1,4 @@
-import { IconName, IconT, Media } from '@/shared/types';
+import { type IconName, type IconT, type Media } from '@/shared/types';
 
 type VideoPlayerControls = {
   play: IconT;

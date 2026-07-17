@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { SocialLink } from '@/shared/types';
+import { type SocialLink } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { Icon } from '@/shared/ui/icon';
 

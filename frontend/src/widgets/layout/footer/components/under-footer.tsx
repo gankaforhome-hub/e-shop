@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import Link from 'next/link';
+import { type FC } from 'react';
 
 import { cn, getCurrentYear } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
-import Link from 'next/link';
-import { FooterLink } from '../api';
+
+import { type FooterLink } from '../api';
 
 interface IUnderFooterProps {
   className?: string;

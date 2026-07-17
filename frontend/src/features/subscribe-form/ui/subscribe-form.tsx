@@ -1,8 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type FC, useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
@@ -14,8 +14,8 @@ import { Text } from '@/shared/ui/text';
 
 import { subscribeHandler } from '../api/subscribe';
 import {
-  FormSubscribe,
-  SubscribeFormData,
+  type FormSubscribe,
+  type SubscribeFormData,
   subscribeSchema,
 } from '../model/subscribe.schema';
 

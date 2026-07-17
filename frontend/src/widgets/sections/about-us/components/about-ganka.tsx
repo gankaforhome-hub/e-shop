@@ -1,6 +1,8 @@
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import { ImageTextPanelContent } from '../api';
+
+import { type ImageTextPanelContent } from '../api';
+
 import { ImageTextPanel } from './image-text-panel';
 
 export function AboutGankaSection(panel: ImageTextPanelContent) {

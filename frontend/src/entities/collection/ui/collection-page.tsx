@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
@@ -6,7 +6,7 @@ import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
-import { Collection } from '../model/types';
+import { type Collection } from '../model/types';
 
 interface ICollectionCardProps {
   className?: string;

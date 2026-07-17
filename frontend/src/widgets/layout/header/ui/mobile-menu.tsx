@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { NavItem, TopBar } from '@/shared/types';
+import { type NavItem, type TopBar } from '@/shared/types';
 import {
   Drawer,
   DrawerContent,
@@ -17,11 +17,11 @@ interface IMobileMenuProps {
 }
 
 export const MobileMenu: FC<IMobileMenuProps> = ({ navMenu, topBar }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [_isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [isOpenSubMenu, setIsOpenSubMenu] = useState<boolean>(false);
+  const [_isOpenSubMenu, _setIsOpenSubMenu] = useState<boolean>(false);
 
-  const closeMenu = () => {
+  const _closeMenu = () => {
     setIsOpen(false);
   };
   const [page, setPage] = useState(0);
