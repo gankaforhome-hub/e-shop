@@ -1,4 +1,5 @@
 export { capitalize } from './capitalize';
+export { cleanParams } from './clean-params';
 export { getBase64 } from './get-base64';
 export { getCurrentYear } from './getCurrentYear';
 export * from './is-empty';
