@@ -26,7 +26,7 @@ export const FooterLinkColumn: FC<IFooterLinkColumn> = ({
           <li key={link.href}>
             <AppLink
               href={link.href}
-              className="text-text-primary text-base first-letter:uppercase xl:text-xl"
+              className="text-text-primary link xl:te text-base first-letter:uppercase"
             >
               {link.label}
             </AppLink>

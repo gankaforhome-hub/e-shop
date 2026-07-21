@@ -10,8 +10,8 @@ interface ICarouselCurrentProps extends ComponentProps<typeof Button> {
 
 export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
   className,
-  variant = 'icon',
-  size = 'icon',
+  variant = 'dot',
+  size = 'dots',
   to = 1,
   children,
   ...props

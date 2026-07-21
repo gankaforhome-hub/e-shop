@@ -6,36 +6,36 @@ import { cn } from '@/shared/lib/utils';
 /** @type {*} */
 const buttonVariants = cva(
   // Базові стилі: сучасний інтерактивний елемент
-  'focus-visible:ring-ring inline-flex select-none items-center justify-center whitespace-nowrap text-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50',
+  'focus-visible:ring-ring text-primary inline-flex select-none items-center justify-center whitespace-nowrap text-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-90',
   {
     variants: {
       variant: {
         // Default solid button
         default:
-          'bg-btn-bg-primary text-btn-fg-primary hover:bg-btn-bg-primary-hover focus:bg-btn-bg-primary-hover disabled:bg-btn-bg-primary-disabled disabled:text-btn-fg-primary-disabled shadow-sm',
+          'bg-action-primary text-text-inverse hover:bg-action-primary-hover focus:bg-action-primary-hover disabled:bg-brand-soft disabled:text-text-inverse/70 shadow-sm',
         // Outline button
         outline:
-          'border-border bg-btn-bg-outline text-btn-fg-secondary hover:bg-btn-bg-hover hover:border-border-btn-bg-hover focus:border-border-btn-bg-hover disabled:bg-btn-outline-disabled disabled:text-btn-fg-secondary-disabled border-2 border-solid',
+          'border-action-primary bg-action-secondary text-text-secondary hover:bg-brand-soft/25 hover:border-action-primary-hover focus:border-action-primary-hover disabled:bg-brand-soft/70 disabled:text-text-inverse/70 border-2 border-solid',
         // Link button (for navigation/routing)
-        link: 'text-btn-fg-primary bg--bg-primary inline h-auto w-auto p-0 underline-offset-4 hover:underline focus-visible:underline',
+        link: 'text-text-primary bg-action-secondary inline h-auto w-auto p-0 underline-offset-4 hover:underline focus-visible:underline',
         // Icon button (for carousels, UI actions)
-        icon: 'text-btn-fg-secondary hover:bg-btn-bg-hover hover:text-btn-fg-primary border-0 bg-transparent active:scale-95',
+        icon: 'text-action-secondary hover:bg-action-primary-hover hover:text-action-primary-text border-0 bg-transparent active:scale-95',
 
-        dot: 'bg-btn-dot-inactive-primary hover:bg-btn-dot-hover aria-current:bg-btn-dot-active-primary data-[active=true]:bg-btn-dot-active-primary h-2 w-2 shrink-0 rounded-full p-0 transition-colors duration-200 md:h-3 md:w-3',
+        dot: 'bg-(--dot-inactive-primary) hover:bg-(--dot-hover) aria-current:bg-(--dot-active-primary) data-[active=true]:bg-(--dot-active-primary) shrink-0 transition-colors duration-200',
 
         dotSecondary:
-          'bg-btn-dot-inactive-secondary hover:bg-btn-dot-hover aria-current:bg-btn-dot-active-secondary data-[active=true]:bg-btn-dot-active-secondary h-3 w-3 shrink-0 rounded-full p-0 transition-colors duration-200',
+          'bg-(--dot-inactive-secondary) hover:bg-(--dot-hover) aria-current:bg-(--dot-active-secondary) data-[active=true]:bg-(--dot-active-secondary) shrink-0 p-0 transition-colors duration-200',
       },
       size: {
         base: 'w-75 rounded-xl p-4',
         // --- Semantic adaptive sizes for e-commerce ---
 
         // "Buy" button (full-width on mobile, 300px on desktop)
-        buy: 'md:h-13 h-12 w-full rounded-xl px-6 text-base md:w-[300px]',
+        buy: 'md:h-13 md:w-75 t h-12 w-full rounded-xl px-6',
 
         // Final checkout button (full-width on mobile, 520px on desktop)
         checkout:
-          'h-13 w-full rounded-xl px-8 text-base md:h-14 md:w-[520px] md:text-lg',
+          'h-13 md:w-130 w-full rounded-xl px-8 text-base md:h-14 md:text-lg',
 
         // Form buttons (Login, Submit review, etc. Full-width on mobile, ~160px on desktop)
         form: 'h-11 w-full rounded-lg px-5 text-sm md:h-12 md:w-40 md:text-base',
@@ -57,11 +57,7 @@ const buttonVariants = cva(
         // Square icon button (carousel arrows, wishlist, compare)
         icon: 'h-5 w-5 shrink-0 rounded-xl p-0',
 
-        // Carousel pagination dot (bullet)
-        // dot: 'bg-btn-dot-inactive-primary hover:bg-btn-dot-hover aria-current:bg-btn-dot-active-primary data-[active=true]:bg-btn-dot-active-primary h-3 w-3 shrink-0 rounded-full p-0 transition-colors duration-200',
-
-        // dotSecondary:
-        //   'bg-btn-dot-inactive-secondary hover:bg-btn-dot-hover aria-current:bg-btn-dot-active-secondary data-[active=true]:bg-btn-dot-active-secondary h-3 w-3 shrink-0 rounded-full p-0 transition-colors duration-200',
+        dots: 'h-3 w-3 rounded-full md:h-5 md:w-5',
       },
       border: {
         border: 'border-border border border-solid',

@@ -22,11 +22,10 @@ export function GalleryPagination({
     <>
       <CarouselCurrent
         variant={dotsType === 'primary' ? 'dot' : 'dotSecondary'}
-        // size=
         data-active={isActive}
         aria-current={isActive ? 'true' : 'false'}
         to={to}
-        className={cn(isActive ? 'bg-fg-accent' : 'bg-fg-accent/10', className)}
+        className={cn(className)}
       />
     </>
   );

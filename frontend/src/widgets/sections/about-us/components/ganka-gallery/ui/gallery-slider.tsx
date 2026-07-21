@@ -19,6 +19,7 @@ export function GallerySlider({
   className,
   paginationPlacement,
 }: IGallerySlider) {
+  console.log('🚀 ~ GallerySlider ~ paginationPlacement:', paginationPlacement);
   return (
     <Carousel
       opts={{
@@ -47,8 +48,8 @@ export function GallerySlider({
             />
 
             {paginationPlacement === 'top' && (
-              <Box className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2 lg:hidden">
-                <Box className="bg-overlay backdrop-blur-xs flex gap-5 rounded-full px-3 py-2">
+              <Box className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
+                <Box className="flex gap-3 rounded-full bg-white/10 p-2 backdrop-blur-md">
                   {images.map((_, idx) => (
                     <GalleryPagination key={idx} to={idx} />
                   ))}
@@ -60,7 +61,7 @@ export function GallerySlider({
       </CarouselContent>
 
       {paginationPlacement === 'bottom' && (
-        <Box className="hidden pt-5 lg:block">
+        <Box className="mt-5 hidden md:block">
           <Box className="flex justify-center gap-5 px-4 py-3">
             {images.map((_, idx) => (
               <GalleryPagination key={idx} to={idx} dotsType="secondary" />
