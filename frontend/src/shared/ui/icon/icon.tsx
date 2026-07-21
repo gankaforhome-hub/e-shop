@@ -23,7 +23,7 @@ export const Icon: FC<IIconProps> = ({
     return (
       <span
         className={cn(
-          `font-text text-fg-primary inline-flex min-w-0 items-center gap-4 break-all`,
+          `font-text inline-flex min-w-0 items-center gap-4 break-all`,
           iconPosition === 'right' ? 'flex-row' : 'flex-row-reverse',
           childClassName,
         )}
@@ -32,7 +32,7 @@ export const Icon: FC<IIconProps> = ({
         <Icon
           name={name}
           className={cn(
-            'transition-color custom-transition group-hover:stroke-icon-primary',
+            'custom-transition transition-colors group-hover:stroke-current',
             className,
           )}
           {...props}
@@ -44,7 +44,7 @@ export const Icon: FC<IIconProps> = ({
     <svg
       {...props}
       className={cn(
-        'transition-color custom-transition stroke-text inline h-full w-full shrink-0 fill-none stroke-current',
+        'transition-color custom-transition inline h-full w-full shrink-0 fill-none stroke-current',
         className,
       )}
     >

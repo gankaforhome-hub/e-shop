@@ -1,17 +1,25 @@
 import Image from 'next/image';
 
+import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Text } from '@/shared/ui/text';
 
 import type { ImageTextPanelContent } from '../api';
 
+interface IImageTextPanel extends ImageTextPanelContent {
+  className?: string;
+}
+
+//TODO move to a reusable component
+
 export function ImageTextPanel({
   image,
   paragraphs,
   imagePosition,
-}: ImageTextPanelContent) {
+  className,
+}: IImageTextPanel) {
   return (
-    <Box className="fgap-4/6 flex flex-col lg:flex-row">
+    <Box className={cn('fgap-4/6 flex flex-col lg:flex-row', className)}>
       <Box
         className={`min-h-85 relative aspect-square w-full overflow-hidden rounded-xl shadow-lg ${
           imagePosition === 'right' ? 'lg:order-2' : ''
@@ -28,7 +36,7 @@ export function ImageTextPanel({
       </Box>
 
       <Box
-        className={`bg-bg-secondary 2xl:py-30 flex w-full flex-col justify-center gap-4 rounded-xl px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
+        className={`bg-surface-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 rounded-xl px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
           imagePosition === 'right' ? 'lg:order-1' : ''
         }`}
       >

@@ -3,23 +3,22 @@ import Image from 'next/image';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
+import { SectionIntro } from '@/shared/ui/section-intro';
 
-import { type StorySectionContent } from '../api';
-
-import { SectionIntro } from './section-intro';
+import { type StorySectionContent } from '../../api';
 
 export function OurStorySection({
   heading,
-  paragraph,
+  description,
   image,
 }: StorySectionContent) {
   return (
-    <Section aria-labelledby="our-story-heading" className="fpb-10/30">
+    <Section aria-labelledby="our-story-heading">
       <Container>
         <SectionIntro
           headingId="our-story-heading"
           heading={heading}
-          paragraph={paragraph}
+          description={description}
         />
         <Box className="aspect-4/3 fmt-4/16 relative overflow-hidden rounded-xl md:aspect-video">
           <Image

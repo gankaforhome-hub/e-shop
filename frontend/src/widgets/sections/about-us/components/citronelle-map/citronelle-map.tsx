@@ -3,14 +3,13 @@ import Image from 'next/image';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
+import { SectionIntro } from '@/shared/ui/section-intro';
 
-import { type MapSectionContent } from '../api';
+import { type MapSectionContent } from '../../api';
 
-import { SectionIntro } from './section-intro';
-
-export function CitronelleSection({
+export function CitronelleMapSection({
   heading,
-  paragraph,
+  description,
   mapImage,
   mapEmbedUrl,
 }: MapSectionContent) {
@@ -20,7 +19,7 @@ export function CitronelleSection({
         <SectionIntro
           headingId="citronelle-heading"
           heading={heading}
-          paragraph={paragraph}
+          description={description}
         />
         <Box className="aspect-4/3 relative mt-8 overflow-hidden rounded-xl sm:aspect-video">
           {mapEmbedUrl ? (

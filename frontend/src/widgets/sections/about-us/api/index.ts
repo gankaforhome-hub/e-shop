@@ -2,21 +2,18 @@ export interface ImageAsset {
   src: string;
   alt: string;
 }
-
-export interface AboutHeroContent {
-  heading: string;
-  paragraph: string;
-}
-
 export interface ImageTextPanelContent {
   image: ImageAsset;
   paragraphs: string[];
   imagePosition: 'left' | 'right';
 }
-
 export interface SectionIntroContent {
   heading: string;
-  paragraph: string;
+  description: string;
+}
+
+export interface AboutHeroContent extends SectionIntroContent {
+  panel: ImageTextPanelContent;
 }
 
 export interface GallerySectionContent extends SectionIntroContent {
@@ -38,26 +35,25 @@ export interface MapSectionContent extends SectionIntroContent {
 
 const aboutHero: AboutHeroContent = {
   heading: 'Ganka for Home: A Touch of Sophistication to Your Interior',
-  paragraph:
+  description:
     'Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain.',
-};
-
-const artistIntroPanel: ImageTextPanelContent = {
-  image: {
-    src: '/images/about/artist-intro-birds-berries.jpg',
-    alt: 'Hand-painted plate depicting two birds among red rosehip berries',
+  panel: {
+    image: {
+      src: '/images/about/artist-intro-birds-berries.jpg',
+      alt: 'Hand-painted plate depicting two birds among red rosehip berries',
+    },
+    imagePosition: 'left',
+    paragraphs: [
+      "Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain. Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life.",
+      "Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.",
+      'Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.',
+    ],
   },
-  imagePosition: 'left',
-  paragraphs: [
-    "Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain. Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life.",
-    "Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.",
-    'Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.',
-  ],
 };
 
 const artistGallery: GallerySectionContent = {
   heading: 'Artist Ganka: Creativity in a Unique Form.',
-  paragraph:
+  description:
     'Ganka knows how to add color to life like no one else. Her porcelain products are filled with lightness and playfulness, reflecting her ability to capture beauty in the simplest things. Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.',
   images: [
     {
@@ -81,7 +77,7 @@ const artistGallery: GallerySectionContent = {
 
 const artOfLivingSection: ImageTextSectionContent = {
   heading: 'The Art of Living in Your Home',
-  paragraph:
+  description:
     "Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.",
   panel: {
     image: {
@@ -99,7 +95,7 @@ const artOfLivingSection: ImageTextSectionContent = {
 
 const ourStorySection: StorySectionContent = {
   heading: 'Our Story',
-  paragraph:
+  description:
     'Ganka for Home collections combine the images of Ukrainian culture and fairytale motifs that will add a jolly mood to your home. The bright elements of the illustrations are designed to create a festive atmosphere as Ganka for Home tableware can be used on a daily basis.',
   image: {
     src: '/images/about/our-story-collage.webp',
@@ -109,7 +105,7 @@ const ourStorySection: StorySectionContent = {
 
 const citronelleSection: MapSectionContent = {
   heading: 'Collection Citronelle at restaurants',
-  paragraph:
+  description:
     'The Citronelle collection can be purchased at Citronelle restaurants at the appropriate addresses.',
   mapImage: {
     src: '/images/about/citronelle-map-kyiv.webp',
@@ -121,7 +117,6 @@ const citronelleSection: MapSectionContent = {
 
 export const aboutUsContent = {
   aboutHero,
-  artistIntroPanel,
   artistGallery,
   artOfLivingSection,
   ourStorySection,

@@ -16,10 +16,13 @@ export const headingVariants = cva(
           'font-heading text-fg-accent text-xl uppercase tracking-wider lg:text-2xl',
       },
       tone: {
-        primary: 'text-header',
-        accent: 'text-fg-accent',
+        primary: 'text-text-primary',
+        accent: 'text-text-brand',
       },
-      position: { center: 'mx-auto max-w-[80%] text-center' },
+      position: {
+        left: 'text-left',
+        center: 'mx-auto max-w-[80%] text-center',
+      },
       visibility: { hidden: 'sr-only' },
     },
 

@@ -3,27 +3,43 @@ import { type FC, type HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
+import { Box } from '../box';
+
 export const separatorVariants = cva('', {
   variants: {
     variant: {
-      default: 'bg-bg-primary',
+      default: 'bg-border',
       muted: 'bg-border-muted',
-      accent: 'bg-border-accent',
-      accentMuted: 'bg-border-accent/40',
+      accent: 'bg-border-brand',
+      accentMuted: 'bg-border-brand/40',
+      strong: 'bg-border-strong',
     },
     size: {
-      xs: 'h-px',
-      sm: 'h-0.5',
-      md: 'h-1',
-      lg: 'h-2',
-      xl: 'h-2.5',
+      xs: '',
+      sm: '',
+      md: '',
+      lg: '',
+      xl: '',
     },
     orientation: {
       horizontal: 'w-full',
       vertical: 'h-full',
     },
   },
-
+  compoundVariants: [
+    // Horizontal sizes
+    { orientation: 'horizontal', size: 'xs', class: 'h-px' },
+    { orientation: 'horizontal', size: 'sm', class: 'h-0.5' },
+    { orientation: 'horizontal', size: 'md', class: 'h-1' },
+    { orientation: 'horizontal', size: 'lg', class: 'h-2' },
+    { orientation: 'horizontal', size: 'xl', class: 'h-2.5' },
+    // Vertical sizes
+    { orientation: 'vertical', size: 'xs', class: 'w-px' },
+    { orientation: 'vertical', size: 'sm', class: 'w-0.5' },
+    { orientation: 'vertical', size: 'md', class: 'w-1' },
+    { orientation: 'vertical', size: 'lg', class: 'w-2' },
+    { orientation: 'vertical', size: 'xl', class: 'w-2.5' },
+  ],
   defaultVariants: {
     variant: 'default',
     size: 'sm',
@@ -37,7 +53,7 @@ interface ISeparatorProps
     VariantProps<typeof separatorVariants> {
   className?: string;
   orientation?: 'horizontal' | 'vertical';
-  decorative?: true;
+  decorative?: boolean;
 }
 
 export const Separator: FC<ISeparatorProps> = ({
@@ -45,10 +61,13 @@ export const Separator: FC<ISeparatorProps> = ({
   variant,
   size,
   orientation = 'horizontal',
+  decorative = true,
   ...props
 }) => {
   return (
-    <div
+    <Box
+      role={decorative ? 'none' : 'separator'}
+      aria-orientation={decorative ? undefined : orientation}
       className={cn(
         separatorVariants({ orientation, variant, size, className }),
       )}
