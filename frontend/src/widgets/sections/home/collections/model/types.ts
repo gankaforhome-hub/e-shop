@@ -7,7 +7,6 @@ export type CollectionSlide = {
   title: string;
   media: {
     id: string;
-    type: 'image' | 'video';
     src: string;
     alt?: string;
     poster?: string;

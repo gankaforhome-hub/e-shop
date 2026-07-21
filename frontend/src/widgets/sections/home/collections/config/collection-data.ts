@@ -7,7 +7,6 @@ export const collections: CollectionSlide[] = [
     title: 'Gifts from Ganka',
     media: {
       id: '1',
-      type: 'image',
       src: '/images/collections/easter_2025.webp',
       alt: 'Gifts from Ganka',
     },
@@ -18,7 +17,6 @@ export const collections: CollectionSlide[] = [
     title: 'Adam & Eva',
     media: {
       id: '2',
-      type: 'image',
       src: '/images/collections/ptahy.webp',
       alt: 'Adam & Eva',
     },

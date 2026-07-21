@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { cn } from '@/shared/lib/utils';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
 
@@ -37,7 +36,7 @@ export function GallerySlider({
               'shadow-card relative mx-2 aspect-square basis-full overflow-hidden rounded-xl pl-1 md:basis-2/3',
             )}
           >
-            <Image
+            <AppMedia
               src={image.src}
               alt={image.alt || `Slide ${index}`}
               fill

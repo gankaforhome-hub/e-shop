@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
@@ -31,7 +30,7 @@ export function CitronelleMapSection({
               referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
-            <Image
+            <AppMedia
               src={mapImage.src}
               alt={mapImage.alt}
               fill

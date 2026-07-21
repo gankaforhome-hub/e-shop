@@ -1,15 +1,12 @@
 'use client';
 import { type FC } from 'react';
 
-import {
-  MuteButton,
-  PlayButton,
-  useVideoControl,
-} from '@/features/video-control';
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Overlay } from '@/shared/ui/overlay';
 import { type IVideoProps, Video } from '@/shared/ui/video';
+
+import { MuteButton, PlayButton, useVideoControl } from './video-control';
 
 interface IVideoPlayerProps extends IVideoProps {
   showPlay?: boolean;

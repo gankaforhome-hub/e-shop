@@ -4,6 +4,7 @@ import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { type Media } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import {
   Carousel,
@@ -13,7 +14,6 @@ import {
   CarouselPrevious,
 } from '@/shared/ui/carousel';
 import { Icon } from '@/shared/ui/icon';
-import { MediaSlide } from '@/widgets/media-slide';
 
 import { ProductPagination } from './product-pagination';
 
@@ -31,19 +31,18 @@ export const ProductsMedia: FC<IProductsMediaProps> = ({
   return (
     <Carousel className={cn('', className)} opts={{ loop: true }}>
       <CarouselContent className="touch-pan-y">
-        {media.map(({ id, src, alt, poster, type }) => (
+        {media.map(({ id, src, alt, poster }) => (
           <CarouselItem key={id} className="h-full w-full">
             <AppLink href={routes.product(slug)}>
-              <MediaSlide
+              <AppMedia
                 width={270}
                 height={270}
                 sizes="(max-width: 768px) 210px, 270px"
-                type={type}
                 src={src}
                 alt={alt ?? ''}
                 poster={poster ?? ''}
                 className="h-full w-full"
-                priority
+                loading="eager"
               />
             </AppLink>
           </CarouselItem>

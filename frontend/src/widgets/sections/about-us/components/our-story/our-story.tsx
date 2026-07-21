@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
@@ -21,7 +20,7 @@ export function OurStorySection({
           description={description}
         />
         <Box className="fmt-4/16 shadow-card 2xl:aspect-1754/988 relative overflow-hidden rounded-xl md:aspect-video">
-          <Image
+          <AppMedia
             src={image.src}
             alt={image.alt}
             fill

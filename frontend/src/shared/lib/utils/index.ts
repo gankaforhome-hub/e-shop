@@ -3,6 +3,7 @@ export { cleanParams } from './clean-params';
 export { getBase64 } from './get-base64';
 export { getCurrentYear } from './getCurrentYear';
 export * from './is-empty';
+export { isVideoUrl } from './is-video-url';
 export { repeat } from './repeat';
 export { shimmer } from './shimmer';
 export { mergeStyleTailwindAndObjectStyle as cn } from './style-merge';

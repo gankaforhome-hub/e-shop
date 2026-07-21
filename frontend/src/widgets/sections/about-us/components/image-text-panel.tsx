@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { cn } from '@/shared/lib/utils';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Text } from '@/shared/ui/text';
 
@@ -25,12 +24,11 @@ export function ImageTextPanel({
           imagePosition === 'right' ? 'lg:order-2' : ''
         }`}
       >
-        <Image
+        <AppMedia
           src={image.src}
           alt={image.alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover"
           loading="eager"
         />
       </Box>

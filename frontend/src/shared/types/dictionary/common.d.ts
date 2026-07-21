@@ -1,6 +1,11 @@
 import { type ExternalHref, type RouteValue } from '@/shared/config/routes';
 import { type IconName, type IconT } from '@/shared/types';
 
+export type ImageAsset = {
+  src: string;
+  alt: string;
+};
+
 export type Logo = {
   icon: Extract<IconName, 'logoFull' | 'logoMin'>;
   href: string;

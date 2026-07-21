@@ -3,6 +3,7 @@ import { type FC } from 'react';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
@@ -10,7 +11,6 @@ import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
-import { MediaSlide } from '@/widgets/media-slide';
 
 interface IExclusiveProps {
   className?: string;
@@ -22,8 +22,7 @@ export const Exclusive: FC<IExclusiveProps> = ({ className }) => {
       <Section className={cn('lg:py-25 relative', className)}>
         <Container className="gap-4 sm:grid sm:grid-cols-2">
           <Box className="max-sm:h-100 sm:hidden" />
-          <MediaSlide
-            type="image"
+          <AppMedia
             src={'/images/pages/home/exclusive-bg.webp'}
             alt={'exclusive'}
             poster={''}

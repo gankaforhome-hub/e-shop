@@ -1,5 +1,5 @@
 export type Media = {
-  id: string;
+  id?: string;
   type: 'image' | 'video';
   src: string;
   alt?: string;

@@ -3,12 +3,12 @@ import { type FC } from 'react';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { useCarousel } from '@/shared/ui/carousel/useCarousel';
 import { Heading } from '@/shared/ui/heading';
 import { Text } from '@/shared/ui/text';
-import { MediaSlide } from '@/widgets/media-slide';
 
 interface IBannerSlideProps {
   width: number;
@@ -25,7 +25,6 @@ interface IBannerSlideProps {
 export const BannerSlide: FC<IBannerSlideProps> = ({
   width,
   height,
-  type,
   src,
   alt,
   poster,
@@ -36,11 +35,10 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
   const { isInitialize } = useCarousel();
   return (
     <>
-      <MediaSlide
+      <AppMedia
         width={width}
         height={height}
         sizes="(max-width: 768px) 100vw,(max-width: 1600px) 100vw, 1200px"
-        type={type}
         src={src}
         alt={alt ?? ''}
         poster={poster ?? ''}

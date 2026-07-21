@@ -2,11 +2,11 @@ import { type FC } from 'react';
 
 import { CollectionCard } from '@/entities/collection';
 import { cn } from '@/shared/lib/utils';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
-import { MediaSlide } from '@/widgets/media-slide';
 
 import { collections } from '../config/collection-data';
 
@@ -32,8 +32,7 @@ export const Collections: FC<ICollectionProps> = ({ className }) => {
               <li key={collection.id} className="group">
                 <CollectionCard collection={collection} className="">
                   <Box className="collection-bg flex h-full w-full flex-col items-center justify-center rounded-3xl px-14 py-20 sm:p-14">
-                    <MediaSlide
-                      type={collection.media.type}
+                    <AppMedia
                       src={collection.media.src}
                       alt={collection.media.alt ?? ''}
                       poster={collection.media.poster ?? ''}
