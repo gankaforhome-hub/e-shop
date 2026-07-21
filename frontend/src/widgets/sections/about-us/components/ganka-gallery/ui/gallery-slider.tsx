@@ -19,7 +19,6 @@ export function GallerySlider({
   className,
   paginationPlacement,
 }: IGallerySlider) {
-  console.log('🚀 ~ GallerySlider ~ paginationPlacement:', paginationPlacement);
   return (
     <Carousel
       opts={{
@@ -35,10 +34,9 @@ export function GallerySlider({
           <CarouselItem
             key={index}
             className={cn(
-              'relative aspect-square basis-full overflow-hidden rounded-xl pl-1 md:basis-2/3',
+              'shadow-card relative mx-2 aspect-square basis-full overflow-hidden rounded-xl pl-1 md:basis-2/3',
             )}
           >
-            {/* Картинка слайда */}
             <Image
               src={image.src}
               alt={image.alt || `Slide ${index}`}

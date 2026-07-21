@@ -25,7 +25,7 @@ export const UnderFooter: FC<IUnderFooterProps> = ({
       <ul className="flex items-center justify-center gap-3 md:gap-4">
         {legalLinks.map(link => (
           <li key={link.href}>
-            <Link href={link.href} className="">
+            <Link href={link.href} className="link">
               {link.label}
             </Link>
           </li>

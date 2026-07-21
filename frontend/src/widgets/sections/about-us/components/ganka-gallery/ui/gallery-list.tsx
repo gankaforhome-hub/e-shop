@@ -16,7 +16,7 @@ export function GalleryList({ images, className }: IGalleryList) {
         {images.map(image => (
           <li
             key={image.src}
-            className="shadow-card relative aspect-square overflow-hidden rounded-xl"
+            className="shadow-card hover:scale-102 relative aspect-square overflow-hidden rounded-xl transition-transform duration-300"
           >
             <Image
               src={image.src}

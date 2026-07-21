@@ -26,15 +26,15 @@
 
   // Avtofix ESLint on save
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
+    // "source.fixAll": "always",
     "source.fixAll.eslint": "always",
     "source.organizeImports": "always"
   },
-  "editor.codeActionsOnType": {
-    "source.fixAll": "always",
-    "source.fixAll.eslint": "always",
-    "source.organizeImports": "always"
-  },
+  // "editor.codeActionsOnType": {
+  //   "source.fixAll": "always",
+  //   "source.fixAll.eslint": "always",
+  //   "source.organizeImports": "always"
+  // },
   // ESLint check TS/JS/React
   "eslint.validate": [
     "javascript",

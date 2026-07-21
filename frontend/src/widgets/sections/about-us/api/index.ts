@@ -39,7 +39,7 @@ const aboutHero: AboutHeroContent = {
     'Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain.',
   panel: {
     image: {
-      src: '/images/about/artist-intro-birds-berries.jpg',
+      src: '/images/about/artist-intro-birds-berries.png',
       alt: 'Hand-painted plate depicting two birds among red rosehip berries',
     },
     imagePosition: 'left',
@@ -57,19 +57,19 @@ const artistGallery: GallerySectionContent = {
     'Ganka knows how to add color to life like no one else. Her porcelain products are filled with lightness and playfulness, reflecting her ability to capture beauty in the simplest things. Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.',
   images: [
     {
-      src: '/images/about/gallery-rabbit.webp',
+      src: '/images/about/gallery-rabbit.png',
       alt: 'Plate illustrated with a rabbit and butterflies',
     },
     {
-      src: '/images/about/gallery-berries-1.webp',
+      src: '/images/about/gallery-berries-1.png',
       alt: 'Plate illustrated with a bird among red berries',
     },
     {
-      src: '/images/about/gallery-berries-2.webp',
+      src: '/images/about/gallery-berries-2.png',
       alt: 'Plate illustrated with red berries on branches',
     },
     {
-      src: '/images/about/gallery-silver.webp',
+      src: '/images/about/gallery-silver.png',
       alt: 'Plate with a textured silver-grey glazed rim',
     },
   ],
@@ -81,7 +81,7 @@ const artOfLivingSection: ImageTextSectionContent = {
     "Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.",
   panel: {
     image: {
-      src: '/images/about/art-of-living-dragon.webp',
+      src: '/images/about/art-of-living-dragon.png',
       alt: 'Plate illustrated with a green dragon and a woman in a flowing gown',
     },
     imagePosition: 'left',
@@ -98,7 +98,7 @@ const ourStorySection: StorySectionContent = {
   description:
     'Ganka for Home collections combine the images of Ukrainian culture and fairytale motifs that will add a jolly mood to your home. The bright elements of the illustrations are designed to create a festive atmosphere as Ganka for Home tableware can be used on a daily basis.',
   image: {
-    src: '/images/about/our-story-collage.webp',
+    src: '/images/about/our-story-collage.png',
     alt: 'Collage of illustrated plates featuring pumpkin, eggplant, pepper, and redcurrant motifs with two children',
   },
 };
@@ -108,7 +108,7 @@ const citronelleSection: MapSectionContent = {
   description:
     'The Citronelle collection can be purchased at Citronelle restaurants at the appropriate addresses.',
   mapImage: {
-    src: '/images/about/citronelle-map-kyiv.webp',
+    src: '/images/about/citronelle-map-kyiv.png',
     alt: 'Map of Kyiv showing Citronelle restaurant locations',
   },
   // Optional: swap in a live embed instead of the static image above.

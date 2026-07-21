@@ -20,7 +20,7 @@ export function OurStorySection({
           heading={heading}
           description={description}
         />
-        <Box className="aspect-4/3 fmt-4/16 relative overflow-hidden rounded-xl md:aspect-video">
+        <Box className="fmt-4/16 shadow-card 2xl:aspect-1754/988 relative overflow-hidden rounded-xl md:aspect-video">
           <Image
             src={image.src}
             alt={image.alt}

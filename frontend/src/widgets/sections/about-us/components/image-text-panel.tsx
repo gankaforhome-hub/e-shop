@@ -21,7 +21,7 @@ export function ImageTextPanel({
   return (
     <Box className={cn('fgap-4/6 flex flex-col lg:flex-row', className)}>
       <Box
-        className={`min-h-85 relative aspect-square w-full overflow-hidden rounded-xl shadow-lg ${
+        className={`min-h-85 shadow-card lg:aspect-868/891 relative aspect-square w-full overflow-hidden rounded-xl ${
           imagePosition === 'right' ? 'lg:order-2' : ''
         }`}
       >
