@@ -18,11 +18,11 @@ export const UnderFooter: FC<IUnderFooterProps> = ({
   return (
     <Box
       className={cn(
-        'border-border-muted text-fg-primary mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
+        'border-border-muted/40 text-fg-primary mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
         className,
       )}
     >
-      <ul className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+      <ul className="flex items-center justify-center gap-3 md:gap-4">
         {legalLinks.map(link => (
           <li key={link.href}>
             <Link href={link.href} className="">

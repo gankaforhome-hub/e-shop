@@ -25,11 +25,10 @@ export const Footer = () => {
   } = footerData;
 
   return (
-    <footer className="bg-bg-secondary">
+    <footer className="bg-surface-muted">
       <Separator variant="accentMuted" />
-      <Container className="p-4 pt-6">
+      <Container className="font-text p-4 pt-6">
         <Box className="grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4 md:gap-11 xl:flex xl:justify-between 2xl:px-20">
-          {/* Brand + contact */}
           <Box className="col-span-2 mt-4 flex flex-col">
             <Logo
               aria={brand.name}
@@ -40,10 +39,10 @@ export const Footer = () => {
               <ul className="space-y-2 not-italic">
                 {contacts.map(item => (
                   <li key={item.href} className="text-left text-base">
-                    <AppLink href={item.href} className="font-text">
+                    <AppLink href={item.href} className="group">
                       <Icon
                         name={item.icon}
-                        className="h-5 w-5 shrink-0"
+                        className="group-hover:stroke-text-brand h-5 w-5 shrink-0"
                         aria-hidden="true"
                         iconPosition="left"
                       >

@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 
 import { type IconName } from '@/shared/types';
+import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
@@ -14,7 +15,7 @@ export const PaymentBadges: FC<IPaymentBadges> = ({
   className = '',
 }) => {
   return (
-    <div className={className}>
+    <Box className={className}>
       <Heading headingLevel="h3" variant="footer" tone="accent">
         Payment Methods
       </Heading>
@@ -22,7 +23,7 @@ export const PaymentBadges: FC<IPaymentBadges> = ({
         {methods.map(method => (
           <li
             key={method.label}
-            className="border-border-muted rounded-md border px-4 py-2"
+            className="border-border/20 rounded-md border px-4 py-2"
           >
             <Icon
               name={method.icon}
@@ -32,6 +33,6 @@ export const PaymentBadges: FC<IPaymentBadges> = ({
           </li>
         ))}
       </ul>
-    </div>
+    </Box>
   );
 };

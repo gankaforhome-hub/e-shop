@@ -20,7 +20,11 @@ export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
         {links.map(link => {
           return (
             <li key={link.href}>
-              <AppLink href={link.href} aria-label={link.label} className="">
+              <AppLink
+                href={link.href}
+                aria-label={link.label}
+                className="bg-surface-overlay/10 hover:text-action-primary-hover custom-transition rounded-full p-2 transition-colors"
+              >
                 <Icon name={link.icon} className="h-5 w-5" aria-hidden="true" />
               </AppLink>
             </li>
