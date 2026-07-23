@@ -1,1 +1,1 @@
-export { Exclusive } from './ui/exclusive';
+export { ExclusiveSection } from './exclusive';

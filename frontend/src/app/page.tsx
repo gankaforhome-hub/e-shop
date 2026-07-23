@@ -2,6 +2,8 @@ import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
 import { wait } from '@/shared/lib/utils';
+import { ExclusiveSection } from '@/widgets/sections/home/exclusive';
+import { GiftPackingSection } from '@/widgets/sections/home/gift-packing';
 import { ProductsSection } from '@/widgets/sections/products/products';
 
 interface GetProductsParams {
@@ -25,7 +27,7 @@ const getProducts = async ({
 };
 
 export default async function Page() {
-  const limit = 24;
+  const limit = 4;
   const products = await getProducts({ limit, delay: 1500 });
 
   return (
@@ -33,8 +35,9 @@ export default async function Page() {
       {/* <Hero />
       <ProductTypes /> */}
       <ProductsSection products={products} limit={limit} />
+      <ExclusiveSection />
+      <GiftPackingSection />
       {/* <Collections />
-      <Exclusive />
       <Collections />
       <Products />
       <NewsLetter />

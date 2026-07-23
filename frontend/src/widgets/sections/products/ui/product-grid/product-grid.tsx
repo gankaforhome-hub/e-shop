@@ -21,7 +21,7 @@ export const ProductGrid = ({
 
   return (
     <ul
-      className={`grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ${className}`}
+      className={`grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4 ${className}`}
     >
       {visibleProducts.map(product => (
         <li key={product.id}>
