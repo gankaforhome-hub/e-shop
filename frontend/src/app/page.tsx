@@ -2,9 +2,11 @@ import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
 import { wait } from '@/shared/lib/utils';
-import { ExclusiveSection } from '@/widgets/sections/home/exclusive';
-import { GiftPackingSection } from '@/widgets/sections/home/gift-packing';
-import { ProductsSection } from '@/widgets/sections/products/products';
+import { Container } from '@/shared/ui/container';
+import { Heading } from '@/shared/ui/heading';
+import { Section } from '@/shared/ui/section';
+import { ExclusiveSection, GiftPackingSection } from '@/widgets/sections/home';
+import { ProductGrid } from '@/widgets/sections/products';
 
 interface GetProductsParams {
   limit?: number;
@@ -27,14 +29,32 @@ const getProducts = async ({
 };
 
 export default async function Page() {
-  const limit = 4;
-  const products = await getProducts({ limit, delay: 1500 });
+  const limit = 24;
 
+  const products = await getProducts({ limit, delay: 1500 });
   return (
     <>
-      {/* <Hero />
-      <ProductTypes /> */}
-      <ProductsSection products={products} limit={limit} />
+      {/* 
+      <Hero />
+      <Section className="bg-surface-muted pb-4">
+        <Container className="py-auto flex h-40 w-full items-center justify-center">
+          <Heading headingLevel="h1" className="text-brand-primary text-center">
+            Ganka for Home
+          </Heading>
+        </Container>
+             
+      </Section>
+      <ProductTypes />
+       */}
+      <Section>
+        <Container>
+          <Heading headingLevel="h2" visibility="hidden">
+            Ganka for home products
+          </Heading>
+          <ProductGrid products={products} limit={limit} />
+        </Container>
+      </Section>
+
       <ExclusiveSection />
       <GiftPackingSection />
       {/* <Collections />

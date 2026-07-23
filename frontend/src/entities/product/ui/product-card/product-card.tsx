@@ -13,9 +13,14 @@ import { type ProductCardDTO } from '../../model/types';
 export interface IProductCard {
   product: ProductCardDTO;
   favoriteButton?: ReactNode;
+  className?: string;
 }
 
-export const ProductCard = ({ product, favoriteButton }: IProductCard) => {
+export const ProductCard = ({
+  product,
+  favoriteButton,
+  className,
+}: IProductCard) => {
   const lang: Locale = 'en';
   const mainImage = product.media.primary.src || '/images/placeholder.jpg';
   const hoverImage = product.media.hover?.src;
@@ -26,6 +31,7 @@ export const ProductCard = ({ product, favoriteButton }: IProductCard) => {
       className={cn(
         'group relative flex h-full flex-col overflow-hidden rounded-lg transition-all',
         isSoldOut ? 'opacity-50' : '',
+        className,
       )}
     >
       {/* Badges */}
@@ -96,7 +102,7 @@ export const ProductCard = ({ product, favoriteButton }: IProductCard) => {
           {/* Title */}
           <AppLink
             href={routes.product(product.slug)}
-            className="text-text-primary hover:text-text-primary/80 line-clamp-2 text-sm lowercase leading-tight tracking-wide transition-colors first-letter:capitalize md:text-base"
+            className="text-text-primary hover:text-text-primary/80 line-clamp-2 text-sm capitalize leading-tight tracking-wide transition-colors md:text-base"
           >
             {product.title}
           </AppLink>

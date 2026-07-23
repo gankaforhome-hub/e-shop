@@ -1,1 +1,1 @@
-export { ProductsSection } from './products';
+export { ProductGrid } from './components';

@@ -191,7 +191,7 @@ const MOCK_PRODUCTS: Product[] = [
     ],
     price: { amount: 620, currency: 'UAH' },
     stock: { status: 'in_stock' },
-    badges: [],
+    badges: ['new'],
     category: { id: 'cat-6', slug: 'glass', title: 'Glass' },
     primaryCollection: { id: 'col-1', slug: 'agro', title: 'Agro Collection' },
     attributes: [

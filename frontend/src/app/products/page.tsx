@@ -1,57 +1,43 @@
+import { mapProductToCard } from '@/entities/product/api/product-mapper';
+import { productStore } from '@/entities/product/mock/products';
+import { type ProductCardDTO } from '@/entities/product/model/types';
+import { cn, wait } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
+import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
-import { BlankPage } from '@/widgets/blank-page';
+import { ProductGrid } from '@/widgets/sections/products';
 
-// const products: Product[] = [
-//   {
-//     id: '1',
-//     slug: 'easter',
-//     title: 'Easter',
-//     shortDescription: 'Furniture and decor for modern living spaces.',
-//     description:
-//       'Discover stylish sofas, coffee tables, storage solutions, and accessories for your living room.',
-//     media: {
-//       id: '1',
-//       type: 'image',
-//       src: '/images/collections/easter_2025.webp',
-//       alt: 'plate with  hares',
-//     } as Media,
-//   },
-//   {
-//     id: '2',
-//     slug: 'new-year',
-//     title: 'New Year',
-//     shortDescription: 'Everything you need for a cozy bedroom.',
-//     description:
-//       'Browse beds, wardrobes, bedside tables, and bedroom decor in contemporary styles.',
-//     media: {
-//       id: '2',
-//       type: 'image',
-//       src: '/images/collections/new_year.webp',
-//       alt: 'plate with angels',
-//     } as Media,
-//   },
-//   {
-//     id: '3',
-//     slug: 'ptahy',
-//     title: 'Ptahy',
-//     shortDescription: 'Elegant dining furniture for every home.',
-//     description:
-//       'Explore dining tables, chairs, sideboards, and table accessories.',
-//     media: {
-//       id: '3',
-//       type: 'image',
-//       src: '/images/collections/ptahy.webp',
-//       alt: 'plate with birds',
-//     } as Media,
-//   },
-// ];
+interface GetProductsParams {
+  limit?: number;
+  delay?: number;
+}
 
-export default function ProductsPage() {
+const getProducts = async ({
+  limit,
+  delay = 1500,
+}: GetProductsParams = {}): Promise<ProductCardDTO[]> => {
+  await wait(delay);
+
+  let data = [...productStore];
+
+  if (limit) {
+    data = data.slice(0, limit);
+  }
+
+  return data.map(mapProductToCard);
+};
+
+export default async function ProductsPage() {
+  const limit = 24;
+
+  const products = await getProducts({ limit, delay: 1500 });
   return (
-    <Section className="fpt-4/6 fpb-10/30">
+    <Section className={cn('mt-4')}>
       <Container>
-        <BlankPage />
+        <Heading headingLevel="h1" visibility="hidden">
+          Ganka for home products
+        </Heading>
+        <ProductGrid products={products} limit={limit} />
       </Container>
     </Section>
   );
