@@ -39,7 +39,12 @@ export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>(
     }
 
     return (
-      <Link ref={ref} href={href} className={cn('', classNames)} {...props}>
+      <Link
+        ref={ref}
+        href={href}
+        className={cn('duration-250 transition-all', classNames)}
+        {...props}
+      >
         {children}
       </Link>
     );

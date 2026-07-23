@@ -24,7 +24,8 @@
     "prepare": "husky install",
     "commitlint": "commitlint --edit ",
     "commit": "cz",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "shadcn:add": "node scripts/shadcn-add.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

@@ -3,4 +3,6 @@ export type Media = {
   src: string;
   alt?: string;
   poster?: string;
+  objectFit?: 'cover' | 'contain';
+  backgroundColor?: string;
 };

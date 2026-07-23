@@ -24,6 +24,7 @@ Layer 4: Layout & Structural Measurements
   */
   /* Brand Palette */
   --color-brand-primary: #b11226;
+  --color-brand-secondary: #f79fa6;
   --color-brand-hover: #8f0e1d;
   --color-brand-active: #760b17;
   --color-brand-soft: #fde1e3;
@@ -33,6 +34,7 @@ Layer 4: Layout & Structural Measurements
   --color-black: #000000;
   --color-neutral-950: #080808;
   --color-neutral-900: #231f20;
+  --color-neutral-850: #09192c;
   --color-neutral-800: #1a1a1a;
   --color-neutral-700: #555555;
   --color-neutral-500: #9d9d9d;
@@ -56,7 +58,8 @@ Layer 4: Layout & Structural Measurements
   --radius-none: 0px;
   --radius-sm: 4px;
   --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-lg: 10px;
+  --radius-xl: 10px;
   --radius-full: 9999px;
 
   /*
@@ -123,7 +126,7 @@ Layer 4: Layout & Structural Measurements
   --commerce-product-title: var(--text-primary);
 
   /* Pricing */
-  --commerce-price-current: var(--color-neutral-950);
+  --commerce-price-current: var(--color-neutral-850);
   --commerce-price-old: var(--color-neutral-500);
   --commerce-price-sale: var(--color-brand-primary);
 
@@ -133,7 +136,7 @@ Layer 4: Layout & Structural Measurements
 
   /* Stock & Inventory */
   --commerce-stock-in: var(--color-success);
-  --commerce-stock-low: var(--color-warning);
+  --commerce-stock-low: var(--color-brand-soft);
   --commerce-stock-out: var(--color-neutral-500);
 
   /* Cart & Drawer */
@@ -145,14 +148,14 @@ Layer 4: Layout & Structural Measurements
   --commerce-rating-star: var(--color-star);
 
   /* Badges & Statuses */
-  --commerce-badge-discount-bg: var(--color-brand-primary);
-  --commerce-badge-discount-text: var(--color-white);
+  --commerce-badge-popular-bg: var(--color-brand-primary);
+  --commerce-badge-popular-text: var(--color-white);
 
-  --commerce-badge-new-bg: var(--color-neutral-950);
-  --commerce-badge-new-text: var(--color-white);
+  --commerce-badge-new-bg: var(--color-brand-soft);
+  --commerce-badge-new-text: var(--color-neutral-850);
 
-  --commerce-badge-stock-bg: rgba(22, 128, 60, 0.1);
-  --commerce-badge-stock-text: var(--color-success);
+  --commerce-badge-top-bg: var(--color-brand-secondary);
+  --commerce-badge-top-text: var(--color-black);
 
   --commerce-badge-warning-bg: rgba(183, 121, 31, 0.1);
   --commerce-badge-warning-text: var(--color-warning);
@@ -174,9 +177,9 @@ Layer 4: Layout & Structural Measurements
   --btn-height-lg: 3rem; /* 48px */
   --input-height: 2.75rem; /* 44px */
 
-  --card-radius: var(--radius-md);
-  --button-radius: var(--radius-none);
-  --badge-radius: var(--radius-none);
+  --card-radius: var(--radius-xl);
+  --button-radius: var(--radius-xl);
+  --badge-radius: var(--radius-sm);
 }
 
 @theme inline {
@@ -206,6 +209,7 @@ Layer 4: Layout & Structural Measurements
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
+  --radius-lg: var(--radius-xl);
   --radius-full: var(--radius-full);
   --radius-card: var(--card-radius);
   --radius-button: var(--button-radius);
@@ -296,6 +300,11 @@ Layer 4: Layout & Structural Measurements
   --color-badge-discount-fg: var(--commerce-badge-discount-text);
   --color-badge-new-bg: var(--commerce-badge-new-bg);
   --color-badge-new-fg: var(--commerce-badge-new-text);
+  --color-badge-popular-bg: var(--commerce-badge-popular-bg);
+  --color-badge-popular-fg: var(--commerce-badge-popular-text);
+  --color-badge-top-bg: var(--commerce-badge-top-bg);
+  --color-badge-top-fg: var(--commerce-badge-top-text);
+
   --color-badge-stock-bg: var(--commerce-badge-stock-bg);
   --color-badge-stock-fg: var(--commerce-badge-stock-text);
   --color-badge-warning-bg: var(--commerce-badge-warning-bg);
@@ -305,7 +314,7 @@ Layer 4: Layout & Structural Measurements
 }
 
 /*
-==========================================================================
+======)=
 DARK MODE OVERRIDES
 ==========================================================================
 */
@@ -407,5 +416,12 @@ BASE & UTILITIES LAYER
   .link:active::before,
   .link:focus-visible::before {
     @apply scale-x-100;
+  }
+
+  /* .card-surface {
+    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.03)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.05)_0_1px,transparent_1.5px),linear-gradient(270deg,#d7d9dc_0%,#aeb2b7_22%,#7f858c_48%,#52575e_72%,#2b2f34_100%)];
+  } */
+  .card-surface {
+    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[#9ea3a8] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.05)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.035)_0_1px,transparent_1.5px),linear-gradient(270deg,#f2f3f5_0%,#d7dadd_22%,#b3b8be_48%,#7b8289_72%,#474d53_100%)];
   }
 }

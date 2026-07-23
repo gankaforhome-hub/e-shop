@@ -19,7 +19,10 @@ const buttonVariants = cva(
         // Link button (for navigation/routing)
         link: 'text-text-primary bg-action-secondary inline h-auto w-auto p-0 underline-offset-4 hover:underline focus-visible:underline',
         // Icon button (for carousels, UI actions)
-        icon: 'text-action-secondary hover:bg-action-primary-hover hover:text-action-primary-text border-0 bg-transparent active:scale-95',
+        icon: 'text-action-secondary-text hover:text-action-primary-hover border-0 border-transparent bg-transparent p-0 focus:bg-transparent active:bg-transparent',
+
+        ghost:
+          'bg-brand-soft/30 hover:bg-brand-soft text-action-secondary-text p-2 hover:backdrop-blur-xl',
 
         dot: 'bg-(--dot-inactive-primary) hover:bg-(--dot-hover) aria-current:bg-(--dot-active-primary) data-[active=true]:bg-(--dot-active-primary) shrink-0 transition-colors duration-200',
 
@@ -55,7 +58,7 @@ const buttonVariants = cva(
         spaced: 'h-12 w-full justify-between px-5',
 
         // Square icon button (carousel arrows, wishlist, compare)
-        icon: 'h-5 w-5 shrink-0 rounded-xl p-0',
+        icon: 'h-5 w-5 shrink-0',
 
         dots: 'h-3 w-3 rounded-full md:h-5 md:w-5',
       },
