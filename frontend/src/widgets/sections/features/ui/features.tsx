@@ -33,7 +33,7 @@ export const Features: FC<IFeaturesProps> = () => {
                 key={icon}
                 className={cn(
                   'border-border-muted fpy-6/9 flex flex-col items-center justify-center gap-5 border px-7',
-                  'min-lg:flex-col max-2xl:flex-col 2xl:flex-row',
+                  'max-2xl:flex-col lg:flex-col 2xl:flex-row',
                 )}
               >
                 <Text

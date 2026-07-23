@@ -1,6 +1,6 @@
 import { BlankPage } from '@/widgets/blank-page';
 
-export default function CollectionPage() {
+export default function ProductPage() {
   return (
     <>
       <BlankPage />

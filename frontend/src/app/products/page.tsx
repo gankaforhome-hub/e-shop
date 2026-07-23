@@ -47,7 +47,7 @@ import { BlankPage } from '@/widgets/blank-page';
 //   },
 // ];
 
-export default function CollectionsPage() {
+export default function ProductsPage() {
   return (
     <Section className="fpt-4/6 fpb-10/30">
       <Container>

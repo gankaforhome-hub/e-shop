@@ -24,7 +24,7 @@ const staticRoutes = {
 const dynamicRoutes = {
   product: (productSlug: string) => `/product/${productSlug}` as const,
   collection: (collectionSlug: string) =>
-    `/collections/${collectionSlug}` as const,
+    `/collection/${collectionSlug}` as const,
 };
 
 //INFO Getting types from static routes

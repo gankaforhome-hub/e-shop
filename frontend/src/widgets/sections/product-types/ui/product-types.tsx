@@ -24,7 +24,7 @@ export const ProductTypes: FC<IProductTypesProps> = ({ className }) => {
             variant="section"
             className="mx-auto mb-10 flex-1 text-center uppercase"
           >
-            Product:
+            Type of Products:
           </Heading>
           <ul
             className={`card-set-2/5 sm:card-set-${productTypes.length} sm:flex-nowrap`}
