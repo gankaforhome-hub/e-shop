@@ -2,11 +2,11 @@ import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
 import { wait } from '@/shared/lib/utils';
-import { Container } from '@/shared/ui/container';
-import { Heading } from '@/shared/ui/heading';
-import { Section } from '@/shared/ui/section';
-import { ExclusiveSection, GiftPackingSection } from '@/widgets/sections/home';
-import { ProductGrid } from '@/widgets/sections/products';
+import {
+  ExclusiveSection,
+  GiftPackingSection,
+  RecommendedProductsSection,
+} from '@/widgets/sections/home';
 
 interface GetProductsParams {
   limit?: number;
@@ -29,7 +29,7 @@ const getProducts = async ({
 };
 
 export default async function Page() {
-  const limit = 24;
+  const limit = 8;
 
   const products = await getProducts({ limit, delay: 1500 });
   return (
@@ -46,14 +46,15 @@ export default async function Page() {
       </Section>
       <ProductTypes />
        */}
-      <Section>
+      <RecommendedProductsSection products={products} limit={limit} />
+      {/* <ProductGrid products={products} limit={limit} /> */}
+      {/* <Section>
         <Container>
           <Heading headingLevel="h2" visibility="hidden">
             Ganka for home products
           </Heading>
-          <ProductGrid products={products} limit={limit} />
         </Container>
-      </Section>
+      </Section> */}
 
       <ExclusiveSection />
       <GiftPackingSection />

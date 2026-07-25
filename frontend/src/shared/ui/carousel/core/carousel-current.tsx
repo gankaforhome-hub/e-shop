@@ -6,6 +6,7 @@ import { useCarousel } from './useCarousel';
 
 interface ICarouselCurrentProps extends ComponentProps<typeof Button> {
   to: number;
+  animateScroll?: boolean | undefined;
 }
 
 export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
@@ -14,6 +15,7 @@ export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
   size = 'dots',
   to = 1,
   children,
+  animateScroll = undefined,
   ...props
 }) => {
   const { scrollTo, current } = useCarousel();
@@ -25,7 +27,7 @@ export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
       size={size}
       className={className}
       disabled={to === current}
-      onClick={() => scrollTo(to)}
+      onClick={() => scrollTo(to, animateScroll)}
       {...props}
     >
       {children}

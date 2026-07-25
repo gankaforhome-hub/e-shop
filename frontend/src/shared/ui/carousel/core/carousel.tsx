@@ -14,12 +14,11 @@ import {
 
 import { cn } from '@/shared/lib/utils/index';
 
-import { type CarouselProps } from './types';
+import { type CarouselApi, type CarouselProps } from './types';
 import { CarouselContext } from './useCarousel';
 
-import { type CarouselApi } from '.';
-
-interface ICarouselProps extends HTMLAttributes<HTMLDivElement>, CarouselProps {
+export interface ICarouselProps
+  extends HTMLAttributes<HTMLDivElement>, CarouselProps {
   orientation?: 'horizontal' | 'vertical';
   isOpacityTween?: boolean;
 }
@@ -163,8 +162,8 @@ export const Carousel: FC<ICarouselProps> = ({
   }, [api]);
 
   const scrollTo = useCallback(
-    (to: number) => {
-      api?.scrollTo(to);
+    (to: number, animate?: boolean | undefined) => {
+      api?.scrollTo(to, animate);
     },
     [api],
   );

@@ -1,7 +1,9 @@
-export { Carousel } from './carousel';
-export { CarouselContent } from './carousel-content';
-export { CarouselCurrent } from './carousel-current';
-export { CarouselItem } from './carousel-item';
-export { CarouselNext } from './carousel-next';
-export { CarouselPrevious } from './carousel-previous';
-export { type CarouselApi } from './types';
+export { Carousel, type ICarouselProps } from './core/carousel';
+export { CarouselContent } from './core/carousel-content';
+export { CarouselCurrent } from './core/carousel-current';
+export { CarouselItem } from './core/carousel-item';
+export { CarouselNext } from './core/carousel-next';
+export { CarouselPrevious } from './core/carousel-previous';
+export { type CarouselApi } from './core/types';
+export { CarouselProgressBar } from './gallery-slider/carousel-progress-bar';
+export { GallerySlider } from './gallery-slider/gallery-slider';

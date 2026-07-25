@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
+import { aboutUsContent } from '@/shared/content/about-us';
 import {
   AboutHeroSection,
-  aboutUsContent,
   ArtOfLivingSection,
   CitronelleMapSection,
-  GankaGallery,
+  GankaGallerySection,
   OurStorySection,
 } from '@/widgets/sections/about-us';
 
@@ -27,7 +27,7 @@ export default function AboutUsPage() {
   return (
     <>
       <AboutHeroSection {...aboutHero} />
-      <GankaGallery {...artistGallery} />
+      <GankaGallerySection {...artistGallery} />
       <ArtOfLivingSection {...artOfLivingSection} />
       <OurStorySection {...ourStorySection} />
       //TODO: add map
