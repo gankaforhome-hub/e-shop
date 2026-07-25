@@ -1,10 +1,9 @@
+import { type MapSectionContent } from '@/shared/content/about-us';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
-
-import { type MapSectionContent } from '../../api';
 
 export function CitronelleMapSection({
   heading,
@@ -19,6 +18,7 @@ export function CitronelleMapSection({
           headingId="citronelle-heading"
           heading={heading}
           description={description}
+          textPosition="center"
         />
         <Box className="aspect-4/3 relative mt-8 overflow-hidden rounded-xl sm:aspect-video">
           {mapEmbedUrl ? (

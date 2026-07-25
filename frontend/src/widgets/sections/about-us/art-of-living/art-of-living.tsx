@@ -1,10 +1,8 @@
+import { type ImageTextSectionContent } from '@/shared/content/about-us';
 import { Container } from '@/shared/ui/container';
+import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
-
-import { ImageTextPanel } from '../image-text-panel';
-
-import type { ImageTextSectionContent } from '../../api';
 
 export function ArtOfLivingSection({
   heading,
@@ -18,6 +16,7 @@ export function ArtOfLivingSection({
           headingId="art-of-living-heading"
           heading={heading}
           description={description}
+          textPosition="center"
         />
         <ImageTextPanel {...panel} className="fmt-4/16" />
       </Container>

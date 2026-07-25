@@ -1,2 +1,5 @@
-export * from './api';
-export * from './components';
+export { AboutHeroSection } from './about-hero/about-hero';
+export { ArtOfLivingSection } from './art-of-living/art-of-living';
+export { CitronelleMapSection } from './citronelle-map/citronelle-map';
+export { GankaGallerySection } from './ganka-gallery/ganka-gallery';
+export { OurStorySection } from './our-story/our-story';

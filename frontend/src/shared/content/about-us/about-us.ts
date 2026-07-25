@@ -1,10 +1,13 @@
+import { type Media } from '@/shared/types';
+
 export interface ImageAsset {
   src: string;
   alt: string;
 }
+
 export interface ImageTextPanelContent {
-  image: ImageAsset;
-  paragraphs: string[];
+  image: Media;
+  paragraphs: string;
   imagePosition: 'left' | 'right';
 }
 export interface SectionIntroContent {
@@ -43,11 +46,9 @@ const aboutHero: AboutHeroContent = {
       alt: 'Hand-painted plate depicting two birds among red rosehip berries',
     },
     imagePosition: 'left',
-    paragraphs: [
-      "Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain. Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life.",
-      "Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.",
-      'Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.',
-    ],
+    paragraphs: `Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as an artist, filmmaker, author, and organizer of cultural events into the magical world of porcelain. Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life.\n\n
+      Ganka doesn't just create, she reflects on all her experience, embodying in each product her unique perspective on life. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.\n\n
+      Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.`,
   },
 };
 
@@ -85,11 +86,7 @@ const artOfLivingSection: ImageTextSectionContent = {
       alt: 'Plate illustrated with a green dragon and a woman in a flowing gown',
     },
     imagePosition: 'left',
-    paragraphs: [
-      'Ganka knows how to add color to life like no one else. Her porcelain products are filled with lightness and playfulness, reflecting her ability to capture beauty in the simplest things. Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.',
-      'As a film director, author and a participant in many art and music projects, Ganka knows perfectly well what an intense pace of living means. The artist offers to get daily inspiration from art and bright colors. Ganka for Home collections will bring a festive atmosphere and warmth to your home.',
-      'Its artistic excellence will add sophistication to every feast, and the atmosphere of unique style will emphasize the exclusivity of moments spent at the table in the circle of the most dear ones.',
-    ],
+    paragraphs: `Ganka knows how to add color to life like no one else. Her porcelain products are filled with lightness and playfulness, reflecting her ability to capture beauty in the simplest things. Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.\n\nAs a film director, author and a participant in many art and music projects, Ganka knows perfectly well what an intense pace of living means. The artist offers to get daily inspiration from art and bright colors. Ganka for Home collections will bring a festive atmosphere and warmth to your home.\n\nIts artistic excellence will add sophistication to every feast, and the atmosphere of unique style will emphasize the exclusivity of moments spent at the table in the circle of the most dear ones.`,
   },
 };
 
