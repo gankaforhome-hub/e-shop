@@ -10,7 +10,7 @@ export const useMatchMedia = () => {
 
   const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
 
-  const isSM = useMediaQuery({ query: '(min-width: 320px)' });
+  const isSM = useMediaQuery({ query: '(min-width: 640px)' });
   const isMD = useMediaQuery({ query: '(min-width: 768px)' });
   const isLG = useMediaQuery({ query: '(min-width: 1024px)' });
   const isXL = useMediaQuery({ query: '(min-width: 1280px)' });

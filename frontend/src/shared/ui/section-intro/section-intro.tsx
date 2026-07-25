@@ -8,7 +8,9 @@ interface ISectionIntro {
   heading: string;
   description: string;
   headingId: string;
+  headingLevel?: 'h1' | 'h2';
   className?: string;
+  textPosition?: 'center';
   descriptionClassName?: string;
   children?: ReactNode;
 }
@@ -17,15 +19,17 @@ export function SectionIntro({
   heading,
   description,
   headingId,
+  headingLevel = 'h2',
   className,
+  textPosition,
   descriptionClassName,
 }: ISectionIntro) {
   return (
     <>
       <Heading
-        headingLevel="h2"
+        headingLevel={headingLevel}
         variant="section"
-        className={cn('fmb-4/6 mx-auto text-center md:max-w-[80%]', className)}
+        className={cn('fmb-4/14 mx-auto text-center md:max-w-[80%]', className)}
         id={headingId}
       >
         {heading}
@@ -34,7 +38,9 @@ export function SectionIntro({
       <Text
         font="secondary"
         className={cn(
-          'md:max-w-[95%] md:text-balance md:text-center',
+          textPosition === 'center'
+            ? 'md:max-w-[95%] md:text-balance md:text-center'
+            : '',
           descriptionClassName,
         )}
       >

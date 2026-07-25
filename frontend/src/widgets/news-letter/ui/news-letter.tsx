@@ -48,7 +48,7 @@ export const NewsLetter: FC<INewsLetterProps> = () => {
                 as="span"
                 className="bg-bg fw-40/60 fh-12/16 fpx-5/6 flex items-center justify-center"
               >
-                <Icon name="logoFull" className="flex h-5/6 w-auto flex-1" />
+                <Icon name="logo" className="flex h-5/6 w-auto flex-1" />
               </Text>
               {/* <Logo className="fp-5/6 bg-bg disable" /> */}
             </Box>

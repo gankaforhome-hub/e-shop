@@ -6,7 +6,7 @@ import { cn } from '@/shared/lib/utils';
 /** @type {*} */
 const buttonVariants = cva(
   // Базові стилі: сучасний інтерактивний елемент
-  'focus-visible:ring-ring text-primary inline-flex select-none items-center justify-center whitespace-nowrap text-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-90',
+  'focus-visible:ring-ring text-primary custom-transition inline-flex select-none items-center justify-center whitespace-nowrap text-xl font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-90',
   {
     variants: {
       variant: {
@@ -22,7 +22,7 @@ const buttonVariants = cva(
         icon: 'text-action-secondary-text hover:text-action-primary-hover border-0 border-transparent bg-transparent p-0 focus:bg-transparent active:bg-transparent',
 
         ghost:
-          'bg-brand-soft/30 hover:bg-brand-soft text-action-secondary-text p-2 hover:backdrop-blur-xl',
+          'text-action-secondary-text border-white/30 bg-white/10 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.18)] backdrop-blur-xl hover:scale-105 hover:border-white/50 hover:bg-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.24)] focus:border-white/50 focus:bg-white/20 focus:shadow-[0_12px_40px_rgba(0,0,0,0.24)] active:scale-95',
 
         dot: 'bg-(--dot-inactive-primary) hover:bg-(--dot-hover) aria-current:bg-(--dot-active-primary) data-[active=true]:bg-(--dot-active-primary) shrink-0 transition-colors duration-200',
 

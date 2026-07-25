@@ -48,7 +48,7 @@ export const Icon: FC<IIconProps> = ({
         className,
       )}
     >
-      <use href={`./icons/sprite.svg#${name}`} />
+      <use href={`/icons/sprite.svg#${name}`} />
     </svg>
   );
 };

@@ -1,17 +1,17 @@
-import Image from 'next/image';
 import { type FC } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 
 import { type Collection } from '../model/types';
 
 interface ICollectionCardProps {
-  className?: string;
   collection: Collection;
+  className?: string;
 }
 
 export const CollectionCard: FC<ICollectionCardProps> = ({
@@ -26,8 +26,8 @@ export const CollectionCard: FC<ICollectionCardProps> = ({
         className,
       )}
     >
-      <Box className="aspect-36/40 relative w-full overflow-hidden rounded-xl">
-        <Image
+      <Box className="aspect-570/585 relative w-full overflow-hidden rounded-xl">
+        <AppMedia
           src={collection.media.src}
           alt={collection.media.alt || collection.title}
           fill

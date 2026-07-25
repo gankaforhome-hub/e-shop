@@ -1,15 +1,12 @@
+import { type ImageTextPanelContent } from '@/shared/content/about-us';
 import { cn } from '@/shared/lib/utils';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Text } from '@/shared/ui/text';
 
-import type { ImageTextPanelContent } from '../api';
-
 interface IImageTextPanel extends ImageTextPanelContent {
   className?: string;
 }
-
-//TODO move to a reusable component
 
 export function ImageTextPanel({
   image,
@@ -26,7 +23,7 @@ export function ImageTextPanel({
       >
         <AppMedia
           src={image.src}
-          alt={image.alt}
+          alt={image.alt || ''}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
           loading="eager"
@@ -38,7 +35,7 @@ export function ImageTextPanel({
           imagePosition === 'right' ? 'lg:order-1' : ''
         }`}
       >
-        {paragraphs.map((paragraph, index) => (
+        {paragraphs.split('\n\n').map((paragraph, index) => (
           <Text
             key={index}
             font="secondary"

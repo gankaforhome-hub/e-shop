@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "Agro",
     "applepay",
     "Citronelle",
     "commitlint",
@@ -19,8 +20,10 @@
     "nowrap",
     "nunito",
     "oklch",
+    "Ptahy",
     "tinos",
-    "xlink"
+    "xlink",
+    "сollections"
   ],
 
   "eslint.useFlatConfig": true,

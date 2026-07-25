@@ -1,14 +1,10 @@
 import { type FC } from 'react';
 
-import { CollectionCard } from '@/entities/collection';
+import { collections } from '@/entities/collection';
 import { cn } from '@/shared/lib/utils';
-import { AppMedia } from '@/shared/ui/app-media';
-import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
-
-import { collections } from '../config/collection-data';
 
 interface ICollectionProps {
   className?: string;
@@ -30,7 +26,7 @@ export const Collections: FC<ICollectionProps> = ({ className }) => {
           >
             {collections.map(collection => (
               <li key={collection.id} className="group">
-                <CollectionCard collection={collection} className="">
+                {/* <CollectionCard collection={collection} className="">
                   <Box className="collection-bg flex h-full w-full flex-col items-center justify-center rounded-3xl px-14 py-20 sm:p-14">
                     <AppMedia
                       src={collection.media.src}
@@ -44,7 +40,7 @@ export const Collections: FC<ICollectionProps> = ({ className }) => {
                       )}
                     />
                   </Box>
-                </CollectionCard>
+                </CollectionCard> */}
               </li>
             ))}
           </ul>
