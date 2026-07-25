@@ -32,9 +32,9 @@ export const footerData = {
   helpLinks: [
     { label: 'Contact Us', href: '/contacts' },
     { label: 'FAQs', href: '/faq' },
+    { label: 'Payments', href: '/payments' },
     { label: 'Delivery', href: '/delivery' },
     { label: 'Returns', href: '/returns' },
-    { label: 'Payments', href: '/payments' },
   ] satisfies FooterLink[],
   socialLinks: [
     { label: 'Instagram', href: 'https://instagram.com', icon: 'instagram' },

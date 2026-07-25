@@ -1,9 +1,8 @@
 import { type FC } from 'react';
 
+import { type FooterLink } from '@/shared/content/layout/footer';
 import { AppLink } from '@/shared/ui/app-link';
 import { Heading } from '@/shared/ui/heading';
-
-import { type FooterLink } from '../api';
 
 interface IFooterLinkColumn {
   heading: string;
@@ -26,7 +25,7 @@ export const FooterLinkColumn: FC<IFooterLinkColumn> = ({
           <li key={link.href}>
             <AppLink
               href={link.href}
-              className="text-text-primary link xl:te text-base first-letter:uppercase"
+              className="text-text-primary link text-base first-letter:uppercase"
             >
               {link.label}
             </AppLink>

@@ -36,7 +36,7 @@ export const SocialMenu: FC<ISocialMenuProps> = ({
               className="-order-1 h-5 w-5"
               childClassName="text-base gap-4 group-hover:text-fg-accent"
             >
-              {social.title}
+              {social.label}
             </Icon>
           </AppLink>
         </li>

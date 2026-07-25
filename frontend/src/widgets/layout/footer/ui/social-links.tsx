@@ -2,6 +2,7 @@ import { type FC } from 'react';
 
 import { type SocialLink } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
+import { Button } from '@/shared/ui/button';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
@@ -20,13 +21,19 @@ export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
         {links.map(link => {
           return (
             <li key={link.href}>
-              <AppLink
-                href={link.href}
-                aria-label={link.label}
-                className="bg-surface-overlay/10 hover:text-action-primary-hover custom-transition rounded-full p-2 transition-colors"
-              >
-                <Icon name={link.icon} className="h-5 w-5" aria-hidden="true" />
-              </AppLink>
+              <Button variant="ghost" asChild>
+                <AppLink
+                  href={link.href}
+                  aria-label={link.label}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Icon
+                    name={link.icon}
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
+                </AppLink>
+              </Button>
             </li>
           );
         })}

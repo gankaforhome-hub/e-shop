@@ -1,3 +1,4 @@
+import { footerData } from '@/shared/content/layout/footer';
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
@@ -5,13 +6,12 @@ import { Icon } from '@/shared/ui/icon';
 import { Logo } from '@/shared/ui/logo';
 import { Separator } from '@/shared/ui/separator';
 
-import { footerData } from '../api';
 import {
   FooterLinkColumn,
   PaymentBadges,
   SocialLinks,
   UnderFooter,
-} from '../components';
+} from './ui';
 
 export const Footer = () => {
   const {

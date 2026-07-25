@@ -57,7 +57,7 @@ export function AppMedia({
       />
     );
   } else {
-    const blurWidth = width ? Number(width) : 700;
+    const blurWidth = width ? Number(width) : 475;
     const blurHeight = height ? Number(height) : 475;
     const blurDataURL = `data:image/svg+xml;base64,${toBase64(
       shimmer(blurWidth, blurHeight),
