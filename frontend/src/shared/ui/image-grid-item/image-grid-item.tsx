@@ -6,11 +6,11 @@ type ImageItem = {
   src: string;
   alt: string;
 };
-type IImageCard = {
+interface IImageGridItem {
   image: ImageItem;
   aspect: string;
-  imageSizes: '1' | '2' | '3' | '4';
-};
+  items: 1 | 2 | 3 | 4;
+}
 
 const sizesByCount = {
   1: '100vw',
@@ -19,8 +19,8 @@ const sizesByCount = {
   4: '(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 95vw',
 };
 
-export function ImageCard({ image, aspect, imageSizes }: IImageCard) {
-  const sizes = imageSizes ?? sizesByCount[imageSizes];
+export function ImageGridItem({ image, aspect, items }: IImageGridItem) {
+  const sizes = items ?? sizesByCount[items];
 
   return (
     <Box
@@ -29,7 +29,7 @@ export function ImageCard({ image, aspect, imageSizes }: IImageCard) {
       <AppMedia
         {...image}
         fill
-        sizes={sizes}
+        sizes={sizes.toString()}
         className={cn(
           'object-cover',
           'transition-transform duration-500 ease-out group-hover:scale-105',

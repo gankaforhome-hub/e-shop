@@ -33,6 +33,7 @@ export function FavoriteButton({
           className={cn(
             'h-5 w-5',
             isFavorite ? 'fill-brand-primary text-brand-primary' : '',
+            'custom-transition transition-colors',
           )}
         />
       </Button>

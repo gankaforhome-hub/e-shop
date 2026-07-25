@@ -29,7 +29,7 @@ export const ProductCard = ({
   return (
     <article
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-lg transition-all',
+        'relative flex h-full flex-col overflow-hidden transition-all',
         isSoldOut ? 'opacity-50' : '',
         className,
       )}
@@ -51,10 +51,13 @@ export const ProductCard = ({
         {favoriteButton}
       </Box>
       {/* Media */}
-      <AppLink href={routes.product(product.slug)} className="w-full shrink-0">
+      <AppLink
+        href={routes.product(product.slug)}
+        className="block w-full shrink-0"
+      >
         <Box
           className={cn(
-            'rounded-card relative aspect-square w-full overflow-hidden',
+            'relative aspect-square w-full overflow-hidden',
             // 'shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]',
           )}
         >
@@ -69,7 +72,7 @@ export const ProductCard = ({
               product.media.primary.objectFit === 'contain'
                 ? 'fp-4/12 object-contain'
                 : 'object-cover',
-              hoverImage ? 'group-hover:opacity-0' : 'group-hover:scale-105',
+              hoverImage ? 'hover:opacity-0' : 'hover:scale-105',
             )}
           />
           {/* Secondary Hover Image */}
@@ -83,7 +86,7 @@ export const ProductCard = ({
                 product.media.hover?.objectFit === 'contain'
                   ? 'fp-4/12 object-contain'
                   : 'object-cover',
-                'card-surface opacity-0 transition-opacity duration-500 group-hover:opacity-100',
+                'card-surface opacity-0 transition-opacity duration-500 hover:opacity-100',
               )}
             />
           )}
@@ -102,20 +105,22 @@ export const ProductCard = ({
           {/* Title */}
           <AppLink
             href={routes.product(product.slug)}
-            className="text-text-primary hover:text-text-primary/80 line-clamp-2 text-sm capitalize leading-tight tracking-wide transition-colors md:text-base"
+            className={cn(
+              `text-text-primary custom-transition leading-1.5 line-clamp-2 text-sm capitalize tracking-wide md:text-base`,
+            )}
           >
-            {product.title}
+            <span className="text-underline-animation">{product.title}</span>
           </AppLink>
         </Box>
 
         {/* Pricing & Compare Price*/}
-        <Box className="flex justify-between">
+        <Box className="flex flex-wrap items-center justify-between">
           <Box className="flex items-baseline gap-2">
-            <span className="text-price-current text-sm font-medium">
+            <span className="text-price-current text-sm md:text-base">
               {formatMoney(product.price)}
             </span>
             {product.compareAtPrice && (
-              <span className="text-price-old text-xs line-through">
+              <span className="text-price-old text-[10px] line-through md:text-xs">
                 {formatMoney(product.compareAtPrice)}
               </span>
             )}
@@ -123,7 +128,7 @@ export const ProductCard = ({
           {product.stock.status !== 'in_stock' && (
             <span
               className={cn(
-                'text-price-current/80 bg-stock-warning rounded-2xl px-2 text-sm',
+                'text-price-current/80 bg-stock-warning rounded-2xl px-2 text-[10px] md:text-sm',
                 product.stock.status === 'low_stock' ? 'text-brand-active' : '',
               )}
             >

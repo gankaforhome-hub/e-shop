@@ -1,1 +1,1 @@
-export { ProductGrid } from './components';
+export { ProductGrid } from './ui';

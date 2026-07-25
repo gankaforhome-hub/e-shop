@@ -1,3 +1,4 @@
+import { categories } from '@/entities/category/mock/categories';
 import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
@@ -37,6 +38,16 @@ export default async function ProductsPage() {
         <Heading headingLevel="h1" visibility="hidden">
           Ganka for home products
         </Heading>
+        <div className="mb-6 flex flex-wrap justify-center gap-4">
+          {categories.map(category => (
+            <span
+              key={category.id}
+              className="bg-surface-muted/50 rounded-full px-4 py-1 text-base"
+            >
+              {category.title}
+            </span>
+          ))}
+        </div>
         <ProductGrid products={products} limit={limit} />
       </Container>
     </Section>
