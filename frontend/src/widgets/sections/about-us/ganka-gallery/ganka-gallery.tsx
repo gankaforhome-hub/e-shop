@@ -1,31 +1,20 @@
-// 'use client';
-
 import { Suspense } from 'react';
 
 import { type GallerySectionContent } from '@/shared/content/about-us';
-// import { useMatchMedia } from '@/shared/lib/hooks/useMatchMedia';
 import { cn } from '@/shared/lib/utils';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Container } from '@/shared/ui/container';
+import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
-import { MobileSliderWrapperWithProgressBar } from '@/shared/ui/slider/mobile-slider';
 
-import { ProductSliderSkeletonWithProgress } from '../../home/recommended-products/ui';
+import { GankaGallerySkeleton } from './ui';
 
 export function GankaGallerySection({
   heading,
   description,
   images,
 }: GallerySectionContent) {
-  // const { isMobile, isLG } = useMatchMedia();
-  // const [mounted, setMounted] = useState(false);
-  // //TODO: learn about hydration
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
-  // const showMobileVersion = mounted ? !isLG : false;
-
   return (
     <Section aria-labelledby="artist-gallery-heading">
       <Container>
@@ -36,30 +25,34 @@ export function GankaGallerySection({
           textPosition="center"
         />
 
-        <Suspense fallback={<ProductSliderSkeletonWithProgress count={4} />}>
-          <ul className="fmt-4/16">
-            <MobileSliderWrapperWithProgressBar
-              className="sm:flex! lg:grid! sm:overflow-x-auto"
-              classNameProgress="sm:block lg:!hidden sm:mt-2 sm:px-0"
-            >
-              {images.map((image, index) => (
-                <li
-                  key={image.src}
-                  className={cn(
-                    'sm:rounded-card relative aspect-square w-full min-w-full snap-center overflow-hidden sm:snap-start',
-                    'sm:w-[65%] sm:min-w-[65%] lg:w-auto lg:min-w-0 lg:shrink',
-                  )}
-                >
-                  <AppMedia
-                    src={image.src}
-                    alt={image.alt || `Slide ${index + 1}`}
-                    fill
-                    className="object-cover object-center"
-                  />
-                </li>
-              ))}
-            </MobileSliderWrapperWithProgressBar>
-          </ul>
+        <Suspense fallback={<GankaGallerySkeleton count={4} />}>
+          <ScrollableContainer
+            as="ul"
+            indicatorType="progress"
+            scrollClassName="xl:grid xl:grid-cols-4 xl:overflow-visible"
+            indicatorClassName="xl:!hidden mt-3 md:px-20"
+          >
+            {images.map((image, index) => (
+              <li
+                key={image.src}
+                className={cn(
+                  'rounded-card relative aspect-square shrink-0 snap-start overflow-hidden',
+                  'w-full min-w-full',
+                  'sm:w-[calc((100%-16px)/2)] sm:min-w-[calc((100%-16px)/2)]',
+                  'md:w-[calc((100%-16px)/3)] md:min-w-[calc((100%-16px)/3)]',
+                  'xl:w-auto xl:min-w-0 xl:shrink',
+                )}
+              >
+                <AppMedia
+                  src={image.src}
+                  alt={image.alt || `Slide ${index + 1}`}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                />
+              </li>
+            ))}
+          </ScrollableContainer>
         </Suspense>
       </Container>
     </Section>
