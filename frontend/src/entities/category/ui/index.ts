@@ -1,3 +1,1 @@
-import Category from './category';
-
-export { Category };
+export { CategoryCard } from './category-card';

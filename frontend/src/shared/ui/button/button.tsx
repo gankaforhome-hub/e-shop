@@ -60,7 +60,7 @@ const buttonVariants = cva(
         // Square icon button (carousel arrows, wishlist, compare)
         icon: 'h-5 w-5 shrink-0',
 
-        dots: 'h-3 w-3 rounded-full md:h-5 md:w-5',
+        dots: 'h-2.5 w-2.5 rounded-full md:h-3 md:w-3',
       },
       border: {
         border: 'border-border border border-solid',

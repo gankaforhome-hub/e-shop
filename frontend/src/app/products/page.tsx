@@ -1,4 +1,3 @@
-import { categories } from '@/entities/category/mock/categories';
 import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
@@ -7,6 +6,7 @@ import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import { ProductGrid } from '@/widgets/sections/products';
+import { CategoryFilter } from '@/widgets/sections/products/ui/filter/category-filter';
 
 interface GetProductsParams {
   limit?: number;
@@ -38,7 +38,8 @@ export default async function ProductsPage() {
         <Heading headingLevel="h1" visibility="hidden">
           Ganka for home products
         </Heading>
-        <div className="mb-6 flex flex-wrap justify-center gap-4">
+        <CategoryFilter />
+        {/* <div className="mb-6 flex flex-wrap justify-center gap-4">
           {categories.map(category => (
             <span
               key={category.id}
@@ -47,7 +48,7 @@ export default async function ProductsPage() {
               {category.title}
             </span>
           ))}
-        </div>
+        </div> */}
         <ProductGrid products={products} limit={limit} />
       </Container>
     </Section>

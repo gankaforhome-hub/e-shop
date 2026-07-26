@@ -29,14 +29,12 @@ export const Footer = () => {
       <Separator variant="accentMuted" />
       <Container className="font-text p-4 pt-6">
         <Box className="grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4 md:gap-11 xl:flex xl:justify-between 2xl:px-20">
-          <Box className="col-span-2 mt-4 flex flex-col">
-            <Logo
-              aria={brand.name}
-              variant="logoFooter"
-              className="max-h-30 md mx-auto mb-8 max-w-60 md:mx-0"
-            />
+          <Box className="col-span-2 flex flex-col">
+            <Box className="max-h-30 mx-auto mb-10 max-w-60 md:mx-0">
+              <Logo aria={brand.name} variant="logoFooter" />
+            </Box>
             <address>
-              <ul className="space-y-2 not-italic">
+              <ul className="mt-auto space-y-2 not-italic">
                 {contacts.map(item => (
                   <li key={item.href} className="text-left text-base">
                     <AppLink href={item.href} className="group">

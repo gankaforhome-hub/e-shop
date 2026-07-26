@@ -4,7 +4,7 @@ export type CategorySlug =
   'plates' | 'sets' | 'kettles' | 'cups' | 'candlesticks' | 'glass';
 
 export type Category = {
-  id: string;
+  id?: string;
   slug: CategorySlug;
   title: string;
   description?: string;

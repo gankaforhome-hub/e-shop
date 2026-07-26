@@ -1,3 +1,4 @@
+import { categories } from '@/entities/category/mock/categories';
 import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
@@ -5,6 +6,7 @@ import { wait } from '@/shared/lib/utils';
 import {
   ExclusiveSection,
   GiftPackingSection,
+  ProductTypeSection,
   RecommendedProductsSection,
 } from '@/widgets/sections/home';
 
@@ -46,16 +48,8 @@ export default async function Page() {
       </Section>
       <ProductTypes />
        */}
+      <ProductTypeSection categories={categories} />
       <RecommendedProductsSection products={products} limit={limit} />
-      {/* <ProductGrid products={products} limit={limit} /> */}
-      {/* <Section>
-        <Container>
-          <Heading headingLevel="h2" visibility="hidden">
-            Ganka for home products
-          </Heading>
-        </Container>
-      </Section> */}
-
       <ExclusiveSection />
       <GiftPackingSection />
       {/* <Collections />
