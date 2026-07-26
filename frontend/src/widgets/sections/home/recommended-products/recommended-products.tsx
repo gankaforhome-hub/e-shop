@@ -4,14 +4,15 @@ import { ProductCard } from '@/entities/product';
 import { type ProductCardDTO } from '@/entities/product/model/types';
 import { FavoriteButton } from '@/features/add-to-favorite';
 import { routes } from '@/shared/config/routes';
+import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
+import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 import { Section } from '@/shared/ui/section';
-import { MobileSliderWrapperWithProgressBar } from '@/shared/ui/slider/mobile-slider';
 
-import { ProductSliderSkeletonWithProgress } from './ui';
+import { RecommendedProductsSkeleton } from './ui';
 
 interface IRecommendedProductsSection {
   products: ProductCardDTO[];
@@ -85,7 +86,7 @@ export function RecommendedProductsSection({
   // );
   return (
     <Section aria-labelledby="recommended-product-section">
-      <Container className="contents sm:block">
+      <Container>
         <Heading
           headingLevel="h2"
           variant="section"
@@ -94,36 +95,41 @@ export function RecommendedProductsSection({
         >
           Recommended Product
         </Heading>
-        <Suspense
-          fallback={<ProductSliderSkeletonWithProgress count={limit} />}
-        >
-          <ul>
-            <MobileSliderWrapperWithProgressBar>
-              {products.map(product => (
-                <li
-                  key={product.id}
-                  className="w-full min-w-full shrink-0 snap-center sm:w-auto sm:min-w-0 sm:shrink"
-                >
-                  <ProductCard
-                    className="w-full px-2"
-                    product={product}
-                    favoriteButton={
-                      <FavoriteButton
-                        productId={product.id}
-                        initialFavorite={product.isFavorite}
-                      />
-                    }
-                  />
-                </li>
-              ))}
-            </MobileSliderWrapperWithProgressBar>
-          </ul>
+        <Suspense fallback={<RecommendedProductsSkeleton count={4} />}>
+          <ScrollableContainer
+            as="ul"
+            indicatorType="progress"
+            gapClassName="gap-3 sm:gap-4 xl:gap-6"
+            scrollClassName="lg:grid lg:grid-cols-4 lg:overflow-visible"
+            indicatorClassName="lg:hidden mt-3 md:px-20"
+          >
+            {products.map(product => (
+              <li
+                key={product.id}
+                className={cn(
+                  'shrink-0 snap-start',
+                  'w-full min-w-full',
+                  'sm:w-[calc((100%-16px)/1.5)] sm:min-w-[calc((100%-16px)/1.5)]',
+                  'md:w-[calc((100%-16px)/3)] md:min-w-[calc((100%-16px)/3)]',
+                  'lg:w-auto lg:min-w-0 lg:shrink',
+                )}
+              >
+                <ProductCard
+                  className="w-full"
+                  product={product}
+                  favoriteButton={
+                    <FavoriteButton
+                      productId={product.id}
+                      initialFavorite={product.isFavorite}
+                    />
+                  }
+                />
+              </li>
+            ))}
+          </ScrollableContainer>
         </Suspense>
-      </Container>
-
-      <Container>
         <Button asChild variant="outline" className="fmt-8/16 mx-auto flex">
-          <AppLink href={routes.products}>View all catalog</AppLink>
+          <AppLink href={routes.products()}>View all catalog</AppLink>
         </Button>
       </Container>
     </Section>
