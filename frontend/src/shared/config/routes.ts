@@ -1,11 +1,11 @@
 //INFO List of static paths
+
 export type ExternalHref =
   `http${'s' | ''}://${string}` | `mailto:${string}` | `tel:${string}`;
 
 const staticRoutes = {
   home: '/' as const,
   collections: '/collections' as const,
-  products: '/products' as const,
   about: '/about-us' as const,
   exclusive: '/exclusive' as const,
   releases: '/releases' as const,
@@ -20,11 +20,28 @@ const staticRoutes = {
   checkouts: '/checkouts' as const,
 };
 
+export type CategorySlug =
+  'plates' | 'sets' | 'kettles' | 'cups' | 'candlesticks' | 'glass';
+
+type ProductsRoute = `/products?${string}`;
+
+type ProductsSearchParams = {
+  category?: CategorySlug;
+  sort?: 'price' | 'name';
+  page?: string;
+};
+
 //INFO Functions for dynamic routes
 const dynamicRoutes = {
   product: (productSlug: string) => `/product/${productSlug}` as const,
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,
+  products: (params?: ProductsSearchParams) => {
+    if (!params || Object.keys(params).length === 0) {
+      return '/products' as const;
+    }
+    return `/products?${new URLSearchParams(params as Record<string, string>).toString()}` as ProductsRoute;
+  },
 };
 
 //INFO Getting types from static routes
@@ -32,10 +49,12 @@ type ValueOf<T> = T[keyof T];
 export type StaticRoutes = ValueOf<typeof staticRoutes>;
 
 //INFO Types of dynamic paths (separately hands or generation)
+export type DynamicRoutes = ReturnType<ValueOf<typeof dynamicRoutes>>;
 
-export type DynamicRoutes =
-  | ReturnType<typeof dynamicRoutes.product>
-  | ReturnType<typeof dynamicRoutes.collection>;
+// export type DynamicRoutes =
+//   | ReturnType<typeof dynamicRoutes.product>
+//   | ReturnType<typeof dynamicRoutes.collection>
+//   | ReturnType<typeof dynamicRoutes.products>;
 
 //INFO General type
 export type AppRoutes = StaticRoutes | DynamicRoutes;
