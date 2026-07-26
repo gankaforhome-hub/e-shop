@@ -9,11 +9,9 @@ import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
+import { MobileSliderWrapperWithProgressBar } from '@/shared/ui/slider/mobile-slider';
 
-import {
-  MobileSliderWrapperWithProgressBar,
-  ProductSliderSkeletonWithProgress,
-} from './ui';
+import { ProductSliderSkeletonWithProgress } from './ui';
 
 interface IRecommendedProductsSection {
   products: ProductCardDTO[];
