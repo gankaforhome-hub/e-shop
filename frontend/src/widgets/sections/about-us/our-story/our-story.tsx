@@ -19,7 +19,7 @@ export function OurStorySection({
           description={description}
           textPosition="center"
         />
-        <Box className="fmt-4/16 shadow-card 2xl:aspect-1754/988 relative overflow-hidden rounded-xl md:aspect-video">
+        <Box className="fmt-4/16 shadow-card 2xl:aspect-1754/988 relative aspect-square overflow-hidden rounded-xl sm:aspect-video">
           <AppMedia
             src={image.src}
             alt={image.alt}

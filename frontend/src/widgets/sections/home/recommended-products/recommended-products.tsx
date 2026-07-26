@@ -98,7 +98,7 @@ export function RecommendedProductsSection({
           fallback={<ProductSliderSkeletonWithProgress count={limit} />}
         >
           <ul>
-            <MobileSliderWrapperWithProgressBar totalItems={products.length}>
+            <MobileSliderWrapperWithProgressBar>
               {products.map(product => (
                 <li
                   key={product.id}
