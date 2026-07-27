@@ -35,7 +35,7 @@ export default function RootLayout({
         className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
         <Section className="bg-surface-muted pb-4">
-          <Container className="py-auto flex h-40 w-full items-center justify-center">
+          <Container className="py-auto h-var(--h-topbar) flex w-full items-center justify-center">
             <AppLink href={routes.home} className="link">
               <Heading
                 headingLevel="h1"
@@ -45,8 +45,8 @@ export default function RootLayout({
               </Heading>
             </AppLink>
           </Container>
-        </Section>{' '}
-        {/* <Header /> */}
+        </Section>
+        {/* <Header />*/}
         <main>{children}</main>
         <Footer />
         <div id="modal-root" />

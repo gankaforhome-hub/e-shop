@@ -3,9 +3,9 @@ import { type BannerSlide } from '../model/types';
 export const bannerSlides: BannerSlide[] = [
   {
     id: '1',
-    title: 'konyushina',
+    title: 'Agro',
     subTitle: 'new collection',
-    slug: `konyushina`,
+    slug: `agro`,
     media: {
       type: 'image',
       src: '/images/hero_image.webp',
@@ -14,12 +14,12 @@ export const bannerSlides: BannerSlide[] = [
   },
   {
     id: '2',
-    title: 'Winter',
+    title: 'Ptahy',
     subTitle: 'popular collection',
-    slug: `winter`,
+    slug: `ptahy`,
     media: {
       type: 'image',
-      src: '/images/product.webp',
+      src: '/images/hero_image.webp',
       alt: 'Зимова колекція',
     },
   },

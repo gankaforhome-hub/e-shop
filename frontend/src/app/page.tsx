@@ -9,6 +9,7 @@ import {
   ProductTypeSection,
   RecommendedProductsSection,
 } from '@/widgets/sections/home';
+import { Hero } from '@/widgets/sections/home/hero';
 
 interface GetProductsParams {
   limit?: number;
@@ -36,8 +37,8 @@ export default async function Page() {
   const products = await getProducts({ limit, delay: 1500 });
   return (
     <>
-      {/* 
       <Hero />
+      {/* 
       <Section className="bg-surface-muted pb-4">
         <Container className="py-auto flex h-40 w-full items-center justify-center">
           <Heading headingLevel="h1" className="text-brand-primary text-center">
@@ -48,6 +49,7 @@ export default async function Page() {
       </Section>
       <ProductTypes />
        */}
+      {/* <ProductSearch /> */}
       <ProductTypeSection categories={categories} />
       <RecommendedProductsSection products={products} limit={limit} />
       <ExclusiveSection />

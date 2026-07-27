@@ -11,8 +11,8 @@ import { Heading } from '@/shared/ui/heading';
 import { Text } from '@/shared/ui/text';
 
 interface IBannerSlideProps {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   type: 'image' | 'video';
   src: string;
   alt: string;
@@ -33,18 +33,20 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
   slug,
 }) => {
   const { isInitialize } = useCarousel();
+
   return (
     <>
       <AppMedia
-        width={width}
-        height={height}
-        sizes="(max-width: 768px) 100vw,(max-width: 1600px) 100vw, 1200px"
+        fill
+        // width={width}
+        // height={height}
+        sizes="(max-width: 768px) 100vw, (max-width: 1600px) 100vw, 1200px"
         src={src}
         alt={alt ?? ''}
         poster={poster ?? ''}
-        className="h-[calc(90vh-var(--h-mob-header))] md:h-[calc(80vh-var(--h-mob-header))]"
-        priority
-        overlay
+        className="h-full w-full object-cover object-center"
+        loading="eager"
+        // overlay
       />
       <Box
         className={cn(
@@ -52,10 +54,10 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
           isInitialize ? 'opacity-100' : 'opacity-0',
         )}
       >
-        <Text variant="secondary">{subTitle}</Text>
+        <Text className="text-white">{subTitle}</Text>
         <Heading
           headingLevel="h2"
-          className="text-center text-5xl font-bold tracking-widest"
+          className="text-center text-5xl font-bold tracking-widest text-white"
         >
           {title}
         </Heading>
