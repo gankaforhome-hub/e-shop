@@ -10,6 +10,7 @@ interface IImageGridItem {
   image: ImageItem;
   aspect: string;
   items: 1 | 2 | 3 | 4;
+  className?: string;
 }
 
 const sizesByCount = {
@@ -19,12 +20,22 @@ const sizesByCount = {
   4: '(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 95vw',
 };
 
-export function ImageGridItem({ image, aspect, items }: IImageGridItem) {
+export function ImageGridItem({
+  image,
+  aspect,
+  items,
+  className,
+}: IImageGridItem) {
   const sizes = items ?? sizesByCount[items];
 
   return (
     <Box
-      className={cn('relative overflow-hidden', aspect, 'rounded-card group')}
+      className={cn(
+        'relative h-full w-full overflow-hidden',
+        aspect,
+        'rounded-card group',
+        className,
+      )}
     >
       <AppMedia
         {...image}
@@ -32,7 +43,7 @@ export function ImageGridItem({ image, aspect, items }: IImageGridItem) {
         sizes={sizes.toString()}
         className={cn(
           'object-cover',
-          'transition-transform duration-500 ease-out group-hover:scale-105',
+          'h-full w-full transition-transform duration-500 ease-out group-hover:scale-105',
         )}
       />
     </Box>

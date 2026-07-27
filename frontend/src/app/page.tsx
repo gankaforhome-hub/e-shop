@@ -5,10 +5,12 @@ import { type ProductCardDTO } from '@/entities/product/model/types';
 import { wait } from '@/shared/lib/utils';
 import { Heading } from '@/shared/ui/heading';
 import {
+  CreatingGankaSection,
   ExclusiveSection,
   GiftPackingSection,
   ProductTypeSection,
   RecommendedProductsSection,
+  StayInTouchSection,
 } from '@/widgets/sections/home';
 import { Hero } from '@/widgets/sections/home/hero';
 
@@ -42,11 +44,13 @@ export default async function Page() {
       <Heading headingLevel="h1" visibility="hidden">
         Ganka for Home Magazine
       </Heading>
-      {/* <ProductSearch /> */}
       <ProductTypeSection categories={categories} />
       <RecommendedProductsSection products={products} limit={limit} />
+      <CreatingGankaSection />
       <ExclusiveSection />
+      <StayInTouchSection />
       <GiftPackingSection />
+      {/* <ProductSearch /> */}
       {/* <NewsLetter /> */}
       {/* <Collections />
       <Collections />
