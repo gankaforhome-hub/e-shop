@@ -18,7 +18,7 @@ export function GiftPackingSection({ className }: IGiftPackingSection) {
           <Heading headingLevel="h2" className="fmb-6/16 text-center">
             Gift Packing
           </Heading>
-          <Box className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+          <Box className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:gap-6">
             <ImageGridItem
               image={{
                 src: '/images/home/gift-red-package-with-plate.png',

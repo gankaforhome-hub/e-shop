@@ -21,7 +21,7 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
         </Heading>
         <Box
           className={cn(
-            'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-3',
+            'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6',
           )}
         >
           {/* Перша картинка: на мобілці строго квадрат (aspect-square), на md: розтягується по висоті (md:aspect-auto md:h-full) */}
@@ -64,7 +64,7 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
             }}
             aspect="aspect-343/331 md:h-full"
             items={2}
-            className="hidden xl:block"
+            className="md:hidden xl:block"
           />
         </Box>
       </Container>

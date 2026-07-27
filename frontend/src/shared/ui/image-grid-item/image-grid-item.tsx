@@ -42,7 +42,7 @@ export function ImageGridItem({
         fill
         sizes={sizes.toString()}
         className={cn(
-          'object-cover',
+          'object-cover object-center',
           'h-full w-full transition-transform duration-500 ease-out group-hover:scale-105',
         )}
       />

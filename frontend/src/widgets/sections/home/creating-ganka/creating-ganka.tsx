@@ -24,7 +24,7 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
 
           <Box
             className={cn(
-              'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-3',
+              'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6',
             )}
           >
             <ImageGridItem
@@ -32,16 +32,16 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
                 src: '/images/home/creating-ganka-horse.png',
                 alt: 'Creating Ganka Horse',
               }}
-              aspect="aspect-343/300 md:aspect-auto"
+              aspect="aspect-square"
               items={2}
               className="h-full w-full"
             />
 
-            {/* Текстовий блок повністю згідно з макетом */}
             <Box
               className={cn(
-                'bg-surface-muted flex flex-col items-center justify-center rounded-2xl p-8 text-center md:p-10',
-                'aspect-343/300 h-full',
+                'bg-surface-muted flex flex-col items-center justify-center rounded-2xl p-8 text-center md:aspect-auto md:h-full md:p-10',
+                'max-sm:max-h-75 aspect-square max-sm:w-full',
+                // 'bg-surface-muted min-h-75 aspect-343/331 flex flex-col items-center justify-between rounded-lg p-6 text-center md:aspect-auto md:h-full md:p-8 lg:p-10',
               )}
             >
               <Box className="max-w-70 my-auto flex flex-col items-center justify-center gap-4 sm:max-w-xs md:max-w-sm">
@@ -66,9 +66,9 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
                 src: '/images/home/creating-ganka-plate-on-table.png',
                 alt: 'Creating Ganka Plate on table',
               }}
-              aspect="aspect-343/300 md:aspect-auto"
+              aspect="aspect-square md:aspect-auto"
               items={2}
-              className="hidden h-full w-full xl:block"
+              className="h-full w-full md:hidden xl:block"
             />
           </Box>
         </Container>

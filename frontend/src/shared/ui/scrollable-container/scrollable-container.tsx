@@ -45,7 +45,13 @@ export function ScrollableContainer({
       return;
     }
 
-    const resizeObserver = new ResizeObserver(([entry]) => {
+    const resizeObserver = new ResizeObserver(entries => {
+      // We safely take the first element
+      const entry = entries[0];
+      if (!entry) {
+        return;
+      }
+
       const { clientWidth, scrollWidth } = entry.target;
       const canScroll = scrollWidth > clientWidth + 4;
 
@@ -140,7 +146,7 @@ export function ScrollableContainer({
                   key={index}
                   onClick={() => scrollToDot(index)}
                   aria-label={`Go to slide ${index + 1}`}
-                  data-active={activeIndex === index || 1}
+                  data-active={activeIndex === index}
                 />
               ))}
             </div>

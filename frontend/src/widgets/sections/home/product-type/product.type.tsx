@@ -5,8 +5,7 @@ import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 
-import { ProductTypeList } from '../../category';
-import { ProductTypeListSkeleton } from '../../category/ui/product-type-list-skeleton';
+import { ProductTypeList, ProductTypeListSkeleton } from '../../category';
 
 interface Props {
   categories: Category[];

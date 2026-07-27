@@ -18,8 +18,11 @@ export async function getCollectionDataBySlug(slug: string) {
     return null;
   }
 
-  const collectionCategories = categories.filter(cat =>
-    collection.categoryIds.includes(cat.id),
+  const categoryIdsSet = new Set(collection?.categoryIds ?? []);
+
+  // 2. Фільтруємо категорії з обов'язковою перевіркою на наявність cat.id
+  const collectionCategories = categories.filter(
+    cat => cat?.id && categoryIdsSet.has(cat.id),
   );
 
   const collectionProducts = productStore
