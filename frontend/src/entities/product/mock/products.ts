@@ -1,6 +1,6 @@
 import { type Product } from '../model/types';
 
-const MOCK_PRODUCTS: Product[] = [
+export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod-1',
     slug: 'konyushina-sets-two-plates-small-and-big',

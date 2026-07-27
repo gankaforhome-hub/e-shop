@@ -26,9 +26,10 @@ export type CategorySlug =
 type ProductsRoute = `/products?${string}`;
 
 type ProductsSearchParams = {
-  category?: CategorySlug;
-  sort?: 'price' | 'name';
-  page?: string;
+  category?: CategorySlug | undefined;
+  sort?: 'price' | 'name' | undefined;
+  page?: string | undefined;
+  search?: string | undefined;
 };
 
 //INFO Functions for dynamic routes
@@ -37,10 +38,23 @@ const dynamicRoutes = {
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,
   products: (params?: ProductsSearchParams) => {
-    if (!params || Object.keys(params).length === 0) {
+    if (!params) {
       return '/products' as const;
     }
-    return `/products?${new URLSearchParams(params as Record<string, string>).toString()}` as ProductsRoute;
+
+    const cleanParams = Object.fromEntries(
+      Object.entries(params).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== '',
+      ),
+    );
+
+    const queryString = new URLSearchParams(
+      cleanParams as Record<string, string>,
+    ).toString();
+
+    return (
+      queryString ? `/products?${queryString}` : '/products'
+    ) as ProductsRoute;
   },
 };
 

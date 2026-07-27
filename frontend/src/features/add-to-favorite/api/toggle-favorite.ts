@@ -1,22 +1,28 @@
 'use server';
 
-import { productStore } from '@/entities/product/mock/products';
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
-//INFO only for local mock
-const favoriteState = new Map(
-  productStore.map(product => [product.id, product.isFavorite ?? false]),
-);
+export async function toggleFavorite(productId: string) {
+  const cookieStore = await cookies();
+  const favoritesRaw = cookieStore.get('favorite_ids')?.value;
+  const favoriteIds: string[] = favoritesRaw ? JSON.parse(favoritesRaw) : [];
 
-export async function toggleFavorite(
-  productId: string,
-): Promise<{ isFavorite: boolean }> {
-  const current = favoriteState.get(productId) ?? false;
+  let updatedFavorites: string[];
 
-  const next = !current;
+  if (favoriteIds.includes(productId)) {
+    updatedFavorites = favoriteIds.filter(id => id !== productId);
+  } else {
+    updatedFavorites = [...favoriteIds, productId];
+  }
 
-  favoriteState.set(productId, next);
+  // Зберігаємо оновлені лайки в cookies (на 30 днів)
+  cookieStore.set('favorite_ids', JSON.stringify(updatedFavorites), {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30,
+    httpOnly: true,
+  });
 
-  return {
-    isFavorite: next,
-  };
+  // Оновлюємо кеш сторінки каталогу
+  revalidatePath('/products');
 }

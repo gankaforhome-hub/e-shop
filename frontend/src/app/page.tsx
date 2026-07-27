@@ -3,6 +3,7 @@ import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { type ProductCardDTO } from '@/entities/product/model/types';
 import { wait } from '@/shared/lib/utils';
+import { Heading } from '@/shared/ui/heading';
 import {
   ExclusiveSection,
   GiftPackingSection,
@@ -38,26 +39,18 @@ export default async function Page() {
   return (
     <>
       <Hero />
-      {/* 
-      <Section className="bg-surface-muted pb-4">
-        <Container className="py-auto flex h-40 w-full items-center justify-center">
-          <Heading headingLevel="h1" className="text-brand-primary text-center">
-            Ganka for Home
-          </Heading>
-        </Container>
-             
-      </Section>
-      <ProductTypes />
-       */}
+      <Heading headingLevel="h1" visibility="hidden">
+        Ganka for Home Magazine
+      </Heading>
       {/* <ProductSearch /> */}
       <ProductTypeSection categories={categories} />
       <RecommendedProductsSection products={products} limit={limit} />
       <ExclusiveSection />
       <GiftPackingSection />
+      {/* <NewsLetter /> */}
       {/* <Collections />
       <Collections />
       <Products />
-      <NewsLetter />
       <Features /> */}
     </>
   );

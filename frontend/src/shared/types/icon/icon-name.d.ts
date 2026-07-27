@@ -16,6 +16,7 @@ export type IconName =
   | 'visa'
   | 'arrow'
   | 'cart'
+  | 'search'
   | 'contactUs'
   | 'copyright'
   | 'delivery'

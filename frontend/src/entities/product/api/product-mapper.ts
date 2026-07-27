@@ -29,7 +29,7 @@ export function mapProductToCard(product: Product): ProductCardDTO {
       badges: product.badges,
     }),
     stock: product.stock,
-
+    category: product.category,
     primaryCollection: product.primaryCollection,
 
     isFavorite: product.isFavorite ?? false,

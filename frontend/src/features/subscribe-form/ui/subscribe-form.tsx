@@ -62,7 +62,7 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cn('', className)}>
-      <Box className="fmy-10/12 max-lg:fgap-7/9 lg:fgap-3/5 flex flex-col justify-between lg:grid-cols-2 lg:flex-row lg:items-center">
+      <Box className="fmy-10/12 max-lg:fgap-7/9 lg:fgap-3/5 flex flex-col items-center justify-between lg:grid-cols-2 lg:flex-row lg:items-center">
         {inputs.map(({ type, name, label }) => (
           <Box key={name} className="relative w-full">
             <Input

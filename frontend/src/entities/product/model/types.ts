@@ -134,6 +134,7 @@ export type ProductCardDTO = {
   };
   stock: ProductStock;
   badges?: ProductBadge[];
+  category: ProductCategoryRef;
   primaryCollection: ProductCollectionRef;
   isFavorite: boolean;
 };
