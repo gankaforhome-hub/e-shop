@@ -86,15 +86,15 @@ export function RecommendedProductsSection({
   // );
   return (
     <Section aria-labelledby="recommended-product-section">
+      <Heading
+        headingLevel="h2"
+        variant="section"
+        position="center"
+        className="fmb-8/16"
+      >
+        Recommended Product
+      </Heading>
       <Container>
-        <Heading
-          headingLevel="h2"
-          variant="section"
-          position="center"
-          className="fmb-8/16"
-        >
-          Recommended Product
-        </Heading>
         <Suspense fallback={<RecommendedProductsSkeleton count={4} />}>
           <ScrollableContainer
             as="ul"

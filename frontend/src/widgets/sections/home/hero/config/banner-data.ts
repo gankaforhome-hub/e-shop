@@ -19,7 +19,7 @@ export const bannerSlides: BannerSlide[] = [
     slug: `ptahy`,
     media: {
       type: 'image',
-      src: '/images/hero_image.webp',
+      src: '/images/hero_image_2.png',
       alt: 'Зимова колекція',
     },
   },

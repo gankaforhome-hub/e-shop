@@ -2,12 +2,10 @@ import { type FC } from 'react';
 
 import rawJson from '@/dictionary/index.json';
 import { SubscribeForm } from '@/features/subscribe-form';
-import { cn } from '@/shared/lib/utils';
 import { type IndexPage } from '@/shared/types/dictionary/index-page';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
-import { Icon } from '@/shared/ui/icon';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
 
@@ -23,10 +21,10 @@ export const NewsLetter: FC<INewsLetterProps> = () => {
 
   return (
     <>
-      <Section className="">
+      <Section>
         <Container>
           <Box className="bg-bg-accent grid grid-cols-1 lg:grid-cols-2">
-            <Box className="fp-8/13">
+            <Box>
               <Heading
                 headingLevel="h2"
                 className="fmb-5/6 capitalize leading-[1.1]"
@@ -38,20 +36,12 @@ export const NewsLetter: FC<INewsLetterProps> = () => {
               </Text>
               <SubscribeForm form={form} />
             </Box>
-            <Box
+            {/* <Box
               className={cn(
                 "h-100 max-h-full w-full overflow-hidden bg-[url('/images/pages/home/news-letter-bg_mob.webp')] object-cover object-center sm:bg-[url('/images/pages/home/news-letter-bg_tab.webp')]",
                 'flex items-center justify-center',
               )}
-            >
-              <Text
-                as="span"
-                className="bg-bg fw-40/60 fh-12/16 fpx-5/6 flex items-center justify-center"
-              >
-                <Icon name="logo" className="flex h-5/6 w-auto flex-1" />
-              </Text>
-              {/* <Logo className="fp-5/6 bg-bg disable" /> */}
-            </Box>
+            ></Box> */}
           </Box>
         </Container>
       </Section>
