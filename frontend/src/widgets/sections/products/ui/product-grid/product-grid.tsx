@@ -41,6 +41,7 @@ export const ProductGrid = ({
             >
               <ProductCard
                 product={product}
+                priority={index < 9}
                 favoriteButton={
                   <FavoriteButton
                     productId={product.id}

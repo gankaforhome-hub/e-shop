@@ -20,7 +20,7 @@ export function ProductTypeListSkeleton({
             className="flex w-[calc((100%-24px)/3)] shrink-0 justify-center sm:w-auto"
           >
             <Box className="flex flex-col items-center gap-3 text-center">
-              <Skeleton className="h-20 w-20 sm:h-28 sm:w-28 lg:h-36 lg:w-36 xl:h-40 xl:w-40" />
+              <Skeleton className="h-20 w-20 rounded-full sm:h-28 sm:w-28 lg:h-36 lg:w-36 xl:h-40 xl:w-40" />
 
               <Skeleton className="h-4 w-16 sm:h-5 sm:w-20 lg:h-6 lg:w-24" />
             </Box>

@@ -29,11 +29,11 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
           >
             <ImageGridItem
               image={{
-                src: '/images/home/creating-ganka-horse.png',
+                src: '/images/home/creating-ganka-horse.webp',
                 alt: 'Creating Ganka Horse',
               }}
               aspect="aspect-square"
-              items={2}
+              items={3}
               className="h-full w-full"
             />
 
@@ -63,11 +63,11 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
 
             <ImageGridItem
               image={{
-                src: '/images/home/creating-ganka-plate-on-table.png',
+                src: '/images/home/creating-ganka-plate-on-table.webp',
                 alt: 'Creating Ganka Plate on table',
               }}
               aspect="aspect-square md:aspect-auto"
-              items={2}
+              items={3}
               className="h-full w-full md:hidden xl:block"
             />
           </Box>

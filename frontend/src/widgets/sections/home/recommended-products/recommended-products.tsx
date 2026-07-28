@@ -103,7 +103,7 @@ export function RecommendedProductsSection({
             scrollClassName="lg:grid lg:grid-cols-4 lg:overflow-visible"
             indicatorClassName="lg:hidden mt-3 md:px-20"
           >
-            {products.map(product => (
+            {products.map((product, index) => (
               <li
                 key={product.id}
                 className={cn(
@@ -117,6 +117,7 @@ export function RecommendedProductsSection({
                 <ProductCard
                   className="w-full"
                   product={product}
+                  priority={index < 2}
                   favoriteButton={
                     <FavoriteButton
                       productId={product.id}

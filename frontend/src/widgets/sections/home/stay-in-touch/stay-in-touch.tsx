@@ -27,11 +27,11 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
           {/* Перша картинка: на мобілці строго квадрат (aspect-square), на md: розтягується по висоті (md:aspect-auto md:h-full) */}
           <ImageGridItem
             image={{
-              src: '/images/home/stay-in-touch-japan-girls-with-snake.png',
+              src: '/images/home/stay-in-touch-japan-girls-with-snake.webp',
               alt: 'stay-in-touch-japan-girls-with-snake',
             }}
             aspect="aspect-343/331 md:h-full"
-            items={2}
+            items={3}
           />
 
           <Box
@@ -59,11 +59,11 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
           {/* Друга картинка */}
           <ImageGridItem
             image={{
-              src: '/images/home/stay-in-touch-berry-birds.png',
+              src: '/images/home/stay-in-touch-berry-birds.webp',
               alt: 'stay-in-touch-berry-birds',
             }}
             aspect="aspect-343/331 md:h-full"
-            items={2}
+            items={3}
             className="md:hidden xl:block"
           />
         </Box>
