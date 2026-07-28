@@ -7,7 +7,7 @@ export const categories: Category[] = [
     slug: 'plates',
     description: "Large and dessert plates with author's ceramics",
     image: {
-      src: '/images/category/cat-plates.png',
+      src: '/images/category/cat-plates.webp',
       alt: 'Ceramic plates',
     },
     productsCount: 12,
@@ -19,7 +19,7 @@ export const categories: Category[] = [
     description: 'Ready sets for serving the table',
     image: {
       id: 'cat-sets',
-      src: '/images/category/cat-sets.png',
+      src: '/images/category/cat-sets.webp',
       alt: 'Dinnerware sets',
     },
     productsCount: 4,
@@ -30,7 +30,7 @@ export const categories: Category[] = [
     slug: 'kettles',
     description: 'Ceramic and glass teapots for brewing',
     image: {
-      src: '/images/category/cat-kettles.png',
+      src: '/images/category/cat-kettles.webp',
       alt: 'Ceramic kettles',
     },
     productsCount: 5,
@@ -41,7 +41,7 @@ export const categories: Category[] = [
     slug: 'cups',
     description: 'Cozy cups for tea, coffee and morning rituals',
     image: {
-      src: '/images/category/cat-cups.png',
+      src: '/images/category/cat-cups.webp',
       alt: 'Ceramic cups',
     },
     productsCount: 18,
@@ -53,7 +53,7 @@ export const categories: Category[] = [
     description: 'Decorative candlesticks for atmospheric evenings',
     image: {
       id: 'cat-candlesticks',
-      src: '/images/category/cat-candlesticks.png',
+      src: '/images/category/cat-candlesticks.webp',
       alt: 'Ceramic candlesticks',
     },
     productsCount: 7,
@@ -64,7 +64,7 @@ export const categories: Category[] = [
     slug: 'glass',
     description: 'Elegant glassware for drinks and cocktails',
     image: {
-      src: '/images/category/cat-glass.png',
+      src: '/images/category/cat-glass.webp',
       alt: 'Glass collection',
     },
     productsCount: 9,

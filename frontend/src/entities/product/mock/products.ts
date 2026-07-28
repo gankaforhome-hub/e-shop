@@ -10,17 +10,17 @@ export const MOCK_PRODUCTS: Product[] = [
       'An ideal plate for pasta, soups or fresh salads. Handmade, scratch resistant and dishwasher safe.',
     media: [
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Deep ceramic plate',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Serving with a plate',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Serving with a plate',
         objectFit: 'cover',
       },
@@ -68,12 +68,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Cozy ceramic kettle perfect for tea ceremonies and long warm evenings.',
     media: [
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Ceramic kettle',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Kettle detail view',
         objectFit: 'contain',
       },
@@ -110,17 +110,17 @@ export const MOCK_PRODUCTS: Product[] = [
       'Minimalist ceramic cup with ergonomic grip for morning espresso.',
     media: [
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Coffee cup',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Cup angle view',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Set of cups',
         objectFit: 'contain',
       },
@@ -147,12 +147,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Elegant handmade ceramic candle holder designed for dinner tables.',
     media: [
       {
-        src: '/images/products/p-new-year.png',
+        src: '/images/products/p-new-year.webp',
         alt: 'Candlestick',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Candlestick setup',
         objectFit: 'cover',
       },
@@ -179,12 +179,12 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Unique artisanal glass for water, juices, and soft drinks.',
     media: [
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Drinking glass',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Glass detail',
         objectFit: 'cover',
       },
@@ -231,17 +231,17 @@ export const MOCK_PRODUCTS: Product[] = [
       'Complete dinnerware set including soup bowls, dinner plates, and dessert plates.',
     media: [
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Complete set',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Plates stack',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Plates closeup',
         objectFit: 'contain',
       },
@@ -269,12 +269,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Broad-brimmed deep ceramic plate designed for pasta, ramen, and salads.',
     media: [
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Pasta plate',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Plate top view',
         objectFit: 'contain',
       },
@@ -300,12 +300,12 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Small ceramic teapot ideal for single-serving tea brewing.',
     media: [
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Small teapot',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Teapot side',
         objectFit: 'cover',
       },
@@ -329,12 +329,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Crafted ceramic cup accompanied by a custom matching plate saucer.',
     media: [
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Cup with saucer',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Saucer detail',
         objectFit: 'contain',
       },
@@ -359,12 +359,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Artistic dual-holder candlestick for modern interior table decorations.',
     media: [
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Double candlestick',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Candlestick background',
         objectFit: 'cover',
       },
@@ -390,12 +390,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Pair of handcrafted tall glasses with organic subtle surface wave patterns.',
     media: [
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Glass pair',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-new-year.png',
+        src: '/images/products/p-new-year.webp',
         alt: 'Highball glass',
         objectFit: 'contain',
       },
@@ -419,17 +419,17 @@ export const MOCK_PRODUCTS: Product[] = [
       'Includes 2 cups, 2 bowls, and 2 dessert plates designed for morning routine.',
     media: [
       {
-        src: '/images/products/p-new-year.png',
+        src: '/images/products/p-new-year.webp',
         alt: 'Breakfast set',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Breakfast plates',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Breakfast cups',
         objectFit: 'cover',
       },
@@ -454,12 +454,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Large ceramic serving platter for baked goods, fruits, or main entrees.',
     media: [
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Serving platter',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Platter side',
         objectFit: 'cover',
       },
@@ -483,12 +483,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Heat-resistant clay kettle with natural wooden accent handle.',
     media: [
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Classic kettle',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Kettle top view',
         objectFit: 'contain',
       },
@@ -512,12 +512,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Hand-thrown wide cup engineered to retain latte art and foam.',
     media: [
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Cappuccino mug',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Mug in hand',
         objectFit: 'cover',
       },
@@ -541,12 +541,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Pair of low-profile rustic candle holders for tea lights or thin tapers.',
     media: [
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Mini candlesticks',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Candlestick top',
         objectFit: 'contain',
       },
@@ -571,12 +571,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Handcrafted tinted glass ideal for chilled beverages and cocktails.',
     media: [
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Tinted glass',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-new-year.png',
+        src: '/images/products/p-new-year.webp',
         alt: 'Glass texture',
         objectFit: 'contain',
       },
@@ -602,17 +602,17 @@ export const MOCK_PRODUCTS: Product[] = [
       'Matching tea ceremony set with 1L teapot and four matching ceramic cups.',
     media: [
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Tea set',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Teapot and cups',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Tea set angle',
         objectFit: 'contain',
       },
@@ -636,12 +636,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Compact round plate for desserts, appetizers, or bread serving.',
     media: [
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Dessert plate',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Plate texture',
         objectFit: 'contain',
       },
@@ -665,12 +665,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Designed specifically for precise water pouring during coffee brewing.',
     media: [
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Gooseneck kettle',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Pouring spout',
         objectFit: 'contain',
       },
@@ -695,12 +695,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Traditional wide-bottomed bowl for whisking and drinking ceremonial matcha.',
     media: [
       {
-        src: '/images/products/p-pumpking.png',
+        src: '/images/products/p-pumpking.webp',
         alt: 'Matcha bowl',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-eggplant.png',
+        src: '/images/products/p-eggplant.webp',
         alt: 'Matcha bowl top',
         objectFit: 'cover',
       },
@@ -724,12 +724,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Large ceramic pillar candlestick making a bold statement in living spaces.',
     media: [
       {
-        src: '/images/products/p-new-year.png',
+        src: '/images/products/p-new-year.webp',
         alt: 'Floor candlestick',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-flowers.png',
+        src: '/images/products/p-flowers.webp',
         alt: 'Candlestick room setup',
         objectFit: 'cover',
       },
@@ -753,12 +753,12 @@ export const MOCK_PRODUCTS: Product[] = [
       'Heavy-bottomed ribbed glass for whiskey, cocktails, or spirits on the rocks.',
     media: [
       {
-        src: '/images/products/p-pink.png',
+        src: '/images/products/p-pink.webp',
         alt: 'Whiskey tumbler',
         objectFit: 'contain',
       },
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Tumbler side view',
         objectFit: 'cover',
       },
@@ -782,17 +782,17 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Matching set containing 1 multipurpose deep plate and 1 mug.',
     media: [
       {
-        src: '/images/products/p-watermelon.png',
+        src: '/images/products/p-watermelon.webp',
         alt: 'Duo set',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-birds.png',
+        src: '/images/products/p-birds.webp',
         alt: 'Plate and cup side',
         objectFit: 'cover',
       },
       {
-        src: '/images/products/p-angels.png',
+        src: '/images/products/p-angels.webp',
         alt: 'Set top view',
         objectFit: 'contain',
       },
