@@ -1,0 +1,12 @@
+{
+  "footer": {
+    "topBar": {
+      "location": {
+        "icon": "location",
+        "title": "Locate a store",
+        "href": "/contacts",
+        "ariaLabel": "link to contact"
+      }
+    }
+  }
+}

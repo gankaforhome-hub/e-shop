@@ -3,7 +3,7 @@
 export type ExternalHref =
   `http${'s' | ''}://${string}` | `mailto:${string}` | `tel:${string}`;
 
-const staticRoutes = {
+export const staticRoutes = {
   home: '/' as const,
   collections: '/collections' as const,
   about: '/about-us' as const,
@@ -33,7 +33,7 @@ type ProductsSearchParams = {
 };
 
 //INFO Functions for dynamic routes
-const dynamicRoutes = {
+export const dynamicRoutes = {
   product: (productSlug: string) => `/product/${productSlug}` as const,
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,

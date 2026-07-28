@@ -1,0 +1,333 @@
+{
+  "hero": {
+    "sectionTitle": "Ganka for home",
+    "banners": [
+      {
+        "id": "1",
+        "title": "konyushina",
+        "subTitle": "new collection",
+        "slug": "konyushina",
+        "media": {
+          "type": "image",
+          "src": "/images/hero_image.webp",
+          "alt": "Весняна колекція"
+        }
+      },
+      {
+        "id": "2",
+        "title": "Winter",
+        "subTitle": "popular collection",
+        "slug": "winter",
+        "media": {
+          "type": "image",
+          "src": "/images/product.webp",
+          "alt": "Зимова колекція"
+        }
+      }
+    ],
+    "videoPlayerControls": {
+      "play": {
+        "icon": "play",
+        "title": "",
+        "ariaLabel": "play video"
+      },
+      "pause": {
+        "icon": "pause",
+        "title": "",
+        "ariaLabel": "stop video"
+      },
+      "mute": {
+        "icon": "mute",
+        "title": "",
+        "ariaLabel": "turn off video sound"
+      },
+      "sound": {
+        "icon": "sound",
+        "title": "",
+        "ariaLabel": "turn on video sound"
+      }
+    }
+  },
+  "productTypesSection": {
+    "sectionTitle": "Products:",
+    "productsType": [
+      {
+        "id": 1,
+        "title": "Platters",
+        "images": {
+          "url": "/images/productTypePlatters.webp",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Kettles",
+        "images": {
+          "url": "/images/productTypeKettles.webp",
+          "alt": "Kettles"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Cups",
+        "images": {
+          "url": "/images/productTypeCups.webp",
+          "alt": "Cups"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Candlesticks",
+        "images": {
+          "url": "/images/productTypeCandlesticks.webp",
+          "alt": "Candlesticks"
+        }
+      }
+    ]
+  },
+  "newProductsSection": {
+    "sectionTitle": "Popular Products",
+    "products": [
+      {
+        "id": 1,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Last",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "type": "new",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      }
+    ]
+  },
+  "newCollectionSection": {
+    "sectionTitle": "Popular collections",
+    "collections": [
+      {
+        "id": 1,
+        "type": "new",
+        "title": "Gifts from Ganka",
+        "images": {
+          "url": "/images/collection.webp",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 2,
+        "type": "new",
+        "title": "Hare - Сorolla",
+        "images": {
+          "url": "/images/collection.webp",
+          "alt": "Hare - Сorolla"
+        }
+      }
+    ]
+  },
+  "exclusiveSection": {
+    "sectionTitle": "INTRODUCING CREATE YOOOOOUR PLATE",
+    "description": "Ganka exclusive provide the opportunity to create your customized plate. This tradition reaches back.",
+    "image": { "url": "/images", "alt": "" }
+  },
+  "recommendedCollectionSection": {
+    "sectionTitle": "Popular collections",
+    "collections": [
+      {
+        "id": 3,
+        "type": "recommended",
+        "title": "Gifts from Ganka",
+        "images": {
+          "url": "/images/collection.webp",
+          "alt": "Platters"
+        }
+      },
+      {
+        "id": 4,
+        "type": "recommended",
+        "title": "Hare - Сorolla",
+        "images": {
+          "url": "/images/collection.webp",
+          "alt": "Hare - Сorolla"
+        }
+      }
+    ]
+  },
+  "recommendedProductsSection": {
+    "sectionTitle": "Popular Products",
+    "products": [
+      {
+        "id": 5,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Last",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "type": "recommended",
+        "title": "Adam & Eva",
+        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
+        "badge": "Most popular",
+        "images": [
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          },
+          {
+            "url": "/images/product.webp",
+            "alt": "Platters"
+          }
+        ]
+      }
+    ]
+  },
+  "newsLetterSection": {
+    "sectionTitle": "latest from ganka",
+    "description": "Sign up for the newsletter to stay up to date with collection updates and major new products",
+    "form": {
+      "inputs": [
+        {
+          "name": "firstName",
+          "label": "First name",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "name": "emailSubscription",
+          "label": "Email",
+          "placeholder": "",
+          "type": "email"
+        }
+      ],
+      "buttonText": "subscribe",
+      "notifications": {
+        "success": {
+          "title": "You have successfully signed up 🖤",
+          "text": "Expect to be on our novelties"
+        },
+        "error": "An error occurred while sending a request"
+      }
+    }
+  },
+  "featuresSection": {
+    "sectionTitle": "Features ganka for home",
+    "features": [
+      {
+        "icon": "delivery",
+        "title": "Complimentary Shipping & Returns",
+        "description": "We offer shipping and return on all Ganka orders."
+      },
+      {
+        "icon": "contactUs",
+        "title": "Ganka At Your Service",
+        "description": "Our client care experts are always here to help."
+      },
+      {
+        "icon": "gift",
+        "title": "The Iconic Blue Box",
+        "description": "Your Ganka purchase comes wrapped in our Blue Box."
+      }
+    ]
+  }
+}
