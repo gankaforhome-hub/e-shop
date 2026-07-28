@@ -28,7 +28,7 @@
     "paths": {
       // "@/*": ["./*"],
       "src": ["./src"],
-      "@/dictionary/*": ["./dictionary/*"],
+      "@/dictionaries/*": ["./dictionaries/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/widgets/*": ["./src/widgets/*"],
       "@/features/*": ["./src/features/*"],
