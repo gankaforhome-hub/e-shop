@@ -1,13 +1,10 @@
 import { cn } from '@/shared/lib/utils';
+import { type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 
-type ImageItem = {
-  src: string;
-  alt: string;
-};
-interface IImageGridItem {
-  image: ImageItem;
+export interface IImageGridItem {
+  image: Media;
   aspect: string;
   items: 1 | 2 | 3 | 4;
   className?: string;
@@ -23,10 +20,10 @@ const sizesByCount = {
 export function ImageGridItem({
   image,
   aspect,
-  items,
+  items = 1,
   className,
 }: IImageGridItem) {
-  const sizes = items ?? sizesByCount[items];
+  const sizes = sizesByCount[items];
 
   return (
     <Box
