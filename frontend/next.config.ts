@@ -5,8 +5,29 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
-  experimental: { serverSourceMaps: false },
-  allowedDevOrigins: ['http://localhost:3000', 'http://172.19.16.1:3000'],
+  images: {
+    formats: ['image/avif', 'image/webp'], // AVIF стискає ще краще за WebP
+    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920], // Адаптивні точки під мобілки
+  },
+  allowedDevOrigins: [
+    'localhost:3000',
+    '172.19.16.1:3000',
+    '*.devtunnels.ms',
+    '2ks38grh-3000.euw.devtunnels.ms',
+  ],
+
+  experimental: {
+    serverSourceMaps: false,
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000',
+        '172.19.16.1:3000',
+        '2ks38grh-3000.euw.devtunnels.ms',
+        '*.devtunnels.ms',
+        '*.euw.devtunnels.ms',
+      ],
+    },
+  },
 
   turbopack: {
     // resolveAlias: {
