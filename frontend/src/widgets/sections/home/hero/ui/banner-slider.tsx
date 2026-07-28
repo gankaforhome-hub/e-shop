@@ -1,5 +1,6 @@
 'use client';
 
+import Autoplay from 'embla-carousel-autoplay';
 import { type FC } from 'react';
 
 import { cn } from '@/shared/lib/utils';
@@ -18,47 +19,49 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
   return (
     <Carousel
       className={cn('relative z-10 h-full w-full', className)}
-      isAutoplay
+      plugins={[
+        Autoplay({
+          delay: 4000,
+          stopOnInteraction: false,
+          // stopOnMouseEnter: true,
+        }),
+      ]}
+      // isAutoplay
       isFade
       opts={{
         startIndex: 0,
         align: 'start',
         loop: true,
-        containScroll: false,
-        duration: 100,
+        containScroll: 'trimSnaps',
+        duration: 50,
       }}
     >
-      <CarouselContent
-        className={cn(
-          'h-full w-full shrink-0',
-          // 'h-[calc(100vh-var(--h-topbar))] w-full md:h-[calc(100vh-var(--h-header,var(--h-mob-header)))]',
-        )}
-      >
+      <CarouselContent className="flex h-full w-full shrink-0">
         {bannerSlides.map(
-          ({
-            media: { src, alt, poster, type },
-            id,
-            slug,
-            title,
-            subTitle,
-          }) => (
-            <CarouselItem
-              key={id}
-              className="relative h-[calc(100dvh-var(--h-topbar))]"
-            >
-              <BannerSlide
-                // width={1620}
-                // height={850}
-                type={type}
-                src={src}
-                alt={alt ?? ''}
-                poster={poster ?? ''}
-                slug={slug}
-                title={title}
-                subTitle={subTitle ?? ''}
-              />
-            </CarouselItem>
-          ),
+          (
+            { media: { src, alt, poster, type }, id, slug, title, subTitle },
+            index,
+          ) => {
+            const isFirstSlide = index === 0;
+            return (
+              <CarouselItem
+                key={id}
+                className="relative h-full min-h-0 w-full shrink-0 basis-full overflow-hidden"
+              >
+                <BannerSlide
+                  loading={isFirstSlide ? 'eager' : 'lazy'}
+                  fetchPriority={isFirstSlide ? 'high' : 'auto'}
+                  type={type}
+                  src={src}
+                  alt={alt ?? ''}
+                  poster={poster ?? ''}
+                  slug={slug}
+                  title={title}
+                  subTitle={subTitle ?? ''}
+                />
+              </CarouselItem>
+            );
+          },
         )}
       </CarouselContent>
 

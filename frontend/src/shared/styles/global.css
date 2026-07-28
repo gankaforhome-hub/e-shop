@@ -419,9 +419,9 @@ BASE & UTILITIES LAYER
   }
 
   /* .card-surface {
-    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.03)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.05)_0_1px,transparent_1.5px),linear-gradient(270deg,#d7d9dc_0%,#aeb2b7_22%,#7f858c_48%,#52575e_72%,#2b2f34_100%)];
+    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[#9ea3a8] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.05)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.035)_0_1px,transparent_1.5px),linear-gradient(270deg,#f2f3f5_0%,#d7dadd_22%,#b3b8be_48%,#7b8289_72%,#474d53_100%)];
   } */
   .card-surface {
-    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[#9ea3a8] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.05)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.035)_0_1px,transparent_1.5px),linear-gradient(270deg,#f2f3f5_0%,#d7dadd_22%,#b3b8be_48%,#7b8289_72%,#474d53_100%)];
+    @apply bg-[#9ea3a8];
   }
 }

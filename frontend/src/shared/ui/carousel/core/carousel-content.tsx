@@ -13,12 +13,12 @@ export const CarouselContent: FC<ComponentProps<'div'>> = ({
   return (
     <div
       ref={carouselRef}
-      className="overflow-hidden"
+      className="h-full w-full overflow-hidden"
       data-slot="carousel-content"
     >
       <div
         className={cn(
-          'flex',
+          'flex h-full w-full',
           orientation === 'horizontal' ? 'ml-0' : 'mt-0 flex-col',
           className,
         )}
