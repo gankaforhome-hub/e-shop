@@ -3,13 +3,9 @@ import type { Metadata } from 'next';
 import React from 'react';
 
 import { inter, lora } from '@/shared/config';
-import { routes } from '@/shared/config/routes';
 import '@/shared/styles/global.css';
-import { AppLink } from '@/shared/ui/app-link';
-import { Container } from '@/shared/ui/container';
-import { Heading } from '@/shared/ui/heading';
-import { Section } from '@/shared/ui/section';
 import { Footer } from '@/widgets/layout/footer'; // export const viewport: Viewport = {
+import { Header } from '@/widgets/layout/header';
 //   width: 'device-width',
 //   initialScale: 1,
 //   maximumScale: 1,
@@ -34,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
-        <Section className="bg-surface-muted pb-4">
+        {/* <Section className="bg-surface-muted pb-4">
           <Container className="py-auto h-var(--h-topbar) flex w-full items-center justify-center">
             <AppLink href={routes.home} className="link">
               <Heading
@@ -45,8 +41,8 @@ export default function RootLayout({
               </Heading>
             </AppLink>
           </Container>
-        </Section>
-        {/* <Header />*/}
+        </Section> */}
+        <Header />
         <main>{children}</main>
         <Footer />
         <div id="modal-root" />
