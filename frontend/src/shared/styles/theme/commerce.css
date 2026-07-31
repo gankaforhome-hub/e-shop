@@ -1,0 +1,50 @@
+:root {
+  /* Price Display */
+  --commerce-price-current: var(--primitive-neutral-900);
+  --commerce-price-old: var(--primitive-neutral-600);
+  --commerce-price-sale: var(--primitive-brand-900);
+
+  /* Stock & Inventory */
+  --commerce-stock-in: var(--primitive-emerald-700);
+  --commerce-stock-in-bg: var(--primitive-emerald-50);
+  --commerce-stock-low: var(--primitive-amber-700);
+  --commerce-stock-low-bg: var(--primitive-amber-50);
+  --commerce-stock-out: var(--primitive-neutral-600);
+  --commerce-stock-out-bg: var(--primitive-neutral-100);
+
+  /* Discounts & Ratings */
+  --commerce-discount-bg: var(--primitive-brand-50);
+  --commerce-discount-fg: var(--primitive-brand-900);
+  --commerce-rating-star: var(--primitive-amber-400);
+
+  /* Pagination / Slider Navigation Dots */
+  --dot-active-primary: var(--primitive-brand-900);
+  --dot-inactive-primary: var(--primitive-brand-100);
+  --dot-active-secondary: var(--primitive-brand-600);
+  --dot-inactive-secondary: var(--primitive-neutral-200);
+  --dot-hover: var(--primitive-brand-800);
+
+  /* Badges*/
+  --badge-new-bg: var(--primitive-brand-200);
+  --badge-new-text: var(--primitive-neutral-0);
+  --badge-top-bg: var(--primitive-brand-900);
+  --badge-top-text: var(--primitive-amber-50);
+  --badge-bestseller-bg: var(--primitive-brand-900);
+  --badge-bestseller-text: var(--primitive-neutral-0);
+  --badge-preorder-bg: var(--primitive-slate-700);
+  --badge-preorder-text: var(--primitive-neutral-0);
+  --badge-popular-bg: var(--primitive-stone-900);
+  --badge-popular-text: var(--primitive-neutral-0);
+  --badge-limited-bg: var(--primitive-amber-950);
+  --badge-limited-text: var(--primitive-amber-50);
+  --badge-sale-bg: var(--primitive-brand-900);
+  --badge-sale-text: var(--primitive-neutral-0);
+
+  /* Components */
+  --product-card-bg: var(--card); /* from semantic.css */
+  --product-card-radius: var(--radius-md); /* from radius.css */
+  --faq-bg-base: var(--primitive-neutral-50);
+  --faq-radius: var(--radius-lg);
+  --button-radius: var(--radius-lg);
+  --product-card-bg: var(--card);
+}

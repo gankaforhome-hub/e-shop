@@ -1,0 +1,56 @@
+:root {
+  --background: var(--primitive-neutral-0);
+  --foreground: var(--primitive-neutral-900);
+
+  --card: var(--primitive-neutral-0);
+  --card-foreground: var(--primitive-neutral-900);
+
+  --popover: var(--primitive-neutral-0);
+  --popover-foreground: var(--primitive-neutral-900);
+
+  --primary: var(--primitive-brand-900);
+  --primary-foreground: var(--primitive-neutral-0);
+  --primary-hover: var(--primitive-brand-700);
+  --primary-active: var(--primitive-brand-950);
+
+  --secondary: var(--primitive-neutral-100);
+  --secondary-foreground: var(--primitive-neutral-900);
+  --secondary-hover: var(--primitive-neutral-200);
+  --secondary-active: var(--primitive-neutral-300);
+
+  --muted: var(--primitive-neutral-100);
+  --muted-foreground: var(--primitive-neutral-600);
+
+  --accent: var(--primitive-brand-200);
+  --accent-foreground: var(--primitive-brand-900);
+  --surface-brand-subtle: var(--primitive-brand-100);
+
+  --destructive: var(--primitive-red-600);
+  --destructive-foreground: var(--primitive-neutral-0);
+  --destructive-hover: var(--primitive-brand-950);
+
+  --border: color-mix(in srgb, var(--primitive-neutral-900) 20%, transparent);
+  --input: var(--border);
+
+  --ring: var(--primitive-brand-900);
+  --focus-ring-color: var(--ring);
+
+  --disabled-bg: var(--primitive-neutral-100);
+  --disabled-foreground: var(--primitive-neutral-400);
+  --disabled-border: var(--primitive-neutral-200);
+
+  --link: var(--primitive-brand-900);
+  --link-hover: var(--primitive-brand-700);
+  --link-visited: var(--primitive-brand-950);
+
+  --status-success-fg: var(--primitive-emerald-700);
+  --status-success-bg: var(--primitive-emerald-50);
+  --status-success-icon: var(--primitive-emerald-500);
+  --status-warning-fg: var(--primitive-amber-700);
+  --status-warning-bg: var(--primitive-amber-50);
+  --status-warning-icon: var(--primitive-amber-500);
+  --status-error-fg: var(--primitive-red-600);
+  --status-error-bg: var(--primitive-brand-50);
+  --status-info-fg: var(--primitive-slate-700);
+  --status-info-bg: var(--primitive-neutral-100);
+}

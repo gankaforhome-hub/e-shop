@@ -1,0 +1,11 @@
+:root {
+  --shadow-xs: 0 1px 2px rgb(8 8 8 / 0.03);
+  --shadow-sm: 0 1px 3px rgb(8 8 8 / 0.06), 0 1px 2px rgb(8 8 8 / 0.04);
+  --shadow-md: 0 4px 6px rgb(8 8 8 / 0.08), 0 2px 4px rgb(8 8 8 / 0.04);
+  --shadow-lg: 0 10px 15px rgb(8 8 8 / 0.1), 0 4px 6px rgb(8 8 8 / 0.05);
+  --shadow-xl: 0 20px 25px rgb(8 8 8 / 0.12), 0 8px 10px rgb(8 8 8 / 0.04);
+  --shadow-glass: 0 8px 32px rgb(8 8 8 / 0.08);
+  --shadow-card: 0 4px 12px rgb(0 0 0 / 0.05);
+  --shadow-button: 0 2px 4px rgb(177 18 38 / 0.15);
+  --shadow-floating: 0 12px 28px rgb(0 0 0 / 0.12);
+}

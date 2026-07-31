@@ -1,364 +1,135 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import './utility-style';
-@import './fluid-style';
 
-@custom-variant dark (&:is(.dark *));
-
-/*
-==========================================================================
-E-COMMERCE DESIGN SYSTEM ARCHITECTURE (Tailwind v4 + Shadcn)
-==========================================================================
-Layer 1: Primitives (HEX values from Figma)
-Layer 2: Semantic Tokens (UI Roles)
-Layer 3: E-Commerce Tokens (Domain Specific)
-Layer 4: Layout & Structural Measurements
-==========================================================================
-*/
-
-:root {
-  /*
-  ========================================================================
-  LAYER 1 — PRIMITIVES (Raw Hex & RGBA Values)
-  ========================================================================
-  */
-  /* Brand Palette */
-  --color-brand-primary: #b11226;
-  --color-brand-secondary: #f79fa6;
-  --color-brand-hover: #8f0e1d;
-  --color-brand-active: #760b17;
-  --color-brand-soft: #fde1e3;
-
-  /* Neutral Palette */
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-neutral-950: #080808;
-  --color-neutral-900: #231f20;
-  --color-neutral-850: #09192c;
-  --color-neutral-800: #1a1a1a;
-  --color-neutral-700: #555555;
-  --color-neutral-500: #9d9d9d;
-  --color-neutral-200: #e7e7e7;
-  --color-neutral-100: #f4f5f7;
-
-  /* Status Colors */
-  --color-success: #16803c;
-  --color-warning: #b7791f;
-  --color-error: #990000;
-  --color-info: #2563eb;
-  --color-star: #f59e0b;
-
-  /* Alpha Overlays */
-  --color-black-20: rgba(0, 0, 0, 0.2);
-  --color-black-50: rgba(0, 0, 0, 0.5);
-  --color-white-03: rgba(255, 255, 255, 0.03);
-  --color-white-70: rgba(255, 255, 255, 0.7);
-
-  /* Radius Primitives */
-  --radius-none: 0px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 10px;
-  --radius-full: 9999px;
-
-  /*
-  ========================================================================
-  LAYER 2 — SEMANTIC TOKENS (UI Meaning)
-  ========================================================================
-  */
-  /* Surfaces & Backgrounds */
-  --surface-page: var(--color-white);
-  --surface-card: var(--color-white);
-  --surface-muted: var(--color-neutral-100);
-  --surface-dark: var(--color-neutral-950);
-  --surface-overlay: var(--color-black-20);
-
-  /* Text & Typography */
-  --text-primary: var(--color-neutral-950);
-  --text-secondary: var(--color-neutral-700);
-  --text-muted: var(--color-neutral-500);
-  --text-inverse: var(--color-white);
-  --text-brand: var(--color-brand-primary);
-  --text-logo: var(--color-neutral-900);
-  --text-disabled: var(--color-black-20);
-
-  /* Borders & Dividers */
-  --border-default: var(--color-black);
-  --border-muted: var(--color-neutral-500);
-  --border-brand: var(--color-brand-primary);
-  --border-focus: var(--color-brand-primary);
-
-  /* Action Elements (Buttons, Controls) */
-  --action-primary: var(--color-brand-primary);
-  --action-primary-hover: var(--color-brand-hover);
-  --action-primary-active: var(--color-brand-active);
-  --action-primary-disabled: var(--color-neutral-200);
-  --action-primary-text: var(--color-white);
-
-  --action-secondary: var(--color-white);
-  --action-secondary-hover: var(--color-neutral-100);
-  --action-secondary-text: var(--color-black);
-
-  --action-danger: var(--color-error);
-  --action-danger-text: var(--color-white);
-
-  /* Slider / Carousel Dots */
-  --dot-active-primary: var(--color-brand-primary);
-  --dot-inactive-primary: var(--color-brand-soft);
-  --dot-active-secondary: #c92330;
-  --dot-inactive-secondary: var(--color-brand-soft);
-  --dot-hover: var(--color-brand-hover);
-
-  /* Form Elements */
-  --input-bg: var(--color-white);
-  --input-border: var(--border-default);
-  --input-focus-ring: var(--color-brand-primary);
-
-  /*
-  ========================================================================
-  LAYER 3 — E-COMMERCE DOMAIN TOKENS
-  ========================================================================
-  */
-  /* Product Cards & Grid */
-  --commerce-product-bg: var(--surface-card);
-  --commerce-product-border: var(--border-default);
-  --commerce-product-title: var(--text-primary);
-
-  /* Pricing */
-  --commerce-price-current: var(--color-neutral-850);
-  --commerce-price-old: var(--color-neutral-500);
-  --commerce-price-sale: var(--color-brand-primary);
-
-  /* Badges & Discounts */
-  --commerce-discount-bg: var(--color-brand-primary);
-  --commerce-discount-text: var(--color-white);
-
-  /* Stock & Inventory */
-  --commerce-stock-in: var(--color-success);
-  --commerce-stock-low: var(--color-brand-soft);
-  --commerce-stock-out: var(--color-neutral-500);
-
-  /* Cart & Drawer */
-  --commerce-cart-bg: var(--surface-muted);
-  --commerce-cart-highlight: var(--color-brand-soft);
-
-  /* Checkout & Reviews */
-  --commerce-checkout-accent: var(--color-brand-primary);
-  --commerce-rating-star: var(--color-star);
-
-  /* Badges & Statuses */
-  --commerce-badge-popular-bg: var(--color-brand-primary);
-  --commerce-badge-popular-text: var(--color-white);
-
-  --commerce-badge-new-bg: var(--color-brand-soft);
-  --commerce-badge-new-text: var(--color-neutral-850);
-
-  --commerce-badge-top-bg: var(--color-brand-secondary);
-  --commerce-badge-top-text: var(--color-black);
-
-  --commerce-badge-warning-bg: rgba(183, 121, 31, 0.1);
-  --commerce-badge-warning-text: var(--color-warning);
-
-  --commerce-badge-secondary-bg: var(--color-neutral-100);
-  --commerce-badge-secondary-text: var(--color-neutral-700);
-
-  /*
-  ========================================================================
-  LAYER 4 — LAYOUT & DIMENSIONS
-  ========================================================================
-  */
-  --h-header-mobile: 5.125rem; /* 82px */
-  --h-header-desktop: 6rem; /* 96px */
-  --h-topbar: 2.5rem; /* 40px */
-
-  --btn-height-sm: 2rem; /* 32px */
-  --btn-height-md: 2.5rem; /* 40px */
-  --btn-height-lg: 3rem; /* 48px */
-  --input-height: 2.75rem; /* 44px */
-
-  --card-radius: var(--radius-xl);
-  --button-radius: var(--radius-xl);
-  --badge-radius: var(--radius-sm);
-}
+@import './theme/primitives.css';
+@import './theme/radius.css';
+@import './theme/layout.css';
+@import './theme/motion.css';
+@import './theme/shadows.css';
+@import './theme/semantic.css';
+@import './theme/commerce.css';
+@import './fluid';
+@import './base';
 
 @theme inline {
-  /* Breakpoints */
   --breakpoint-3xl: 120rem;
-
-  /* Typography */
-  --font-logo: var(--font-lora);
   --font-heading: var(--font-lora);
-  --font-text: var(--font-inter);
-  --font-button: var(--font-inter);
+  --font-text: var(--font-lora);
+  --font-caption: var(--font-inter);
 
-  /* Shadows */
-  --shadow-card: -8.43px 8.43px 42.13px 0 rgba(8, 8, 8, 0.1);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 
-  /* Heights & Sizes */
-  --height-header-mobile: var(--h-header-mobile);
-  --height-header-desktop: var(--h-header-desktop);
-  --height-topbar: var(--h-topbar);
-  --height-btn-sm: var(--btn-height-sm);
-  --height-btn-md: var(--btn-height-md);
-  --height-btn-lg: var(--btn-height-lg);
-  --height-input: var(--input-height);
+  --color-action-primary: var(--primary);
+  --color-action-primary-foreground: var(--primary-foreground);
+  --color-action-primary-hover: var(--primary-hover);
+  --color-action-primary-active: var(--primary-active);
 
-  /* Radii */
-  --radius-none: var(--radius-none);
+  --color-action-secondary: var(--secondary);
+  --color-action-secondary-foreground: var(--secondary-foreground);
+  --color-action-secondary-hover: var(--secondary-hover);
+  --color-action-secondary-active: var(--secondary-active);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface-brand-subtle: var(--surface-brand-subtle);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-disabled-bg: var(--disabled-bg);
+  --color-disabled-foreground: var(--disabled-foreground);
+  --color-disabled-border: var(--disabled-border);
+
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-link-visited: var(--link-visited);
+
+  --color-status-success-fg: var(--status-success-fg);
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-icon: var(--status-success-icon);
+  --color-status-warning-fg: var(--status-warning-fg);
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-icon: var(--status-warning-icon);
+  --color-status-error-fg: var(--status-error-fg);
+  --color-status-error-bg: var(--status-error-bg);
+  --color-status-info-fg: var(--status-info-fg);
+  --color-status-info-bg: var(--status-info-bg);
+
+  --color-commerce-price-current: var(--commerce-price-current);
+  --color-commerce-price-old: var(--commerce-price-old);
+  --color-commerce-price-sale: var(--commerce-price-sale);
+  --color-commerce-stock-in: var(--commerce-stock-in);
+  --color-commerce-stock-in-bg: var(--commerce-stock-in-bg);
+  --color-commerce-stock-low: var(--commerce-stock-low);
+  --color-commerce-stock-low-bg: var(--commerce-stock-low-bg);
+  --color-commerce-stock-out: var(--commerce-stock-out);
+  --color-commerce-stock-out-bg: var(--commerce-stock-out-bg);
+  --color-commerce-discount-bg: var(--commerce-discount-bg);
+  --color-commerce-discount-fg: var(--commerce-discount-fg);
+  --color-commerce-rating-star: var(--commerce-rating-star);
+
+  --color-dot-active-primary: var(--dot-active-primary);
+  --color-dot-inactive-primary: var(--dot-inactive-primary);
+  --color-dot-active-secondary: var(--dot-active-secondary);
+  --color-dot-inactive-secondary: var(--dot-inactive-secondary);
+  --color-dot-hover: var(--dot-hover);
+
+  --color-badge-new-bg: var(--badge-new-bg);
+  --color-badge-new-text: var(--badge-new-text);
+  --color-badge-top-bg: var(--badge-top-bg);
+  --color-badge-top-text: var(--badge-top-text);
+  --color-badge-bestseller-bg: var(--badge-bestseller-bg);
+  --color-badge-bestseller-text: var(--badge-bestseller-text);
+  --color-badge-preorder-bg: var(--badge-preorder-bg);
+  --color-badge-preorder-text: var(--badge-preorder-text);
+  --color-badge-popular-bg: var(--badge-popular-bg);
+  --color-badge-popular-text: var(--badge-popular-text);
+  --color-badge-limited-bg: var(--badge-limited-bg);
+  --color-badge-limited-text: var(--badge-limited-text);
+  --color-badge-sale-bg: var(--badge-sale-bg);
+  --color-badge-sale-text: var(--badge-sale-text);
+
+  --color-product-card-bg: var(--product-card-bg);
+  --color-faq-bg-base: var(--faq-bg-base);
+
+  --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
-  --radius-lg: var(--radius-xl);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
   --radius-full: var(--radius-full);
-  --radius-card: var(--card-radius);
-  --radius-button: var(--button-radius);
-  --radius-badge: var(--badge-radius);
-  --radius: var(--radius-md);
 
-  /*
-  ========================================================================
-  COLOR UTILITY MAPPING (Мапінг усіх токенів на стандартні класи)
-  ========================================================================
-  */
-  /* Primitives (Neutrals & Brand) */
-  --color-neutral-950: var(--color-neutral-950);
-  --color-neutral-900: var(--color-neutral-900);
-  --color-neutral-800: var(--color-neutral-800);
-  --color-neutral-700: var(--color-neutral-700);
-  --color-neutral-500: var(--color-neutral-500);
-  --color-neutral-200: var(--color-neutral-200);
-  --color-neutral-100: var(--color-neutral-100);
+  /* motion tokens exposed as Tailwind theme values */
+  --ease-subtle: var(--ease-subtle);
+  --ease-bounce: var(--ease-bounce);
+  --dur-fast: var(--dur-fast);
+  --dur-normal: var(--dur-normal);
+  --dur-slow: var(--dur-slow);
 
-  --color-brand-primary: var(--color-brand-primary);
-  --color-brand-hover: var(--color-brand-hover);
-  --color-brand-active: var(--color-brand-active);
-  --color-brand-soft: var(--color-brand-soft);
-
-  /* Semantic UI Surfaces & Text */
-  --color-surface-page: var(--surface-page);
-  --color-surface-card: var(--surface-card);
-  --color-surface-muted: var(--surface-muted);
-  --color-surface-dark: var(--surface-dark);
-  --color-surface-overlay: var(--surface-overlay);
-
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-muted: var(--text-muted);
-  --color-text-inverse: var(--text-inverse);
-  --color-text-brand: var(--text-brand);
-  --color-text-logo: var(--text-logo);
-
-  --color-border-default: var(--border-default);
-  --color-border-muted: var(--border-muted);
-  --color-border-brand: var(--border-brand);
-  --color-border-focus: var(--border-focus);
-
-  /* Action Colors */
-  --color-action-primary: var(--action-primary);
-  --color-action-primary-hover: var(--action-primary-hover);
-  --color-action-primary-active: var(--action-primary-active);
-  --color-action-primary-text: var(--action-primary-text);
-
-  --color-action-secondary: var(--action-secondary);
-  --color-action-secondary-text: var(--action-secondary-text);
-  --color-action-secondary-hover: var(--action-secondary-hover);
-
-  /* Shadcn UI Standards */
-  --color-background: var(--surface-page);
-  --color-foreground: var(--text-primary);
-  --color-card: var(--surface-card);
-  --color-card-foreground: var(--text-primary);
-  --color-popover: var(--surface-card);
-  --color-popover-foreground: var(--text-primary);
-  --color-primary: var(--action-primary);
-  --color-primary-foreground: var(--action-primary-text);
-  --color-secondary: var(--surface-muted);
-  --color-secondary-foreground: var(--text-primary);
-  --color-muted: var(--surface-muted);
-  --color-muted-foreground: var(--text-secondary);
-  --color-accent: var(--text-brand);
-  --color-accent-foreground: var(--text-inverse);
-  --color-destructive: var(--action-danger);
-  --color-destructive-foreground: var(--action-danger-text);
-  --color-border: var(--border-default);
-  --color-input: var(--input-bg);
-  --color-ring: var(--input-focus-ring);
-
-  /* E-Commerce Specific Utilities */
-  --color-price-current: var(--commerce-price-current);
-  --color-price-old: var(--commerce-price-old);
-  --color-price-sale: var(--commerce-price-sale);
-  --color-stock-success: var(--commerce-stock-in);
-  --color-stock-warning: var(--commerce-stock-low);
-  --color-discount-bg: var(--commerce-discount-bg);
-  --color-discount-fg: var(--commerce-discount-text);
-  --color-rating-star: var(--commerce-rating-star);
-
-  /* Badge Utilities */
-  --color-badge-discount-bg: var(--commerce-badge-discount-bg);
-  --color-badge-discount-fg: var(--commerce-badge-discount-text);
-  --color-badge-new-bg: var(--commerce-badge-new-bg);
-  --color-badge-new-fg: var(--commerce-badge-new-text);
-  --color-badge-popular-bg: var(--commerce-badge-popular-bg);
-  --color-badge-popular-fg: var(--commerce-badge-popular-text);
-  --color-badge-top-bg: var(--commerce-badge-top-bg);
-  --color-badge-top-fg: var(--commerce-badge-top-text);
-
-  --color-badge-stock-bg: var(--commerce-badge-stock-bg);
-  --color-badge-stock-fg: var(--commerce-badge-stock-text);
-  --color-badge-warning-bg: var(--commerce-badge-warning-bg);
-  --color-badge-warning-fg: var(--commerce-badge-warning-text);
-  --color-badge-secondary-bg: var(--commerce-badge-secondary-bg);
-  --color-badge-secondary-fg: var(--commerce-badge-secondary-text);
-}
-
-/*
-======)=
-DARK MODE OVERRIDES
-==========================================================================
-*/
-.dark {
-  --surface-page: var(--color-neutral-950);
-  --surface-card: var(--color-neutral-900);
-  --surface-muted: var(--color-neutral-800);
-
-  --text-primary: var(--color-white);
-  --text-secondary: var(--color-neutral-200);
-  --text-muted: var(--color-neutral-500);
-  --text-logo: var(--color-white);
-
-  --border-default: #2e2e2e;
-  --border-strong: var(--color-white);
-
-  --input-bg: var(--color-neutral-900);
-  --commerce-product-bg: var(--color-neutral-900);
-  --commerce-price-current: var(--color-white);
-
-  --commerce-badge-new-bg: var(--color-white);
-  --commerce-badge-new-text: var(--color-neutral-950);
-
-  --commerce-badge-secondary-bg: #2a2a2a;
-  --commerce-badge-secondary-text: var(--color-neutral-200);
-}
-
-/*
-==========================================================================
-BASE & UTILITIES LAYER
-==========================================================================
-*/
-@layer base {
-  body {
-    @apply bg-background text-foreground font-text antialiased;
-  }
-
-  img {
-    @apply block h-full w-full object-cover object-center;
-  }
-
-  video {
-    @apply aspect-auto h-full w-full object-cover object-center;
-  }
+  /* shadow tokens exposed as Tailwind theme values */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-glass: var(--shadow-glass);
+  --shadow-card: var(--shadow-card);
+  --shadow-button: var(--shadow-button);
+  --shadow-floating: var(--shadow-floating);
 }
 
 @layer utilities {
@@ -373,23 +144,38 @@ BASE & UTILITIES LAYER
     transition: background-color 5000s ease-in-out 0s;
   }
 
-  /* Custom Modern Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--surface-muted);
+    background: var(--muted);
     border-radius: 8px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--color-brand-primary);
+    background: var(--color-action-primary);
     border-radius: 8px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-brand-hover);
+    background: var(--color-action-primary-hover);
+  }
+}
+
+@utility disable {
+  pointer-events: none;
+  cursor: default;
+  box-shadow: none;
+  background-color: transparent;
+  outline: none;
+  &:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  &:focus {
+    background-color: transparent;
+    outline: none;
   }
 }
 
@@ -399,14 +185,8 @@ BASE & UTILITIES LAYER
     @apply relative no-underline before:content-[""];
   }
 
-  /* hover underline from left-to-right */
-  /* .link::before {
-    @apply custom-transition bg-brand-primary absolute -bottom-1 left-0 block h-0.5 w-full origin-left scale-x-0 transition-transform;
-  } */
-
-  /* hover underline from center */
   .link::before {
-    @apply custom-transition bg-brand-primary absolute -bottom-1 left-1/2 block h-0.5 w-full origin-center -translate-x-1/2 scale-x-0 transition-transform;
+    @apply custom-transition bg-link absolute -bottom-1 left-1/2 block h-0.5 w-full origin-center -translate-x-1/2 scale-x-0 transition-transform;
   }
 
   a:hover .link::before,
@@ -418,10 +198,17 @@ BASE & UTILITIES LAYER
     @apply scale-x-100;
   }
 
-  /* .card-surface {
-    @apply bg-size-[18px_18px,22px_22px,16px_16px,100%_100%] bg-[#9ea3a8] bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.05)_0_1px,transparent_1.5px),radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.04)_0_1px,transparent_1.5px),radial-gradient(circle_at_40%_80%,rgba(0,0,0,0.035)_0_1px,transparent_1.5px),linear-gradient(270deg,#f2f3f5_0%,#d7dadd_22%,#b3b8be_48%,#7b8289_72%,#474d53_100%)];
-  } */
+  .collection-bg {
+    background-image:
+      radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.055)
+      ),
+      url('/images/pages/home/collection-bg.webp');
+  }
+
   .card-surface {
-    @apply bg-[#9ea3a8];
+    @apply bg-card;
   }
 }

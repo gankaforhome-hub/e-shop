@@ -1,0 +1,39 @@
+:root {
+  --primitive-neutral-0: #ffffff;
+  --primitive-neutral-50: #f8f8f8;
+  --primitive-neutral-100: #f4f5f7;
+  --primitive-neutral-200: #e2e8f0;
+  --primitive-neutral-300: #cbd5e1;
+  --primitive-neutral-400: #9ea3a8;
+  --primitive-neutral-600: #4a5568;
+  --primitive-neutral-900: #080808;
+  --primitive-neutral-1000: #000000;
+
+  --primitive-brand-50: #fef5f6;
+  --primitive-brand-100: #f6e7ea;
+  --primitive-brand-200: #fef1f2;
+  --primitive-brand-600: #c92330;
+  --primitive-brand-700: #8e0e1e;
+  --primitive-brand-800: #9f1022;
+  --primitive-brand-900: #b11226;
+  --primitive-brand-950: #3e060d;
+
+  --primitive-emerald-50: #f0fdf4;
+  --primitive-emerald-500: #34c759;
+  --primitive-emerald-700: #15803d;
+
+  --primitive-amber-50: #fffbeb;
+  --primitive-amber-400: #fbbf24;
+  --primitive-amber-500: #f59e0b;
+  --primitive-amber-700: #b45309;
+  --primitive-amber-950: #451a03;
+
+  --primitive-red-500: #ff0000;
+  --primitive-red-600: #dc2626;
+
+  --primitive-slate-700: #334155;
+  --primitive-slate-900: #0f172a;
+
+  --primitive-stone-800: #292524;
+  --primitive-stone-900: #1c1917;
+}

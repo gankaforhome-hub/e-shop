@@ -1,0 +1,19 @@
+:root {
+  --ease-subtle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-slow: 400ms;
+}
+
+@utility custom-transition {
+  transition-duration: var(--dur-normal, 300);
+  transition-timing-function: var(--dur-normal, var(--ease-subtle));
+}
+
+@utility custom-transition-property {
+  transition-property:
+    transform, translate, scale, rotate, color, background-color, border-color,
+    outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
+    --tw-gradient-via, --tw-gradient-to, opacity;
+}

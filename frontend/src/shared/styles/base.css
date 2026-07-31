@@ -1,0 +1,13 @@
+@layer base {
+  body {
+    @apply bg-background text-foreground font-text antialiased;
+  }
+
+  img {
+    @apply block h-full w-full object-cover object-center;
+  }
+
+  video {
+    @apply aspect-auto h-full w-full object-cover object-center;
+  }
+}
