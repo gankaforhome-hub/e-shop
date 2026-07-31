@@ -1,56 +1,50 @@
 'use client';
+
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 import useEmblaCarousel from 'embla-carousel-react';
 import {
-  type FC,
-  type HTMLAttributes,
-  type KeyboardEvent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
+  type FC,
+  type KeyboardEvent,
+  type PropsWithChildren,
 } from 'react';
 
-import { cn } from '@/shared/lib/utils/index';
+import { cn } from '@/shared/lib/utils';
 
 import { type CarouselApi, type CarouselProps } from './types';
 import { CarouselContext } from './useCarousel';
 
-export interface ICarouselProps
-  extends HTMLAttributes<HTMLDivElement>, CarouselProps {
-  orientation?: 'horizontal' | 'vertical';
-  isOpacityTween?: boolean;
-}
-
-const TWEEN_FACTOR_BASE = 0.84;
-
-const numberWithinRange = (num: number, min: number, max: number): number =>
-  Math.min(Math.max(num, min), max);
-
-export const Carousel: FC<ICarouselProps> = ({
+export const Carousel: FC<
+  PropsWithChildren<
+    CarouselProps & { className?: string; isOpacityTween?: boolean }
+  >
+> = ({
   orientation = 'horizontal',
   opts,
   setApi,
   plugins,
-  isAutoplay,
-  isFade,
+  isAutoplay = false,
+  isFade = false,
+  isOpacityTween = false,
   className,
   children,
-  isOpacityTween,
   ...props
 }) => {
-  const mergedPlugins = [
-    ...(plugins ?? []), // будь-які плагіни, передані напряму
-    ...(isAutoplay
-      ? [
-          Autoplay({
-            delay: 4000,
-          }),
-        ]
-      : []),
-    ...(isFade ? [Fade()] : []),
-  ];
+  const mergedPlugins = useMemo(() => {
+    const res = [...(plugins ?? [])];
+    if (isAutoplay) {
+      res.push(Autoplay({ delay: 4000, stopOnInteraction: false }));
+    }
+    if (isFade) {
+      res.push(Fade());
+    }
+    return res;
+  }, [plugins, isAutoplay, isFade]);
 
   const [carouselRef, api] = useEmblaCarousel(
     {
@@ -59,6 +53,7 @@ export const Carousel: FC<ICarouselProps> = ({
     },
     mergedPlugins,
   );
+
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -77,14 +72,15 @@ export const Carousel: FC<ICarouselProps> = ({
     let anyVideoPaused = false;
 
     slideNodes.forEach((slide, index) => {
-      const videos = slide.getElementsByTagName('video');
-
-      Array.from(videos).forEach(video => {
-        if (index !== currentIndex && !video.paused) {
-          video.pause();
-          anyVideoPaused = true;
-        }
-      });
+      if (index !== currentIndex) {
+        const videos = slide.querySelectorAll('video');
+        videos.forEach(video => {
+          if (!video.paused) {
+            video.pause();
+            anyVideoPaused = true;
+          }
+        });
+      }
     });
 
     if (currentIndex === 0 || !anyVideoPaused) {
@@ -128,7 +124,7 @@ export const Carousel: FC<ICarouselProps> = ({
           }
 
           const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-          const opacity = numberWithinRange(tweenValue, 0, 1).toString();
+          const opacity = Math.max(0, Math.min(1, tweenValue)).toString();
           const slideNode = api.slideNodes()[slideIndex];
           if (slideNode) {
             slideNode.style.opacity = opacity;
@@ -153,18 +149,10 @@ export const Carousel: FC<ICarouselProps> = ({
     [pauseInactiveVideos],
   );
 
-  const scrollPrev = useCallback(() => {
-    api?.scrollPrev();
-  }, [api]);
-
-  const scrollNext = useCallback(() => {
-    api?.scrollNext();
-  }, [api]);
-
+  const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
+  const scrollNext = useCallback(() => api?.scrollNext(), [api]);
   const scrollTo = useCallback(
-    (to: number, animate?: boolean | undefined) => {
-      api?.scrollTo(to, animate);
-    },
+    (to: number, animate?: boolean) => api?.scrollTo(to, animate),
     [api],
   );
 
@@ -188,25 +176,31 @@ export const Carousel: FC<ICarouselProps> = ({
     setApi(api);
   }, [api, setApi]);
 
+  // 4. Cleanup усіх Embla подій
   useEffect(() => {
     if (!api) {
       return;
     }
+
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
+
     return () => {
-      api?.off('select', onSelect);
+      api.off('reInit', onSelect);
+      api.off('select', onSelect);
     };
-  }, [api, onSelect, pauseInactiveVideos]);
+  }, [api, onSelect]);
 
   useEffect(() => {
     if (!api || !isOpacityTween) {
       return;
     }
 
+    const TWEEN_FACTOR_BASE = 0.52;
     tweenFactor.current = TWEEN_FACTOR_BASE * api.scrollSnapList().length;
     tweenOpacity(api);
+
     api.on('scroll', tweenOpacity);
     api.on('reInit', tweenOpacity);
     api.on('slideFocus', tweenOpacity);
@@ -218,25 +212,46 @@ export const Carousel: FC<ICarouselProps> = ({
     };
   }, [api, isOpacityTween, tweenOpacity]);
 
+  const contextValue = useMemo(
+    () => ({
+      carouselRef,
+      api,
+      opts,
+      orientation:
+        orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+      scrollPrev,
+      scrollNext,
+      scrollTo,
+      canScrollPrev,
+      canScrollNext,
+      current,
+      isInitialize,
+      isPaused,
+      slideCount,
+      isAutoplay,
+      isFade,
+    }),
+    [
+      carouselRef,
+      api,
+      opts,
+      orientation,
+      scrollPrev,
+      scrollNext,
+      scrollTo,
+      canScrollPrev,
+      canScrollNext,
+      current,
+      isInitialize,
+      isPaused,
+      slideCount,
+      isAutoplay,
+      isFade,
+    ],
+  );
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation:
-          orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        scrollTo,
-        canScrollPrev,
-        canScrollNext,
-        current,
-        isInitialize,
-        isPaused,
-        slideCount,
-      }}
-    >
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}

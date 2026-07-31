@@ -9,6 +9,7 @@ import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
 import { Heading } from '@/shared/ui/heading';
+import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
 
 interface IBannerSlideProps extends IAppMedia {
@@ -16,6 +17,7 @@ interface IBannerSlideProps extends IAppMedia {
   subTitle: string;
   title: string;
   slug: string;
+  index: number;
 }
 
 export const BannerSlide: FC<IBannerSlideProps> = ({
@@ -23,38 +25,48 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
   title,
   subTitle,
   slug,
+  index,
   ...props
 }) => {
-  const { isInitialize } = useCarousel();
-
+  const { isInitialize, current } = useCarousel();
+  const isSelected = current === index;
+  const isContentVisible = isInitialize && isSelected;
   return (
-    <>
-      <div className="relative h-full w-full overflow-hidden">
-        <AppMedia
-          fill
-          {...props}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-          className="pointer-events-none h-full w-full select-none object-cover object-center"
-          // overlay
-        />
-        <Box
-          className={cn(
-            'custom-transition absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center justify-end uppercase transition-opacity',
-            isInitialize ? 'opacity-100' : 'opacity-0',
-          )}
+    <Box className="relative h-full w-full overflow-hidden">
+      <AppMedia
+        fill
+        {...props}
+        alt={alt ?? title}
+        sizes="100vw"
+        className="pointer-events-none h-full w-full select-none object-cover object-center"
+      />
+      <Overlay aria-hidden="true" />
+
+      <Box
+        className={cn(
+          'absolute inset-x-0 bottom-20 z-20 mx-auto flex max-w-xl flex-col items-center justify-end px-4 text-center uppercase',
+          isContentVisible
+            ? 'duration-(--dur-slow) pointer-events-auto visible translate-y-0 opacity-100 transition-all delay-150 ease-out'
+            : 'pointer-events-none invisible translate-y-4 opacity-0 transition-none',
+        )}
+      >
+        {subTitle && (
+          <Text className="text-sm tracking-widest text-white/90">
+            {subTitle}
+          </Text>
+        )}
+
+        <Heading
+          headingLevel="h2"
+          className="mt-2 text-4xl font-bold tracking-widest text-white drop-shadow-md sm:text-5xl"
         >
-          <Text className="text-white">{subTitle}</Text>
-          <Heading
-            headingLevel="h2"
-            className="text-center text-5xl font-bold tracking-widest text-white"
-          >
-            {title}
-          </Heading>
-          <Button asChild variant="default" className="mt-4 capitalize">
-            <AppLink href={routes.collection(slug)}>View Collection</AppLink>
-          </Button>
-        </Box>
-      </div>
-    </>
+          {title}
+        </Heading>
+
+        <Button asChild variant="default" className="mt-6 capitalize shadow-lg">
+          <AppLink href={routes.collection(slug)}>View Collection</AppLink>
+        </Button>
+      </Box>
+    </Box>
   );
 };

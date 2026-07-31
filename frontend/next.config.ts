@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   images: {
     formats: ['image/avif', 'image/webp'], // AVIF стискає ще краще за WebP
-    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920], // Адаптивні точки під мобілки
+    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1440, 1920, 2048, 3840],
   },
   allowedDevOrigins: [
     'localhost:3000',

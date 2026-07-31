@@ -58,6 +58,7 @@ export const BannerSlider: FC<IBannerSliderProps> = ({ className }) => {
                   slug={slug}
                   title={title}
                   subTitle={subTitle ?? ''}
+                  index={index}
                 />
               </CarouselItem>
             );

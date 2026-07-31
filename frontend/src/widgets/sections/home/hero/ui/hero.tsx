@@ -17,12 +17,14 @@ export const Hero = () => {
       </Container>
       <BannerSlider
         className={cn(
-          'w-full touch-pan-y overscroll-none', // 👈 Блокує rubber-band ефект у мобільних браузерах
-          'h-[calc(640px-var(--h-topbar))]',
-          'landscape:max-md:h-80',
-          'md:h-[calc(100dvh-var(--h-topbar))]',
+          'md:aspect-21/9 relative aspect-video h-[calc(100dvh-var(--h-topbar))] w-full landscape:max-md:h-80',
+          'touch-pan-y overscroll-none',
         )}
       />
     </Section>
   );
 };
+
+// 'h-[calc(640px-var(--h-topbar))]',
+//"landscape:max-md:h-80",
+// 'md:h-[calc(100dvh-var(--h-topbar))]',
