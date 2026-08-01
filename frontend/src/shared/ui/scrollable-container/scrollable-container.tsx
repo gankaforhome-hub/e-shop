@@ -154,9 +154,9 @@ export function ScrollableContainer({
 
           {/* Progress bar */}
           {showProgress && (
-            <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-gray-200">
+            <div className="bg-dot-inactive-secondary relative h-0.5 w-full overflow-hidden rounded-full">
               <div
-                className="bg-accent h-full rounded-full transition-transform duration-150 ease-out"
+                className="bg-dot-active-secondary h-full rounded-full transition-transform duration-150 ease-out"
                 style={{
                   // Slider width based on the number of child elements or pages
                   width: `${100 / Math.max(dotsCount || Children.count(children), 1)}%`,

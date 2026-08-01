@@ -129,7 +129,11 @@ export function RecommendedProductsSection({
             ))}
           </ScrollableContainer>
         </Suspense>
-        <Button asChild variant="outline" className="fmt-8/16 mx-auto flex">
+        <Button
+          asChild
+          variant="outline"
+          className="fmt-8/16 sm:max-w-75 mx-auto flex w-full"
+        >
           <AppLink href={routes.products()}>View all catalog</AppLink>
         </Button>
       </Container>

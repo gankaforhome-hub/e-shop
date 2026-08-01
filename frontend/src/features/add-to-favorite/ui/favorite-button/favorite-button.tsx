@@ -24,7 +24,8 @@ export function FavoriteButton({
 
   return (
     <Button
-      variant="ghost"
+      variant="iconSecondary"
+      size="icon"
       onClick={toggle}
       disabled={isPending}
       aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
@@ -33,8 +34,9 @@ export function FavoriteButton({
       <Icon
         name="favorite"
         className={cn(
-          'custom-transition h-5 w-5 transition-colors',
-          isFavorite ? 'fill-brand-primary text-brand-primary' : '',
+          'custom-transition h-5 w-5 transition-all',
+          isFavorite ? 'fill-action-primary text-action-primary' : '',
+          'group-hover:scale-105',
         )}
       />
     </Button>

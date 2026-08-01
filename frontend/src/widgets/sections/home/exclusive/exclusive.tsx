@@ -33,7 +33,11 @@ export function ExclusiveSection({ className }: IExclusiveSection) {
           alt: 'exclusive-plate-with-rabbits',
         }}
         action={
-          <Button asChild variant={'outline'} className="fmt-8/16 mx-auto flex">
+          <Button
+            asChild
+            variant={'outline'}
+            className="fmt-8/16 sm:max-w-75 mx-auto flex"
+          >
             <AppLink href={routes.exclusive}>See More</AppLink>
           </Button>
         }

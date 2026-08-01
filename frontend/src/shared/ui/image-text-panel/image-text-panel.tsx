@@ -31,7 +31,7 @@ export function ImageTextPanel({
       </Box>
 
       <Box
-        className={`bg-surface-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 rounded-xl px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
+        className={`bg-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 rounded-xl px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
           imagePosition === 'right' ? 'lg:order-1' : ''
         }`}
       >

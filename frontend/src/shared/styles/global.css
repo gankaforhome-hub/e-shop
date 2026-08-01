@@ -16,6 +16,7 @@
   --font-heading: var(--font-lora);
   --font-text: var(--font-lora);
   --font-caption: var(--font-inter);
+  --color-brand: var(--primary);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -34,6 +35,10 @@
   --color-action-secondary-hover: var(--secondary-hover);
   --color-action-secondary-active: var(--secondary-active);
 
+  --color-icon: var(--primitive-neutral-1000);
+  --color-icon-hover: var(--primitive-brand-900);
+  --color-icon-active: var(--primitive-brand-950);
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
 
@@ -46,6 +51,7 @@
   --color-destructive-hover: var(--destructive-hover);
 
   --color-border: var(--border);
+  --color-accent-border: var(--primary);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -193,7 +199,7 @@
   a:active .link::before,
   a:focus-visible .link::before,
   .link:hover::before,
-  .link:active::before,
+  /* .link:active::before, */
   .link:focus-visible::before {
     @apply scale-x-100;
   }
@@ -209,6 +215,6 @@
   }
 
   .card-surface {
-    @apply bg-card;
+    @apply bg-product-card-bg;
   }
 }

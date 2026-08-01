@@ -1,6 +1,4 @@
 import { cn } from '@/shared/lib/utils';
-import { Container } from '@/shared/ui/container';
-import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 
 import { type TBannerSlide } from './model/types';
@@ -30,11 +28,6 @@ export async function Hero({ bannerSlides }: IHero) {
   // );
   return (
     <Section className="overflow-hidden">
-      <Container>
-        <Heading headingLevel="h1" className="visually-hidden">
-          Ganka for home
-        </Heading>
-      </Container>
       <BannerSlider
         bannerSlides={bannerSlides}
         className={cn(

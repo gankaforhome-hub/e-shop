@@ -21,7 +21,7 @@ export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
         {links.map(link => {
           return (
             <li key={link.href}>
-              <Button variant="ghost" asChild>
+              <Button variant="iconPrimary" size="icon" asChild>
                 <AppLink
                   href={link.href}
                   aria-label={link.label}

@@ -21,7 +21,7 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
         </Heading>
         <Box
           className={cn(
-            'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6',
+            'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3',
           )}
         >
           {/* Перша картинка: на мобілці строго квадрат (aspect-square), на md: розтягується по висоті (md:aspect-auto md:h-full) */}
@@ -33,17 +33,17 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
             aspect="aspect-343/331 md:h-full"
             items={3}
           />
-
           <Box
             className={cn(
-              'bg-surface-muted min-h-75 aspect-343/331 flex flex-col items-center justify-between rounded-lg p-6 text-center md:aspect-auto md:h-full md:p-8 lg:p-10',
+              'bg-muted flex h-full min-h-80 flex-col items-center justify-center rounded-lg p-6 md:aspect-auto xl:p-10',
+              'max-sm:w-full',
             )}
           >
-            <Box className="my-auto flex max-w-md flex-col items-center">
-              <Text className="font-heading text-text-brand mb-3 text-base font-semibold uppercase leading-tight tracking-wider lg:text-lg xl:text-xl">
+            <Box className="flex max-w-[90%] flex-col items-center gap-4">
+              <Text className="text-accent-foreground text-center text-base font-semibold uppercase leading-tight tracking-widest lg:text-lg xl:text-xl">
                 GANKA TRETYAK
               </Text>
-              <Text className="font-heading mb-6 text-sm leading-relaxed text-neutral-600 lg:text-base">
+              <Text className="text-foreground mb-6 text-sm leading-relaxed lg:text-center lg:text-base">
                 Ukrainian artist Ganka Tretyak transferred her rich artistic
                 experience to the new homeware project Ganka for Home. Ganka for
                 Home collections will bring a festive atmosphere and warmth to
@@ -51,10 +51,22 @@ export function StayInTouchSection({ className }: IStayInTouchSection) {
               </Text>
             </Box>
 
-            <Button asChild className="mx-auto flex shrink-0">
+            <Button asChild className="max-md:min-w-50">
               <AppLink href={routes.contacts}>See more</AppLink>
             </Button>
           </Box>
+
+          {/* <Box
+            className={cn(
+              'bg-muted min-h-75 aspect-343/331 flex flex-col items-center justify-between rounded-lg p-6 text-center md:aspect-auto md:h-full md:p-8 lg:p-10',
+            )}
+          >
+            <Box className="my-auto flex max-w-md flex-col items-center"></Box>
+
+            <Button asChild className="mx-auto flex shrink-0">
+              <AppLink href={routes.contacts}>See more</AppLink>
+            </Button>
+          </Box> */}
 
           {/* Друга картинка */}
           <ImageGridItem

@@ -46,7 +46,7 @@ export const ContentGridSection: FC<IContentGridSectionProps> = ({
 
           <Box
             className={cn(
-              'max-md:bg-surface-muted flex flex-col items-center justify-center rounded-lg p-6 max-md:py-10',
+              'max-md:bg-muted flex flex-col items-center justify-center rounded-lg p-6 max-md:min-h-80 max-md:py-10',
               'order-2',
               'md:order-1 md:col-span-2 md:p-0 md:pb-4',
             )}

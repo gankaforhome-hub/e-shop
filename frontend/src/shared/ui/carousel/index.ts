@@ -1,4 +1,4 @@
-export { Carousel, type ICarouselProps } from './core/carousel';
+export { Carousel, type ICarousel } from './core/carousel';
 export { CarouselContent } from './core/carousel-content';
 export { CarouselCurrent } from './core/carousel-current';
 export { CarouselItem } from './core/carousel-item';

@@ -9,10 +9,9 @@ export const separatorVariants = cva('', {
   variants: {
     variant: {
       default: 'bg-border',
-      muted: 'bg-border-muted',
-      accent: 'bg-border-brand',
-      accentMuted: 'bg-border-brand/40',
-      strong: 'bg-border-strong',
+      muted: 'bg-muted',
+      accent: 'bg-accent-border',
+      accentMuted: 'bg-accent-border/40',
     },
     size: {
       xs: '',

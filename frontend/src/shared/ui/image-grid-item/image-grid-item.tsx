@@ -30,7 +30,7 @@ export function ImageGridItem({
       className={cn(
         'relative h-full w-full overflow-hidden',
         aspect,
-        'rounded-card group',
+        'group rounded-lg',
         className,
       )}
     >

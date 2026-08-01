@@ -25,22 +25,32 @@ export const Footer = () => {
   } = footerData;
 
   return (
-    <footer className="bg-surface-muted">
+    <footer className="bg-muted font-caption">
       <Separator variant="accentMuted" />
-      <Container className="font-text p-4 pt-6">
+      <Container className="p-4 pt-6">
         <Box className="grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4 md:gap-11 xl:flex xl:justify-between 2xl:px-20">
           <Box className="col-span-2 flex flex-col">
-            <Box className="max-h-30 mx-auto mb-10 max-w-60 md:mx-0">
-              <Logo aria={brand.name} variant="logoFooter" />
+            <Box className="max-h-30 mx-auto mb-10 flex max-w-60 flex-col items-center gap-4 md:mx-0">
+              <Logo
+                aria={brand.name}
+                variant="logo-icon"
+                className="sm:h-22 sm:w-22 h-20 w-20"
+                asLink
+              />
+              <Logo
+                aria={brand.name}
+                variant="logo-text"
+                className="w-50 h-8 sm:h-10 sm:w-60"
+              />
             </Box>
-            <address>
-              <ul className="mt-auto space-y-2 not-italic">
+            <address className="not-italic">
+              <ul className="mt-auto space-y-2">
                 {contacts.map(item => (
                   <li key={item.href} className="text-left text-base">
                     <AppLink href={item.href} className="group">
                       <Icon
                         name={item.icon}
-                        className="group-hover:stroke-text-brand h-5 w-5 shrink-0"
+                        className="group-hover:text-icon-hover h-5 w-5 shrink-0"
                         aria-hidden="true"
                         iconPosition="left"
                       >

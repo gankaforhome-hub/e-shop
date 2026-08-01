@@ -23,7 +23,7 @@ export const PaymentBadges: FC<IPaymentBadges> = ({
         {methods.map(method => (
           <li
             key={method.label}
-            className="border-border/20 rounded-md border px-4 py-2"
+            className="border-border rounded-md border px-4 py-2"
           >
             <Icon
               name={method.icon}

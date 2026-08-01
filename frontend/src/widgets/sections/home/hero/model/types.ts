@@ -1,12 +1,10 @@
-export type BannerSlide = {
-  id: string;
+import { type Media } from '@/shared/types';
+
+export interface TBannerSlide {
+  id?: string;
   title: string;
-  subTitle?: string;
+  subTitle: string;
   slug: string;
-  media: {
-    type: 'image' | 'video';
-    src: string;
-    alt?: string;
-    poster?: string;
-  };
-};
+  media: Media;
+  blurDataURL?: string;
+}

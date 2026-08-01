@@ -2,7 +2,7 @@
   --background: var(--primitive-neutral-0);
   --foreground: var(--primitive-neutral-900);
 
-  --card: var(--primitive-neutral-0);
+  --card: var(--primitive-neutral-300);
   --card-foreground: var(--primitive-neutral-900);
 
   --popover: var(--primitive-neutral-0);
@@ -13,10 +13,10 @@
   --primary-hover: var(--primitive-brand-700);
   --primary-active: var(--primitive-brand-950);
 
-  --secondary: var(--primitive-neutral-100);
+  --secondary: var(--primitive-neutral-0);
   --secondary-foreground: var(--primitive-neutral-900);
-  --secondary-hover: var(--primitive-neutral-200);
-  --secondary-active: var(--primitive-neutral-300);
+  --secondary-hover: var(--primitive-brand-700);
+  --secondary-active: var(--primitive-brand-950);
 
   --muted: var(--primitive-neutral-100);
   --muted-foreground: var(--primitive-neutral-600);

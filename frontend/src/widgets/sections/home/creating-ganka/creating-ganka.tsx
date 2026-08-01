@@ -24,7 +24,7 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
 
           <Box
             className={cn(
-              'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6',
+              'grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3',
             )}
           >
             <ImageGridItem
@@ -39,24 +39,25 @@ export function CreatingGankaSection({ className }: ICreatingGankaSection) {
 
             <Box
               className={cn(
-                'bg-surface-muted flex flex-col items-center justify-center rounded-2xl p-8 text-center md:aspect-auto md:h-full md:p-10',
-                'max-sm:max-h-75 aspect-square max-sm:w-full',
+                'bg-muted flex h-full min-h-80 w-full flex-col items-center justify-center rounded-lg p-6 text-center md:aspect-auto md:p-10',
                 // 'bg-surface-muted min-h-75 aspect-343/331 flex flex-col items-center justify-between rounded-lg p-6 text-center md:aspect-auto md:h-full md:p-8 lg:p-10',
               )}
             >
-              <Box className="max-w-70 my-auto flex flex-col items-center justify-center gap-4 sm:max-w-xs md:max-w-sm">
-                <Text className="text-text-primary font-heading text-base font-normal leading-snug tracking-wide sm:text-lg lg:text-xl">
+              <Box className="flex max-w-[90%] flex-col items-center justify-center gap-4">
+                <Text className="text-text-primary font-heading text-base font-normal leading-snug tracking-widest sm:text-lg lg:text-xl">
                   Introducing New collection-Winter 2025/2026
                 </Text>
 
-                <Text className="text-text-primary font-heading text-sm leading-relaxed sm:text-base">
+                <Text className="text-text-primary font-heading mb-6 text-sm leading-relaxed sm:text-base">
                   Table service{' '}
-                  <span className="text-accent font-medium">Konyushina</span>{' '}
+                  <span className="text-accent-foreground font-medium">
+                    Konyushina
+                  </span>{' '}
                   Release Date 01/01/2026
                 </Text>
               </Box>
 
-              <Button asChild>
+              <Button asChild className="max-md:min-w-50">
                 <AppLink href={routes.releases}>Pre-order</AppLink>
               </Button>
             </Box>

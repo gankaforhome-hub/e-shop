@@ -176,7 +176,7 @@ export const ProductCard = ({
   return (
     <article
       className={cn(
-        'relative flex h-full flex-col overflow-hidden transition-all',
+        'font-caption relative flex h-full flex-col overflow-hidden transition-all',
         isSoldOut ? 'opacity-50' : '',
         className,
       )}
@@ -248,7 +248,7 @@ export const ProductCard = ({
           {/* Category / Collection Link */}
           <AppLink
             href={routes.collection(product.primaryCollection.slug)}
-            className="text-brand-primary hover:text-brand-hover text-xs font-semibold capitalize"
+            className="text-brand hover:text-brand-hover text-xs font-semibold capitalize"
           >
             {product.primaryCollection.title}
           </AppLink>
