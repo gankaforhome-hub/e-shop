@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { categories } from '@/entities/category/mock/categories';
 import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
@@ -12,7 +14,8 @@ import {
   RecommendedProductsSection,
   StayInTouchSection,
 } from '@/widgets/sections/home';
-import { Hero } from '@/widgets/sections/home/hero';
+import { BannerSliderSkeleton, Hero } from '@/widgets/sections/home/hero';
+import { bannerSlides } from '@/widgets/sections/home/hero/config/banner-data';
 
 interface GetProductsParams {
   limit?: number;
@@ -36,11 +39,12 @@ const getProducts = async ({
 
 export default async function Page() {
   const limit = 8;
-
   const products = await getProducts({ limit, delay: 1500 });
   return (
     <>
-      <Hero />
+      <Suspense fallback={<BannerSliderSkeleton />}>
+        <Hero bannerSlides={bannerSlides} />
+      </Suspense>
       <Heading headingLevel="h1" visibility="hidden">
         Ganka for Home Magazine
       </Heading>
@@ -53,8 +57,6 @@ export default async function Page() {
       {/* <ProductSearch /> */}
       {/* <NewsLetter /> */}
       {/* <Collections />
-      <Collections />
-      <Products />
       <Features /> */}
     </>
   );

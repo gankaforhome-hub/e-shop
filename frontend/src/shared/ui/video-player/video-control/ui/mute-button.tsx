@@ -25,7 +25,7 @@ export const MuteButton: FC<IMuteButtonProps> = ({
   );
   return (
     <Button
-      variant="icon"
+      variant="iconPrimary"
       size="icon"
       onClick={onToggleMute}
       className={cn(className)}

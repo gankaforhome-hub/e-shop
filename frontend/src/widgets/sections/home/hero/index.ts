@@ -1,1 +1,2 @@
-export { Hero } from './ui/hero';
+export { Hero } from './hero';
+export { BannerSliderSkeleton } from './ui';

@@ -1,7 +1,7 @@
 export { capitalize } from './capitalize';
 export { cleanParams } from './clean-params';
 export { getBase64 } from './get-base64';
-export { getCurrentYear } from './getCurrentYear';
+export { getCurrentYear } from './get-current-year';
 export * from './is-empty';
 export { isVideoUrl } from './is-video-url';
 export { formatMoney } from './money';

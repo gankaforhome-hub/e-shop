@@ -1,5 +1,3 @@
-import { type FC } from 'react';
-
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
@@ -12,22 +10,21 @@ import { Heading } from '@/shared/ui/heading';
 import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
 
-interface IBannerSlideProps extends IAppMedia {
-  type: 'image' | 'video';
-  subTitle: string;
-  title: string;
-  slug: string;
+interface IBannerSlide extends IAppMedia {
+  bannerSlide: {
+    title: string;
+    subTitle: string;
+    slug: string;
+    blurDataURL?: string;
+  };
   index: number;
 }
 
-export const BannerSlide: FC<IBannerSlideProps> = ({
-  alt,
-  title,
-  subTitle,
-  slug,
+export function BannerSlide({
+  bannerSlide: { title, subTitle, slug, blurDataURL },
   index,
   ...props
-}) => {
+}: IBannerSlide) {
   const { isInitialize, current } = useCarousel();
   const isSelected = current === index;
   const isContentVisible = isInitialize && isSelected;
@@ -35,10 +32,10 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
     <Box className="relative h-full w-full overflow-hidden">
       <AppMedia
         fill
-        {...props}
-        alt={alt ?? title}
         sizes="100vw"
         className="pointer-events-none h-full w-full select-none object-cover object-center"
+        blurDataURL={blurDataURL}
+        {...props}
       />
       <Overlay aria-hidden="true" />
 
@@ -69,4 +66,4 @@ export const BannerSlide: FC<IBannerSlideProps> = ({
       </Box>
     </Box>
   );
-};
+}

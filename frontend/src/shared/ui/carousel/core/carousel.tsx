@@ -9,7 +9,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type FC,
   type KeyboardEvent,
   type PropsWithChildren,
 } from 'react';
@@ -19,11 +18,10 @@ import { cn } from '@/shared/lib/utils';
 import { type CarouselApi, type CarouselProps } from './types';
 import { CarouselContext } from './useCarousel';
 
-export const Carousel: FC<
-  PropsWithChildren<
-    CarouselProps & { className?: string; isOpacityTween?: boolean }
-  >
-> = ({
+export interface ICarousel extends PropsWithChildren<
+  CarouselProps & { className?: string; isOpacityTween?: boolean }
+> {}
+export function Carousel({
   orientation = 'horizontal',
   opts,
   setApi,
@@ -34,7 +32,7 @@ export const Carousel: FC<
   className,
   children,
   ...props
-}) => {
+}: ICarousel) {
   const mergedPlugins = useMemo(() => {
     const res = [...(plugins ?? [])];
     if (isAutoplay) {
@@ -264,4 +262,4 @@ export const Carousel: FC<
       </div>
     </CarouselContext.Provider>
   );
-};
+}

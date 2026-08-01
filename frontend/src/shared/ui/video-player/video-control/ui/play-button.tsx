@@ -25,7 +25,7 @@ export const PlayButton: FC<IPlayButtonProps> = ({
   );
   return (
     <Button
-      variant="icon"
+      variant="iconPrimary"
       size="icon"
       onClick={onTogglePlay}
       className={cn(className)}

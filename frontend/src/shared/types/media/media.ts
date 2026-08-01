@@ -5,4 +5,5 @@ export type Media = {
   poster?: string;
   objectFit?: 'cover' | 'contain';
   backgroundColor?: string;
+  blurDataURL?: string;
 };

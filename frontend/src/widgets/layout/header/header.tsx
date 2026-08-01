@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { MobileMenu } from './mobile-menu';
+import { MobileMenu } from './ui';
 
 // const common = rawJson as CommonPage;
 // const header = common.header;
