@@ -1,10 +1,15 @@
-import { type ImageTextPanelContent } from '@/shared/content/about-us';
 import { cn } from '@/shared/lib/utils';
+import { type ImagePosition, type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Text } from '@/shared/ui/text';
 
-interface IImageTextPanel extends ImageTextPanelContent {
+export type ImageTextPanelContent = {
+  image: Media;
+  imagePosition: ImagePosition;
+  paragraphs: string;
+};
+interface IImageTextPanelProps extends ImageTextPanelContent {
   className?: string;
 }
 
@@ -13,7 +18,7 @@ export function ImageTextPanel({
   paragraphs,
   imagePosition,
   className,
-}: IImageTextPanel) {
+}: IImageTextPanelProps) {
   return (
     <Box className={cn('fgap-4/6 flex flex-col lg:flex-row', className)}>
       <Box

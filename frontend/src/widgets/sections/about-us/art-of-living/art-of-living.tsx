@@ -1,14 +1,15 @@
-import { type ImageTextSectionContent } from '@/shared/content/about-us';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
+import { type ArtOfLivingSectionProps } from '../about.types';
+
 export function ArtOfLivingSection({
   heading,
   description,
   panel,
-}: ImageTextSectionContent) {
+}: ArtOfLivingSectionProps) {
   return (
     <Section aria-labelledby="art-of-living-heading">
       <Container>

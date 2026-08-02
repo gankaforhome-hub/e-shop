@@ -1,15 +1,16 @@
-import { type StorySectionContent } from '@/shared/content/about-us';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
+import { type OurStorySectionProps } from '../about.types';
+
 export function OurStorySection({
   heading,
   description,
   image,
-}: StorySectionContent) {
+}: OurStorySectionProps) {
   return (
     <Section aria-labelledby="our-story-heading">
       <Container>

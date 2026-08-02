@@ -6,7 +6,7 @@ export type ExternalHref =
 export const staticRoutes = {
   home: '/' as const,
   collections: '/collections' as const,
-  about: '/about-us' as const,
+  about: '/about' as const,
   exclusive: '/exclusive' as const,
   releases: '/releases' as const,
   contacts: '/contacts' as const,
@@ -14,9 +14,9 @@ export const staticRoutes = {
   delivery: '/delivery' as const,
   returns: '/returns' as const,
   payments: '/payments' as const,
-  privacy_policy: '/privacy-policy' as const,
-  terms_conditions: '/terms-conditions' as const,
-  cookie_policy: '/cookie-policy' as const,
+  'privacy-policy': '/privacy-policy' as const,
+  'terms-conditions': '/terms-conditions' as const,
+  'cookie-policy': '/cookie-policy' as const,
   checkouts: '/checkouts' as const,
 };
 

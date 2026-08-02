@@ -1,3 +1,4 @@
+import type AboutPageDict from '@/dictionaries/en/about.json';
 import type CommonDictionary from '@/dictionaries/en/common.json';
 import type HomePageDict from '@/dictionaries/en/home.json';
 import type LayoutDict from '@/dictionaries/en/layout.json';
@@ -11,6 +12,7 @@ type DictionaryLoaders = {
   common: () => Promise<{ default: typeof CommonDictionary }>; // home_page: () => Promise<{ default: typeof HomePageDict }>;
   layout: () => Promise<{ default: typeof LayoutDict }>;
   home: () => Promise<{ default: typeof HomePageDict }>;
+  about: () => Promise<{ default: typeof AboutPageDict }>;
   // category_page: () => Promise<{ default: typeof CategoryPageDict }>;
 };
 
@@ -19,6 +21,7 @@ export const dictionaries: Record<Locale, DictionaryLoaders> = {
     common: () => import('@/dictionaries/en/common.json'),
     layout: () => import('@/dictionaries/en/layout.json'),
     home: () => import('@/dictionaries/en/home.json'),
+    about: () => import('@/dictionaries/en/about.json'),
     // product_page: () => import('@/dictionaries/en/product_page.json'),
     // category_page: () => import('@/dictionaries/en/category_page.json'),
   },
@@ -26,6 +29,8 @@ export const dictionaries: Record<Locale, DictionaryLoaders> = {
     common: () => import('@/dictionaries/ua/common.json'),
     layout: () => import('@/dictionaries/ua/layout.json'),
     home: () => import('@/dictionaries/ua/home.json'),
+    about: () => import('@/dictionaries/ua/about.json'),
+
     // product_page: () => import('@/dictionaries/ua/product_page.json'),
     // category_page: () => import('@/dictionaries/ua/category_page.json'),
   },

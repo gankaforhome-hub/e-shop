@@ -1,14 +1,15 @@
-import { type AboutHeroContent } from '@/shared/content/about-us';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
+import { type AboutHeroSectionProps } from '../about.types';
+
 export function AboutHeroSection({
   heading,
   description,
   panel,
-}: AboutHeroContent) {
+}: AboutHeroSectionProps) {
   return (
     <>
       <Section aria-labelledby="about-ganka-heading">

@@ -1,3 +1,5 @@
+export type ImagePosition = 'left' | 'right';
+
 export type Media = {
   id?: string;
   src: string;
