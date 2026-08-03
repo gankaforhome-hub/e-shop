@@ -14,16 +14,16 @@ export const staticRoutes = {
   delivery: '/delivery' as const,
   returns: '/returns' as const,
   payments: '/payments' as const,
-  'privacy-policy': '/privacy-policy' as const,
-  'terms-conditions': '/terms-conditions' as const,
-  'cookie-policy': '/cookie-policy' as const,
+  privacy_policy: '/privacy-policy' as const,
+  terms_conditions: '/terms-conditions' as const,
+  cookie_policy: '/cookie-policy' as const,
   checkouts: '/checkouts' as const,
 };
 
 export type CategorySlug =
   'plates' | 'sets' | 'kettles' | 'cups' | 'candlesticks' | 'glass';
 
-type ProductsRoute = `/products?${string}`;
+type ProductsRoute = '/products' | `/products?${string}`;
 
 type ProductsSearchParams = {
   category?: CategorySlug | undefined;

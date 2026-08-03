@@ -8,6 +8,8 @@ import type LayoutDict from '@/dictionaries/en/layout.json';
 import { type Locale } from './locales';
 import { type PageDictionaryName, type PageToDictionaryMap } from './types';
 
+export type Dictionary = typeof dictionaries;
+
 type DictionaryLoaders = {
   common: () => Promise<{ default: typeof CommonDictionary }>; // home_page: () => Promise<{ default: typeof HomePageDict }>;
   layout: () => Promise<{ default: typeof LayoutDict }>;
