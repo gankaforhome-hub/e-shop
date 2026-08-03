@@ -139,7 +139,6 @@
 }
 
 @layer utilities {
-  /* Autofill Reset for Modern Inputs */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -150,22 +149,31 @@
     transition: background-color 5000s ease-in-out 0s;
   }
 
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-action-primary) var(--muted);
+  }
   ::-webkit-scrollbar {
     width: 6px;
   }
-
   ::-webkit-scrollbar-track {
     background: var(--muted);
     border-radius: 8px;
   }
-
   ::-webkit-scrollbar-thumb {
     background: var(--color-action-primary);
     border-radius: 8px;
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-action-primary-hover);
+  }
+  @media (max-width: 1024px) {
+    * {
+      scrollbar-width: thin;
+    }
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
   }
 }
 
@@ -216,5 +224,18 @@
 
   .card-surface {
     @apply bg-product-card-bg;
+  }
+
+  .link-hover {
+    color: #0000;
+    background: linear-gradient(
+        90deg,
+        var(--primitive-brand-900) 50%,
+        var(--primitive-neutral-900) 0
+      )
+      var(--start, 100%) / 200% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition-duration: var(--duration);
   }
 }

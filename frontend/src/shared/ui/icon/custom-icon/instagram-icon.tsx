@@ -1,0 +1,18 @@
+import { type SVGProps } from 'react';
+
+export function InstagramIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 18 19" {...props}>
+      <path
+        d="M1 6.5C1 3.73858 3.23858 1.5 6 1.5H12C14.7614 1.5 17 3.73858 17 6.5V12.5C17 15.2614 14.7614 17.5 12 17.5H6C3.23858 17.5 1 15.2614 1 12.5V6.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      ></path>
+      <path
+        d="M13 9.5C13 11.7091 11.2091 13.5 9 13.5C6.79086 13.5 5 11.7091 5 9.5C5 7.29086 6.79086 5.5 9 5.5C11.2091 5.5 13 7.29086 13 9.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      ></path>
+    </svg>
+  );
+}

@@ -1,0 +1,12 @@
+export { ApplepayIcon } from './applepay-icon';
+export { FacebookIcon } from './facebook-icon';
+export { GooglepayIcon } from './googlepay-icon';
+export { InstagramIcon } from './instagram-icon';
+export { LiqpayIcon } from './ligpay-icon';
+export { LogoIcon } from './logo-icon';
+export { LogoTextIcon } from './logo-text-icon';
+export { MasterCardIcon } from './mastercard-icon';
+export { PaypalIcon } from './paypal-icon';
+export { SpinnerIcon } from './spinner-icon';
+export { TelegramIcon } from './telegram-icon';
+export { VisaIcon } from './visa-icon';

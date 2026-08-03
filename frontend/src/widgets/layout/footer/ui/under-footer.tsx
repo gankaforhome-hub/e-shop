@@ -1,38 +1,40 @@
-import Link from 'next/link';
-import { type FC } from 'react';
-
-import { type FooterLink } from '@/shared/content/layout/footer';
+import { NavItem, type INavItemConfig } from '@/features/navigation';
 import { cn, getCurrentYear } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
+import { Icon } from '@/shared/ui/icon';
 
 interface IUnderFooterProps {
   className?: string;
-  legalLinks: FooterLink[];
+  legalLinks: INavItemConfig[];
 }
 
-export const UnderFooter: FC<IUnderFooterProps> = ({
-  legalLinks,
-  className,
-}) => {
+export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
   return (
     <Box
       className={cn(
-        'border-border-muted/40 text-fg-primary mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
+        'border-border-muted/40 text-foreground/70 mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
         className,
       )}
     >
-      <ul className="flex items-center justify-center gap-3 md:gap-4">
-        {legalLinks.map(link => (
-          <li key={link.href}>
-            <Link href={link.href} className="link">
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <nav aria-label="Legal">
+        <ul className="flex items-center justify-center gap-3 md:gap-4">
+          {legalLinks.map(link => (
+            <li key={link.href}>
+              <NavItem
+                variant="footer"
+                href={link.href}
+                label={link.labelKey}
+                showActive={false}
+              />
+            </li>
+          ))}
+        </ul>
+      </nav>
       <p>
-        &copy; {2024} - {getCurrentYear} Ganka&Home
+        <Icon name="copyright" iconPosition="left" size={10}>
+          2024 - {getCurrentYear} Ganka&Home{' '}
+        </Icon>
       </p>
     </Box>
   );
-};
+}

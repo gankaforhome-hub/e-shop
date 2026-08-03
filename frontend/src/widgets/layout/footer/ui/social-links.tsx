@@ -29,7 +29,7 @@ export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
                 >
                   <Icon
                     name={link.icon}
-                    className="h-5 w-5"
+                    className="h-5 w-5 fill-none"
                     aria-hidden="true"
                   />
                 </AppLink>
