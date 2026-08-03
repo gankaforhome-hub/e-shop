@@ -6,19 +6,19 @@ import { FavoriteButton } from '@/features/add-to-favorite';
 
 import { ProductGridSkeleton } from './product-grid-skeleton';
 
-interface IProductGrid {
+interface IProductGridProps {
   products: ProductCardDTO[];
   limit?: number;
   className?: string;
   isMasonry?: boolean;
 }
 
-export const ProductGrid = ({
+export function ProductGrid({
   products,
   limit = 4,
   className = '',
   isMasonry = false,
-}: IProductGrid) => {
+}: IProductGridProps) {
   const visibleProducts = limit ? products.slice(0, limit) : products;
 
   if (!visibleProducts.length) {
@@ -27,7 +27,9 @@ export const ProductGrid = ({
 
   return (
     <Suspense fallback={<ProductGridSkeleton count={limit} />}>
-      <ul className={`grid grid-cols-2 gap-4 lg:grid-cols-4 ${className}`}>
+      <ul
+        className={`grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4 ${className}`}
+      >
         {visibleProducts.map((product, index) => {
           const isThird = (index + 1) % 3 === 0;
           const isLast = index === visibleProducts.length - 1;
@@ -55,4 +57,4 @@ export const ProductGrid = ({
       </ul>
     </Suspense>
   );
-};
+}

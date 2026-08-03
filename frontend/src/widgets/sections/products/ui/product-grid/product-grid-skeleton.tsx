@@ -5,11 +5,9 @@ interface ProductGridSkeletonProps {
   count?: number;
 }
 
-export const ProductGridSkeleton = ({
-  count = 4,
-}: ProductGridSkeletonProps) => {
+export function ProductGridSkeleton({ count = 4 }: ProductGridSkeletonProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4">
       {repeat(count).map((_, index) => {
         const isThird = (index + 1) % 3 === 0;
         const isLast = index === count - 1;
@@ -26,4 +24,4 @@ export const ProductGridSkeleton = ({
       })}
     </div>
   );
-};
+}

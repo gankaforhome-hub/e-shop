@@ -1,54 +1,56 @@
 import Link, { type LinkProps } from 'next/link';
-import {
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-  forwardRef,
-} from 'react';
+import { type ComponentPropsWithoutRef, type ReactNode, type Ref } from 'react';
 
 import { type AppRoutes, type ExternalHref } from '@/shared/config';
 import { cn } from '@/shared/lib/utils';
 
-type AppLinkProps = Omit<ComponentPropsWithoutRef<'a'>, 'href'> &
-  Omit<LinkProps, 'href'> & {
+type AnchorProps = ComponentPropsWithoutRef<'a'>;
+type NextLinkProps = Omit<LinkProps, 'href'>;
+
+export type AppLinkProps = Omit<AnchorProps, 'href'> &
+  NextLinkProps & {
     href: AppRoutes | ExternalHref;
     children: ReactNode;
+    ref?: Ref<HTMLAnchorElement>;
   };
 
-export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>(
-  ({ href, className, children, ...props }, ref) => {
-    const classNames = cn('group inline-flex shrink-0', className);
+export function AppLink({
+  href,
+  className,
+  children,
+  ref,
+  ...props
+}: AppLinkProps) {
+  const classNames = cn('group inline-flex shrink-0', className);
 
-    const isExternalLink = /^(https?:\/\/|mailto:|tel:)/.test(href);
-    const shouldOpenNewTab = /^https?:\/\//.test(href);
+  const isExternalLink = /^(https?:\/\/|mailto:|tel:)/.test(href);
+  const shouldOpenNewTab = /^https?:\/\//.test(href);
 
-    if (isExternalLink) {
-      return (
-        <a
-          ref={ref}
-          href={href}
-          className={classNames}
-          {...(shouldOpenNewTab && {
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          })}
-          {...props}
-        >
-          {children}
-        </a>
-      );
-    }
-
+  if (isExternalLink) {
     return (
-      <Link
+      <a
         ref={ref}
         href={href}
-        className={cn('duration-250 outline-0 transition-all', classNames)}
+        className={classNames}
+        {...(shouldOpenNewTab && {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        })}
         {...props}
       >
         {children}
-      </Link>
+      </a>
     );
-  },
-);
+  }
 
-AppLink.displayName = 'AppLink';
+  return (
+    <Link
+      ref={ref}
+      href={href}
+      className={cn('duration-250 outline-0 transition-all', classNames)}
+      {...props}
+    >
+      {children}
+    </Link>
+  );
+}

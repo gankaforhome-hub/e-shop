@@ -1,37 +1,34 @@
-import { type FC } from 'react';
-
-import { type FooterLink } from '@/shared/content/layout/footer';
-import { AppLink } from '@/shared/ui/app-link';
+import { type INavItemConfig, NavItem } from '@/features/navigation';
 import { Heading } from '@/shared/ui/heading';
 
-interface IFooterLinkColumn {
+interface IFooterLinkColumnProps {
   heading: string;
-  links: FooterLink[];
+  links: INavItemConfig[];
   className?: string;
 }
 
-export const FooterLinkColumn: FC<IFooterLinkColumn> = ({
+export function FooterLinkColumn({
   heading,
   links,
   className = '',
-}) => {
+}: IFooterLinkColumnProps) {
   return (
-    <div className={className}>
+    <nav className={className}>
       <Heading headingLevel="h3" variant="footer" tone="accent">
         {heading}
       </Heading>
       <ul className="mt-4 space-y-4">
         {links.map(link => (
           <li key={link.href}>
-            <AppLink
+            <NavItem
+              variant="footer"
               href={link.href}
-              className="link text-base first-letter:uppercase"
-            >
-              {link.label}
-            </AppLink>
+              label={link.labelKey}
+              showActive={false}
+            />
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
-};
+}
