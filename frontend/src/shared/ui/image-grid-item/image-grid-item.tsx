@@ -1,9 +1,8 @@
 import { cn } from '@/shared/lib/utils';
 import { type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
-import { Box } from '@/shared/ui/box';
 
-export interface IImageGridItem {
+export interface IImageGridItemProps {
   image: Media;
   aspect: string;
   items: 1 | 2 | 3 | 4;
@@ -22,11 +21,11 @@ export function ImageGridItem({
   aspect,
   items = 1,
   className,
-}: IImageGridItem) {
+}: IImageGridItemProps) {
   const sizes = sizesByCount[items];
 
   return (
-    <Box
+    <div
       className={cn(
         'relative h-full w-full overflow-hidden',
         aspect,
@@ -43,6 +42,6 @@ export function ImageGridItem({
           'h-full w-full transition-transform duration-500 ease-out group-hover:scale-105',
         )}
       />
-    </Box>
+    </div>
   );
 }

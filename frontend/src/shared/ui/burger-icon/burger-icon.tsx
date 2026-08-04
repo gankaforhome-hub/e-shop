@@ -1,5 +1,3 @@
-import { type FC } from 'react';
-
 import { cn } from '@/shared/lib/utils';
 
 interface IBurgerIconProps {
@@ -7,7 +5,7 @@ interface IBurgerIconProps {
   className?: string;
 }
 
-export const BurgerIcon: FC<IBurgerIconProps> = ({ isOpen, className }) => {
+export function BurgerIcon({ isOpen, className }: IBurgerIconProps) {
   return (
     <div className={cn('relative flex items-center justify-center', className)}>
       <span
@@ -30,4 +28,4 @@ export const BurgerIcon: FC<IBurgerIconProps> = ({ isOpen, className }) => {
       />
     </div>
   );
-};
+}

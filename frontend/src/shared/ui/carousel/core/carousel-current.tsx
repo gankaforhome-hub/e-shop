@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC } from 'react';
+import { type ComponentProps } from 'react';
 
 import { Button } from '@/shared/ui/button';
 
@@ -9,7 +9,7 @@ interface ICarouselCurrentProps extends ComponentProps<typeof Button> {
   animateScroll?: boolean | undefined;
 }
 
-export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
+export function CarouselCurrent({
   className,
   variant = 'dot',
   size = 'dots',
@@ -17,7 +17,7 @@ export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
   children,
   animateScroll = undefined,
   ...props
-}) => {
+}: ICarouselCurrentProps) {
   const { scrollTo, current } = useCarousel();
 
   return (
@@ -33,4 +33,4 @@ export const CarouselCurrent: FC<ICarouselCurrentProps> = ({
       {children}
     </Button>
   );
-};
+}

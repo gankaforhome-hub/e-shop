@@ -1,9 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type FC, type HTMLAttributes } from 'react';
+import { type HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-
-import { Box } from '../box';
 
 export const separatorVariants = cva('', {
   variants: {
@@ -55,16 +53,16 @@ interface ISeparatorProps
   decorative?: boolean;
 }
 
-export const Separator: FC<ISeparatorProps> = ({
+export function Separator({
   className,
   variant,
   size,
   orientation = 'horizontal',
   decorative = true,
   ...props
-}) => {
+}: ISeparatorProps) {
   return (
-    <Box
+    <div
       role={decorative ? 'none' : 'separator'}
       aria-orientation={decorative ? undefined : orientation}
       className={cn(
@@ -73,4 +71,4 @@ export const Separator: FC<ISeparatorProps> = ({
       {...props}
     />
   );
-};
+}

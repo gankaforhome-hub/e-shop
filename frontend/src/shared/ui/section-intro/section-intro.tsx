@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/utils';
 import { Heading } from '@/shared/ui/heading';
 import { Text } from '@/shared/ui/text';
 
-interface ISectionIntro {
+interface ISectionIntroProps {
   heading: string;
   description: string;
   headingId: string;
@@ -23,7 +23,7 @@ export function SectionIntro({
   className,
   textPosition,
   descriptionClassName,
-}: ISectionIntro) {
+}: ISectionIntroProps) {
   return (
     <>
       <Heading

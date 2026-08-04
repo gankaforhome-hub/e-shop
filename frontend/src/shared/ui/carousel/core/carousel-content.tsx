@@ -1,13 +1,13 @@
-import { type ComponentProps, type FC } from 'react';
+import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
 import { useCarousel } from './useCarousel';
 
-export const CarouselContent: FC<ComponentProps<'div'>> = ({
+export function CarouselContent({
   className,
   ...props
-}) => {
+}: ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel();
 
   return (
@@ -26,4 +26,4 @@ export const CarouselContent: FC<ComponentProps<'div'>> = ({
       />
     </div>
   );
-};
+}

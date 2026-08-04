@@ -1,6 +1,10 @@
 import { cn } from '@/shared/lib/utils';
 
-export function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
+interface ISkeletonProps {
+  className?: string;
+}
+
+export function Skeleton({ className }: ISkeletonProps) {
   return (
     <div
       data-slot="skeleton"
@@ -8,7 +12,6 @@ export function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
         'animate-pulse rounded-lg bg-stone-200/60 dark:bg-stone-800/60',
         className,
       )}
-      {...props}
     />
   );
 }

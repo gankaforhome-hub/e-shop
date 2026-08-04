@@ -1,17 +1,17 @@
-import { type ComponentProps, type FC } from 'react';
+import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 
 import { useCarousel } from './useCarousel';
 
-export const CarouselPrevious: FC<ComponentProps<typeof Button>> = ({
+export function CarouselPrevious({
   className,
   variant = 'outline',
   size = 'icon',
   children,
   ...props
-}) => {
+}: ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -34,4 +34,4 @@ export const CarouselPrevious: FC<ComponentProps<typeof Button>> = ({
       <span className="sr-only">Previous slide</span>
     </Button>
   );
-};
+}

@@ -2,9 +2,11 @@
 
 import {
   Children,
+  useCallback,
   useEffect,
   useRef,
   useState,
+  type ComponentPropsWithRef,
   type ElementType,
   type ReactNode,
 } from 'react';
@@ -14,86 +16,44 @@ import { Button } from '@/shared/ui/button';
 
 export type IndicatorType = 'dots' | 'progress' | 'both' | 'none';
 
-interface IScrollableContainer {
+interface IScrollableContainer<T extends ElementType = 'div'> {
   children: ReactNode;
-  as?: ElementType | undefined;
-  className?: string | undefined;
-  scrollClassName?: string | undefined;
-  indicatorType?: IndicatorType | undefined;
-  gapClassName?: string | undefined;
-  indicatorClassName?: string | undefined;
+  as?: T;
+  className?: string;
+  scrollClassName?: string;
+  indicatorType?: IndicatorType;
+  gapClassName?: string;
+  indicatorClassName?: string;
 }
 
-export function ScrollableContainer({
+export function ScrollableContainer<T extends ElementType = 'div'>({
   children,
-  as: Component = 'div',
+  as,
   className,
   scrollClassName,
   indicatorType = 'dots',
   gapClassName = 'gap-3 sm:gap-4 lg:gap-6',
   indicatorClassName,
-}: IScrollableContainer) {
+  ...props
+}: IScrollableContainer<T> &
+  Omit<ComponentPropsWithRef<T>, keyof IScrollableContainer<T>>) {
+  const Component = as || 'div';
   const scrollRef = useRef<HTMLDivElement>(null);
+  const animFrameId = useRef<number | null>(null);
+
+  // 1. Рахуємо кількість елементів для SSR
+  const totalItems = Children.count(children);
+
+  // 2. Оцінка крапок для серверного HTML (щоб рендерилися ВІДРАЗУ без затримки на JS)
+  const initialDots =
+    totalItems > 1 ? Math.max(2, Math.ceil(totalItems / 2)) : 0;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollPercent, setScrollPercent] = useState(0);
-  const [isScrollable, setIsScrollable] = useState(false);
-  const [dotsCount, setDotsCount] = useState(0);
+  const [isScrollable, setIsScrollable] = useState(totalItems > 1);
+  const [dotsCount, setDotsCount] = useState(initialDots);
 
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) {
-      return;
-    }
-
-    const resizeObserver = new ResizeObserver(entries => {
-      // We safely take the first element
-      const entry = entries[0];
-      if (!entry) {
-        return;
-      }
-
-      const { clientWidth, scrollWidth } = entry.target;
-      const canScroll = scrollWidth > clientWidth + 4;
-
-      setIsScrollable(canScroll);
-      setDotsCount(canScroll ? Math.ceil(scrollWidth / clientWidth) : 0);
-    });
-
-    resizeObserver.observe(container);
-
-    return () => resizeObserver.disconnect();
-  }, [children]);
-
-  const handleScroll = () => {
-    const container = scrollRef.current;
-    if (!container) {
-      return;
-    }
-
-    const { scrollLeft, clientWidth, scrollWidth } = container;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll <= 0) {
-      setScrollPercent(0);
-      setActiveIndex(0);
-      return;
-    }
-
-    // Calculate progress in percentage (0-100)
-    const currentProgress = (scrollLeft / maxScroll) * 100;
-    setScrollPercent(Math.min(100, Math.max(0, currentProgress)));
-
-    // Calculation of the active point
-    if (dotsCount > 1) {
-      const progress = scrollLeft / maxScroll;
-      const index = Math.min(
-        Math.round(progress * (dotsCount - 1)),
-        dotsCount - 1,
-      );
-      setActiveIndex(index);
-    }
-  };
-
-  const scrollToDot = (dotIndex: number) => {
+  const updateLayoutMetrics = useCallback(() => {
     const container = scrollRef.current;
     if (!container) {
       return;
@@ -102,7 +62,96 @@ export function ScrollableContainer({
     const { clientWidth, scrollWidth } = container;
     const maxScroll = scrollWidth - clientWidth;
 
-    const targetLeft = (maxScroll / Math.max(dotsCount - 1, 1)) * dotIndex;
+    if (maxScroll <= 1) {
+      setIsScrollable(false);
+      setDotsCount(0);
+      return;
+    }
+
+    setIsScrollable(true);
+    const count = Math.max(1, Math.ceil(scrollWidth / clientWidth));
+    setDotsCount(count);
+  }, []);
+
+  const updateScrollProgress = useCallback(() => {
+    const container = scrollRef.current;
+    if (!container) {
+      return;
+    }
+
+    const { scrollLeft, clientWidth, scrollWidth } = container;
+    const maxScroll = scrollWidth - clientWidth;
+
+    if (maxScroll <= 1) {
+      return;
+    }
+
+    const clampedScrollLeft = Math.min(maxScroll, Math.max(0, scrollLeft));
+    const currentProgress = (clampedScrollLeft / maxScroll) * 100;
+    setScrollPercent(currentProgress);
+
+    setDotsCount(currentDotsCount => {
+      if (currentDotsCount > 1) {
+        const isAtEnd = maxScroll - clampedScrollLeft < 5;
+
+        if (isAtEnd) {
+          setActiveIndex(currentDotsCount - 1);
+        } else {
+          const progressRatio = clampedScrollLeft / maxScroll;
+          const index = Math.min(
+            Math.round(progressRatio * (currentDotsCount - 1)),
+            currentDotsCount - 1,
+          );
+          setActiveIndex(index);
+        }
+      }
+      return currentDotsCount;
+    });
+  }, []);
+
+  const handleScroll = () => {
+    if (animFrameId.current !== null) {
+      cancelAnimationFrame(animFrameId.current);
+    }
+    animFrameId.current = requestAnimationFrame(updateScrollProgress);
+  };
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) {
+      return;
+    }
+
+    updateLayoutMetrics();
+    updateScrollProgress();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateLayoutMetrics();
+      updateScrollProgress();
+    });
+
+    resizeObserver.observe(container);
+
+    return () => {
+      resizeObserver.disconnect();
+      if (animFrameId.current !== null) {
+        cancelAnimationFrame(animFrameId.current);
+      }
+    };
+  }, [updateLayoutMetrics, updateScrollProgress, children]);
+
+  const scrollToDot = (dotIndex: number) => {
+    const container = scrollRef.current;
+    if (!container || dotsCount <= 1) {
+      return;
+    }
+
+    const { clientWidth, scrollWidth } = container;
+    const maxScroll = scrollWidth - clientWidth;
+
+    // Захист від ділення на нуль
+    const divisor = Math.max(dotsCount - 1, 1);
+    const targetLeft = (maxScroll / divisor) * dotIndex;
 
     container.scrollTo({
       left: targetLeft,
@@ -114,29 +163,33 @@ export function ScrollableContainer({
     (indicatorType === 'dots' || indicatorType === 'both') && dotsCount > 1;
   const showProgress = indicatorType === 'progress' || indicatorType === 'both';
 
+  const progressMultiplier = Math.max(dotsCount, 1);
+  const translateOffset =
+    (scrollPercent / 100) * (progressMultiplier - 1) * 100;
+
   return (
     <div className={cn('w-full min-w-0', className)}>
       <Component
         ref={scrollRef}
         onScroll={handleScroll}
         className={cn(
-          'scrollbar-none flex w-full min-w-0 snap-x snap-mandatory overflow-x-auto py-2',
+          'scrollbar-none flex w-full min-w-0 touch-pan-x snap-x snap-mandatory flex-nowrap justify-start overflow-x-auto py-2',
           gapClassName,
-          !isScrollable ? 'justify-center' : 'justify-start',
           scrollClassName,
         )}
+        {...props}
       >
         {children}
       </Component>
 
       {isScrollable && (
         <div
+          suppressHydrationWarning
           className={cn(
-            'mt-4 flex flex-col items-center gap-3',
+            'mt-4 flex h-6 items-center justify-center gap-3',
             indicatorClassName,
           )}
         >
-          {/* Dots */}
           {showDots && (
             <div className="flex items-center justify-center gap-2">
               {Array.from({ length: dotsCount }).map((_, index) => (
@@ -152,20 +205,13 @@ export function ScrollableContainer({
             </div>
           )}
 
-          {/* Progress bar */}
           {showProgress && (
             <div className="bg-dot-inactive-secondary relative h-0.5 w-full overflow-hidden rounded-full">
               <div
-                className="bg-dot-active-secondary h-full rounded-full transition-transform duration-150 ease-out"
+                className="bg-dot-active-secondary h-full rounded-full transition-transform duration-75 ease-out"
                 style={{
-                  // Slider width based on the number of child elements or pages
-                  width: `${100 / Math.max(dotsCount || Children.count(children), 1)}%`,
-                  // Exact offset in % of the slider's own width
-                  transform: `translateX(${
-                    (scrollPercent / 100) *
-                    (Math.max(dotsCount || Children.count(children), 1) - 1) *
-                    100
-                  }%)`,
+                  width: `${100 / progressMultiplier}%`,
+                  transform: `translate3d(${translateOffset.toFixed(2)}%, 0, 0)`,
                 }}
               />
             </div>

@@ -1,4 +1,4 @@
-import { type AnchorHTMLAttributes, type FC, type ReactNode } from 'react';
+import { type AnchorHTMLAttributes, type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
@@ -8,13 +8,12 @@ interface IExternalLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
 }
 
-export const ExternalLink: FC<IExternalLinkProps> = ({
+export function ExternalLink({
   className,
   href,
   children,
   ...props
-}) => {
-  //check whether the protocol specified
+}: IExternalLinkProps) {
   const isExternal = /^https?:\/\//.test(href);
   const formattedHref = isExternal ? href : `https://${href}`;
 
@@ -32,4 +31,4 @@ export const ExternalLink: FC<IExternalLinkProps> = ({
       {children}
     </a>
   );
-};
+}

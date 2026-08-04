@@ -18,7 +18,7 @@ import { cn } from '@/shared/lib/utils';
 import { type CarouselApi, type CarouselProps } from './types';
 import { CarouselContext } from './useCarousel';
 
-export interface ICarousel extends PropsWithChildren<
+export interface ICarouselProps extends PropsWithChildren<
   CarouselProps & { className?: string; isOpacityTween?: boolean }
 > {}
 export function Carousel({
@@ -32,7 +32,7 @@ export function Carousel({
   className,
   children,
   ...props
-}: ICarousel) {
+}: ICarouselProps) {
   const mergedPlugins = useMemo(() => {
     const res = [...(plugins ?? [])];
     if (isAutoplay) {

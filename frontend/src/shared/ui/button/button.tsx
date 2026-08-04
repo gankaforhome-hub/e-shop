@@ -1,9 +1,9 @@
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type ButtonHTMLAttributes, type FC } from 'react';
+import { type ButtonHTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-/** @type {*} */
+
 const buttonVariants = cva(
   'font-caption focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none',
   {
@@ -13,7 +13,8 @@ const buttonVariants = cva(
           'bg-action-primary text-action-primary-foreground hover:bg-action-primary-hover active:bg-action-primary-active disabled:bg-action-primary/40 disabled:text-action-primary-foreground/40 shadow-sm hover:shadow-md',
         outline:
           'border-action-primary bg-action-secondary text-action-secondary-foreground hover:border-action-secondary-hover active:border-action-secondary-active hover:bg-action-secondary-hover/2 disabled:border-action-primary/40 disabled:text-action-secondary-foreground/20 border',
-        ghost: 'text-icon bg-transparent hover:bg-black/5 active:bg-black/10',
+        ghost:
+          'text-icon bg-transparent hover:bg-black/5 focus-visible:ring-0 focus-visible:ring-offset-0 active:bg-black/10',
         iconPrimary:
           'text-icon hover:text-icon-hover bg-white/20 shadow-lg hover:scale-105 hover:bg-white/30 active:scale-95 disabled:opacity-20',
         iconSecondary:
@@ -44,13 +45,13 @@ export interface IButtonProps
   asChild?: boolean;
 }
 
-export const Button: FC<IButtonProps> = ({
+export function Button({
   className,
   variant,
   size,
   asChild = false,
   ...props
-}) => {
+}: IButtonProps) {
   const Comp = asChild ? Slot : 'button';
 
   return (
@@ -62,4 +63,4 @@ export const Button: FC<IButtonProps> = ({
       />
     </>
   );
-};
+}

@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type FC, type HTMLAttributes } from 'react';
+import { type HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
@@ -57,7 +57,7 @@ interface ITextProps
   as?: 'p' | 'span';
 }
 
-export const Text: FC<ITextProps> = ({
+export function Text({
   className,
   variant,
   size,
@@ -66,7 +66,7 @@ export const Text: FC<ITextProps> = ({
   // size,
   as = 'p',
   ...props
-}) => {
+}: ITextProps) {
   const Component = as;
   return (
     <Component
@@ -74,4 +74,4 @@ export const Text: FC<ITextProps> = ({
       {...props}
     />
   );
-};
+}

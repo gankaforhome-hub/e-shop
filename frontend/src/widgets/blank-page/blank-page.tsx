@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type FC } from 'react';
 
+import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
@@ -11,10 +11,10 @@ interface IBlankPageProps {
   className?: string;
 }
 
-export const BlankPage: FC<IBlankPageProps> = () => {
+export function BlankPage({ className }: IBlankPageProps) {
   const path = usePathname();
   return (
-    <Section>
+    <Section className={cn('bg-muted', className)}>
       <Container>
         <Box className="mb-10 flex justify-center">
           <Link
@@ -32,4 +32,4 @@ export const BlankPage: FC<IBlankPageProps> = () => {
       </Container>
     </Section>
   );
-};
+}

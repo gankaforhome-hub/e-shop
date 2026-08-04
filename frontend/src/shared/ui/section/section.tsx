@@ -28,7 +28,7 @@ const sectionVariants = cva('w-full', {
     border: 'none',
   },
 });
-export interface SectionProps
+export interface ISectionProps
   extends
     React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof sectionVariants> {
@@ -40,7 +40,7 @@ export function Section({
   spacing,
   children,
   ...props
-}: SectionProps) {
+}: ISectionProps) {
   return (
     <section className={cn(sectionVariants({ spacing }), className)} {...props}>
       {children}

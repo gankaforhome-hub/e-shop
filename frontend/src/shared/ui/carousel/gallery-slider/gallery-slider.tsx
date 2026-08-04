@@ -8,7 +8,7 @@ import { CarouselItem } from '../core/carousel-item';
 
 import { CarouselProgressBar } from './carousel-progress-bar';
 
-interface IGallerySlider<T> extends ICarousel {
+interface IGallerySliderProps<T> extends ICarousel {
   items: T[];
   renderItem: (item: T, index: number) => ReactNode;
   className?: string;
@@ -25,7 +25,7 @@ export function GallerySlider<T>({
   classNameItem,
 
   ...props
-}: IGallerySlider<T>) {
+}: IGallerySliderProps<T>) {
   return (
     <Carousel
       opts={{

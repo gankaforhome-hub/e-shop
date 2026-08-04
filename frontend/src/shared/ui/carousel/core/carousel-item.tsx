@@ -1,4 +1,4 @@
-import { type FC, type HTMLAttributes } from 'react';
+import { type HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
@@ -8,10 +8,7 @@ interface ICarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export const CarouselItem: FC<ICarouselItemProps> = ({
-  className,
-  ...props
-}) => {
+export function CarouselItem({ className, ...props }: ICarouselItemProps) {
   const { orientation } = useCarousel();
 
   return (
@@ -30,4 +27,4 @@ export const CarouselItem: FC<ICarouselItemProps> = ({
       {...props}
     />
   );
-};
+}

@@ -1,5 +1,3 @@
-import { type FC } from 'react';
-
 import { cn } from '@/shared/lib/utils';
 import { type SocialLink } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
@@ -11,19 +9,19 @@ interface ISocialMenuProps {
   closeMenu?: () => void;
 }
 
-export const SocialMenu: FC<ISocialMenuProps> = ({
+export function SocialMenu({
   className,
   socialLink,
   closeMenu,
-}) => {
+}: ISocialMenuProps) {
   return (
     <ul className={cn('w-full', className)}>
       {socialLink.map(social => (
         <li
           key={social.href}
           className={cn(
-            'border-border-muted group border-b py-4 first:pt-0 last:border-0 last:pb-0',
-            'hover:border-border-accent custom-transition transition-colors',
+            'border-muted group border-b py-4 first:pt-0 last:border-0 last:pb-0',
+            'hover:border-accent custom-transition transition-colors',
           )}
         >
           <AppLink
@@ -34,7 +32,7 @@ export const SocialMenu: FC<ISocialMenuProps> = ({
             <Icon
               name={social.icon}
               className="-order-1 h-5 w-5"
-              childClassName="text-base gap-4 group-hover:text-fg-accent"
+              childClassName="text-base gap-4 group-hover:text-icon"
             >
               {social.label}
             </Icon>
@@ -43,4 +41,4 @@ export const SocialMenu: FC<ISocialMenuProps> = ({
       ))}
     </ul>
   );
-};
+}
