@@ -7,45 +7,68 @@ export function useVideoControl() {
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
 
-  const play = useCallback(() => {
+  const play = useCallback(async () => {
     const video = videoRef.current;
-    if (video) {
-      video.play();
+    if (!video) {
+      return;
+    }
+
+    try {
+      await video.play();
       setIsPlaying(true);
+    } catch (error) {
+      setIsPlaying(false);
+      console.warn('Video playback was prevented:', error);
     }
   }, []);
 
   const pause = useCallback(() => {
     const video = videoRef.current;
-    if (video) {
-      video.pause();
-      setIsPlaying(false);
+    if (!video) {
+      return;
     }
+
+    video.pause();
+    setIsPlaying(false);
   }, []);
 
   const togglePlay = useCallback(() => {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-      setIsMuted(false);
+    const video = videoRef.current;
+    if (!video) {
+      return;
     }
-  }, [isPlaying, play, pause]);
+
+    if (video.paused) {
+      video.muted = false;
+      setIsMuted(false);
+      play();
+    } else {
+      pause();
+    }
+  }, [play, pause]);
 
   const toggleMute = useCallback(() => {
     const video = videoRef.current;
-    if (video) {
-      video.muted = !video.muted;
-      setIsMuted(video.muted);
+    if (!video) {
+      return;
     }
+
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
   }, []);
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
-    if (video) {
-      setProgress((video.currentTime / video.duration) * 100);
+    if (!video || !video.duration) {
+      return;
     }
-  };
+
+    const currentProgress = (video.currentTime / video.duration) * 100;
+    setProgress(Number.isNaN(currentProgress) ? 0 : currentProgress);
+  }, []);
+
+  const handlePlay = useCallback(() => setIsPlaying(true), []);
+  const handlePause = useCallback(() => setIsPlaying(false), []);
 
   return {
     videoRef,
@@ -57,5 +80,7 @@ export function useVideoControl() {
     togglePlay,
     toggleMute,
     handleTimeUpdate,
+    handlePlay,
+    handlePause,
   };
 }

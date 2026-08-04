@@ -1,40 +1,39 @@
-import { type FC } from 'react';
+import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
-interface IPlayButtonProps {
+export interface IPlayButtonProps extends ComponentProps<typeof Button> {
   isPlaying: boolean;
   onTogglePlay: () => void;
-  className?: string;
   theme?: 'white' | 'black';
 }
 
-export const PlayButton: FC<IPlayButtonProps> = ({
+export function PlayButton({
   isPlaying,
   onTogglePlay,
   className,
   theme = 'white',
-}) => {
-  const themeIcon = cn(
-    'w-6 h-6 fill-none ',
+  ...props
+}: IPlayButtonProps) {
+  const themeIconClass = cn(
+    'size-6',
     theme === 'white'
-      ? 'fill-none hover:fill-icon-secondary focus:fill-icon-secondary stroke-icon-secondary'
-      : 'hover:fill-icon focus:fill-icon stroke-icon',
+      ? 'fill-none stroke-icon-secondary hover:fill-icon-secondary focus:fill-icon-secondary'
+      : 'stroke-icon hover:fill-icon focus:fill-icon',
   );
+
   return (
     <Button
       variant="iconPrimary"
       size="icon"
       onClick={onTogglePlay}
+      aria-label={isPlaying ? 'Pause video' : 'Play video'}
       className={cn(className)}
+      {...props}
     >
-      {isPlaying ? (
-        <Icon name="pause" className={themeIcon} />
-      ) : (
-        <Icon name="play" className={themeIcon} />
-      )}
+      <Icon name={isPlaying ? 'pause' : 'play'} className={themeIconClass} />
     </Button>
   );
-};
+}

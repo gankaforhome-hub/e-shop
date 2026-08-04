@@ -1,40 +1,39 @@
-import { type FC } from 'react';
+import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
-interface IMuteButtonProps {
+export interface IMuteButtonProps extends ComponentProps<typeof Button> {
   isMuted: boolean;
   onToggleMute: () => void;
-  className?: string;
   theme?: 'white' | 'black';
 }
 
-export const MuteButton: FC<IMuteButtonProps> = ({
+export function MuteButton({
   isMuted,
   onToggleMute,
   className,
   theme = 'white',
-}) => {
-  const themeIcon = cn(
-    'w-6 h-6 fill-none ',
+  ...props
+}: IMuteButtonProps) {
+  const themeIconClass = cn(
+    'size-6',
     theme === 'white'
-      ? 'fill-none hover:fill-icon-secondary focus:fill-icon-secondary stroke-icon-secondary'
-      : 'hover:fill-icon focus:fill-icon stroke-icon',
+      ? 'fill-none stroke-icon-secondary hover:fill-icon-secondary focus:fill-icon-secondary'
+      : 'stroke-icon hover:fill-icon focus:fill-icon',
   );
+
   return (
     <Button
       variant="iconPrimary"
       size="icon"
       onClick={onToggleMute}
+      aria-label={isMuted ? 'Unmute video' : 'Mute video'}
       className={cn(className)}
+      {...props}
     >
-      {isMuted ? (
-        <Icon name="mute" className={themeIcon} />
-      ) : (
-        <Icon name="sound" className={themeIcon} />
-      )}
+      <Icon name={isMuted ? 'mute' : 'volume'} className={themeIconClass} />
     </Button>
   );
-};
+}
