@@ -1,4 +1,3 @@
-// hooks/useMatchMedia.ts
 'use client';
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
