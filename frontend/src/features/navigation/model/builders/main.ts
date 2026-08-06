@@ -1,27 +1,21 @@
 import { type Collection } from '@/entities/collection/model/types';
 import { routes } from '@/shared/config/routes';
 
-import { type BuildNavParams, type INavItemConfig } from '../types';
+import { type INavItemConfig, type NavigationDict } from '../types';
 
-interface BuildMainNavParams extends BuildNavParams {
-  collections?: Collection[];
-}
-
-export function getMainNavConfig({
-  dict,
-  collections = [],
-}: BuildMainNavParams): INavItemConfig[] {
-  const mainDict = dict.main || {};
-
+export function getMainNavConfig(
+  dict: NavigationDict['main'],
+  collections: Collection[] = [],
+): INavItemConfig[] {
   const collectionChildren: INavItemConfig[] = [
     {
       id: 'all-collections',
-      labelKey: mainDict.collections || 'Collections',
+      label: dict.collections,
       href: routes.collections,
     },
     ...collections.map(col => ({
       id: col.id,
-      labelKey: col.title,
+      label: col.title,
       href: routes.collection(col.slug),
     })),
   ];
@@ -29,28 +23,28 @@ export function getMainNavConfig({
   return [
     {
       id: 'collections',
-      labelKey: mainDict.collections || 'Collections',
+      label: dict.collections,
       href: routes.collections,
       children: collectionChildren,
     },
     {
       id: 'allProducts',
-      labelKey: mainDict.allProducts || 'All products',
+      label: dict.allProducts,
       href: routes.products(),
     },
     {
       id: 'about',
-      labelKey: mainDict.about || 'About Us',
+      label: dict.about,
       href: routes.about,
     },
     {
       id: 'exclusive',
-      labelKey: mainDict.exclusive || 'Exclusive',
+      label: dict.exclusive,
       href: routes.exclusive,
     },
     {
       id: 'releases',
-      labelKey: mainDict.releases || 'Releases',
+      label: dict.releases,
       href: routes.releases,
     },
   ];

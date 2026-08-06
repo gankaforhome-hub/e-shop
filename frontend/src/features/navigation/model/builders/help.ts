@@ -1,38 +1,34 @@
 import { routes } from '@/shared/config/routes';
 
-import { type BuildNavParams, type INavItemConfig } from '../types';
+import { type INavItemConfig, type NavigationDict } from '../types';
 
-interface BuildHelpNavParams extends BuildNavParams {}
-
-export function getHelpNavConfig({
-  dict,
-}: BuildHelpNavParams): INavItemConfig[] {
-  const helpDict = dict.help || {};
-
+export function getHelpNavConfig(
+  dict: NavigationDict['help'],
+): INavItemConfig[] {
   return [
     {
       id: 'contacts',
-      labelKey: helpDict.contacts || 'Contacts',
+      label: dict.contacts,
       href: routes.contacts,
     },
     {
       id: 'faq',
-      labelKey: helpDict.faq || 'FAQ',
+      label: dict.faq,
       href: routes.faq,
     },
     {
       id: 'payments',
-      labelKey: helpDict.payments || 'Payments',
+      label: dict.payments,
       href: routes.payments,
     },
     {
       id: 'delivery',
-      labelKey: helpDict.delivery || 'Delivery',
+      label: dict.delivery,
       href: routes.delivery,
     },
     {
       id: 'returns',
-      labelKey: helpDict.returns || 'Returns',
+      label: dict.returns,
       href: routes.returns,
     },
   ];

@@ -1,17 +1,18 @@
-import { type AppRoutes } from '@/shared/config';
+import { type Collection } from '@/entities/collection/model/types';
+import { type AppRoutes } from '@/shared/config/routes';
+import { type CommonDict } from '@/shared/i18n/types';
 
 export interface INavItemConfig {
   id: string;
-  labelKey: string; // ключ із вашого JSON-словника navigation.main / help / legal
+  label: string;
   href: AppRoutes;
-  descriptionKey?: string;
+  description?: string;
   children?: INavItemConfig[];
 }
 
-export interface NavDictionary {
-  [group: string]: Record<string, string>;
-}
+export type NavigationDict = CommonDict['navigation'];
 
-export interface BuildNavParams {
-  dict: NavDictionary;
+export interface BuildNavigationOptions {
+  dict: NavigationDict;
+  collections?: Collection[];
 }

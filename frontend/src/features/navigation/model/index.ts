@@ -1,2 +1,2 @@
-export * from './builders';
+export * from './builders/build-navigation';
 export { type INavItemConfig } from './types';
