@@ -2,7 +2,7 @@ import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
-import { type IAppMedia } from '@/shared/ui/app-media/app-media';
+import { type IAppMediaProps } from '@/shared/ui/app-media/app-media';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
@@ -10,7 +10,7 @@ import { Heading } from '@/shared/ui/heading';
 import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
 
-interface IBannerSlide extends IAppMedia {
+interface IBannerSlide extends IAppMediaProps {
   bannerSlide: {
     title: string;
     subTitle: string;

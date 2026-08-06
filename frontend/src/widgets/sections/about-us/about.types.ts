@@ -2,7 +2,7 @@
 import type AboutDictionary from '@/dictionaries/en/about.json';
 import type { Media } from '@/shared/types/media';
 
-export type AboutPageDict = (typeof AboutDictionary)['aboutPage'];
+export type AboutPageDict = typeof AboutDictionary;
 
 export type AboutHeroSectionProps = AboutPageDict['aboutHero'] & {
   panel: {

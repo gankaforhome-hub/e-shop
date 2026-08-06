@@ -5,7 +5,7 @@ import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import {
-  type IImageGridItem,
+  type IImageGridItemProps,
   ImageGridItem,
 } from '@/shared/ui/image-grid-item';
 import { Section } from '@/shared/ui/section';
@@ -13,8 +13,8 @@ import { Section } from '@/shared/ui/section';
 interface IContentGridSectionProps {
   heading: string;
   text?: ReactNode;
-  firstImage: IImageGridItem['image'];
-  secondImage: IImageGridItem['image'];
+  firstImage: IImageGridItemProps['image'];
+  secondImage: IImageGridItemProps['image'];
   aspect?: string;
   action?: ReactNode;
   className?: string;

@@ -1,97 +1,115 @@
 {
-  "common": {
-    "navigation": {
-      "main": {
-        "collections": "Колекції",
-        "allProducts": "Каталог",
-        "about": "Наша історія",
-        "exclusive": "Ексклюзив",
-        "releases": "Новинки"
-      },
-      "help": {
-        "contacts": "Контакти",
-        "faq": "FAQs",
-        "payments": "Платежі",
-        "delivery": "Доставка",
-        "returns": "Повернення"
-      },
-      "legal": {
-        "terms_conditions": "Правила та умови",
-        "privacy_policy": "Політика конфіденційності",
-        "cookie_policy": "Файли Cookie"
-      }
+  "navigation": {
+    "main": {
+      "collections": "Колекції",
+      "allProducts": "Каталог",
+      "about": "Наша історія",
+      "exclusive": "Ексклюзив",
+      "releases": "Новинки"
     },
-
-    "social": [
-      {
-        "label": "Instagram",
-        "href": "https://instagram.com",
-        "icon": "instagram"
-      },
-      {
-        "label": "Facebook",
-        "href": "https://facebook.com",
-        "icon": "facebook"
-      }
-    ],
-    "contacts": [
-      {
-        "href": "tel:+380635854678",
-        "icon": "phone",
-        "label": "+38 (063) 585-46-78"
-      },
-      {
-        "href": "mailto:gankaforhome@gmail.com",
-        "icon": "email",
-        "label": "gankaforhome@gmail.com"
-      }
-    ],
-
-    "paymentMethods": [
-      { "label": "Mastercard", "icon": "mastercard" },
-      { "label": "Visa", "icon": "visa" },
-      { "label": "LiqPay", "icon": "liqpay" },
-      { "label": "Apple Pay", "icon": "applepay" },
-      { "label": "Google Pay", "icon": "googlepay" }
-    ],
-
-    "action": {
-      "save": "",
-      "cancel": "",
-      "delete": "",
-      "edit": "",
-      "back": "",
-      "continue": "",
-      "checkout": "",
-      "buyNow": "",
-      "showMore": "",
-      "loadMore": "",
-      "search": ""
+    "help": {
+      "contacts": "Контакти",
+      "faq": "FAQs",
+      "payments": "Платежі",
+      "delivery": "Доставка",
+      "returns": "Повернення"
     },
-    "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
-    "status": {
-      "loading": "",
-      "success": "",
-      "error": "",
-      "empty": "",
-      "comingSoon": ""
-    },
-    "label": {
-      "price": "",
-      "quantity": "",
-      "total": "",
-      "email": "",
-      "phone": "",
-      "address": ""
-    },
-    "placeholder": { "search": "", "email": "", "phone": "" },
-    "message": {
-      "noResults": "",
-      "networkError": "",
-      "somethingWentWrong": ""
+    "legal": {
+      "terms_conditions": "Правила та умови",
+      "privacy_policy": "Політика конфіденційності",
+      "cookie_policy": "Файли Cookie"
     }
   },
 
+  "social": [
+    {
+      "label": "Instagram",
+      "href": "https://instagram.com",
+      "icon": "instagram"
+    },
+    {
+      "label": "Facebook",
+      "href": "https://facebook.com",
+      "icon": "facebook"
+    }
+  ],
+  "contacts": [
+    {
+      "href": "tel:+380635854678",
+      "icon": "phone",
+      "label": "+38 (063) 585-46-78"
+    },
+    {
+      "href": "mailto:gankaforhome@gmail.com",
+      "icon": "email",
+      "label": "gankaforhome@gmail.com"
+    }
+  ],
+
+  "paymentMethods": [
+    { "label": "Mastercard", "icon": "mastercard" },
+    { "label": "Visa", "icon": "visa" },
+    { "label": "LiqPay", "icon": "liqpay" },
+    { "label": "Apple Pay", "icon": "applepay" },
+    { "label": "Google Pay", "icon": "googlepay" }
+  ],
+
+  "action": {
+    "save": "",
+    "cancel": "",
+    "delete": "",
+    "edit": "",
+    "back": "",
+    "continue": "",
+    "checkout": "",
+    "buyNow": "",
+    "showMore": "",
+    "loadMore": "",
+    "search": ""
+  },
+
+  "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
+  "status": {
+    "loading": "",
+    "success": "",
+    "error": "",
+    "empty": "",
+    "comingSoon": ""
+  },
+  "label": {
+    "price": "",
+    "quantity": "",
+    "total": "",
+    "email": "",
+    "phone": "",
+    "address": ""
+  },
+  "placeholder": { "search": "", "email": "", "phone": "" },
+  "message": {
+    "noResults": "",
+    "networkError": "",
+    "somethingWentWrong": ""
+  },
+
+  "languages": {
+    "title": "Оберіть мову",
+    "subtitle": "Оберіть зручну для вас мову інтерфейсу",
+    "options": {
+      "ua": "Українська",
+      "en": "English (British)",
+      "fr": "Français",
+      "de": "Deutsch"
+    }
+  },
+
+  "notFound": {
+    "imageAlt": "равлик з номером помилки 404",
+    "textError": "Помилка 404",
+    "pageTitle": "Сторінка не знайдена",
+    "description": "Сторінка, яку ви шукали, не існує або була переміщена.",
+    "buttonText": "Назад додому",
+    "buttonAriaLabel": "Повернутися на головну сторінку"
+  },
   "old": {
     "header": {
       "topBar": {

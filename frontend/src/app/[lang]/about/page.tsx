@@ -1,8 +1,9 @@
-import { getDictionary } from '@/shared/i18n';
+import { setRequestLocale } from 'next-intl/server';
+
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { mapImagePosition } from '@/shared/lib/mapper';
 import {
   AboutHeroSection,
-  type AboutPageDict,
   ArtOfLivingSection,
   CitronelleMapSection,
   GankaGallerySection,
@@ -14,14 +15,16 @@ import {
 //   description: aboutHero.description,
 // };
 
-export default async function AboutUsPage() {
-  // const { locale } = await params;
-  // const dict = await getDictionary<'about'>(locale, ['about']);
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  setRequestLocale(lang);
 
-  const dict = await getDictionary<'about'>('ua', ['about']);
-  const {
-    aboutPage: { aboutHero, artOfLiving, artistGallery, ourStory, citronelle },
-  } = dict as unknown as { aboutPage: AboutPageDict };
+  const { about } = await getDictionary(['about']);
+  const { aboutHero, artOfLiving, artistGallery, citronelle, ourStory } = about;
 
   return (
     <>

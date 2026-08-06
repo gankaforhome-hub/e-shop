@@ -44,5 +44,9 @@
     "**/*.json",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "../node_modules"]
+  "exclude": [
+    "node_modules",
+    "../node_modules",
+    "src/shared/i18n/dictionaries/dictionaries.d.ts"
+  ]
 }

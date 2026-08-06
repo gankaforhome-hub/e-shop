@@ -76,7 +76,7 @@ export default [
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: tsconfigPath, // <--- Використовуємо безпечний абсолютний шлях тут також
+          project: tsconfigPath,
         },
       },
       'boundaries/mode': 'strict',
@@ -109,6 +109,7 @@ export default [
       'react-hooks/exhaustive-deps': 'warn',
 
       // Порядок імпортів
+
       'import/order': [
         'error',
         {
@@ -116,34 +117,34 @@ export default [
             'builtin',
             'external',
             'internal',
-            'parent',
-            'sibling',
+            ['parent', 'sibling'],
             'index',
             'object',
-            'type',
           ],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
             caseInsensitive: true,
           },
+          pathGroupsExcludedImportTypes: ['builtin'],
+          warnOnUnassignedImports: true,
           pathGroups: [
             { pattern: 'react', group: 'external', position: 'before' },
+            { pattern: 'react-dom', group: 'external', position: 'before' },
             { pattern: 'next', group: 'external', position: 'before' },
+            { pattern: 'next/**', group: 'external', position: 'before' },
+            { pattern: 'next-intl', group: 'external', position: 'after' },
+            { pattern: 'next-intl/**', group: 'external', position: 'after' },
             { pattern: '@/**', group: 'internal', position: 'after' },
             { pattern: '**/*.css', group: 'index', position: 'after' },
-            { pattern: '**/*.scss', group: 'index', position: 'after' },
           ],
-          pathGroupsExcludedImportTypes: ['builtin', 'external'],
         },
       ],
-
       '@typescript-eslint/consistent-type-imports': [
         'error',
         {
           prefer: 'type-imports',
           fixStyle: 'inline-type-imports',
-          // Дозволяємо звичайні імпорти типів у стилі prettier
         },
       ],
       'import/newline-after-import': ['error', { count: 1 }],

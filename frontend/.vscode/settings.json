@@ -8,5 +8,6 @@
     "nowrap",
     "rgba",
     "webp"
-  ]
+  ],
+  "i18n-ally.localesPaths": ["src/shared/i18n"]
 }

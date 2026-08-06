@@ -38,6 +38,7 @@ export async function getCollectionDataBySlug(slug: string) {
 
 interface PageProps {
   params: Promise<{
+    lang: string;
     collectionSlug: string;
   }>;
 }

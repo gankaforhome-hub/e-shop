@@ -5,7 +5,7 @@ import { useTransition } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { Icon } from '@/shared/ui/icon';
-import { Input } from '@/shared/ui/input'; // твій Shadcn Input
+// твій Shadcn Input
 
 export function ProductSearch() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export function ProductSearch() {
 
   return (
     <div className="relative w-full max-w-xs">
-      <Input
+      <input
         type="search"
         placeholder="Пошук посуду..."
         defaultValue={currentSearch}

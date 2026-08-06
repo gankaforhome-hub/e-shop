@@ -30,7 +30,7 @@ export type NavItem = {
 };
 
 export type SocialLink = {
-  icon: Extract<IconName, 'telegram' | 'facebook' | 'instagram' | 'location'>;
+  icon: Extract<IconName, 'telegram' | 'facebook' | 'instagram'>;
   label: string;
   href: ExternalHref;
 };

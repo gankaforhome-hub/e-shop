@@ -1,95 +1,111 @@
 {
-  "common": {
-    "navigation": {
-      "main": {
-        "collections": "Collections",
-        "allProducts": "Shop All",
-        "about": "Our Story",
-        "exclusive": "Exclusive",
-        "releases": "Releases"
-      },
-      "help": {
-        "contacts": "Contact Us",
-        "faq": "FAQs",
-        "payments": "Payments",
-        "delivery": "Delivery",
-        "returns": "Returns"
-      },
-      "legal": {
-        "terms_conditions": "Terms & Conditions",
-        "privacy_policy": "Privacy Policy",
-        "cookie_policy": "Files Cookie"
-      }
+  "navigation": {
+    "main": {
+      "collections": "Collections",
+      "allProducts": "Shop All",
+      "about": "Our Story",
+      "exclusive": "Exclusive",
+      "releases": "Releases"
     },
-
-    "social": [
-      {
-        "label": "Instagram",
-        "href": "https://instagram.com",
-        "icon": "instagram"
-      },
-      {
-        "label": "Facebook",
-        "href": "https://facebook.com",
-        "icon": "facebook"
-      }
-    ],
-    "contacts": [
-      {
-        "href": "tel:+380635854678",
-        "icon": "phone",
-        "label": "+38 (063) 585-46-78"
-      },
-      {
-        "href": "mailto:gankaforhome@gmail.com",
-        "icon": "email",
-        "label": "gankaforhome@gmail.com"
-      }
-    ],
-
-    "paymentMethods": [
-      { "label": "Mastercard", "icon": "mastercard" },
-      { "label": "Visa", "icon": "visa" },
-      { "label": "LiqPay", "icon": "liqpay" },
-      { "label": "Apple Pay", "icon": "applepay" },
-      { "label": "Google Pay", "icon": "googlepay" }
-    ],
-
-    "action": {
-      "save": "",
-      "cancel": "",
-      "delete": "",
-      "edit": "",
-      "back": "",
-      "continue": "",
-      "checkout": "",
-      "buyNow": "",
-      "showMore": "",
-      "loadMore": "",
-      "search": ""
+    "help": {
+      "contacts": "Contact Us",
+      "faq": "FAQs",
+      "payments": "Payments",
+      "delivery": "Delivery",
+      "returns": "Returns"
     },
-    "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
-    "status": {
-      "loading": "",
-      "success": "",
-      "error": "",
-      "empty": "",
-      "comingSoon": ""
-    },
-    "label": {
-      "price": "",
-      "quantity": "",
-      "total": "",
-      "email": "",
-      "phone": "",
-      "address": ""
-    },
-    "placeholder": { "search": "", "email": "", "phone": "" },
-    "message": {
-      "noResults": "",
-      "networkError": "",
-      "somethingWentWrong": ""
+    "legal": {
+      "terms_conditions": "Terms & Conditions",
+      "privacy_policy": "Privacy Policy",
+      "cookie_policy": "Files Cookie"
     }
+  },
+
+  "social": [
+    {
+      "label": "Instagram",
+      "href": "https://instagram.com",
+      "icon": "instagram"
+    },
+    {
+      "label": "Facebook",
+      "href": "https://facebook.com",
+      "icon": "facebook"
+    }
+  ],
+  "contacts": [
+    {
+      "href": "tel:+380635854678",
+      "icon": "phone",
+      "label": "+38 (063) 585-46-78"
+    },
+    {
+      "href": "mailto:gankaforhome@gmail.com",
+      "icon": "email",
+      "label": "gankaforhome@gmail.com"
+    }
+  ],
+
+  "paymentMethods": [
+    { "label": "Mastercard", "icon": "mastercard" },
+    { "label": "Visa", "icon": "visa" },
+    { "label": "LiqPay", "icon": "liqpay" },
+    { "label": "Apple Pay", "icon": "applepay" },
+    { "label": "Google Pay", "icon": "googlepay" }
+  ],
+
+  "action": {
+    "save": "",
+    "cancel": "",
+    "delete": "",
+    "edit": "",
+    "back": "",
+    "continue": "",
+    "checkout": "",
+    "buyNow": "",
+    "showMore": "",
+    "loadMore": "",
+    "search": ""
+  },
+  "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
+  "status": {
+    "loading": "",
+    "success": "",
+    "error": "",
+    "empty": "",
+    "comingSoon": ""
+  },
+  "label": {
+    "price": "",
+    "quantity": "",
+    "total": "",
+    "email": "",
+    "phone": "",
+    "address": ""
+  },
+  "placeholder": { "search": "", "email": "", "phone": "" },
+  "message": {
+    "noResults": "",
+    "networkError": "",
+    "somethingWentWrong": ""
+  },
+  "languages": {
+    "title": "Select Language",
+    "subtitle": "Choose your preferred interface language",
+    "options": {
+      "ua": "Ukrainian",
+      "en": "English (British)",
+      "fr": "French",
+      "de": "German"
+    }
+  },
+  "notFound": {
+    "imageAlt": "snail with error number 404",
+    "textError": "Error 404",
+    "pageTitle": "Page not found",
+    "description": "The page you were looking for doesn't exist or has been moved.",
+    "buttonText": "Back home",
+    "buttonAriaLabel": " Go back to the home page"
   },
 
   "old": {

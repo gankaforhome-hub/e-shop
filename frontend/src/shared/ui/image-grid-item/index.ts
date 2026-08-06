@@ -1,1 +1,1 @@
-export { ImageGridItem, type IImageGridItem } from './image-grid-item';
+export { ImageGridItem, type IImageGridItemProps } from './image-grid-item';

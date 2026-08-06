@@ -14,7 +14,7 @@ import { Section } from '@/shared/ui/section';
 
 import { RecommendedProductsSkeleton } from './ui';
 
-interface IRecommendedProductsSection {
+interface IRecommendedProductsSectionProps {
   products: ProductCardDTO[];
   limit?: number;
   className?: string;
@@ -25,77 +25,14 @@ export function RecommendedProductsSection({
   limit = 8,
   // content,
   // description,
-}: IRecommendedProductsSection) {
-  // return (
-  //   <Section aria-labelledby="recommended-product-section">
-  //     <Container>
-  //       <Heading
-  //         headingLevel="h2"
-  //         variant={'section'}
-  //         position="center"
-  //         className="fmb-8/16"
-  //       >
-  //         Recommended Product
-  //       </Heading>
-  //     </Container>
-  //     {/* Мобільний: слайдер через CSS. Десктоп: сітка */}
-  //     {/* <div className="scrollbar-none -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3 lg:grid-cols-4">
-  //       {products.map(product => (
-  //         <div
-  //           key={product.id}
-  //           className="w-full min-w-full shrink-0 snap-center sm:w-auto sm:min-w-0 sm:shrink"
-  //         >
-  //           <ProductCard
-  //             className="w-full"
-  //             product={product}
-  //             favoriteButton={
-  //               <FavoriteButton
-  //                 productId={product.id}
-  //                 initialFavorite={product.isFavorite}
-  //               />
-  //             }
-  //           />
-  //         </div>
-  //       ))}
-  //     </div> */}
-  //     {/* <ResponsiveView
-  //       mobileView={<MobileRecommendedProducts products={products} />}
-  //       skeleton={<ProductCardSkeleton />}
-  //       desktopView={
-  //         <Container>
-  //           <ProductGrid
-  //             products={products}
-  //             limit={limit}
-  //             className="hidden sm:grid"
-  //           />
-  //         </Container>
-  //       }
-  //     /> */}
-  //     <Suspense fallback={<ProductCardSkeleton />}>
-  //       <MobileSliderWithProgress products={products} />
-  //     </Suspense>
-  //     <Container className="hidden sm:block">
-  //       <ProductGrid products={products} limit={limit} />
-  //     </Container>
-  //     <Container>
-  //       <Button asChild variant="outline" className="fmt-8/16 mx-auto flex">
-  //         <AppLink href={routes.products}>View all catalog</AppLink>
-  //       </Button>
-  //     </Container>
-  //   </Section>
-  // );
+}: IRecommendedProductsSectionProps) {
   return (
     <Section aria-labelledby="recommended-product-section">
-      <Heading
-        headingLevel="h2"
-        variant="section"
-        position="center"
-        className="fmb-8/16"
-      >
+      <Heading headingLevel="h2" variant="section" position="center">
         Recommended Product
       </Heading>
       <Container>
-        <Suspense fallback={<RecommendedProductsSkeleton count={4} />}>
+        <Suspense fallback={<RecommendedProductsSkeleton count={limit} />}>
           <ScrollableContainer
             as="ul"
             indicatorType="progress"
@@ -108,10 +45,9 @@ export function RecommendedProductsSection({
                 key={product.id}
                 className={cn(
                   'shrink-0 snap-start',
-                  'w-full min-w-full',
-                  'sm:w-[calc((100%-16px)/1.5)] sm:min-w-[calc((100%-16px)/1.5)]',
-                  'md:w-[calc((100%-16px)/3)] md:min-w-[calc((100%-16px)/3)]',
-                  'lg:w-auto lg:min-w-0 lg:shrink',
+                  'w-full sm:w-[calc((100%-16px)/1.5)]',
+                  'md:w-[calc((100%-16px)/3)]',
+                  'lg:w-auto lg:shrink',
                 )}
               >
                 <ProductCard
@@ -140,3 +76,24 @@ export function RecommendedProductsSection({
     </Section>
   );
 }
+
+//{/* Mobile: Slider via CSS. Desktop: Grid*/}
+// {/* <div className="scrollbar-none -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3 lg:grid-cols-4">
+//   {products.map(product => (
+//     <div
+//       key={product.id}
+//       className="w-full min-w-full shrink-0 snap-center sm:w-auto sm:min-w-0 sm:shrink"
+//     >
+//       <ProductCard
+//         className="w-full"
+//         product={product}
+//         favoriteButton={
+//           <FavoriteButton
+//             productId={product.id}
+//             initialFavorite={product.isFavorite}
+//           />
+//         }
+//       />
+//     </div>
+//   ))}
+// </div> */}

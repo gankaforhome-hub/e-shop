@@ -1,16 +1,7 @@
-import { type Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
-import { NotFoundWidget } from '@/widgets/not-found';
+import { defaultLocale } from '@/shared/i18n/routing';
 
-export const metadata: Metadata = {
-  title: '404',
-  description: 'Something went wrong',
-};
-
-export default function NotFound() {
-  return (
-    <>
-      <NotFoundWidget />
-    </>
-  );
+export default function GlobalNotFound() {
+  redirect(`/${defaultLocale}/not-found`);
 }

@@ -2,13 +2,13 @@ import { type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
-import { Carousel, type ICarousel } from '../core/carousel';
+import { Carousel, type ICarouselProps } from '../core/carousel';
 import { CarouselContent } from '../core/carousel-content';
 import { CarouselItem } from '../core/carousel-item';
 
 import { CarouselProgressBar } from './carousel-progress-bar';
 
-interface IGallerySliderProps<T> extends ICarousel {
+interface IGallerySliderProps<T> extends ICarouselProps {
   items: T[];
   renderItem: (item: T, index: number) => ReactNode;
   className?: string;

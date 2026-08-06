@@ -8,7 +8,6 @@ import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
-import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Text } from '@/shared/ui/text';
 
@@ -65,7 +64,7 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
       <Box className="fmy-10/12 max-lg:fgap-7/9 lg:fgap-3/5 flex flex-col items-center justify-between lg:grid-cols-2 lg:flex-row lg:items-center">
         {inputs.map(({ type, name, label }) => (
           <Box key={name} className="relative w-full">
-            <Input
+            <input
               id={name}
               type={type}
               placeholder=" "

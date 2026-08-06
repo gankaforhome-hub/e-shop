@@ -1,8 +1,11 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react';
 
 import {
+  AtSign,
+  Check,
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
   Copyright,
   Gift,
   Globe,
@@ -57,6 +60,7 @@ export const ICON_MAP: Partial<Record<IconName, IconComponent>> = {
   close: X,
   'chevron-down': ChevronDown,
   'chevron-left': ChevronLeft,
+  'chevron-right': ChevronRight,
   mute: VolumeX,
   volume: Volume,
   pause: Pause,
@@ -69,6 +73,8 @@ export const ICON_MAP: Partial<Record<IconName, IconComponent>> = {
   gift: Gift,
   plus: Plus,
   minus: Minus,
+  check: Check,
+  email: AtSign,
   liqpay: LiqpayIcon,
   mastercard: MasterCardIcon,
   paypal: PaypalIcon,

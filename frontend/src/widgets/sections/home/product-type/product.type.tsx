@@ -7,11 +7,11 @@ import { Section } from '@/shared/ui/section';
 
 import { ProductTypeList, ProductTypeListSkeleton } from '../../category';
 
-interface Props {
+interface IProductTypeSectionProps {
   categories: Category[];
 }
 
-export function ProductTypeSection({ categories }: Props) {
+export function ProductTypeSection({ categories }: IProductTypeSectionProps) {
   return (
     <Section className="md:pt-15 pt-10 lg:pt-12">
       <Container className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -22,9 +22,11 @@ export function ProductTypeSection({ categories }: Props) {
         >
           Type of Products:
         </Heading>
-        <Suspense fallback={<ProductTypeListSkeleton count={6} />}>
-          <ProductTypeList categories={categories} />
-        </Suspense>
+        <div className="w-full min-w-0 flex-1">
+          <Suspense fallback={<ProductTypeListSkeleton count={6} />}>
+            <ProductTypeList categories={categories} />
+          </Suspense>
+        </div>
       </Container>
     </Section>
   );

@@ -25,7 +25,7 @@ export const footerData = {
   shopLinks: [
     { label: 'Collections', href: '/collections' },
     { label: 'All products', href: '/products' },
-    { label: 'About Us', href: '/about-us' },
+    { label: 'About Us', href: '/about' },
     { label: 'Exclusive', href: '/exclusive' },
     { label: 'Releases', href: '/releases' },
   ] satisfies FooterLink[],

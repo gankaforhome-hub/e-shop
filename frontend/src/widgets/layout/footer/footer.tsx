@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl';
+
 import { footerData } from '@/shared/content/layout/footer';
 import { AppLink } from '@/shared/ui/app-link';
 import { Box } from '@/shared/ui/box';
@@ -6,23 +8,21 @@ import { Icon } from '@/shared/ui/icon';
 import { Logo } from '@/shared/ui/logo';
 import { Separator } from '@/shared/ui/separator';
 
-import {
-  FooterLinkColumn,
-  PaymentBadges,
-  SocialLinks,
-  UnderFooter,
-} from './ui';
+import { PaymentBadges, SocialLinks } from './ui';
 
-export const Footer = () => {
-  const {
-    brand,
-    contacts,
-    shopLinks,
-    helpLinks,
-    socialLinks,
-    paymentMethods,
-    legalLinks,
-  } = footerData;
+interface FooterNavProps {
+  // dict: string;
+  className?: string;
+}
+
+export const Footer = ({ className }: FooterNavProps) => {
+  const t = useTranslations('common');
+  console.log('🚀 ~ Footer ~ t:');
+  // const navItemsMain = getMainNavConfig({ dict });
+  // const navItemsHelp = getHelpNavConfig({ dict });
+  // const navItemsLegal = getLegalNavConfig({ dict });
+
+  const { brand, contacts, socialLinks, paymentMethods } = footerData;
 
   return (
     <footer className="bg-muted font-caption">
@@ -62,16 +62,16 @@ export const Footer = () => {
               </ul>
             </address>
           </Box>
-          <FooterLinkColumn
+          {/* <FooterLinkColumn
             heading="Shop"
-            links={shopLinks}
+            links={navItemsMain}
             className="col-start-1 row-start-2 text-left md:col-start-3 md:row-start-1"
           />
           <FooterLinkColumn
             heading="Help"
-            links={helpLinks}
+            links={navItemsHelp}
             className="col-start-2 row-start-2 text-left md:col-start-4 md:row-start-1"
-          />
+          /> */}
           <Box className="max-xl:contents xl:flex xl:flex-col xl:gap-5">
             <SocialLinks
               links={socialLinks}
@@ -83,7 +83,7 @@ export const Footer = () => {
             />
           </Box>
         </Box>
-        <UnderFooter legalLinks={legalLinks} />
+        {/* <UnderFooter legalLinks={navItemsLegal} /> */}
       </Container>
     </footer>
   );
