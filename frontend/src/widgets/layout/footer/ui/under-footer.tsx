@@ -4,8 +4,8 @@ import { Box } from '@/shared/ui/box';
 import { Icon } from '@/shared/ui/icon';
 
 interface IUnderFooterProps {
-  className?: string;
   legalLinks: INavItemConfig[];
+  className?: string;
 }
 
 export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
@@ -23,7 +23,7 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
               <NavItem
                 variant="footer"
                 href={link.href}
-                label={link.labelKey}
+                label={link.label}
                 showActive={false}
               />
             </li>
@@ -32,7 +32,7 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
       </nav>
       <p>
         <Icon name="copyright" iconPosition="left" size={10}>
-          2024 - {getCurrentYear} Ganka&Home{' '}
+          2024 - {getCurrentYear} Ganka&Home
         </Icon>
       </p>
     </Box>

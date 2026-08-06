@@ -23,7 +23,7 @@ export function FooterLinkColumn({
             <NavItem
               variant="footer"
               href={link.href}
-              label={link.labelKey}
+              label={link.label}
               showActive={false}
             />
           </li>

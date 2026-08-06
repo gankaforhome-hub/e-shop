@@ -1,21 +1,24 @@
-import { type FC } from 'react';
-
-import { type SocialLink } from '@/shared/types';
+import { type NavItem } from '@/shared/i18n/schemas/common.schema';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
-interface ISocialLinks {
-  links: SocialLink[];
+interface ISocialLinksProps {
+  heading: string;
+  links: NavItem[];
   className?: string;
 }
 
-export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
+export function SocialLinks({
+  heading,
+  links,
+  className = '',
+}: ISocialLinksProps) {
   return (
     <div className={className}>
       <Heading headingLevel="h3" variant="footer" tone="accent">
-        Follow Us
+        {heading}
       </Heading>
       <ul className="mt-4 flex items-center space-x-4">
         {links.map(link => {
@@ -40,4 +43,4 @@ export const SocialLinks: FC<ISocialLinks> = ({ links, className = '' }) => {
       </ul>
     </div>
   );
-};
+}

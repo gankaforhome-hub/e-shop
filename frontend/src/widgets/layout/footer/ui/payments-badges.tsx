@@ -1,23 +1,23 @@
-import { type FC } from 'react';
-
 import { type IconName } from '@/shared/types';
 import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
-interface IPaymentBadges {
+interface IPaymentBadgesProps {
+  heading: string;
   methods: { label: string; icon: IconName }[];
   className?: string;
 }
 
-export const PaymentBadges: FC<IPaymentBadges> = ({
+export function PaymentBadges({
+  heading,
   methods,
   className = '',
-}) => {
+}: IPaymentBadgesProps) {
   return (
     <Box className={className}>
       <Heading headingLevel="h3" variant="footer" tone="accent">
-        Payment Methods
+        {heading}
       </Heading>
       <ul className="mt-4 flex flex-wrap gap-2">
         {methods.map(method => (
@@ -35,4 +35,4 @@ export const PaymentBadges: FC<IPaymentBadges> = ({
       </ul>
     </Box>
   );
-};
+}
