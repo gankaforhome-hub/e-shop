@@ -4,11 +4,6 @@ export const locales = ['ua', 'en'] as const;
 
 export type Locale = (typeof locales)[number];
 
-export interface ILanguageOption {
-  code: Locale;
-  label: string;
-}
-
 export const defaultLocale: Locale = 'ua';
 
 export const routing = defineRouting({
@@ -17,6 +12,7 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
 });
 
-export function isValidLocale(locale: string): locale is Locale {
-  return (locales as readonly string[]).includes(locale);
+export interface ILanguageOption {
+  code: Locale;
+  label: string;
 }

@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 import 'server-only';
 
 import { getLocale } from 'next-intl/server';
@@ -29,38 +31,43 @@ async function resolveLocale(lang?: string): Promise<Locale> {
   }
 
   try {
-    // Автоматично беремо активну мову запиту з next-intl
     const currentLocale = await getLocale();
     if (locales.includes(currentLocale as Locale)) {
       return currentLocale as Locale;
     }
-  } catch {}
+  } catch {
+    return defaultLocale;
+  }
 
   return defaultLocale;
 }
 
-export async function getDictionary<K extends keyof RawDictionarySchemas>(
-  namespaces: K[] = [],
-  lang?: string,
-): Promise<Pick<RawDictionarySchemas, GlobalDictionaryName | K>> {
-  const targetLocale = await resolveLocale(lang);
+export const getDictionary = cache(
+  async <K extends keyof RawDictionarySchemas>(
+    namespaces: K[] = [],
+    lang?: string,
+  ): Promise<Pick<RawDictionarySchemas, GlobalDictionaryName | K>> => {
+    const targetLocale = await resolveLocale(lang);
 
-  // Автоматично додаємо базові 'common' та 'layout'
-  const baseNamespaces: (keyof RawDictionarySchemas)[] = ['common', 'layout'];
-  const uniqueNamespaces = Array.from(
-    new Set([...baseNamespaces, ...namespaces]),
-  );
+    const baseNamespaces: (keyof RawDictionarySchemas)[] = ['common', 'layout'];
+    const uniqueNamespaces = Array.from(
+      new Set([...baseNamespaces, ...namespaces]),
+    );
 
-  const entries = await Promise.all(
-    uniqueNamespaces.map(async ns => {
-      const loader = dictionaryLoaders[targetLocale][ns];
-      const dict = loader ? await loader() : {};
-      return [ns, dict] as const;
-    }),
-  );
+    const entries = await Promise.all(
+      uniqueNamespaces.map(async ns => {
+        const loader = dictionaryLoaders[targetLocale][ns];
+        if (!loader) {
+          throw new Error(`Missing dictionary ${ns} for ${targetLocale}`);
+        }
+        const dict = await loader();
+        return [ns, dict] as const;
+      }),
+    );
 
-  return Object.fromEntries(entries) as Pick<
-    RawDictionarySchemas,
-    GlobalDictionaryName | K
-  >;
-}
+    return Object.fromEntries(entries) as Pick<
+      RawDictionarySchemas,
+      GlobalDictionaryName | K
+    >;
+  },
+);

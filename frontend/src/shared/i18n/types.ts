@@ -13,7 +13,6 @@ export type GlobalDictionaryName = 'common' | 'layout';
 export type DictionaryName = GlobalDictionaryName | PageDictionaryName;
 export type MetadataName = PageDictionaryName;
 
-// 1. Сирі JSON-схеми
 export type RawDictionarySchemas = {
   common: typeof CommonDictionary;
   layout: typeof LayoutDictionary;
@@ -23,14 +22,12 @@ export type RawDictionarySchemas = {
 
 export type LayoutDict = RawDictionarySchemas['layout'];
 export type CommonDict = RawDictionarySchemas['common'];
-export type AboutDict = RawDictionarySchemas['about'];
 export type HomeDict = RawDictionarySchemas['home'];
+export type AboutDict = RawDictionarySchemas['about'];
 
-// Маппінг дозволених словників для кожної сторінки
 export type PageToDictionaryMap = {
   [K in PageDictionaryName]: readonly (GlobalDictionaryName | K)[];
 };
 
-// 2. Результат getDictionary('about') -> повертає { about: AboutDict } або сам AboutDict
 export type DictionaryResult<N extends keyof RawDictionarySchemas> =
   RawDictionarySchemas[N];

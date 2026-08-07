@@ -5,6 +5,7 @@ import { routing } from '@/shared/i18n/routing';
 export default createMiddleware(routing);
 
 export const config = {
-  // Пропускаємо внутрішні роути Next.js, статичні файли та іконки
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+  matcher: [
+    '/((?!api|trpc|_next/static|_next/image|_vercel|favicon.ico|.*\\..*).*)',
+  ],
 };
