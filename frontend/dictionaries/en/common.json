@@ -1,7 +1,23 @@
 {
+  "brand": {
+    "name": "Ganka For Home"
+  },
+  "contacts": [
+    {
+      "href": "tel:+380635854678",
+      "icon": "phone",
+      "label": "+38 (063) 585-46-78"
+    },
+    {
+      "href": "mailto:gankaforhome@gmail.com",
+      "icon": "email",
+      "label": "gankaforhome@gmail.com"
+    }
+  ],
   "navigation": {
     "main": {
       "collections": "Collections",
+      "allCollections": "All Collections",
       "allProducts": "Shop All",
       "about": "Our Story",
       "exclusive": "Exclusive",
@@ -20,7 +36,6 @@
       "cookie_policy": "Files Cookie"
     }
   },
-
   "social": [
     {
       "label": "Instagram",
@@ -33,19 +48,6 @@
       "icon": "facebook"
     }
   ],
-  "contacts": [
-    {
-      "href": "tel:+380635854678",
-      "icon": "phone",
-      "label": "+38 (063) 585-46-78"
-    },
-    {
-      "href": "mailto:gankaforhome@gmail.com",
-      "icon": "email",
-      "label": "gankaforhome@gmail.com"
-    }
-  ],
-
   "paymentMethods": [
     { "label": "Mastercard", "icon": "mastercard" },
     { "label": "Visa", "icon": "visa" },
@@ -91,15 +93,14 @@
   },
   "languages": {
     "title": "Select Language",
-    "subtitle": "Choose your preferred interface language",
+    "subTitle": "Choose your preferred interface language",
     "options": {
-      "ua": "Ukrainian",
-      "en": "English (British)",
-      "fr": "French",
-      "de": "German"
+      "ua": "Українська",
+      "en": "English"
     }
   },
   "notFound": {
+    "imageSrc": "/images/not-found.webp",
     "imageAlt": "snail with error number 404",
     "textError": "Error 404",
     "pageTitle": "Page not found",

@@ -1,12 +1,8 @@
 {
   "footer": {
-    "topBar": {
-      "location": {
-        "icon": "location",
-        "title": "Locate a store",
-        "href": "/contacts",
-        "ariaLabel": "link to contact"
-      }
-    }
+    "mainMenuTitle": "Магазин",
+    "helpMenuTitle": "Довідка",
+    "socialMenuTitle": "Слідкуйте за нами",
+    "paymentMenuTitle": "Способи оплати"
   }
 }

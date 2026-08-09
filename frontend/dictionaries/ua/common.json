@@ -1,7 +1,24 @@
 {
+  "brand": {
+    "name": "Ganka For Home"
+  },
+  "contacts": [
+    {
+      "href": "tel:+380635854678",
+      "icon": "phone",
+      "label": "+38 (063) 585-46-78"
+    },
+    {
+      "href": "mailto:gankaforhome@gmail.com",
+      "icon": "email",
+      "label": "gankaforhome@gmail.com"
+    }
+  ],
+
   "navigation": {
     "main": {
       "collections": "Колекції",
+      "allCollections": "Всі Колекції",
       "allProducts": "Каталог",
       "about": "Наша історія",
       "exclusive": "Ексклюзив",
@@ -31,18 +48,6 @@
       "label": "Facebook",
       "href": "https://facebook.com",
       "icon": "facebook"
-    }
-  ],
-  "contacts": [
-    {
-      "href": "tel:+380635854678",
-      "icon": "phone",
-      "label": "+38 (063) 585-46-78"
-    },
-    {
-      "href": "mailto:gankaforhome@gmail.com",
-      "icon": "email",
-      "label": "gankaforhome@gmail.com"
     }
   ],
 
@@ -92,17 +97,16 @@
   },
 
   "languages": {
-    "title": "Оберіть мову",
-    "subtitle": "Оберіть зручну для вас мову інтерфейсу",
+    "title": "Мова",
+    "subTitle": "Оберіть зручну для вас мову інтерфейсу",
     "options": {
       "ua": "Українська",
-      "en": "English (British)",
-      "fr": "Français",
-      "de": "Deutsch"
+      "en": "English"
     }
   },
 
   "notFound": {
+    "imageSrc": "/images/not-found.webp",
     "imageAlt": "равлик з номером помилки 404",
     "textError": "Помилка 404",
     "pageTitle": "Сторінка не знайдена",
