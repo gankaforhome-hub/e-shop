@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { getPlaiceholder } from 'plaiceholder';
 import { cache } from 'react';
+
+import { getPlaiceholder } from 'plaiceholder';
 import 'server-only';
 
 export const getBlurPlaceholder = cache(async (src: string) => {

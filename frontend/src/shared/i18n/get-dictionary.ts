@@ -27,7 +27,7 @@ const dictionaryLoaders: Record<
   },
 };
 
-async function resolveLocale(lang?: string): Promise<Locale> {
+export async function resolveLocale(lang?: string): Promise<Locale> {
   if (lang && locales.includes(lang as Locale)) {
     return lang as Locale;
   }

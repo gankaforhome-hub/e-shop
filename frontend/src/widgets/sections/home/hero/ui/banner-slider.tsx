@@ -8,10 +8,9 @@ import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
 
-import { type TBannerSlide } from '../model/types';
-
 import { BannerPagination } from './banner-pagination';
 import { BannerSlide } from './banner-slide';
+import { type TBannerSlide } from '../model/types';
 
 interface IBannerSlider {
   bannerSlides: TBannerSlide[];

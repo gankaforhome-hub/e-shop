@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { routes } from '@/shared/config/routes';
 import { Icon } from '@/shared/ui/icon';

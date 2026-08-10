@@ -1,10 +1,9 @@
 'use server';
 import { cookies } from 'next/headers';
 
+import { mapProductToCard } from './product-mapper';
 import { MOCK_PRODUCTS } from '../mock/products';
 import { type ProductCardDTO } from '../model/types';
-
-import { mapProductToCard } from './product-mapper';
 
 interface GetProductsParams {
   search?: string;
