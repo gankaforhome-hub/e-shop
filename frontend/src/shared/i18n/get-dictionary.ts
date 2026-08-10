@@ -1,5 +1,7 @@
 import { cache } from 'react';
 
+import { notFound } from 'next/navigation';
+
 import 'server-only';
 
 import { getLocale } from 'next-intl/server';
@@ -11,11 +13,11 @@ const dictionaryLoaders: Record<
   Locale,
   { [K in keyof RawDictionarySchemas]: () => Promise<RawDictionarySchemas[K]> }
 > = {
-  ua: {
-    about: () => import('@/dictionaries/ua/about.json').then(m => m.default),
-    common: () => import('@/dictionaries/ua/common.json').then(m => m.default),
-    home: () => import('@/dictionaries/ua/home.json').then(m => m.default),
-    layout: () => import('@/dictionaries/ua/layout.json').then(m => m.default),
+  uk: {
+    about: () => import('@/dictionaries/uk/about.json').then(m => m.default),
+    common: () => import('@/dictionaries/uk/common.json').then(m => m.default),
+    home: () => import('@/dictionaries/uk/home.json').then(m => m.default),
+    layout: () => import('@/dictionaries/uk/layout.json').then(m => m.default),
   },
   en: {
     about: () => import('@/dictionaries/en/about.json').then(m => m.default),
@@ -45,9 +47,15 @@ async function resolveLocale(lang?: string): Promise<Locale> {
 export const getDictionary = cache(
   async <K extends keyof RawDictionarySchemas>(
     namespaces: K[] = [],
-    lang?: string,
+    lang: string,
   ): Promise<Pick<RawDictionarySchemas, GlobalDictionaryName | K>> => {
-    const targetLocale = await resolveLocale(lang);
+    const rawLocale = lang || defaultLocale;
+
+    if (!locales.includes(rawLocale as Locale)) {
+      notFound();
+    }
+
+    const targetLocale = rawLocale as Locale;
 
     const baseNamespaces: (keyof RawDictionarySchemas)[] = ['common', 'layout'];
     const uniqueNamespaces = Array.from(
@@ -56,10 +64,14 @@ export const getDictionary = cache(
 
     const entries = await Promise.all(
       uniqueNamespaces.map(async ns => {
-        const loader = dictionaryLoaders[targetLocale][ns];
+        const loader =
+          dictionaryLoaders[targetLocale]?.[ns] ??
+          dictionaryLoaders[defaultLocale]?.[ns];
+
         if (!loader) {
           throw new Error(`Missing dictionary ${ns} for ${targetLocale}`);
         }
+
         const dict = await loader();
         return [ns, dict] as const;
       }),
@@ -71,3 +83,34 @@ export const getDictionary = cache(
     >;
   },
 );
+// export const getDictionary = cache(
+//   async <K extends keyof RawDictionarySchemas>(
+//     namespaces: K[] = [],
+//     lang?: string,
+//   ): Promise<Pick<RawDictionarySchemas, GlobalDictionaryName | K>> => {
+//     const targetLocale = await resolveLocale(lang);
+
+//     const baseNamespaces: (keyof RawDictionarySchemas)[] = ['common', 'layout'];
+//     const uniqueNamespaces = Array.from(
+//       new Set([...baseNamespaces, ...namespaces]),
+//     );
+
+//     const entries = await Promise.all(
+//       uniqueNamespaces.map(async ns => {
+//         const loader =
+//           dictionaryLoaders[targetLocale]?.[ns] ??
+//           dictionaryLoaders[defaultLocale]?.[ns];
+//         if (!loader) {
+//           throw new Error(`Missing dictionary ${ns} for ${targetLocale}`);
+//         }
+//         const dict = await loader();
+//         return [ns, dict] as const;
+//       }),
+//     );
+
+//     return Object.fromEntries(entries) as Pick<
+//       RawDictionarySchemas,
+//       GlobalDictionaryName | K
+//     >;
+//   },
+// );
