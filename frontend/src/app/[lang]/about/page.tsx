@@ -1,7 +1,9 @@
-import { setRequestLocale } from 'next-intl/server';
+import { type Metadata } from 'next';
 
 import { getDictionary } from '@/shared/i18n/get-dictionary';
-import { mapImagePosition } from '@/shared/lib/mapper';
+import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
+import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
+import { parseAboutDictionary } from '@/shared/i18n/schemas/about.schema';
 import {
   AboutHeroSection,
   ArtOfLivingSection,
@@ -10,27 +12,35 @@ import {
   OurStorySection,
 } from '@/widgets/sections/about-us';
 
-// export const metadata: Metadata = {
-//   title: 'About Us | Ganka For Home',
-//   description: aboutHero.description,
-// };
-
-export default async function AboutPage({
-  params,
-}: {
+interface IAboutPageProps {
   params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  setRequestLocale(lang);
+}
 
-  const { about } = await getDictionary(['about']);
-  const { aboutHero, artOfLiving, artistGallery, citronelle, ourStory } = about;
+export async function generateMetadata({
+  params,
+}: IGetMetadataProps): Promise<Metadata> {
+  const { lang } = await params;
+
+  const meta = await getMetadata('about', lang);
+
+  return buildMetadata({
+    meta,
+    lang,
+    path: '/about',
+  });
+}
+
+export default async function AboutPage({ params }: IAboutPageProps) {
+  const { lang } = await params;
+  const { about } = await getDictionary(['about'], lang);
+  const { aboutHero, artistGallery, artOfLiving, ourStory, citronelle } =
+    parseAboutDictionary(about);
 
   return (
     <>
-      <AboutHeroSection {...mapImagePosition(aboutHero)} />
+      <AboutHeroSection {...aboutHero} />
       <GankaGallerySection {...artistGallery} />
-      <ArtOfLivingSection {...mapImagePosition(artOfLiving)} />
+      <ArtOfLivingSection {...artOfLiving} />
       <OurStorySection {...ourStory} />
       {/* //TODO: add map */}
       <CitronelleMapSection {...citronelle} />

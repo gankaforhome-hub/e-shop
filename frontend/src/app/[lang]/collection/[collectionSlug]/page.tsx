@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { categories } from '@/entities/category/mock/categories';
-import { collections } from '@/entities/collection/mock/collections';
+import { getCollections } from '@/entities/collection/mock/collections';
 import { mapProductToCard } from '@/entities/product/api/product-mapper';
 import { productStore } from '@/entities/product/mock/products';
 import { Container } from '@/shared/ui/container';
@@ -12,7 +12,8 @@ import { SectionIntro } from '@/shared/ui/section-intro';
 import { ProductGrid } from '@/widgets/sections/products';
 
 export async function getCollectionDataBySlug(slug: string) {
-  const collection = collections.find(col => col.slug === slug);
+  const allCollection = await getCollections();
+  const collection = allCollection.find(col => col.slug === slug);
 
   if (!collection) {
     return null;

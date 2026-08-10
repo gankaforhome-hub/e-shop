@@ -9,10 +9,13 @@ import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
 import { inter, lora } from '@/shared/config';
+import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { getLocaleDirection, isValidLocale } from '@/shared/i18n/helpers';
+import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
 import { locales } from '@/shared/i18n/routing';
 import '@/shared/styles/global.css';
 import { Footer } from '@/widgets/layout/footer';
+import { Header } from '@/widgets/layout/header';
 
 // export const viewport: Viewport = {
 
@@ -25,10 +28,18 @@ import { Footer } from '@/widgets/layout/footer';
 //   colorScheme: 'dark',
 // };
 
-export const metadata: Metadata = {
-  title: 'Ganka for Home',
-  description: 'E-shop Ganka for Home',
-};
+export async function generateMetadata({
+  params,
+}: IGetMetadataProps): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isValidLocale(lang)) {
+    return {};
+  }
+
+  const meta = await getMetadata('layout', lang);
+
+  return buildMetadata({ meta, lang, path: '/', isLayout: true });
+}
 
 export function generateStaticParams() {
   return locales.map(lang => ({ lang }));
@@ -57,14 +68,9 @@ export default async function LocaleLayout({
         className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
         <NextIntlClientProvider>
-          {/* <Header
-            dict={common.navigation}
-            collections={collections}
-            languages={languageOptions}
-          /> */}
+          <Header lang={lang} />
           <main>{children}</main>
-          <Footer />
-          {/* <div id="modal-root" /> */}
+          <Footer lang={lang} />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,6 +1,4 @@
-import { type FC } from 'react';
-
-import { collections } from '@/entities/collection';
+import { getCollections } from '@/entities/collection';
 import { cn } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
@@ -10,7 +8,8 @@ interface ICollectionProps {
   className?: string;
 }
 
-export const Collections: FC<ICollectionProps> = ({ className }) => {
+export async function Collections({ className }: ICollectionProps) {
+  const collections = await getCollections();
   return (
     <>
       <Section className="pb-15 pt-5 lg:py-12">
@@ -48,4 +47,4 @@ export const Collections: FC<ICollectionProps> = ({ className }) => {
       </Section>
     </>
   );
-};
+}
