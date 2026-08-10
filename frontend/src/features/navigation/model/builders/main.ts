@@ -10,7 +10,7 @@ export function getMainNavConfig(
   const collectionChildren: INavItemConfig[] = [
     {
       id: 'all-collections',
-      label: dict.collections,
+      label: dict.allCollections, // <- Береться переклад "All Collections" / "Всі колекції"
       href: routes.collections,
     },
     ...collections.map(col => ({

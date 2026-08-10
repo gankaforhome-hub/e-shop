@@ -18,6 +18,8 @@ export const staticRoutes = {
   terms_conditions: '/terms-conditions' as const,
   cookie_policy: '/cookie-policy' as const,
   checkouts: '/checkouts' as const,
+  account: '/account' as const,
+  wishlist: '/wishlist' as const,
 };
 
 export type CategorySlug =

@@ -34,7 +34,9 @@ export function NavItem({
     showActive && Boolean(href) && isActiveRoute(pathname, href!);
 
   const navLinkStyle = {
-    header: 'relative link-hover focus:[--start:0%] hover:[--start:0%] py-2',
+    // header: 'relative link-hover focus:[--start:0%] hover:[--start:0%] py-2',
+    header: 'relative link py-2',
+
     footer: 'text-base first-letter:uppercase link',
     mobile:
       'flex items-center justify-between text-base py-4 w-full select-none text-left transition-all active:opacity-70 text-foreground hover:bg-muted/60 px-4',
@@ -85,7 +87,7 @@ export function NavItem({
 
   return (
     <AppLink href={href} onClick={onClick} className={sharedClasses}>
-      {content}
+      <span>{content}</span>
     </AppLink>
   );
 }
