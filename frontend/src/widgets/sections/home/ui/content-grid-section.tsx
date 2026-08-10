@@ -36,7 +36,7 @@ export const ContentGridSection: FC<IContentGridSectionProps> = ({
           {heading}
         </Heading>
 
-        <Box className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:gap-6">
+        <Box className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:gap-1">
           <ImageGridItem
             className="order-1 md:order-2"
             image={firstImage}
@@ -61,7 +61,6 @@ export const ContentGridSection: FC<IContentGridSectionProps> = ({
             items={2}
           />
         </Box>
-
         {action && <>{action}</>}
       </Container>
     </Section>

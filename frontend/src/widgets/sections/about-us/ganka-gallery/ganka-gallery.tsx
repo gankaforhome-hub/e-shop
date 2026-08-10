@@ -1,21 +1,26 @@
 import { Suspense } from 'react';
 
 import { cn } from '@/shared/lib/utils';
+import { type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Container } from '@/shared/ui/container';
 import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
-import { type ArtistGallerySectionProps } from '../about.types';
-
 import { GankaGallerySkeleton } from './ui';
+
+interface IArtistGallerySectionProps {
+  heading: string;
+  description: string;
+  images: Media[];
+}
 
 export function GankaGallerySection({
   heading,
   description,
   images,
-}: ArtistGallerySectionProps) {
+}: IArtistGallerySectionProps) {
   return (
     <Section aria-labelledby="artist-gallery-heading">
       <Container>

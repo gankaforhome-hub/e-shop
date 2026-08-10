@@ -1,17 +1,23 @@
+import { type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
-import { type CitronelleMapSectionProps } from '../about.types';
+interface ICitronelleMapSectionProps {
+  heading: string;
+  description: string;
+  mapImage: Media;
+  mapEmbedUrl: string;
+}
 
 export function CitronelleMapSection({
   heading,
   description,
   mapImage,
   mapEmbedUrl,
-}: CitronelleMapSectionProps) {
+}: ICitronelleMapSectionProps) {
   return (
     <Section aria-labelledby="citronelle-heading" className="fpb-4/10">
       <Container>

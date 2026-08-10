@@ -1,15 +1,24 @@
+import { type Media } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 
-import { type ArtOfLivingSectionProps } from '../about.types';
+interface IArtOfLivingSectionProps {
+  heading: string;
+  description: string;
+  panel: {
+    image: Media;
+    imagePosition: 'left' | 'right';
+    paragraphs: string;
+  };
+}
 
 export function ArtOfLivingSection({
   heading,
   description,
   panel,
-}: ArtOfLivingSectionProps) {
+}: IArtOfLivingSectionProps) {
   return (
     <Section aria-labelledby="art-of-living-heading">
       <Container>

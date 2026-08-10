@@ -1,8 +1,9 @@
 'use client';
 
+import { type ComponentProps } from 'react';
+
 import { X } from 'lucide-react';
 import { Dialog as SheetPrimitive } from 'radix-ui';
-import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 

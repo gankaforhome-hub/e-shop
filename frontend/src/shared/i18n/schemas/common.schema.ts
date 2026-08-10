@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { type AppRoutes, type ExternalHref } from '@/shared/config/routes';
+import { locales, type Locale } from '@/shared/i18n/routing';
 import { type IconName } from '@/shared/types';
 
 export const iconNameSchema = z.string() as z.ZodType<IconName>;
@@ -27,6 +28,7 @@ export type PaymentMethodItem = z.infer<typeof paymentMethodItemSchema>;
 export const navigationDictSchema = z.object({
   main: z.object({
     collections: z.string(),
+    allCollections: z.string(),
     allProducts: z.string(),
     about: z.string(),
     exclusive: z.string(),
@@ -46,12 +48,42 @@ export const navigationDictSchema = z.object({
   }),
 });
 
+const supportedLocalesSet = new Set<string>(locales);
+
+export const languageItemSchema = z.object({
+  codeTitle: z.string(),
+  codeLabel: z.string(),
+});
+
+export type LanguageItem = z.infer<typeof languageItemSchema>;
+
+export const languagesDictSchema = z
+  .object({
+    title: z.string().default('Select Language'),
+    subTitle: z.string().default('Choose your preferred interface language'),
+    options: z.record(z.string(), languageItemSchema),
+  })
+  .transform(data => ({
+    title: data.title,
+    subTitle: data.subTitle,
+    options: Object.entries(data.options)
+      .filter(([code]) => supportedLocalesSet.has(code))
+      .map(([code, item]) => ({
+        code: code as Locale,
+        codeTitle: item.codeTitle,
+        codeLabel: item.codeLabel,
+      })),
+  }));
+
+export type LanguagesDict = z.infer<typeof languagesDictSchema>;
+
 export const commonDictionarySchema = z
   .object({
-    navigation: navigationDictSchema, // 👈 Додали navigation
+    navigation: navigationDictSchema,
     contacts: z.array(navItemSchema),
     paymentMethods: z.array(paymentMethodItemSchema),
     social: z.array(navItemSchema),
+    languages: languagesDictSchema,
   })
   .passthrough();
 

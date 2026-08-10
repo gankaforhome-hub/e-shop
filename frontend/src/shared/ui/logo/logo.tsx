@@ -46,7 +46,7 @@ export function Logo({
       <AppLink
         href="/"
         className={containerClassName}
-        aria-label={aria}
+        aria-label={aria || 'go to home'}
         onClick={onClick}
       >
         {content}

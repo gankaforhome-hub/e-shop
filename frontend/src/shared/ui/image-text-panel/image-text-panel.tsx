@@ -14,8 +14,8 @@ interface IImageTextPanelProps extends ImageTextPanelContent {
 
 export function ImageTextPanel({
   image,
-  paragraphs,
-  imagePosition,
+  paragraphs = '',
+  imagePosition = 'left',
   className,
 }: IImageTextPanelProps) {
   return (
