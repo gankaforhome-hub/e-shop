@@ -16,17 +16,18 @@ import {
   SocialLinks,
   UnderFooter,
 } from './ui';
-import { IAddressLink } from './ui/addres-link';
+import { IAddressLink } from './ui/addres-link/addres-link';
 
 interface IFooterNavProps {
+  lang: string;
   className?: string;
 }
 
-export async function Footer({ className }: IFooterNavProps) {
+export async function Footer({ lang, className }: IFooterNavProps) {
   const {
     common,
     layout: { footer },
-  } = await getDictionary(['common', 'layout']);
+  } = await getDictionary(['common', 'layout'], lang);
   const { navigation, contacts, paymentMethods, social } =
     parseCommonDictionary(common);
 
