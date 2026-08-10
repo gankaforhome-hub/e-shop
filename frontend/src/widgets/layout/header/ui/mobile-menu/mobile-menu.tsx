@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 
 import { ChevronLeft } from 'lucide-react';
 
 import { useLocale } from 'next-intl';
 
 import { type INavItemConfig } from '@/features/navigation';
-import { LanguageMenu } from '@/features/select-language/ui/language-menu';
-import { usePathname, useRouter } from '@/shared/i18n/navigation';
+import { LanguageSwitcher } from '@/features/select-language';
 import { type ILanguageOption, type Locale } from '@/shared/i18n/routing';
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
@@ -32,25 +31,29 @@ interface MobileMenuProps {
   navItemsMain: INavItemConfig[];
   navItemsHelp?: INavItemConfig[];
   languages: ILanguageOption[];
+  langMenuTitle: string;
+  langMenuSubtitle: string;
   className?: string;
 }
 
 export function MobileMenu({
-  className,
   navItemsMain,
+  navItemsHelp,
   languages,
+  langMenuTitle,
+  langMenuSubtitle,
+  className,
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<INavItemConfig | null>(
     null,
   );
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
-  // Отримуємо поточну мову та роутер
   const currentLang = useLocale() as Locale;
-  const router = useRouter();
-  const pathname = usePathname();
+  const activeLabel = languages.find(
+    opt => opt.code === currentLang,
+  )?.codeLabel;
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -72,23 +75,13 @@ export function MobileMenu({
     }
   };
 
-  // Повноцінне переключення мови для мобілки
-  const handleSelectLanguage = (nextLocale: Locale) => {
-    setIsLangOpen(false);
-    handleClose();
-
-    startTransition(() => {
-      router.replace(pathname, { locale: nextLocale });
-    });
-  };
-
-  const backTitle = isLangOpen ? 'Language' : activeSubmenu?.labelKey || 'Back';
+  const backTitle = isLangOpen ? langMenuTitle : activeSubmenu?.label || 'Back';
   const isSubmenuActive = Boolean(activeSubmenu || isLangOpen);
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild className={className}>
-        <Button variant="ghost" size="icon" aria-label="Open menu">
+        <Button variant="ghost" size="icon" aria-label="Open menu" asChild>
           <Icon name="menu" className="text-foreground size-6" />
         </Button>
       </SheetTrigger>
@@ -170,14 +163,12 @@ export function MobileMenu({
               className={cn(
                 'bg-background absolute inset-0 flex flex-col p-4 transition-all duration-300 ease-in-out will-change-transform',
                 'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
-                isPending && 'pointer-events-none opacity-60',
               )}
             >
-              <LanguageMenu
+              <LanguageSwitcher
                 variant="mobile"
                 languages={languages}
-                currentLang={currentLang}
-                onSelectLanguage={handleSelectLanguage}
+                subtitle={langMenuSubtitle}
               />
             </div>
           )}
@@ -186,7 +177,7 @@ export function MobileMenu({
         {/* FOOTER */}
         <SheetFooter className="p-0">
           <MobileMenuQuickActions
-            currentLang={currentLang}
+            currentLang={activeLabel}
             onActionClick={handleClose}
             onLanguageClick={() => setIsLangOpen(true)}
           />

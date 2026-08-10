@@ -1,8 +1,9 @@
 // widgets/header/ui/header-nav.tsx
 'use client';
 
-import { ChevronDown } from 'lucide-react';
 import { useRef, useState } from 'react';
+
+import { ChevronDown } from 'lucide-react';
 
 import { NavItem, type INavItemConfig } from '@/features/navigation';
 import { cn } from '@/shared/lib/utils';
@@ -24,11 +25,7 @@ export function HeaderNav({ items }: HeaderNavProps) {
           if (!hasChildren) {
             return (
               <li key={item.id}>
-                <NavItem
-                  variant="header"
-                  href={item.href}
-                  label={item.labelKey}
-                />
+                <NavItem variant="header" href={item.href} label={item.label} />
               </li>
             );
           }
@@ -84,7 +81,12 @@ function HeaderNavHoverItem({ item }: { item: INavItemConfig }) {
       >
         <PopoverTrigger asChild>
           <span className="group flex cursor-pointer items-center gap-1 py-1">
-            <NavItem variant="header" href={item.href} label={item.labelKey} />
+            <NavItem
+              variant="header"
+              label={item.label}
+              hasSubmenu
+              showActive={false}
+            />
             <ChevronDown
               className={`text-icon duration-(--dur-normal) size-4 transition-transform ${
                 open ? 'rotate-180' : ''
@@ -111,7 +113,7 @@ function HeaderNavHoverItem({ item }: { item: INavItemConfig }) {
                 <NavItem
                   variant="popover"
                   href={child.href}
-                  label={child.labelKey}
+                  label={child.label}
                   onClick={() => setOpen(false)}
                 />
               </li>

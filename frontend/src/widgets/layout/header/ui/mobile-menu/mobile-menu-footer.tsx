@@ -1,9 +1,8 @@
 'use client';
 
-import { Globe, Heart, User } from 'lucide-react';
-import Link from 'next/link';
-
 import { cn } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
+import { Icon } from '@/shared/ui/icon';
 
 interface MobileMenuQuickActionsProps {
   className?: string;
@@ -16,7 +15,7 @@ interface MobileMenuQuickActionsProps {
 
 export function MobileMenuQuickActions({
   className,
-  currentLang = 'EN',
+  currentLang = 'UA',
   wishlistCount = 0,
   isLangActive = false,
   onActionClick,
@@ -30,14 +29,14 @@ export function MobileMenuQuickActions({
       )}
     >
       {/* 1. WISHLIST */}
-      <Link
+      <AppLink
         href="/wishlist"
         onClick={onActionClick}
         aria-label="Wishlist"
         className="text-foreground/70 hover:text-foreground flex items-center justify-center gap-2 py-2.5 transition-colors"
       >
         <div className="relative flex items-center justify-center">
-          <Heart className="size-4 stroke-[1.5]" />
+          <Icon name="favorite" className="size-4 stroke-[1.5]" />
           {wishlistCount > 0 && (
             <span className="bg-primary text-primary-foreground absolute -right-1.5 -top-1.5 flex size-3.5 items-center justify-center rounded-full text-[9px] font-bold">
               {wishlistCount > 9 ? '9+' : wishlistCount}
@@ -45,18 +44,18 @@ export function MobileMenuQuickActions({
           )}
         </div>
         <span>Wishlist</span>
-      </Link>
+      </AppLink>
 
       {/* 2. ACCOUNT */}
-      <Link
+      <AppLink
         href="/account"
         onClick={onActionClick}
         aria-label="Account"
         className="text-foreground/70 hover:text-foreground border-border/40 flex items-center justify-center gap-2 border-l py-2.5 transition-colors"
       >
-        <User className="size-4 stroke-[1.5]" />
+        <Icon name="user" className="size-4 stroke-[1.5]" />
         <span>Account</span>
-      </Link>
+      </AppLink>
 
       {/* 3. LANGUAGE SWITCHER */}
       <div className="flex items-center justify-center pl-1">
@@ -71,7 +70,7 @@ export function MobileMenuQuickActions({
               : 'text-foreground/70 hover:text-foreground border border-transparent',
           )}
         >
-          <Globe className="size-4 stroke-[1.5]" />
+          <Icon name="language" className="size-4 stroke-[1.5]" />
           <span className="uppercase">{currentLang}</span>
         </button>
       </div>

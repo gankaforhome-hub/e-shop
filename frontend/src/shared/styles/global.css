@@ -194,23 +194,31 @@
 }
 
 @layer components {
-  /* Underline Hover Animation for Nav Links */
   .link {
-    @apply relative no-underline before:content-[""];
+    color: #080808;
+    @apply relative inline-block no-underline;
   }
 
   .link::before {
-    @apply custom-transition bg-link absolute -bottom-1 left-1/2 block h-0.5 w-full origin-center -translate-x-1/2 scale-x-0 transition-transform;
+    content: '';
+    background-color: #b11226;
+    @apply absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
   }
 
-  a:hover .link::before,
-  a:active .link::before,
-  a:focus-visible .link::before,
   .link:hover::before,
-  /* .link:active::before, */
   .link:focus-visible::before {
-    @apply scale-x-100;
+    @apply origin-left scale-x-100;
   }
+
+  /* .link {
+    color: #080808;
+    @apply inline-block no-underline transition-colors duration-300 ease-out;
+  }
+
+  .link:hover,
+  .link:focus-visible {
+    color: color-mix(in srgb, #b11226 75%, #080808);
+  } */
 
   .collection-bg {
     background-image:

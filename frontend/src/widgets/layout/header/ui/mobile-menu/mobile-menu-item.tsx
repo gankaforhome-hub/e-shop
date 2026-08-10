@@ -24,7 +24,7 @@ export function MobileMenuBlock({
             <NavItem
               variant="mobile"
               href={hasChildren ? undefined : item.href}
-              label={item.labelKey}
+              label={item.label}
               hasSubmenu={hasChildren}
               showActive={true}
               onClick={() => {

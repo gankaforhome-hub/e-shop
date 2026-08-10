@@ -18,7 +18,7 @@ export function MobileSubMenu({ activeSubmenu, onClick }: MobileSubMenuProps) {
             <NavItem
               variant="mobile"
               href={child.href}
-              label={child.labelKey}
+              label={child.label}
               onClick={onClick}
             />
           </li>
