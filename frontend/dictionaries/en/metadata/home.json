@@ -1,1 +1,15 @@
-{}
+{
+  "title": "Ganka for Home — Handmade Homeware & Decor",
+  "description": "Crafted ceramic tableware, cozy decor, and handmade interior items. Create a unique atmosphere in your home.",
+  "keywords": [
+    "homeware",
+    "handmade ceramics",
+    "tableware",
+    "home decor",
+    "handcrafted pottery"
+  ],
+  "openGraph": {
+    "title": "Ganka for Home — Ceramics & Decor",
+    "description": "Exclusive handmade decor and ceramics for your living space."
+  }
+}

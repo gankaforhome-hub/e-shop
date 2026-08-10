@@ -1,4 +1,10 @@
 {
+  "manifest": {
+    "name": "Ganka for Home — Кераміка та декор ручної роботи",
+    "shortName": "Ganka",
+    "description": "Ексклюзивний керамічний посуд та затишний декор для вашої оселі."
+  },
+
   "brand": {
     "name": "Ganka For Home"
   },
@@ -100,8 +106,8 @@
     "title": "Мова",
     "subTitle": "Оберіть зручну для вас мову інтерфейсу",
     "options": {
-      "ua": "Українська",
-      "en": "English"
+      "uk": { "codeTitle": "Українська", "codeLabel": "UA" },
+      "en": { "codeTitle": "English", "codeLabel": "EN" }
     }
   },
 

@@ -1,4 +1,10 @@
 {
+  "manifest": {
+    "name": "Ganka for Home — Handmade Ceramics & Decor",
+    "shortName": "GankaForHome",
+    "description": "Exclusive handmade ceramic tableware and cozy decor for your home."
+  },
+
   "brand": {
     "name": "Ganka For Home"
   },
@@ -95,8 +101,8 @@
     "title": "Select Language",
     "subTitle": "Choose your preferred interface language",
     "options": {
-      "ua": "Українська",
-      "en": "English"
+      "uk": { "codeTitle": "Українська", "codeLabel": "UA" },
+      "en": { "codeTitle": "English", "codeLabel": "EN" }
     }
   },
   "notFound": {
