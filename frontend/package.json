@@ -27,8 +27,7 @@
     "fix": "pnpm run prettier && pnpm run lint --fix",
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build",
     "test": "",
-    "commit": "cz",
-    "build:icons": "pnpx tsx ./build-icons.mts"
+    "commit": "cz"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -62,7 +61,7 @@
     "@next/eslint-plugin-next": "^16.2.9",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^26.2.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.31.0",
