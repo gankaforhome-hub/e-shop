@@ -1,6 +1,7 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react';
 
 import {
+  ArrowUpRight,
   AtSign,
   Check,
   ChevronDown,
@@ -58,6 +59,7 @@ export const ICON_MAP: Partial<Record<IconName, IconComponent>> = {
   menu: Menu,
   favorite: Heart,
   close: X,
+  'arrow-up-right': ArrowUpRight,
   'chevron-down': ChevronDown,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
@@ -94,13 +96,13 @@ export interface IIconProps extends SVGProps<SVGSVGElement> {
   iconPosition?: 'left' | 'right';
   size?: number | string;
   className?: string;
-  childClassName?: string;
+  classNameContainer?: string;
 }
 
 export function Icon({
   name,
   className,
-  childClassName,
+  classNameContainer,
   iconPosition = 'right',
   children,
   size,
@@ -129,7 +131,7 @@ export function Icon({
       <span
         className={cn(
           'font-caption inline-flex min-w-0 items-center gap-1 whitespace-nowrap',
-          childClassName,
+          classNameContainer,
         )}
       >
         {iconPosition === 'left' && renderIcon()}

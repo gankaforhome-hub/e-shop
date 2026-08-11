@@ -32,7 +32,7 @@ export function SocialMenu({
             <Icon
               name={social.icon}
               className="-order-1 h-5 w-5"
-              childClassName="text-base gap-4 group-hover:text-icon"
+              classNameContainer="text-base gap-4 group-hover:text-icon"
             >
               {social.label}
             </Icon>

@@ -10,13 +10,8 @@ import { Container } from '@/shared/ui/container';
 import { Logo } from '@/shared/ui/logo';
 import { Separator } from '@/shared/ui/separator';
 
-import {
-  FooterLinkColumn,
-  PaymentBadges,
-  SocialLinks,
-  UnderFooter,
-} from './ui';
-import { IAddressLink } from './ui/addres-link/addres-link';
+import { AddressLink, SocialLinks } from '../ui';
+import { FooterLinkColumn, PaymentBadges, UnderFooter } from './ui';
 
 interface IFooterNavProps {
   lang: string;
@@ -54,7 +49,7 @@ export async function Footer({ lang, className }: IFooterNavProps) {
                 className="w-50 h-8 sm:h-10 sm:w-60"
               />
             </div>
-            <IAddressLink links={contacts} />
+            <AddressLink variant="footer" links={contacts} />
           </div>
           <FooterLinkColumn
             heading={footer.mainMenuTitle}
@@ -68,6 +63,7 @@ export async function Footer({ lang, className }: IFooterNavProps) {
           />
           <div className="max-xl:contents xl:flex xl:flex-col xl:gap-5">
             <SocialLinks
+              variant="footer"
               heading={footer.socialMenuTitle}
               links={social}
               className="col-span-2 row-start-3 text-left md:col-span-2 md:col-start-1 md:row-start-2"

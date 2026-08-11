@@ -11,6 +11,7 @@ export type IconName =
   | 'menu'
   | 'favorite'
   | 'close'
+  | 'arrow-up-right'
   | 'chevron-down'
   | 'chevron-left'
   | 'chevron-right'
