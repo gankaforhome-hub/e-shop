@@ -1,9 +1,5 @@
 import { getCollections } from '@/entities/collection';
-import {
-  buildHelpNav,
-  buildLegalNav,
-  buildMainNav,
-} from '@/features/navigation';
+import { buildMainNav } from '@/features/navigation';
 import { DesktopLanguageSelector } from '@/features/select-language/ui/desktop-language-selector/desktop-language-selector';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
@@ -28,7 +24,7 @@ export async function Header({ lang }: IHeaderProps) {
   const [
     {
       common,
-      layout: { footer },
+      layout: { header },
     },
     collections,
   ] = await Promise.all([
@@ -36,12 +32,10 @@ export async function Header({ lang }: IHeaderProps) {
     getCollections(),
   ]);
 
-  const { navigation, contacts, paymentMethods, social, languages } =
+  const { navigation, contacts, social, languages } =
     parseCommonDictionary(common);
 
   const mainNav = buildMainNav(navigation.main, collections);
-  const helpNav = buildHelpNav(navigation.help);
-  const legalNav = buildLegalNav(navigation.legal);
   return (
     <>
       <HeaderClientWrapper id={HEADER_ID}>
@@ -56,11 +50,15 @@ export async function Header({ lang }: IHeaderProps) {
                 subtitle={languages.subTitle}
               />
               <MobileMenu
-                navItemsMain={mainNav}
-                languages={languages.options}
-                langMenuTitle={languages.title}
-                langMenuSubtitle={languages.subTitle}
-                navItemsHelp={helpNav}
+                navigation={{ main: mainNav }}
+                language={{
+                  options: languages.options,
+                  title: languages.title,
+                  subtitle: languages.subTitle,
+                }}
+                social={social}
+                contacts={contacts}
+                label={header.mobileMenu}
                 className="lg:hidden"
               />
             </div>
