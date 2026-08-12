@@ -28,9 +28,6 @@ export function DesktopLanguageSelector({
   const activeLabel = languages.find(
     opt => opt.code === currentLang,
   )?.codeLabel;
-  // const activeLabel =
-  //   languages.find(l => l.code === currentLang)?.code.toUpperCase() ??
-  //   currentLang.toUpperCase();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -39,13 +36,14 @@ export function DesktopLanguageSelector({
           variant="ghost"
           size="icon"
           className="hidden lg:flex"
-          aria-label="Select Language"
+          aria-label={subtitle}
         >
           <Icon
             name="language"
             iconPosition="left"
             className="size-6"
-            childClassName="text-lg gap-1 font-normal"
+            classNameContainer="text-lg gap-1 font-normal"
+            aria-hidden="true"
           >
             {activeLabel && activeLabel.toUpperCase()}
           </Icon>

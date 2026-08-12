@@ -7,7 +7,10 @@ interface IHeaderSpacerProps {
 export function HeaderSpacer({ className }: IHeaderSpacerProps) {
   return (
     <div
-      className={cn('h-30 shrink-0 lg:h-40', className)}
+      className={cn(
+        'h-(--h-header-mobile) md:h-(--h-header-tab) lg:h-(--h-header-desktop) shrink-0',
+        className,
+      )}
       aria-hidden="true"
     />
   );

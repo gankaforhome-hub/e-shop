@@ -118,7 +118,7 @@ export function Icon({
     <SvgIcon
       {...(size ? { width: size, height: size } : {})}
       className={cn(
-        'duration-(--dur-normal) inline-block shrink-0 transition-all',
+        'duration-(--dur-normal) inline-block shrink-0 text-inherit transition-all',
         className,
       )}
       {...props}

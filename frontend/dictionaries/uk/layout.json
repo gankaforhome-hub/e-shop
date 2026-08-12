@@ -1,4 +1,11 @@
 {
+  "header": {
+    "mobileMenu": {
+      "backToMenu": "Back",
+      "ariaOpen": "Open menu",
+      "ariaClose": "Close menu"
+    }
+  },
   "footer": {
     "mainMenuTitle": "Магазин",
     "helpMenuTitle": "Довідка",

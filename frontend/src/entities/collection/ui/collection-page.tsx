@@ -39,7 +39,7 @@ export const CollectionCard: FC<ICollectionCardProps> = ({
       <Icon
         name="arrow"
         className="group-hover:stroke-icon-accent custom-transition fill-icon h-3 w-3 rotate-180"
-        childClassName="leading-0 group-hover:text-fg-accent custom-transition mx-auto text-base transition-colors"
+        classNameContainer="leading-0 group-hover:text-fg-accent custom-transition mx-auto text-base transition-colors"
       >
         View Now
       </Icon>

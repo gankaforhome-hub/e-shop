@@ -53,6 +53,7 @@ const supportedLocalesSet = new Set<string>(locales);
 export const languageItemSchema = z.object({
   codeTitle: z.string(),
   codeLabel: z.string(),
+  ariaLabel: z.string(),
 });
 
 export type LanguageItem = z.infer<typeof languageItemSchema>;
@@ -72,6 +73,7 @@ export const languagesDictSchema = z
         code: code as Locale,
         codeTitle: item.codeTitle,
         codeLabel: item.codeLabel,
+        ariaLabel: item.ariaLabel,
       })),
   }));
 

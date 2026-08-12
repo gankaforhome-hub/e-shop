@@ -9,20 +9,20 @@ export function HeaderLogos({ className }: IHeaderLogosProps) {
   return (
     <div
       className={cn(
-        'flex min-w-0 max-w-full items-center gap-4 justify-self-center',
+        'flex min-w-0 max-w-full items-center space-x-2 justify-self-center',
         className,
       )}
     >
       <Logo
         aria="gankaforhome"
         variant="logo-icon"
-        className="h-8 w-8 md:h-11 md:w-11 lg:h-12 lg:w-12"
+        className="size-8 md:size-12 xl:size-14"
         asLink
       />
       <Logo
         aria="gankaforhome"
         variant="logo-text"
-        className="w-50 lg:w-75 h-12 max-[320px]:hidden md:h-11 md:w-60 lg:h-12"
+        className="w-50 lg:w-75 h-8 max-[320px]:hidden md:h-12 md:w-60 xl:h-14"
       />
     </div>
   );

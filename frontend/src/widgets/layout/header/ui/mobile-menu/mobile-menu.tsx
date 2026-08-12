@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 
-import { ChevronLeft } from 'lucide-react';
-
 import { useLocale } from 'next-intl';
 
 import { type INavItemConfig } from '@/features/navigation';
 import { LanguageSwitcher } from '@/features/select-language';
 import { type ILanguageOption, type Locale } from '@/shared/i18n/routing';
+import { type NavItem } from '@/shared/i18n/schemas/common.schema';
 import { cn } from '@/shared/lib/utils';
 import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
@@ -22,26 +21,33 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/shared/ui/sheet';
+import { AddressLink, SocialLinks } from '@/widgets/layout/ui';
 
 import { MobileMenuQuickActions } from './mobile-menu-footer';
 import { MobileMenuBlock } from './mobile-menu-item';
 import { MobileSubMenu } from './mobile-sub-menu';
 
 interface MobileMenuProps {
-  navItemsMain: INavItemConfig[];
-  navItemsHelp?: INavItemConfig[];
-  languages: ILanguageOption[];
-  langMenuTitle: string;
-  langMenuSubtitle: string;
+  label: { backToMenu: string; ariaOpen: string; ariaClose: string };
+  navigation: {
+    main: INavItemConfig[];
+  };
+  language: {
+    options: ILanguageOption[];
+    title: string;
+    subtitle: string;
+  };
+  social: NavItem[];
+  contacts: NavItem[];
   className?: string;
 }
 
 export function MobileMenu({
-  navItemsMain,
-  navItemsHelp,
-  languages,
-  langMenuTitle,
-  langMenuSubtitle,
+  label,
+  navigation,
+  language,
+  social,
+  contacts,
   className,
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
@@ -51,7 +57,7 @@ export function MobileMenu({
   const [isLangOpen, setIsLangOpen] = useState(false);
 
   const currentLang = useLocale() as Locale;
-  const activeLabel = languages.find(
+  const activeLabel = language.options.find(
     opt => opt.code === currentLang,
   )?.codeLabel;
 
@@ -75,14 +81,20 @@ export function MobileMenu({
     }
   };
 
-  const backTitle = isLangOpen ? langMenuTitle : activeSubmenu?.label || 'Back';
+  const backTitle = isLangOpen
+    ? language.title
+    : activeSubmenu?.label || label.backToMenu;
   const isSubmenuActive = Boolean(activeSubmenu || isLangOpen);
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild className={className}>
-        <Button variant="ghost" size="icon" aria-label="Open menu" asChild>
-          <Icon name="menu" className="text-foreground size-6" />
+        <Button variant="ghost" size="icon" aria-label={label.ariaOpen} asChild>
+          <Icon
+            name="menu"
+            className="text-foreground size-6"
+            aria-hidden="true"
+          />
         </Button>
       </SheetTrigger>
 
@@ -103,7 +115,11 @@ export function MobileMenu({
                 onClick={handleBack}
                 className="h-auto p-0 text-base hover:bg-transparent"
               >
-                <ChevronLeft className="mr-1 size-5" />
+                <Icon
+                  name="chevron-left"
+                  className="mr-1 size-5"
+                  aria-hidden="true"
+                />
                 {backTitle}
               </Button>
             ) : (
@@ -115,69 +131,94 @@ export function MobileMenu({
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Close menu"
+              aria-label={label.ariaClose}
               className="absolute right-4 top-4"
               onClick={() => setOpen(false)}
             >
-              <Icon name="close" className="text-icon size-4" />
+              <Icon
+                name="close"
+                className="text-icon size-4"
+                aria-hidden="true"
+              />
             </Button>
           </div>
         </SheetHeader>
 
         {/* VIEWPORT */}
         <div className="relative flex-1 overflow-y-auto overflow-x-hidden">
-          {/* MAIN MENU */}
-          <nav
-            className={cn(
-              'flex w-full flex-col py-2 transition-all duration-300 ease-in-out will-change-transform',
-              isSubmenuActive
-                ? 'pointer-events-none absolute inset-x-0 top-0 -translate-x-full opacity-0'
-                : 'relative translate-x-0 opacity-100',
+          <div className="flex min-h-full flex-col justify-between">
+            <div className="w-full flex-1">
+              <nav
+                className={cn(
+                  'flex w-full flex-col py-2 transition-all duration-300 ease-in-out will-change-transform',
+                  isSubmenuActive
+                    ? 'pointer-events-none absolute inset-x-0 top-0 -translate-x-full opacity-0'
+                    : 'relative translate-x-0 opacity-100',
+                )}
+              >
+                <MobileMenuBlock
+                  items={navigation.main}
+                  setActiveSubmenu={setActiveSubmenu}
+                  onClick={handleClose}
+                />
+              </nav>
+              {/* CATEGORY SUBMENU */}
+              {activeSubmenu && !isLangOpen && (
+                <div
+                  className={cn(
+                    'bg-background absolute inset-0 z-10 flex flex-col overflow-y-auto px-4 py-2 transition-all duration-300 ease-in-out will-change-transform',
+                    'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
+                  )}
+                >
+                  <MobileSubMenu
+                    activeSubmenu={activeSubmenu}
+                    onClick={handleClose}
+                  />
+                </div>
+              )}
+
+              {/* LANGUAGE SUBMENU */}
+              {isLangOpen && (
+                <div
+                  className={cn(
+                    'bg-background absolute inset-0 z-10 flex flex-col overflow-y-auto p-4 transition-all duration-300 ease-in-out will-change-transform',
+                    'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
+                  )}
+                >
+                  <LanguageSwitcher
+                    variant="mobile"
+                    languages={language.options}
+                    subtitle={language.subtitle}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* CONTACTS + SOCIALS */}
+            {!isSubmenuActive && (
+              <div className="flex w-full shrink-0 flex-col gap-4 px-4 py-4">
+                <AddressLink
+                  links={contacts}
+                  variant="mobileMenu"
+                  onItemClick={handleClose}
+                />
+                {contacts?.length > 0 && social?.length > 0 && (
+                  <div className="bg-border/40 h-px w-full" />
+                )}
+                <SocialLinks
+                  variant="mobileMenu"
+                  links={social}
+                  onItemClick={handleClose}
+                />
+              </div>
             )}
-          >
-            <MobileMenuBlock
-              items={navItemsMain}
-              setActiveSubmenu={setActiveSubmenu}
-              onClick={handleClose}
-            />
-          </nav>
-
-          {/* CATEGORY SUBMENU */}
-          {activeSubmenu && !isLangOpen && (
-            <div
-              className={cn(
-                'bg-background absolute inset-0 flex flex-col px-4 py-2 transition-all duration-300 ease-in-out will-change-transform',
-                'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
-              )}
-            >
-              <MobileSubMenu
-                activeSubmenu={activeSubmenu}
-                onClick={handleClose}
-              />
-            </div>
-          )}
-
-          {/* LANGUAGE SUBMENU */}
-          {isLangOpen && (
-            <div
-              className={cn(
-                'bg-background absolute inset-0 flex flex-col p-4 transition-all duration-300 ease-in-out will-change-transform',
-                'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
-              )}
-            >
-              <LanguageSwitcher
-                variant="mobile"
-                languages={languages}
-                subtitle={langMenuSubtitle}
-              />
-            </div>
-          )}
+          </div>
         </div>
-
         {/* FOOTER */}
-        <SheetFooter className="p-0">
+        <SheetFooter className="mt-4 flex flex-col">
           <MobileMenuQuickActions
             currentLang={activeLabel}
+            ariaLabelLangMenu={language.subtitle}
             onActionClick={handleClose}
             onLanguageClick={() => setIsLangOpen(true)}
           />

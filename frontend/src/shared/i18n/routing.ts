@@ -20,4 +20,5 @@ export interface ILanguageOption {
   code: Locale;
   codeTitle: string;
   codeLabel: string;
+  ariaLabel: string;
 }

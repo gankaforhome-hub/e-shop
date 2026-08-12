@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
 
 const buttonVariants = cva(
-  'font-caption focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none',
+  'font-caption focus-visible:ring-ring duration-(--dur-norm) inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -15,7 +15,7 @@ const buttonVariants = cva(
         outline:
           'border-action-primary bg-action-secondary text-action-secondary-foreground hover:border-action-secondary-hover active:border-action-secondary-active hover:bg-action-secondary-hover/2 disabled:border-action-primary/40 disabled:text-action-secondary-foreground/20 border',
         ghost:
-          'text-icon bg-transparent hover:bg-black/5 focus-visible:ring-0 focus-visible:ring-offset-0 active:bg-black/10',
+          'font-normal focus-visible:ring-0 focus-visible:ring-offset-0 active:scale-100',
         iconPrimary:
           'text-icon hover:text-icon-hover bg-white/20 shadow-lg hover:scale-105 hover:bg-white/30 active:scale-95 disabled:opacity-20',
         iconSecondary:
@@ -28,8 +28,8 @@ const buttonVariants = cva(
         small: 'px-4 py-2 text-xs',
         medium: 'min-w-37.5 px-6 py-3 text-sm',
         large: 'min-w-75 px-8 py-4 text-base font-semibold',
-        full: 'w-full py-3.5 text-base',
-        icon: 'flex h-5 w-5 items-center justify-center rounded-full p-0',
+        full: 'w-full',
+        icon: 'flex h-8 w-8 items-center justify-center rounded-none p-1',
         dots: 'h-3 w-3 rounded-full p-0', // WCAG 44px min target
       },
     },
@@ -44,6 +44,7 @@ export interface IButtonProps
     ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  ref?: React.Ref<HTMLButtonElement>;
 }
 
 export function Button({
@@ -51,17 +52,17 @@ export function Button({
   variant,
   size,
   asChild = false,
+  ref,
   ...props
 }: IButtonProps) {
   const Comp = asChild ? Slot : 'button';
 
   return (
-    <>
-      <Comp
-        data-slot="button"
-        className={cn(buttonVariants({ variant, size, className }))}
-        {...props}
-      />
-    </>
+    <Comp
+      ref={ref}
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
   );
 }

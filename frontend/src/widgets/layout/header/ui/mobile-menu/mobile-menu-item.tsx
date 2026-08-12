@@ -1,4 +1,4 @@
-import { type INavItemConfig, NavItem } from '@/features/navigation';
+import { NavItem, type INavItemConfig } from '@/features/navigation';
 
 interface MobileMenuBlockProps {
   items: INavItemConfig[];
@@ -11,11 +11,13 @@ export function MobileMenuBlock({
   setActiveSubmenu,
   onClick,
 }: MobileMenuBlockProps) {
+  if (!items.length) {
+    return null;
+  }
   return (
     <ul className="flex flex-col">
       {items.map(item => {
         const hasChildren = Boolean(item.children && item.children.length > 0);
-
         return (
           <li
             key={item.id}

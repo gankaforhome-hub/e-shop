@@ -47,7 +47,7 @@ export function LanguageSwitcher({
       )}
 
       <ul className="divide-border/40 flex flex-col divide-y">
-        {languages.map(({ code, codeTitle }) => {
+        {languages.map(({ code, codeTitle, ariaLabel }) => {
           const isActive = code === currentLang;
           return (
             <li key={code}>
@@ -58,16 +58,21 @@ export function LanguageSwitcher({
                 hrefLang={code}
                 onClick={onSelect}
                 aria-current={isActive ? 'page' : undefined}
+                aria-label={ariaLabel}
                 className={cn(
                   'flex items-center justify-between py-3.5 text-sm tracking-wide transition-colors',
                   isActive
                     ? 'text-foreground font-semibold'
-                    : 'text-foreground/80 hover:text-foreground font-normal',
+                    : 'text-foreground/70 hover:text-foreground font-normal',
                 )}
               >
                 <span>{codeTitle}</span>
                 {isActive && (
-                  <Icon name="check" className="size-4 stroke-[2.5]" />
+                  <Icon
+                    name="check"
+                    className="size-4 stroke-[2.5]"
+                    aria-hidden="true"
+                  />
                 )}
               </AppLink>
             </li>

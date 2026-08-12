@@ -1,14 +1,20 @@
 'use client';
 
+import { memo, type ComponentPropsWithRef, type ReactNode } from 'react';
+
 import { type AppRoutes } from '@/shared/config';
 import { usePathname } from '@/shared/i18n/navigation';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
 import { isActiveRoute } from '../lib';
 
-export interface INavItemProps {
+export interface INavItemProps extends Omit<
+  ComponentPropsWithRef<'button'>,
+  'children'
+> {
   variant: 'header' | 'footer' | 'mobile' | 'popover' | undefined;
   href?: AppRoutes;
   label: string;
@@ -16,10 +22,11 @@ export interface INavItemProps {
   className?: string;
   showActive?: boolean;
   hasSubmenu?: boolean;
+  btnSubmenuChildren?: ReactNode;
   onClick?: () => void;
 }
 
-export function NavItem({
+export const NavItem = memo(function NavItem({
   variant = 'header',
   href,
   label,
@@ -27,29 +34,29 @@ export function NavItem({
   className,
   showActive = true,
   hasSubmenu = false,
+  btnSubmenuChildren,
   onClick,
+  ref,
+  ...buttonProps
 }: INavItemProps) {
   const pathname = usePathname();
   const isActive =
     showActive && Boolean(href) && isActiveRoute(pathname, href!);
 
   const navLinkStyle = {
-    // header: 'relative link-hover focus:[--start:0%] hover:[--start:0%] py-2',
-    header: 'relative link py-2',
-
-    footer: 'text-base first-letter:uppercase link',
+    header: 'text-xl capitalize link',
+    footer: 'text-base capitalize link',
     mobile:
       'flex items-center justify-between text-base py-4 w-full select-none text-left transition-all active:opacity-70 text-foreground hover:bg-muted/60 px-4',
     popover:
-      'hover:text-foreground/70 text-foreground duration-(--dur-fast) block rounded-md py-1 text-base transition-colors',
+      'hover:text-foreground/70 text-foreground duration-(--dur-norm) py-1 text-base transition-colors',
   };
 
   const activeStyle = {
-    header:
-      'text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-primary',
-    footer: 'font-semibold text-primary underline underline-offset-4',
-    mobile: 'text-accent-foreground font-medium  rounded-xs',
-    popover: 'text-accent-foreground font-medium  rounded-xs',
+    header: 'text-foreground',
+    footer: '',
+    mobile: 'text-foreground font-medium rounded-xs',
+    popover: 'text-foreground font-medium rounded-xs',
   };
 
   const sharedClasses = cn(
@@ -79,9 +86,17 @@ export function NavItem({
 
   if (hasSubmenu || !href) {
     return (
-      <button type="button" onClick={onClick} className={sharedClasses}>
-        {content}
-      </button>
+      <Button
+        variant="ghost"
+        size="full"
+        ref={ref}
+        {...buttonProps}
+        onClick={onClick}
+        className={cn('font-text', sharedClasses)}
+      >
+        <span>{content}</span>
+        {btnSubmenuChildren}
+      </Button>
     );
   }
 
@@ -90,4 +105,4 @@ export function NavItem({
       <span>{content}</span>
     </AppLink>
   );
-}
+});

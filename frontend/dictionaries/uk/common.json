@@ -106,8 +106,16 @@
     "title": "Мова",
     "subTitle": "Оберіть зручну для вас мову інтерфейсу",
     "options": {
-      "uk": { "codeTitle": "Українська", "codeLabel": "UA" },
-      "en": { "codeTitle": "English", "codeLabel": "EN" }
+      "uk": {
+        "codeTitle": "Українська",
+        "codeLabel": "UA",
+        "ariaLabel": "змінити мову на українську"
+      },
+      "en": {
+        "codeTitle": "English",
+        "codeLabel": "EN",
+        "ariaLabel": "змінити мову на англійську"
+      }
     }
   },
 
