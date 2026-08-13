@@ -54,7 +54,7 @@ export function DesktopLanguageSelector({
         align="start"
         sideOffset={6}
         alignOffset={-4}
-        className="border-border/50 w-80 rounded-xl p-6 shadow-xl max-lg:hidden"
+        className="bg-background w-80 p-6 shadow-lg backdrop-blur-md max-lg:hidden"
       >
         <LanguageSwitcher
           variant="desktop"

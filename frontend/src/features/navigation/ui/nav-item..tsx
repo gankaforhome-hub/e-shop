@@ -79,7 +79,7 @@ export const NavItem = memo(function NavItem({
       )}
 
       {hasSubmenu && variant === 'mobile' && (
-        <Icon name="chevron-right" className="ml-2 h-5 w-5 shrink-0" />
+        <Icon name="chevron-right" className="h-5 w-5 shrink-0" />
       )}
     </>
   );
@@ -92,9 +92,9 @@ export const NavItem = memo(function NavItem({
         ref={ref}
         {...buttonProps}
         onClick={onClick}
-        className={cn('font-text', sharedClasses)}
+        className={cn('font-text rounded-none', sharedClasses)}
       >
-        <span>{content}</span>
+        {content}
         {btnSubmenuChildren}
       </Button>
     );

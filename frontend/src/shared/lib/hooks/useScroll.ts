@@ -1,81 +1,54 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-interface UseScrollOptions {
-  threshold?: number;
-  deltaThreshold?: number;
-}
-
-export function useScroll({
-  threshold = 30,
-  deltaThreshold = 5,
-}: UseScrollOptions = {}) {
-  const [showSubMenu, setShowSubMenu] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Єдине джерело правди для мутабельного стану в анімаційних кадрах
-  const stateRef = useRef({
-    showSubMenu: true,
-    isScrolled: false,
-    lastScrollY: 0,
-  });
-
+export function useHeaderRef() {
+  const headerRef = useRef<HTMLElement | null>(null);
+  const lastScrollY = useRef(0);
   const rafId = useRef<number | null>(null);
 
   useEffect(() => {
-    // Встановлюємо початковий scrollY після монтування на клієнті
-    stateRef.current.lastScrollY = window.scrollY;
+    const el = headerRef.current;
+    if (!el) {
+      return;
+    }
+
+    lastScrollY.current = window.scrollY;
 
     const updateScroll = () => {
       const scrollY = window.scrollY;
       const maxScrollY =
         document.documentElement.scrollHeight - window.innerHeight;
 
-      // Ігноруємо "гумовий" скрол на iOS (bounce effect)
       if (scrollY < 0 || scrollY > maxScrollY) {
         rafId.current = null;
         return;
       }
 
-      const diff = scrollY - stateRef.current.lastScrollY;
-      const nextIsScrolled = scrollY > threshold;
+      const diff = scrollY - lastScrollY.current;
 
-      // Оновлюємо стан isScrolled
-      if (nextIsScrolled !== stateRef.current.isScrolled) {
-        stateRef.current.isScrolled = nextIsScrolled;
-        setIsScrolled(nextIsScrolled);
+      // Оновлюємо стан скролу
+      if (scrollY > 30) {
+        el.setAttribute('data-scrolled', 'true');
+      } else {
+        el.setAttribute('data-scrolled', 'false');
       }
 
-      // Зона у самій горі сторінки (0..10px) — завжди показуємо меню
+      // Логіка показу / приховування нижнього ряду
       if (scrollY <= 10) {
-        if (!stateRef.current.showSubMenu) {
-          stateRef.current.showSubMenu = true;
-          setShowSubMenu(true);
-        }
-        stateRef.current.lastScrollY = scrollY;
-        rafId.current = null;
-        return;
-      }
-
-      // Перевіряємо поріг дельти для приховування / показу
-      if (Math.abs(diff) >= deltaThreshold) {
-        if (diff > 0 && scrollY > threshold) {
-          // Скрол ВНИЗ -> Ховаємо
-          if (stateRef.current.showSubMenu) {
-            stateRef.current.showSubMenu = false;
-            setShowSubMenu(false);
+        el.setAttribute('data-show-submenu', 'true');
+      } else if (Math.abs(diff) >= 5) {
+        if (diff > 0 && scrollY > 30) {
+          // Скрол ВНИЗ -> примусово ховаємо
+          el.setAttribute('data-show-submenu', 'false');
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
           }
         } else if (diff < 0) {
-          // Скрол ВГОРУ -> Показуємо
-          if (!stateRef.current.showSubMenu) {
-            stateRef.current.showSubMenu = true;
-            setShowSubMenu(true);
-          }
+          // Скрол ВГОРУ -> показуємо
+          el.setAttribute('data-show-submenu', 'true');
         }
-
-        stateRef.current.lastScrollY = scrollY;
+        lastScrollY.current = scrollY;
       }
 
       rafId.current = null;
@@ -88,29 +61,13 @@ export function useScroll({
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (rafId.current !== null) {
+      if (rafId.current) {
         window.cancelAnimationFrame(rafId.current);
       }
     };
-  }, [threshold, deltaThreshold]);
-
-  const handleSetIsHovered = useCallback((hovered: boolean) => {
-    // Безпечна перевірка середовища та пристрою
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia('(pointer: coarse)').matches
-    ) {
-      return;
-    }
-    setIsHovered(hovered);
   }, []);
 
-  return {
-    isScrolled,
-    showSubMenu: showSubMenu || isHovered,
-    setIsHovered: handleSetIsHovered,
-  };
+  return headerRef;
 }

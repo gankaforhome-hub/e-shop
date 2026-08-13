@@ -3,6 +3,7 @@ import { buildMainNav } from '@/features/navigation';
 import { DesktopLanguageSelector } from '@/features/select-language/ui/desktop-language-selector/desktop-language-selector';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
+import { cn } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
 
 import {
@@ -40,9 +41,13 @@ export async function Header({ lang }: IHeaderProps) {
     <>
       <HeaderClientWrapper id={HEADER_ID}>
         <Container className="flex flex-col px-6 max-[300px]:px-0">
-          {/* ВЕРХНІЙ БЛОК */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center py-2.5 transition-all duration-300 ease-in-out group-data-[show-submenu=true]/header:py-4">
-            {/* L-блок (Мова / Бургер для мобільних) */}
+          <div
+            className={cn(
+              'grid grid-cols-[1fr_auto_1fr] items-center py-2.5',
+              'group-data-[show-submenu=false]/header:py-1 group-data-[show-submenu=true]/header:py-4',
+              'transition-all duration-300 ease-in-out',
+            )}
+          >
             <div className="items-center justify-self-start">
               <DesktopLanguageSelector
                 languages={languages.options}
@@ -62,22 +67,15 @@ export async function Header({ lang }: IHeaderProps) {
                 className="lg:hidden"
               />
             </div>
-
-            {/* C-блок (Логотипи) */}
-            <HeaderLogos />
-
-            {/* R-блок (Кнопки дій) */}
-            <HeaderActions />
+            <HeaderLogos className="min-w-0 max-w-full justify-self-center" />
+            <HeaderActions className="justify-self-end" />
           </div>
-
-          {/* НИЖНЄ МЕНЮ */}
           <HeaderDesktopNav>
             <HeaderNav items={mainNav} />
           </HeaderDesktopNav>
         </Container>
       </HeaderClientWrapper>
 
-      {/* РОЗПІРКА ДЛЯ УНИКНЕННЯ JUMPING LAYOUT */}
       <HeaderSpacer />
     </>
   );

@@ -1,4 +1,9 @@
 import { type INavItemConfig, NavItem } from '@/features/navigation';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from '@/shared/ui/navigation-menu';
 
 import { HeaderNavHoverItem } from './header-nav-hover-item';
 
@@ -7,31 +12,23 @@ interface HeaderNavProps {
 }
 
 export function HeaderNav({ items }: HeaderNavProps) {
-  console.log('🚀 ~ HeaderNav ~ HeaderNav:');
-
   return (
-    <nav aria-label="Головна навігація">
-      <ul className="flex items-center justify-center gap-8 text-lg font-medium capitalize lg:gap-14">
+    <NavigationMenu>
+      <NavigationMenuList className="gap-8 xl:gap-14">
         {items.map(item => {
-          const hasChildren = Boolean(
-            item.children && item.children.length > 0,
-          );
+          const hasChildren = (item.children?.length ?? 0) > 0;
 
           if (!hasChildren) {
             return (
-              <li key={item.id}>
+              <NavigationMenuItem key={item.id}>
                 <NavItem variant="header" href={item.href} label={item.label} />
-              </li>
+              </NavigationMenuItem>
             );
           }
 
-          return (
-            <li key={item.id}>
-              <HeaderNavHoverItem item={item} />
-            </li>
-          );
+          return <HeaderNavHoverItem key={item.id} item={item} />;
         })}
-      </ul>
-    </nav>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }

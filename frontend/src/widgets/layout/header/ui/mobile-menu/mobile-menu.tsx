@@ -147,7 +147,7 @@ export function MobileMenu({
         {/* VIEWPORT */}
         <div className="relative flex-1 overflow-y-auto overflow-x-hidden">
           <div className="flex min-h-full flex-col justify-between">
-            <div className="w-full flex-1">
+            <div className="bg-background w-full flex-1">
               <nav
                 className={cn(
                   'flex w-full flex-col py-2 transition-all duration-300 ease-in-out will-change-transform',
@@ -166,7 +166,7 @@ export function MobileMenu({
               {activeSubmenu && !isLangOpen && (
                 <div
                   className={cn(
-                    'bg-background absolute inset-0 z-10 flex flex-col overflow-y-auto px-4 py-2 transition-all duration-300 ease-in-out will-change-transform',
+                    'absolute inset-0 z-10 flex flex-col overflow-y-auto px-4 py-2 transition-all duration-300 ease-in-out will-change-transform',
                     'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
                   )}
                 >
@@ -181,7 +181,7 @@ export function MobileMenu({
               {isLangOpen && (
                 <div
                   className={cn(
-                    'bg-background absolute inset-0 z-10 flex flex-col overflow-y-auto p-4 transition-all duration-300 ease-in-out will-change-transform',
+                    'absolute inset-0 z-10 flex flex-col overflow-y-auto p-4 transition-all duration-300 ease-in-out will-change-transform',
                     'starting:translate-x-full starting:opacity-0 translate-x-0 opacity-100',
                   )}
                 >

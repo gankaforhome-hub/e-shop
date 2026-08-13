@@ -7,12 +7,7 @@ interface IHeaderLogosProps {
 
 export function HeaderLogos({ className }: IHeaderLogosProps) {
   return (
-    <div
-      className={cn(
-        'flex min-w-0 max-w-full items-center space-x-2 justify-self-center',
-        className,
-      )}
-    >
+    <div className={cn('flex items-center space-x-2', className)}>
       <Logo
         aria="gankaforhome"
         variant="logo-icon"

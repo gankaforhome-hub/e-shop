@@ -8,12 +8,7 @@ interface IHeaderActionsProps {
 
 export function HeaderActions({ className }: IHeaderActionsProps) {
   return (
-    <div
-      className={cn(
-        'flex items-center gap-4 justify-self-end md:gap-6',
-        className,
-      )}
-    >
+    <div className={cn('flex items-center gap-4 md:gap-6', className)}>
       <Button
         variant="ghost"
         size="icon"
