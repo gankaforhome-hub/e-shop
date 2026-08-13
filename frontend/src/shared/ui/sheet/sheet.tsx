@@ -2,10 +2,11 @@
 
 import { type ComponentProps } from 'react';
 
-import { X } from 'lucide-react';
 import { Dialog as SheetPrimitive } from 'radix-ui';
 
 import { cn } from '@/shared/lib/utils';
+
+import { Icon } from '../icon';
 
 function Sheet({ ...props }: ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root {...props} />;
@@ -57,7 +58,9 @@ function SheetContent({
       <SheetOverlay />
       <SheetPrimitive.Content
         className={cn(
-          'bg-background text-foreground data-[state=closed]:animate-out data-[state=open]:animate-in fixed z-50 flex flex-col outline-none transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+          'bg-background text-foreground fixed z-50 flex flex-col outline-none transition ease-out',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out',
+          'data-[state=closed]:duration-200 data-[state=open]:duration-200',
           side === 'right' &&
             'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 w-full',
           side === 'left' &&
@@ -73,7 +76,7 @@ function SheetContent({
         {children}
         {showCloseButton && (
           <SheetPrimitive.Close className="rounded-xs focus:outline-hidden absolute right-4 top-4 opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none">
-            <X className="size-4" />
+            <Icon name="close" className="size-4" aria-hidden="true" />
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
         )}
