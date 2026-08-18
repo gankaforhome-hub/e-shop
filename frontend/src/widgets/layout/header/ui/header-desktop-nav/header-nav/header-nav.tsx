@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
 } from '@/shared/ui/navigation-menu';
 
-import { HeaderNavHoverItem } from './header-nav-hover-item';
+import { HeaderNavSubMenu } from '../header-nav-sub-menu';
 
 interface HeaderNavProps {
   items: INavItemConfig[];
@@ -26,7 +26,7 @@ export function HeaderNav({ items }: HeaderNavProps) {
             );
           }
 
-          return <HeaderNavHoverItem key={item.id} item={item} />;
+          return <HeaderNavSubMenu key={item.id} item={item} />;
         })}
       </NavigationMenuList>
     </NavigationMenu>

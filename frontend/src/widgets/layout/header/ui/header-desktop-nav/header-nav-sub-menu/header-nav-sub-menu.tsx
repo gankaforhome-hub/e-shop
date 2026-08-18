@@ -20,11 +20,11 @@ function getGridColsClass(count: number): string {
   return GRID_COLS_MAP[cols] ?? 'grid-cols-4';
 }
 
-interface HeaderNavHoverItemProps {
+interface IHeaderNavSubMenuProps {
   item: INavItemConfig;
 }
 
-export function HeaderNavHoverItem({ item }: HeaderNavHoverItemProps) {
+export function HeaderNavSubMenu({ item }: IHeaderNavSubMenuProps) {
   const children = item.children ?? [];
   const gridColsClass = getGridColsClass(children.length);
 

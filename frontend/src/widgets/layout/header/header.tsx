@@ -9,9 +9,9 @@ import { Container } from '@/shared/ui/container';
 import {
   HeaderActions,
   HeaderClientWrapper,
-  HeaderDesktopNav,
   HeaderLogos,
   HeaderNav,
+  HeaderNavWrapper,
   HeaderSpacer,
   MobileMenu,
 } from './ui';
@@ -70,9 +70,9 @@ export async function Header({ lang }: IHeaderProps) {
             <HeaderLogos className="min-w-0 max-w-full justify-self-center" />
             <HeaderActions className="justify-self-end" />
           </div>
-          <HeaderDesktopNav>
+          <HeaderNavWrapper>
             <HeaderNav items={mainNav} />
-          </HeaderDesktopNav>
+          </HeaderNavWrapper>
         </Container>
       </HeaderClientWrapper>
 

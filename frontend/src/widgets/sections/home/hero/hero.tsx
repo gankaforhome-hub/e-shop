@@ -27,11 +27,11 @@ export async function Hero({ bannerSlides }: IHero) {
   //   }),
   // );
   return (
-    <Section className="overflow-hidden">
+    <Section className="overflow-hidden pb-0">
       <BannerSlider
         bannerSlides={bannerSlides}
         className={cn(
-          'md:aspect-21/9 relative aspect-video h-[calc(640px-var(--h-topbar))] w-full md:h-[calc(100dvh-var(--h-topbar))] landscape:max-md:h-80',
+          'md:aspect-21/9 relative aspect-video h-[calc(640px-var(--h-header-mobile))] w-full md:h-[calc(100dvh-var(--h-header-tab))] lg:h-[calc(100dvh-var(--h-header-desktop))] landscape:max-md:h-80',
           'touch-pan-y overscroll-none',
         )}
       />
