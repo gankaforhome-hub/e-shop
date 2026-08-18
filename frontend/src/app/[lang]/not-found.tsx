@@ -20,42 +20,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocalizeNotFound() {
+export default function LocalizeNotFound() {
   return (
     <>
       <NotFoundWidget />;
     </>
   );
 }
-
-// export const metadata: Metadata = {
-//   title: '404 - Сторінку не знайдено | Ganka for Home',
-//   description: 'На жаль, запитувану сторінку не знайдено.',
-//   robots: {
-//     index: false,
-//     follow: false,
-//   },
-// };
-
-// import { NextIntlClientProvider } from 'next-intl';
-
-// import { getDictionary } from '@/shared/i18n/get-dictionary';
-// import { getLocaleDirection } from '@/shared/i18n/helpers';
-// import { getPreferredLocale } from '@/shared/i18n/helpers/get-preferred-locale';
-
-// import { NotFoundWidget } from '../widgets/not-found';
-
-// export default async function GlobalNotFound() {
-//   const locale = await getPreferredLocale();
-//   const { common } = await getDictionary(['common'], locale);
-//   const dir = getLocaleDirection(locale);
-//   return (
-//     <html lang={locale} dir={dir}>
-//       <body>
-//         <NextIntlClientProvider locale={locale} messages={common}>
-//           <NotFoundWidget />
-//         </NextIntlClientProvider>
-//       </body>
-//     </html>
-//   );
-// }
