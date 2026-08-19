@@ -26,13 +26,13 @@ export function SocialLinks({
 
   const styles = {
     footer: {
-      list: 'mt-4 space-x-4',
+      list: 'mt-4 gap-4',
       link: 'size-8 justify-center rounded-full bg-white/20 shadow-lg',
       icon: 'text-icon size-5',
       label: 'sr-only',
     },
     mobileMenu: {
-      list: 'space-x-2',
+      list: 'gap-2 max-[300px]:flex-col',
       link: 'text-foreground/70 border-brand justify-between rounded-sm border px-3 py-2',
       icon: 'size-3.5',
       label: '',

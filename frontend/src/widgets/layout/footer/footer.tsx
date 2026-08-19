@@ -34,8 +34,12 @@ export async function Footer({ lang, className }: IFooterNavProps) {
     <footer className={cn('bg-muted font-caption', className)}>
       <Separator variant="accentMuted" />
       <Container className="p-4 pt-6">
-        <div className="grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4 md:gap-11 xl:flex xl:justify-between 2xl:px-20">
-          <div className="col-span-2 flex flex-col">
+        <div
+          className={cn(
+            'grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4 md:gap-11 xl:flex xl:justify-between 2xl:px-20',
+          )}
+        >
+          <div className={cn('col-span-2 flex flex-col')}>
             <div className="max-h-30 mx-auto mb-10 flex max-w-60 flex-col items-center gap-4 md:mx-0">
               <Logo
                 aria={common.brand.name}
@@ -46,7 +50,7 @@ export async function Footer({ lang, className }: IFooterNavProps) {
               <Logo
                 aria={common.brand.name}
                 variant="logo-text"
-                className="w-50 h-8 sm:h-10 sm:w-60"
+                className="w-50 h-8 max-[300px]:hidden sm:h-10 sm:w-60"
               />
             </div>
             <AddressLink variant="footer" links={contacts} />
@@ -54,24 +58,35 @@ export async function Footer({ lang, className }: IFooterNavProps) {
           <FooterLinkColumn
             heading={footer.mainMenuTitle}
             links={mainNav}
-            className="col-start-1 row-start-2 text-left md:col-start-3 md:row-start-1"
+            className={cn(
+              'col-start-1 row-start-2 text-left md:col-start-3 md:row-start-1',
+            )}
           />
           <FooterLinkColumn
             heading={footer.helpMenuTitle}
             links={helpNav}
-            className="col-start-2 row-start-2 text-left md:col-start-4 md:row-start-1"
+            className={cn(
+              'max-[300px]:col-start-1 max-[300px]:row-start-3',
+              'col-start-2 row-start-2 text-left md:col-start-4 md:row-start-1',
+            )}
           />
           <div className="max-xl:contents xl:flex xl:flex-col xl:gap-5">
             <SocialLinks
               variant="footer"
               heading={footer.socialMenuTitle}
               links={social}
-              className="col-span-2 row-start-3 text-left md:col-span-2 md:col-start-1 md:row-start-2"
+              className={cn(
+                'max-[300px]:col-start-1 max-[300px]:row-start-4',
+                'col-span-2 row-start-3 text-left md:col-span-2 md:col-start-1 md:row-start-2',
+              )}
             />
             <PaymentBadges
               heading={footer.paymentMenuTitle}
               methods={paymentMethods}
-              className="col-span-2 row-start-4 text-left md:col-span-2 md:col-start-3 md:row-start-2"
+              className={cn(
+                'max-[300px]:col-start-1 max-[300px]:row-start-5',
+                'col-span-2 row-start-4 text-left md:col-span-2 md:col-start-3 md:row-start-2',
+              )}
             />
           </div>
         </div>

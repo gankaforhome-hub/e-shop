@@ -1,6 +1,5 @@
 import { NavItem, type INavItemConfig } from '@/features/navigation';
 import { cn, getCurrentYear } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Icon } from '@/shared/ui/icon';
 
 interface IUnderFooterProps {
@@ -10,16 +9,19 @@ interface IUnderFooterProps {
 
 export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
   return (
-    <Box
+    <div
       className={cn(
         'border-border-muted/40 text-foreground/70 mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
         className,
       )}
     >
       <nav aria-label="Legal">
-        <ul className="flex items-center justify-center gap-3 md:gap-4">
-          {legalLinks.map(link => (
-            <li key={link.href}>
+        <ul className="flex flex-wrap items-center justify-center gap-3 text-center md:gap-4">
+          {legalLinks.map((link, index) => (
+            <li
+              key={link.href}
+              className={cn(index === 2 && 'max-sm:basis-full')}
+            >
               <NavItem
                 variant="footer"
                 href={link.href}
@@ -35,6 +37,6 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
           2024 - {getCurrentYear} Ganka&Home
         </Icon>
       </p>
-    </Box>
+    </div>
   );
 }

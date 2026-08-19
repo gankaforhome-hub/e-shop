@@ -1,5 +1,4 @@
 import { type IconName } from '@/shared/types';
-import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
 
@@ -15,7 +14,7 @@ export function PaymentBadges({
   className = '',
 }: IPaymentBadgesProps) {
   return (
-    <Box className={className}>
+    <div className={className}>
       <Heading headingLevel="h3" variant="footer" tone="accent">
         {heading}
       </Heading>
@@ -33,6 +32,6 @@ export function PaymentBadges({
           </li>
         ))}
       </ul>
-    </Box>
+    </div>
   );
 }

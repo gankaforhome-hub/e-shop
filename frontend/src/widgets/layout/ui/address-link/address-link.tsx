@@ -48,6 +48,7 @@ export function AddressLink({
                 iconPosition="left"
                 className="group-hover:text-icon-hover duration-(--dur-norm) size-4 transition-colors"
                 aria-hidden="true"
+                classNameContainer="overflow-hidden text-ellipsis"
               >
                 {item.label}
               </Icon>
