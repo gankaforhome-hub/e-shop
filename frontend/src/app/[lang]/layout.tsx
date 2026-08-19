@@ -65,7 +65,7 @@ export default async function LocaleLayout({
   return (
     <html lang={lang} dir={dir}>
       <body
-        className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
+        className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen w-full grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
         <NextIntlClientProvider>
           <Header lang={lang} />
