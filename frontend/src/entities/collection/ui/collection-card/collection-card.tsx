@@ -1,47 +1,44 @@
-import { type FC } from 'react';
-
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
-import { Box } from '@/shared/ui/box';
 import { Heading } from '@/shared/ui/heading';
 
-import { type Collection } from '../model/types';
+import { type CollectionDTO } from '../../api/get-collections';
 
 interface ICollectionCardProps {
-  collection: Collection;
+  collection: CollectionDTO;
   className?: string;
 }
 
-export const CollectionCard: FC<ICollectionCardProps> = ({
+export function CollectionCard({
   collection,
   className,
-}) => {
+}: ICollectionCardProps) {
   return (
     <AppLink
       href={routes.collection(collection.slug)}
-      className={cn(
-        'h-full w-full flex-col items-center justify-center',
-        className,
-      )}
+      className={cn('group h-full w-full flex-col', className)}
     >
-      <Box className="aspect-570/585 relative w-full overflow-hidden rounded-xl">
+      <div className="aspect-570/585 relative w-full overflow-hidden">
         <AppMedia
           src={collection.media.src}
           alt={collection.media.alt || collection.title}
           fill
-          className="object-contain transition-transform duration-300 hover:scale-105"
+          className="duration-(--dur-slow) ease-subtle object-contain transition-transform hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-      </Box>
+      </div>
       <Heading
         headingLevel="h2"
-        variant="cardItem"
-        className="fmt-4/6 text-center capitalize"
+        variant="collectionCard"
+        className={cn(
+          'mt-4 line-clamp-1 text-center capitalize lg:mt-6',
+          'group-hover:text-foreground/70 text-foreground duration-(--dur-slow) ease-subtle transition-colors',
+        )}
       >
         {collection.title}
       </Heading>
     </AppLink>
   );
-};
+}
