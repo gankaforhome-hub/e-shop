@@ -23,6 +23,7 @@
 
   "navigation": {
     "main": {
+      "home": "Головна",
       "collections": "Колекції",
       "allCollections": "Всі Колекції",
       "allProducts": "Каталог",
@@ -41,6 +42,12 @@
       "terms_conditions": "Правила та умови",
       "privacy_policy": "Політика конфіденційності",
       "cookie_policy": "Файли Cookie"
+    },
+    "aria": {
+      "breadcrumbs": {
+        "showMore": "Показати більше",
+        "ariaLabel": "Навігаційний ланцюжок"
+      }
     }
   },
 
@@ -127,6 +134,12 @@
     "description": "Сторінка, яку ви шукали, не існує або була переміщена.",
     "buttonText": "Назад додому",
     "buttonAriaLabel": "Повернутися на головну сторінку"
+  },
+
+  "stock": {
+    "in_stock": "Є в наявності",
+    "low_stock": "Закінчується",
+    "sold_out": "Немає в наявності"
   },
   "old": {
     "header": {

@@ -4,7 +4,6 @@
     "shortName": "GankaForHome",
     "description": "Exclusive handmade ceramic tableware and cozy decor for your home."
   },
-
   "brand": {
     "name": "Ganka For Home"
   },
@@ -22,9 +21,10 @@
   ],
   "navigation": {
     "main": {
+      "home": "Home",
       "collections": "Collections",
       "allCollections": "All Collections",
-      "allProducts": "Shop All",
+      "allProducts": "Products",
       "about": "Our Story",
       "exclusive": "Exclusive",
       "releases": "Releases"
@@ -40,6 +40,12 @@
       "terms_conditions": "Terms & Conditions",
       "privacy_policy": "Privacy Policy",
       "cookie_policy": "Files Cookie"
+    },
+    "aria": {
+      "breadcrumbs": {
+        "showMore": "Show more",
+        "ariaLabel": "Breadcrumbs"
+      }
     }
   },
   "social": [
@@ -55,13 +61,27 @@
     }
   ],
   "paymentMethods": [
-    { "label": "Mastercard", "icon": "mastercard" },
-    { "label": "Visa", "icon": "visa" },
-    { "label": "LiqPay", "icon": "liqpay" },
-    { "label": "Apple Pay", "icon": "applepay" },
-    { "label": "Google Pay", "icon": "googlepay" }
+    {
+      "label": "Mastercard",
+      "icon": "mastercard"
+    },
+    {
+      "label": "Visa",
+      "icon": "visa"
+    },
+    {
+      "label": "LiqPay",
+      "icon": "liqpay"
+    },
+    {
+      "label": "Apple Pay",
+      "icon": "applepay"
+    },
+    {
+      "label": "Google Pay",
+      "icon": "googlepay"
+    }
   ],
-
   "action": {
     "save": "",
     "cancel": "",
@@ -75,7 +95,11 @@
     "loadMore": "",
     "search": ""
   },
-  "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
+  "validation": {
+    "required": "",
+    "invalidEmail": "",
+    "tooShort": ""
+  },
   "status": {
     "loading": "",
     "success": "",
@@ -91,7 +115,11 @@
     "phone": "",
     "address": ""
   },
-  "placeholder": { "search": "", "email": "", "phone": "" },
+  "placeholder": {
+    "search": "",
+    "email": "",
+    "phone": ""
+  },
   "message": {
     "noResults": "",
     "networkError": "",
@@ -122,7 +150,11 @@
     "buttonText": "Back home",
     "buttonAriaLabel": " Go back to the home page"
   },
-
+  "stock": {
+    "in_stock": "In stock",
+    "low_stock": "Low stock",
+    "sold_out": "Sold out"
+  },
   "old": {
     "header": {
       "topBar": {
@@ -284,7 +316,6 @@
           }
         ]
       },
-
       "nav": {
         "title": "Navigation",
         "navMenu": [

@@ -19,8 +19,8 @@
     "types": ["node"],
     "typeRoots": [
       "node_modules/@types",
-      "../node_modules/@types",
-      "src/shared/i18n/dictionaries/dictionaries.d.ts"
+      "../node_modules/@types"
+      // "src/shared/i18n/dictionaries/dictionaries.d.ts"
     ],
     "forceConsistentCasingInFileNames": true,
     // "baseUrl": ".",
@@ -46,7 +46,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "**/*.json",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "src/shared/i18n/dictionaries/dictionaries.d.ts"
   ],
   "exclude": ["node_modules", "../node_modules"]
 }

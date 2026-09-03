@@ -14,16 +14,20 @@ const dictionaryLoaders: Record<
   { [K in keyof RawDictionarySchemas]: () => Promise<RawDictionarySchemas[K]> }
 > = {
   uk: {
-    about: () => import('@/dictionaries/uk/about.json').then(m => m.default),
     common: () => import('@/dictionaries/uk/common.json').then(m => m.default),
-    home: () => import('@/dictionaries/uk/home.json').then(m => m.default),
     layout: () => import('@/dictionaries/uk/layout.json').then(m => m.default),
+    home: () => import('@/dictionaries/uk/home.json').then(m => m.default),
+    about: () => import('@/dictionaries/uk/about.json').then(m => m.default),
+    collections: () =>
+      import('@/dictionaries/uk/collections.json').then(m => m.default),
   },
   en: {
-    about: () => import('@/dictionaries/en/about.json').then(m => m.default),
     common: () => import('@/dictionaries/en/common.json').then(m => m.default),
-    home: () => import('@/dictionaries/en/home.json').then(m => m.default),
     layout: () => import('@/dictionaries/en/layout.json').then(m => m.default),
+    home: () => import('@/dictionaries/en/home.json').then(m => m.default),
+    about: () => import('@/dictionaries/en/about.json').then(m => m.default),
+    collections: () =>
+      import('@/dictionaries/en/collections.json').then(m => m.default),
   },
 };
 

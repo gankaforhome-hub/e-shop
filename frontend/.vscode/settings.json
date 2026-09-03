@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "Backorder",
     "Citronelle",
     "fgap",
     "fleading",
@@ -9,5 +10,12 @@
     "rgba",
     "webp"
   ],
-  "i18n-ally.localesPaths": ["src/shared/i18n"]
+  "i18n-ally.localesPaths": ["dictionaries"],
+  "i18n-ally.enabledFrameworks": ["react", "next-intl", "general"],
+  "i18n-ally.namespace": true,
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.pathMatcher": "{locale}/{namespace}.json",
+  "i18n-ally.defaultNamespace": "common"
+  // "i18n-ally.annotationDelimiter": ".",
+  // "i18n-ally.displayLanguage": "en"
 }
