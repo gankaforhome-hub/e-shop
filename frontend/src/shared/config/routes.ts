@@ -81,3 +81,7 @@ export const routes = {
 };
 
 export type RouteValue = (typeof staticRoutes)[keyof typeof staticRoutes];
+
+export function createRoute(path: string): AppRoutes {
+  return path as AppRoutes;
+}
