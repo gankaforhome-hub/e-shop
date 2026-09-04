@@ -6,7 +6,7 @@ const sectionVariants = cva('w-full', {
   variants: {
     spacing: {
       none: '',
-      default: 'fpb-10/30',
+      default: 'md:pb-15 xl:pb-30 pb-10',
       compact: 'py-8 md:py-12',
       relaxed: 'py-20 md:py-28',
     },
