@@ -1,9 +1,10 @@
 {
   "header": {
     "mobileMenu": {
-      "backToMenu": "Back",
-      "ariaOpen": "Open menu",
-      "ariaClose": "Close menu"
+      "menuTittle": "Мобільна навігація",
+      "backToMenu": "Назад",
+      "ariaOpen": "Відкрити меню",
+      "ariaClose": "Закрити меню"
     }
   },
   "footer": {

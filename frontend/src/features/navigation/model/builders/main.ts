@@ -1,11 +1,11 @@
-import { type Collection } from '@/entities/collection/model/types';
+import { type CollectionDTO } from '@/entities/collection';
 import { routes } from '@/shared/config/routes';
 
 import { type INavItemConfig, type NavigationDict } from '../types';
 
 export function getMainNavConfig(
   dict: NavigationDict['main'],
-  collections: Collection[] = [],
+  collections: CollectionDTO[] = [],
 ): INavItemConfig[] {
   const collectionChildren: INavItemConfig[] = [
     {

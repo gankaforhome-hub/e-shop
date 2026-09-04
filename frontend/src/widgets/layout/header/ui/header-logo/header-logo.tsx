@@ -7,7 +7,7 @@ interface IHeaderLogosProps {
 
 export function HeaderLogos({ className }: IHeaderLogosProps) {
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div className={cn('flex items-center gap-2', className)}>
       <Logo
         aria="gankaforhome"
         variant="logo-icon"

@@ -1,3 +1,4 @@
+import { CartDrawer } from '@/features/shopping-cart';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
@@ -33,9 +34,10 @@ export function HeaderActions({ className }: IHeaderActionsProps) {
       >
         <Icon name="favorite" size={24} />
       </Button>
-      <Button variant="ghost" size="icon" aria-label="Cart">
-        <Icon name="shopping-cart" size={24} />
-      </Button>
+      <CartDrawer />
+      {/* <Button variant="ghost" size="icon" aria-label="Cart">
+        <Icon name="shopping-cart" className="size-6 max-[300px]:size-4" />
+      </Button> */}
     </div>
   );
 }

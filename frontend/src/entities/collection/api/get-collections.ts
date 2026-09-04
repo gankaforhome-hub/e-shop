@@ -1,3 +1,5 @@
+import { type Locale } from '@/shared/i18n/routing';
+
 import {
   mockCollectionCategories,
   mockCollections,
@@ -18,7 +20,7 @@ export interface CollectionDTO extends Collection {
 }
 
 export const getCollections = async (
-  lang: string = 'en',
+  lang: Locale = 'en',
 ): Promise<CollectionDTO[]> => {
   // await new Promise(resolve => setTimeout(resolve, 1000));
 

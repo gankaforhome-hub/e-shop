@@ -24,6 +24,7 @@ export function MobileMenuQuickActions({
   return (
     <div
       className={cn(
+        'max-[300px]:grid-cols-1',
         'border-border/60 grid grid-cols-3 items-center justify-between border-t p-2',
         className,
       )}

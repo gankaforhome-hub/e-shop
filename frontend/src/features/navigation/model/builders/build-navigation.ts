@@ -1,4 +1,4 @@
-import { type Collection } from '@/entities/collection/model/types';
+import { type CollectionDTO } from '@/entities/collection';
 
 import { type NavigationDict } from '../types';
 import { getHelpNavConfig } from './help';
@@ -9,7 +9,7 @@ export { getHelpNavConfig, getLegalNavConfig, getMainNavConfig };
 
 export function buildMainNav(
   dict: NavigationDict['main'],
-  collections?: Collection[],
+  collections?: CollectionDTO[],
 ) {
   return getMainNavConfig(dict, collections);
 }

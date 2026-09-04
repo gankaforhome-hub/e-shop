@@ -60,6 +60,7 @@ export const NavItem = memo(function NavItem({
   };
 
   const sharedClasses = cn(
+    'font-caption',
     navLinkStyle[variant],
     isActive && activeStyle[variant],
     className,

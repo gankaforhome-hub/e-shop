@@ -1,6 +1,7 @@
 {
   "header": {
     "mobileMenu": {
+      "menuTittle": "Mobile Navigation",
       "backToMenu": "Back",
       "ariaOpen": "Open menu",
       "ariaClose": "Close menu"

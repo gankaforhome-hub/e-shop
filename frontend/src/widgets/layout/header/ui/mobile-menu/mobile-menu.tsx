@@ -9,7 +9,6 @@ import { LanguageSwitcher } from '@/features/select-language';
 import { type ILanguageOption, type Locale } from '@/shared/i18n/routing';
 import { type NavItem } from '@/shared/i18n/schemas/common.schema';
 import { cn } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Logo } from '@/shared/ui/logo';
@@ -26,7 +25,12 @@ import { AddressLink, SocialLinks } from '@/widgets/layout/ui';
 import { MobileMenuBlock, MobileMenuQuickActions, MobileSubMenu } from './ui';
 
 interface MobileMenuProps {
-  label: { backToMenu: string; ariaOpen: string; ariaClose: string };
+  label: {
+    backToMenu: string;
+    ariaOpen: string;
+    ariaClose: string;
+    menuTittle: string;
+  };
   navigation: {
     main: INavItemConfig[];
   };
@@ -99,7 +103,7 @@ export function MobileMenu({
         <Button variant="ghost" size="icon" aria-label={label.ariaOpen} asChild>
           <Icon
             name="menu"
-            className="text-foreground size-6"
+            className="text-foreground size-6 max-[300px]:size-5"
             aria-hidden="true"
           />
         </Button>
@@ -113,7 +117,7 @@ export function MobileMenu({
       >
         {/* HEADER */}
         <SheetHeader className="border-brand/50 relative border-b-2 px-4 py-3">
-          <SheetTitle className="sr-only">Mobile Navigation</SheetTitle>
+          <SheetTitle className="sr-only">{label.menuTittle}</SheetTitle>
           <div className="flex h-8 items-center justify-start">
             {isSubmenuActive ? (
               <Button
@@ -132,10 +136,13 @@ export function MobileMenu({
                 </Icon>
               </Button>
             ) : (
-              <Box className="flex items-center justify-start gap-2">
+              <div className="flex items-center justify-start gap-2">
                 <Logo variant="logo-icon" className="size-8" />
-                <Logo variant="logo-text" className="h-6 w-40" />
-              </Box>
+                <Logo
+                  variant="logo-text"
+                  className="h-6 w-40 max-[300px]:hidden"
+                />
+              </div>
             )}
             <Button
               variant="ghost"

@@ -2,6 +2,7 @@ import { getCollections } from '@/entities/collection';
 import { buildMainNav } from '@/features/navigation';
 import { DesktopLanguageSelector } from '@/features/select-language/ui/desktop-language-selector/desktop-language-selector';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
+import { type Locale } from '@/shared/i18n/routing';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
 import { cn } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
@@ -17,7 +18,7 @@ import {
 } from './ui';
 
 interface IHeaderProps {
-  lang: string;
+  lang: Locale;
 }
 
 export async function Header({ lang }: IHeaderProps) {
@@ -30,7 +31,7 @@ export async function Header({ lang }: IHeaderProps) {
     collections,
   ] = await Promise.all([
     getDictionary(['common', 'layout'], lang),
-    getCollections(),
+    getCollections(lang),
   ]);
 
   const { navigation, contacts, social, languages } =
@@ -40,7 +41,7 @@ export async function Header({ lang }: IHeaderProps) {
   return (
     <>
       <HeaderClientWrapper id={HEADER_ID}>
-        <Container className="flex flex-col px-6 max-[300px]:px-0">
+        <Container className="flex flex-col">
           <div
             className={cn(
               'grid grid-cols-[1fr_auto_1fr] items-center py-2.5',
