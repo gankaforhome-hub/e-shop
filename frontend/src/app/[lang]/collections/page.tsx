@@ -1,18 +1,33 @@
 import { Suspense } from 'react';
 
+import { notFound } from 'next/navigation';
+
+import { isValidLocale } from '@/shared/i18n/helpers';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import {
   CollectionsSection,
   CollectionsSectionSkeleton,
 } from '@/widgets/sections/collections';
 
-export default function CollectionsPage() {
+interface ICollectionsPageProps {
+  params: Promise<{
+    lang: string;
+  }>;
+}
+
+export default async function CollectionsPage({
+  params,
+}: ICollectionsPageProps) {
+  const { lang } = await params;
+  if (!isValidLocale(lang)) {
+    notFound();
+  }
+
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight md:text-3xl">
-        Усі колекції
-      </h1>
+      <Breadcrumbs />
       <Suspense fallback={<CollectionsSectionSkeleton />}>
-        <CollectionsSection />
+        <CollectionsSection lang={lang} />
       </Suspense>
     </>
   );
