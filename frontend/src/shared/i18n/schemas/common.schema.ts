@@ -27,6 +27,7 @@ export type PaymentMethodItem = z.infer<typeof paymentMethodItemSchema>;
 
 export const navigationDictSchema = z.object({
   main: z.object({
+    home: z.string(),
     collections: z.string(),
     allCollections: z.string(),
     allProducts: z.string(),

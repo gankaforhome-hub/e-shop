@@ -1,4 +1,6 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
+
 import { useLocale } from 'next-intl';
 
 import { type AppRoutes } from '@/shared/config';
@@ -27,6 +29,10 @@ export function LanguageSwitcher({
 }: ILanguageSwitcherProps) {
   const currentLang = useLocale() as Locale;
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
+  const href = queryString ? `${pathname}?${queryString}` : pathname;
+
   const isDesktop = variant === 'desktop';
 
   return (
@@ -52,7 +58,7 @@ export function LanguageSwitcher({
           return (
             <li key={code}>
               <AppLink
-                href={pathname as AppRoutes}
+                href={href as AppRoutes}
                 scroll={false}
                 locale={code}
                 hrefLang={code}

@@ -1,11 +1,11 @@
 {
+  "pageTitle": "Ganka for home",
   "hero": {
-    "sectionTitle": "Ganka for home",
     "banners": [
       {
         "id": "1",
-        "title": "konyushina",
-        "subTitle": "new collection",
+        "title": "Konyushina",
+        "subTitle": "нова колекція",
         "slug": "konyushina",
         "media": {
           "type": "image",
@@ -16,7 +16,7 @@
       {
         "id": "2",
         "title": "Winter",
-        "subTitle": "popular collection",
+        "subTitle": "популярна колекція",
         "slug": "winter",
         "media": {
           "type": "image",
@@ -24,310 +24,77 @@
           "alt": "Зимова колекція"
         }
       }
-    ],
-    "videoPlayerControls": {
-      "play": {
-        "icon": "play",
-        "title": "",
-        "ariaLabel": "play video"
+    ]
+  },
+  "sections": {
+    "productTypes": {
+      "sectionTitle": "Типи товарів"
+    },
+    "recommendedProducts": {
+      "title": "Рекомендовані товари",
+      "btnViewAllCatalog": "Переглянути весь каталог"
+    },
+    "creatingGanka": {
+      "title": "Створення Ganka",
+      "subtitle": "Представляємо нову колекцію – Зима 2023/2024",
+      "teaser": "Тизер версія: Konyushina",
+      "releaseDate": "Дата релізу: 01/01/2024",
+      "images": {
+        "left": {
+          "src": "/images/home/creating-ganka-horse.webp",
+          "alt": "Створення Ganka Конячка"
+        },
+        "right": {
+          "src": "/images/home/creating-ganka-plate-on-table.webp",
+          "alt": "Створення Ganka Тарілка на столі"
+        }
       },
-      "pause": {
-        "icon": "pause",
-        "title": "",
-        "ariaLabel": "stop video"
+      "btnSeeMore": "Дивитися більше"
+    },
+    "exclusiveFromGanka": {
+      "title": "Ексклюзивно від Ganka",
+      "description": "Українська художниця Ганка Третяк перенесла свій багатий художній досвід у новий проєкт товарів для дому Ganka for Home. Колекції Ganka for Home принесуть святкову атмосферу та тепло у ваш дім...",
+      "images": {
+        "left": {
+          "src": "/images/home/exclusive-plate-with-fruits-on-table.webp",
+          "alt": "Ексклюзивна тарілка з фруктами на столі"
+        },
+        "right": {
+          "src": "/images/home/exclusive-plate-with-rabbits.webp",
+          "alt": "Ексклюзивна тарілка з кроликами"
+        }
       },
-      "mute": {
-        "icon": "mute",
-        "title": "",
-        "ariaLabel": "turn off video sound"
+      "btnViewMore": "Дивитися більше"
+    },
+    "stayInTouch": {
+      "title": "Залишайтеся на зв'язку з Ganka",
+      "brandSubtitle": "ГАНКА ТЕРЯЄВА",
+      "description": "Оригінальна художниця Ганка Теряєва створює для нас керамічні вироби ручної роботи під брендом Ganka For Home. Колекція Ganka For Home покликана принести атмосферу та тепло у ваш дім.",
+      "images": {
+        "left": {
+          "src": "/images/home/stay-in-touch-japan-girls-with-snake.webp",
+          "alt": "Залишайтеся на зв'язку Японські дівчата зі змією"
+        },
+        "right": {
+          "src": "/images/home/stay-in-touch-berry-birds.webp",
+          "alt": "Залишайтеся на зв'язку Птахи з ягодами"
+        }
       },
-      "sound": {
-        "icon": "sound",
-        "title": "",
-        "ariaLabel": "turn on video sound"
+      "btnSeeMore": "Дивитися більше"
+    },
+    "giftPackaging": {
+      "title": "Подарункове упакування",
+      "description": "Українська художниця Ганка Третяк перенесла свій багатий художній досвід у новий проєкт товарів для дому Ganka for Home. Колекції Ganka for Home принесуть святкову атмосферу та тепло у ваш дім...",
+      "images": {
+        "left": {
+          "src": "/images/home/gift-red-package-with-plate.webp",
+          "alt": "Подарункове червоне упакування з тарілкою"
+        },
+        "right": {
+          "src": "/images/home/gift-black-package.webp",
+          "alt": "Подарункове чорне упакування"
+        }
       }
     }
-  },
-  "productTypesSection": {
-    "sectionTitle": "Products:",
-    "productsType": [
-      {
-        "id": 1,
-        "title": "Platters",
-        "images": {
-          "url": "/images/productTypePlatters.webp",
-          "alt": "Platters"
-        }
-      },
-      {
-        "id": 2,
-        "title": "Kettles",
-        "images": {
-          "url": "/images/productTypeKettles.webp",
-          "alt": "Kettles"
-        }
-      },
-      {
-        "id": 3,
-        "title": "Cups",
-        "images": {
-          "url": "/images/productTypeCups.webp",
-          "alt": "Cups"
-        }
-      },
-      {
-        "id": 4,
-        "title": "Candlesticks",
-        "images": {
-          "url": "/images/productTypeCandlesticks.webp",
-          "alt": "Candlesticks"
-        }
-      }
-    ]
-  },
-  "newProductsSection": {
-    "sectionTitle": "Popular Products",
-    "products": [
-      {
-        "id": 1,
-        "type": "new",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "type": "new",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "type": "new",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Last",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "type": "new",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      }
-    ]
-  },
-  "newCollectionSection": {
-    "sectionTitle": "Popular collections",
-    "collections": [
-      {
-        "id": 1,
-        "type": "new",
-        "title": "Gifts from Ganka",
-        "images": {
-          "url": "/images/collection.webp",
-          "alt": "Platters"
-        }
-      },
-      {
-        "id": 2,
-        "type": "new",
-        "title": "Hare - Сorolla",
-        "images": {
-          "url": "/images/collection.webp",
-          "alt": "Hare - Сorolla"
-        }
-      }
-    ]
-  },
-  "exclusiveSection": {
-    "sectionTitle": "INTRODUCING CREATE YOOOOOUR PLATE",
-    "description": "Ganka exclusive provide the opportunity to create your customized plate. This tradition reaches back.",
-    "image": { "url": "/images", "alt": "" }
-  },
-  "recommendedCollectionSection": {
-    "sectionTitle": "Popular collections",
-    "collections": [
-      {
-        "id": 3,
-        "type": "recommended",
-        "title": "Gifts from Ganka",
-        "images": {
-          "url": "/images/collection.webp",
-          "alt": "Platters"
-        }
-      },
-      {
-        "id": 4,
-        "type": "recommended",
-        "title": "Hare - Сorolla",
-        "images": {
-          "url": "/images/collection.webp",
-          "alt": "Hare - Сorolla"
-        }
-      }
-    ]
-  },
-  "recommendedProductsSection": {
-    "sectionTitle": "Popular Products",
-    "products": [
-      {
-        "id": 5,
-        "type": "recommended",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 6,
-        "type": "recommended",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 7,
-        "type": "recommended",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Last",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      },
-      {
-        "id": 8,
-        "type": "recommended",
-        "title": "Adam & Eva",
-        "productDescription": "Ganka T T1 Ring in Yellow Gold with Platter 2.5 mm Wide",
-        "badge": "Most popular",
-        "images": [
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          },
-          {
-            "url": "/images/product.webp",
-            "alt": "Platters"
-          }
-        ]
-      }
-    ]
-  },
-  "newsLetterSection": {
-    "sectionTitle": "latest from ganka",
-    "description": "Sign up for the newsletter to stay up to date with collection updates and major new products",
-    "form": {
-      "inputs": [
-        {
-          "name": "firstName",
-          "label": "First name",
-          "placeholder": "",
-          "type": "text"
-        },
-        {
-          "name": "emailSubscription",
-          "label": "Email",
-          "placeholder": "",
-          "type": "email"
-        }
-      ],
-      "buttonText": "subscribe",
-      "notifications": {
-        "success": {
-          "title": "You have successfully signed up 🖤",
-          "text": "Expect to be on our novelties"
-        },
-        "error": "An error occurred while sending a request"
-      }
-    }
-  },
-  "featuresSection": {
-    "sectionTitle": "Features ganka for home",
-    "features": [
-      {
-        "icon": "delivery",
-        "title": "Complimentary Shipping & Returns",
-        "description": "We offer shipping and return on all Ganka orders."
-      },
-      {
-        "icon": "contactUs",
-        "title": "Ganka At Your Service",
-        "description": "Our client care experts are always here to help."
-      },
-      {
-        "icon": "gift",
-        "title": "The Iconic Blue Box",
-        "description": "Your Ganka purchase comes wrapped in our Blue Box."
-      }
-    ]
   }
 }
