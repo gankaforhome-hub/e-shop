@@ -63,7 +63,9 @@
       "src": "/images/about/citronelle-map-kyiv.webp",
       "alt": "Map of Kyiv showing Citronelle restaurant locations"
     },
-    "mapEmbedUrl": "",
+    "addressTitle": "Address of the restaurant",
+    "addressText": "St. Bohdana Khmelnytskoho, 23, Kyiv, Ukraine, 01030",
+    "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed",
     "coordinates": { "lat": 2, "lng": 2 }
   }
 }

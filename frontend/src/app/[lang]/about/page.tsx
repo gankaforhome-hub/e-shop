@@ -44,10 +44,7 @@ export default async function AboutPage({ params }: IAboutPageProps) {
       <GankaGallerySection {...artistGallery} />
       <ArtOfLivingSection {...artOfLiving} />
       <OurStorySection {...ourStory} />
-      <CitronelleMapSection
-        {...citronelle}
-        mapEmbedUrl="https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed"
-      />
+      <CitronelleMapSection {...citronelle} />
     </>
   );
 }

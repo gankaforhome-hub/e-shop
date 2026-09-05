@@ -63,7 +63,9 @@
       "src": "/images/about/citronelle-map-kyiv.webp",
       "alt": "Карта Києва з розміщенням ресторанів Citronelle"
     },
-    "mapEmbedUrl": "",
+    "addressTitle": "Адреса ресторану",
+    "addressText": "вул. Богдана Хмельницького, 23, Київ, Україна, 01030",
+    "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed",
     "coordinates": { "lat": 2, "lng": 2 }
   }
 }
