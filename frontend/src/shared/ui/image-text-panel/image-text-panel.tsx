@@ -19,9 +19,15 @@ export function ImageTextPanel({
   className,
 }: IImageTextPanelProps) {
   return (
-    <div className={cn('fgap-4/6 flex flex-col lg:flex-row', className)}>
+    <div
+      className={cn(
+        'flex flex-col gap-4 md:gap-1 lg:flex-row',
+        'mt-4 md:mt-8 lg:mt-10 xl:mt-16',
+        className,
+      )}
+    >
       <div
-        className={`min-h-85 shadow-card lg:aspect-868/891 relative aspect-square w-full overflow-hidden rounded-xl ${
+        className={`min-h-85 lg:aspect-868/891 relative aspect-square w-full ${
           imagePosition === 'right' ? 'lg:order-2' : ''
         }`}
       >
@@ -35,17 +41,12 @@ export function ImageTextPanel({
       </div>
 
       <div
-        className={`bg-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 rounded-xl px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
+        className={`bg-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20 ${
           imagePosition === 'right' ? 'lg:order-1' : ''
         }`}
       >
         {paragraphs.split('\n\n').map((paragraph, index) => (
-          <Text
-            key={index}
-            font="secondary"
-            size="main"
-            className="max-lg:text-wrap"
-          >
+          <Text key={index} className="max-lg:text-wrap">
             {paragraph}
           </Text>
         ))}

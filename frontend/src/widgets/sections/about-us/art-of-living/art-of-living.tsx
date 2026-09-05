@@ -26,9 +26,8 @@ export function ArtOfLivingSection({
           headingId="art-of-living-heading"
           heading={heading}
           description={description}
-          textPosition="center"
         />
-        <ImageTextPanel {...panel} className="fmt-4/16" />
+        <ImageTextPanel {...panel} />
       </Container>
     </Section>
   );

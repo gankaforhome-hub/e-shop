@@ -1,3 +1,4 @@
+import { cn } from '@/shared/lib/utils';
 import { type Media } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
@@ -19,15 +20,14 @@ export function AboutHeroSection({
 }: AboutHeroSectionProps) {
   return (
     <>
-      <Section aria-labelledby="about-ganka-heading">
+      <Section className={cn(className)} aria-labelledby="about-ganka-heading">
         <Container>
           <SectionIntro
             heading={heading}
             description={description}
             headingId="about-ganka-heading"
-            textPosition="center"
           />
-          <ImageTextPanel {...panel} className={'fmt-4/16'} />
+          <ImageTextPanel {...panel} />
         </Container>
       </Section>
     </>

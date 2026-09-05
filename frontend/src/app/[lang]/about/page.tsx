@@ -4,6 +4,7 @@ import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
 import { parseAboutDictionary } from '@/shared/i18n/schemas/about.schema';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import {
   AboutHeroSection,
   ArtOfLivingSection,
@@ -38,12 +39,15 @@ export default async function AboutPage({ params }: IAboutPageProps) {
 
   return (
     <>
+      <Breadcrumbs />
       <AboutHeroSection {...aboutHero} />
       <GankaGallerySection {...artistGallery} />
       <ArtOfLivingSection {...artOfLiving} />
       <OurStorySection {...ourStory} />
-      {/* //TODO: add map */}
-      <CitronelleMapSection {...citronelle} />
+      <CitronelleMapSection
+        {...citronelle}
+        mapEmbedUrl="https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed"
+      />
     </>
   );
 }

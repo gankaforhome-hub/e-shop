@@ -28,7 +28,6 @@ export function GankaGallerySection({
           headingId="artist-gallery-heading"
           heading={heading}
           description={description}
-          textPosition="center"
         />
 
         <Suspense fallback={<GankaGallerySkeleton count={4} />}>
@@ -43,7 +42,7 @@ export function GankaGallerySection({
               <li
                 key={image.src}
                 className={cn(
-                  'rounded-card relative aspect-square shrink-0 snap-start overflow-hidden',
+                  'relative aspect-square shrink-0 snap-start overflow-hidden',
                   'w-full min-w-full',
                   'sm:w-[calc((100%-16px)/2)] sm:min-w-[calc((100%-16px)/2)]',
                   'md:w-[calc((100%-16px)/3)] md:min-w-[calc((100%-16px)/3)]',

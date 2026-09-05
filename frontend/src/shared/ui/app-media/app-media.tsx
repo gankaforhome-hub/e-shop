@@ -1,3 +1,5 @@
+import { type ReactNode } from 'react';
+
 import Image, { type ImageProps } from 'next/image';
 
 import { cn, getBase64, isVideoUrl, shimmer } from '@/shared/lib/utils';
@@ -41,7 +43,7 @@ export function AppMedia({
   const baseClass = cn('object-cover object-center w-full h-full', className);
 
   // Готуємо контент
-  let mediaContent: React.ReactNode;
+  let mediaContent: ReactNode;
 
   if (isVideo) {
     mediaContent = (

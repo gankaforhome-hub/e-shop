@@ -1,6 +1,6 @@
+import { cn } from '@/shared/lib/utils';
 import { type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
-import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
@@ -27,13 +27,18 @@ export function CitronelleMapSection({
           description={description}
           textPosition="center"
         />
-        <Box className="aspect-4/3 relative mt-8 overflow-hidden rounded-xl sm:aspect-video">
+        <div
+          className={cn(
+            'aspect-4/3 shadow-card relative mt-8 w-full sm:aspect-video',
+          )}
+        >
           {mapEmbedUrl ? (
             <iframe
               src={mapEmbedUrl}
-              title="Map of Citronelle restaurant locations in Kyiv"
+              title="Map of Citronelle restaurant location in Kyiv"
+              className="absolute inset-0 h-full w-full border-0"
               loading="lazy"
-              className="h-full w-full border-0"
+              allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
@@ -45,7 +50,7 @@ export function CitronelleMapSection({
               className="object-cover"
             />
           )}
-        </Box>
+        </div>
       </Container>
     </Section>
   );

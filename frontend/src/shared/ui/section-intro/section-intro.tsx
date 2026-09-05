@@ -29,18 +29,17 @@ export function SectionIntro({
       <Heading
         headingLevel={headingLevel}
         variant="section"
-        className={cn('fmb-4/14 mx-auto text-center md:max-w-[80%]', className)}
+        position="center"
+        className={cn('mx-auto text-balance md:max-w-[80%]', className)}
         id={headingId}
       >
         {heading}
       </Heading>
 
       <Text
-        font="secondary"
         className={cn(
-          textPosition === 'center'
-            ? 'md:max-w-[95%] md:text-balance md:text-center'
-            : '',
+          'mx-auto md:max-w-[95%] lg:max-w-[85%]',
+          textPosition === 'center' ? 'md:text-balance md:text-center' : '',
           descriptionClassName,
         )}
       >
