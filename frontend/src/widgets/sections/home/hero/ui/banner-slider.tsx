@@ -1,16 +1,13 @@
 'use client';
 
-import { title } from 'process';
-
 import Autoplay from 'embla-carousel-autoplay';
 
 import { cn } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
+import { type TBannerSlide } from '@/widgets/sections/home/hero/model/types';
 
 import { BannerPagination } from './banner-pagination';
 import { BannerSlide } from './banner-slide';
-import { type TBannerSlide } from '../model/types';
 
 interface IBannerSlider {
   bannerSlides: TBannerSlide[];
@@ -50,7 +47,7 @@ export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
                 loading={isFirstSlide ? 'eager' : 'lazy'}
                 fetchPriority={isFirstSlide ? 'high' : 'auto'}
                 src={slide.media.src}
-                alt={slide.media.alt ?? title}
+                alt={slide.media.alt ?? slide.title}
                 poster={slide.media.poster ?? ''}
                 index={index}
               />
@@ -59,11 +56,11 @@ export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
         })}
       </CarouselContent>
 
-      <Box className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
+      <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
         {bannerSlides.map((_, idx) => (
           <BannerPagination key={idx} to={idx} />
         ))}
-      </Box>
+      </div>
     </Carousel>
   );
 }

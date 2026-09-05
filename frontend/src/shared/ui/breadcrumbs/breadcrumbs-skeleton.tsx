@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { repeat } from '@/shared/lib/utils';
 import {
   Breadcrumb,
@@ -8,13 +10,13 @@ import {
 import { Container } from '@/shared/ui/container';
 import { Skeleton } from '@/shared/ui/skeleton';
 
-interface BreadcrumbSkeletonProps {
+interface BreadcrumbsSkeletonProps {
   itemsCount?: number;
 }
 
-export function BreadcrumbSkeleton({
+export function BreadcrumbsSkeleton({
   itemsCount = 2,
-}: BreadcrumbSkeletonProps) {
+}: BreadcrumbsSkeletonProps) {
   return (
     <Container className="pb-4 pt-2 md:pb-8 md:pt-4 xl:pb-16 xl:pt-8">
       <Breadcrumb>
@@ -27,14 +29,16 @@ export function BreadcrumbSkeleton({
           </BreadcrumbItem>
 
           {repeat(itemsCount).map((_, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <Fragment key={index}>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <Skeleton
-                  className={`h-4 ${index === itemsCount - 1 ? 'w-28' : 'w-20'}`}
+                  className={`h-4 ${
+                    index === itemsCount - 1 ? 'w-28' : 'w-20'
+                  }`}
                 />
               </BreadcrumbItem>
-            </div>
+            </Fragment>
           ))}
         </BreadcrumbList>
       </Breadcrumb>

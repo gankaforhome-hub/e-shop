@@ -1,1 +1,1 @@
-export { RecommendedProductsSkeleton } from './recommended-products-skeleton';
+export { RecommendedProductsSectionSkeleton } from './recommended-products-section-skeleton';

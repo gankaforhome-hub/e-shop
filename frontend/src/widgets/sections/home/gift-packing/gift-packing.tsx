@@ -4,30 +4,39 @@ import { Text } from '@/shared/ui/text';
 import { ContentGridSection } from '../ui';
 
 interface IGiftPackingSection {
+  title: string;
+  description: string;
+  images: {
+    left: { src: string; alt: string };
+    right: { src: string; alt: string };
+  };
   className?: string;
 }
 
-export function GiftPackingSection({ className }: IGiftPackingSection) {
+export function GiftPackingSection({
+  title,
+  description,
+  images,
+  className,
+}: IGiftPackingSection) {
   return (
     <>
       <ContentGridSection
+        ariaLabelledbySection="gift-packing"
         className={cn(className)}
-        heading="Gift Packing"
+        heading={title}
         text={
-          <Text className="text-text-secondary max-w-[90%] text-sm leading-relaxed">
-            Ukrainian artist Ganka Tretyak transferred her rich artistic
-            experience to the new homeware project Ganka for Home. Ganka for
-            Home collections will bring a festive atmosphere and warmth to your
-            home...
+          <Text className="max-w-[90%] indent-4 leading-relaxed xl:indent-8">
+            {description}
           </Text>
         }
         firstImage={{
-          src: '/images/home/gift-red-package-with-plate.webp',
-          alt: 'gift-red-package-with-plate',
+          src: images.left.src || '',
+          alt: images.left.alt || '',
         }}
         secondImage={{
-          src: '/images/home/gift-black-package.webp',
-          alt: 'gift-black-package',
+          src: images.right.src || '',
+          alt: images.right.alt || '',
         }}
       />
     </>

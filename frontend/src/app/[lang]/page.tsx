@@ -2,26 +2,26 @@ import { Suspense } from 'react';
 
 import { type Metadata } from 'next';
 
+import { notFound } from 'next/navigation';
+
 import { setRequestLocale } from 'next-intl/server';
 
-import { categories } from '@/entities/category/mock/categories';
-import { mapProductToCard } from '@/entities/product/api/product-mapper';
-import { productStore } from '@/entities/product/mock/products';
-import { type ProductCardDTO } from '@/entities/product/model/types';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
+import { isValidLocale } from '@/shared/i18n/helpers';
 import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
-import { wait } from '@/shared/lib/utils';
 import { Heading } from '@/shared/ui/heading';
 import {
   CreatingGankaSection,
   ExclusiveSection,
   GiftPackingSection,
   ProductTypeSection,
+  ProductTypeSectionSkeleton,
   RecommendedProductsSection,
+  RecommendedProductsSectionSkeleton,
   StayInTouchSection,
 } from '@/widgets/sections/home';
 import { BannerSliderSkeleton, Hero } from '@/widgets/sections/home/hero';
-import { bannerSlides } from '@/widgets/sections/home/hero/config/banner-data';
 
 export async function generateMetadata({
   params,
@@ -39,53 +39,41 @@ export async function generateMetadata({
   });
 }
 
-interface GetProductsParams {
-  limit?: number;
-  delay?: number;
+interface IHomePageProps {
+  params: Promise<{ lang: string }>;
 }
 
-const getProducts = async ({
-  limit,
-  delay = 1500,
-}: GetProductsParams = {}): Promise<ProductCardDTO[]> => {
-  await wait(delay);
-
-  let data = [...productStore];
-
-  if (limit) {
-    data = data.slice(0, limit);
+export default async function Page({ params }: IHomePageProps) {
+  const limit = 8;
+  const { lang } = await params;
+  if (!isValidLocale(lang)) {
+    notFound();
   }
 
-  return data.map(mapProductToCard);
-};
-
-export default async function Page() {
-  // const [dict, products] = await Promise.all([
-  //   getDictionary(['common'], locale),
-  //   getFeaturedProducts(),
-  // ]);
-  const limit = 8;
-
-  const products = await getProducts({ limit, delay: 100 });
+  const { home } = await getDictionary(['home'], lang);
 
   return (
     <>
       <Suspense fallback={<BannerSliderSkeleton />}>
-        <Hero bannerSlides={bannerSlides} />
+        <Hero bannerSlides={home.hero.banners} />
       </Suspense>
       <Heading headingLevel="h1" visibility="hidden">
-        Ganka for Home Magazine
+        {home.pageTitle}
       </Heading>
-      <ProductTypeSection categories={categories} />
-      <RecommendedProductsSection products={products} limit={limit} />
-      <CreatingGankaSection />
-      <ExclusiveSection />
-      <StayInTouchSection />
-      <GiftPackingSection />
-      {/* <ProductSearch /> */}
-      {/* <NewsLetter /> */}
-      {/* <Collections />
-      <Features /> */}
+      <Suspense fallback={<ProductTypeSectionSkeleton count={6} />}>
+        <ProductTypeSection lang={lang} {...home.sections.productTypes} />
+      </Suspense>
+      <Suspense fallback={<RecommendedProductsSectionSkeleton limit={limit} />}>
+        <RecommendedProductsSection
+          lang={lang}
+          limit={limit}
+          {...home.sections.recommendedProducts}
+        />
+      </Suspense>
+      <CreatingGankaSection {...home.sections.creatingGanka} />
+      <ExclusiveSection {...home.sections.exclusiveFromGanka} />
+      <StayInTouchSection {...home.sections.stayInTouch} />
+      <GiftPackingSection {...home.sections.giftPackaging} />
     </>
   );
 }

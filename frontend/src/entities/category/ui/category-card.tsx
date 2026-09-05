@@ -16,14 +16,14 @@ export function CategoryCard({ slug, title, image }: ICategoryCard) {
       href={routes.products({ category: slug })}
       className="group flex flex-col items-center gap-3 text-center focus:outline-none"
     >
-      <div className="duration-(--dur-slow) ease-subtle relative flex size-20 items-center justify-center overflow-hidden rounded-full bg-[#F4F5F7] p-2.5 transition-all group-hover:bg-[#EAECEF] group-hover:shadow-md sm:size-28 sm:p-4 lg:size-36 xl:size-40">
+      <div className="duration-(--dur-slow) ease-subtle relative flex size-20 items-center justify-center overflow-hidden rounded-full bg-[#F4F5F7] p-2.5 transition-all group-hover:scale-105 group-hover:shadow-md sm:size-28 sm:p-5 lg:size-36 xl:size-40">
         <div className="relative h-full w-full overflow-hidden rounded-full">
           <AppMedia
             src={image.src}
             alt={image.alt || ''}
             fill
             sizes="(max-width: 640px) 80px, (max-width: 1024px) 112px, 160px"
-            className="duration-(--dur-slow) ease-subtle object-contain object-center transition-transform group-hover:scale-105"
+            className="object-contain object-center"
           />
         </div>
       </div>

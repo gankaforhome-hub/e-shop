@@ -1,8 +1,10 @@
+import { type Locale } from '@/shared/i18n/routing';
+
 import { mockCategories, mockCategoriesTranslations } from '../mock/categories';
 import { type CategoryDTO } from '../model/category.dto';
 
 export const getCategories = async (
-  lang: string = 'en',
+  lang: Locale = 'en',
 ): Promise<CategoryDTO[]> => {
   return mockCategories.map(category => {
     const translation =
@@ -22,7 +24,7 @@ export const getCategories = async (
 
 export const getCategoriesBySlug = async (
   slug: string,
-  lang: string = 'uk',
+  lang: Locale = 'uk',
 ): Promise<CategoryDTO | undefined> => {
   const categories = await getCategories(lang);
   return categories.find(category => category.slug === slug);

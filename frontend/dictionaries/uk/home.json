@@ -20,7 +20,7 @@
         "slug": "winter",
         "media": {
           "type": "image",
-          "src": "/images/product.webp",
+          "src": "/images/hero_image_2.webp",
           "alt": "Зимова колекція"
         }
       }
@@ -28,7 +28,7 @@
   },
   "sections": {
     "productTypes": {
-      "sectionTitle": "Типи товарів"
+      "title": "Типи товарів"
     },
     "recommendedProducts": {
       "title": "Рекомендовані товари",
@@ -37,7 +37,9 @@
     "creatingGanka": {
       "title": "Створення Ganka",
       "subtitle": "Представляємо нову колекцію – Зима 2023/2024",
-      "teaser": "Тизер версія: Konyushina",
+      "teaser": "Столовий сервіз",
+      "collection": "Konyushina",
+      "slug": "agro",
       "releaseDate": "Дата релізу: 01/01/2024",
       "images": {
         "left": {
@@ -49,7 +51,7 @@
           "alt": "Створення Ganka Тарілка на столі"
         }
       },
-      "btnSeeMore": "Дивитися більше"
+      "btnSeeMore": "Переглянути колекцію"
     },
     "exclusiveFromGanka": {
       "title": "Ексклюзивно від Ganka",
@@ -64,12 +66,12 @@
           "alt": "Ексклюзивна тарілка з кроликами"
         }
       },
-      "btnViewMore": "Дивитися більше"
+      "btnSeeMore": "Дивитися більше"
     },
     "stayInTouch": {
       "title": "Залишайтеся на зв'язку з Ganka",
-      "brandSubtitle": "ГАНКА ТЕРЯЄВА",
-      "description": "Оригінальна художниця Ганка Теряєва створює для нас керамічні вироби ручної роботи під брендом Ganka For Home. Колекція Ganka For Home покликана принести атмосферу та тепло у ваш дім.",
+      "brandSubtitle": "ГАНКА Третяк",
+      "description": "Оригінальна художниця Ганка Третяк створює для нас керамічні вироби ручної роботи під брендом Ganka For Home. Колекція Ganka For Home покликана принести атмосферу та тепло у ваш дім.",
       "images": {
         "left": {
           "src": "/images/home/stay-in-touch-japan-girls-with-snake.webp",

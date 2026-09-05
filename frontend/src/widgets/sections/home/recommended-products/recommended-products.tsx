@@ -1,9 +1,8 @@
-import { Suspense } from 'react';
-
 import { ProductCard } from '@/entities/product';
-import { type ProductCardDTO } from '@/entities/product/model/types';
+import { getProducts } from '@/entities/product/api/get-products';
 import { FavoriteButton } from '@/features/add-to-favorite';
 import { routes } from '@/shared/config/routes';
+import { type Locale } from '@/shared/i18n/routing';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
@@ -12,65 +11,70 @@ import { Heading } from '@/shared/ui/heading';
 import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 import { Section } from '@/shared/ui/section';
 
-import { RecommendedProductsSkeleton } from './ui';
-
 interface IRecommendedProductsSectionProps {
-  products: ProductCardDTO[];
+  title: string;
+  btnViewAllCatalog: string;
+  lang: Locale;
   limit?: number;
   className?: string;
   paginationPlacement?: 'top' | 'bottom' | 'none';
 }
-export function RecommendedProductsSection({
-  products,
+export async function RecommendedProductsSection({
+  title,
+  lang,
   limit = 8,
-  // content,
-  // description,
+  btnViewAllCatalog,
 }: IRecommendedProductsSectionProps) {
+  const { data: products } = await getProducts({ lang, limit });
+
   return (
-    <Section aria-labelledby="recommended-product-section">
-      <Heading headingLevel="h2" variant="section" position="center">
-        Recommended Product
-      </Heading>
+    <Section aria-labelledby="recommended-product">
       <Container>
-        <Suspense fallback={<RecommendedProductsSkeleton count={limit} />}>
-          <ScrollableContainer
-            as="ul"
-            indicatorType="progress"
-            gapClassName="gap-3 sm:gap-4 xl:gap-6"
-            scrollClassName="lg:grid lg:grid-cols-4 lg:overflow-visible"
-            indicatorClassName="lg:hidden mt-3 md:px-20"
-          >
-            {products.map((product, index) => (
-              <li
-                key={product.id}
-                className={cn(
-                  'shrink-0 snap-start',
-                  'w-full sm:w-[calc((100%-16px)/1.5)]',
-                  'md:w-[calc((100%-16px)/3)]',
-                  'lg:w-auto lg:shrink',
-                )}
-              >
-                <ProductCard
-                  className="w-full"
-                  product={product}
-                  priority={index < 2}
-                  favoriteButton={
-                    <FavoriteButton
-                      productId={product.id}
-                      initialFavorite={product.isFavorite}
-                    />
-                  }
-                />
-              </li>
-            ))}
-          </ScrollableContainer>
-        </Suspense>
+        <Heading
+          id="recommended-product"
+          headingLevel="h2"
+          variant="section"
+          position="center"
+        >
+          {title}
+        </Heading>
+        <ScrollableContainer
+          as="ul"
+          indicatorType="progress"
+          gapClassName="gap-3 sm:gap-4 xl:gap-6"
+          scrollClassName="lg:grid lg:grid-cols-4 lg:overflow-visible"
+          indicatorClassName="lg:hidden mt-3 md:px-20"
+        >
+          {products.map((product, index) => (
+            <li
+              key={product.id}
+              className={cn(
+                'shrink-0 snap-start',
+                'w-full sm:w-[calc((100%-16px)/1.5)]',
+                'md:w-[calc((100%-16px)/3)]',
+                'lg:w-auto lg:shrink',
+              )}
+            >
+              <ProductCard
+                className="w-full"
+                product={product}
+                priority={index < 2}
+                favoriteButton={
+                  <FavoriteButton
+                    productId={product.id}
+                    initialFavorite={product.isFavorite}
+                  />
+                }
+              />
+            </li>
+          ))}
+        </ScrollableContainer>
         <Button
           asChild
           variant="outline"
-          className="fmt-8/16 sm:max-w-75 mx-auto flex w-full"
+          className="sm:max-w-75 mx-auto mt-8 flex w-full md:mt-4 xl:mt-16"
         >
-          <AppLink href={routes.products()}>View all catalog</AppLink>
+          <AppLink href={routes.products()}>{btnViewAllCatalog}</AppLink>
         </Button>
       </Container>
     </Section>

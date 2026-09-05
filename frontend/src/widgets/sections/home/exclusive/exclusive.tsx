@@ -7,38 +7,49 @@ import { Text } from '@/shared/ui/text';
 import { ContentGridSection } from '../ui';
 
 interface IExclusiveSection {
+  title: string;
+  description: string;
+  btnSeeMore: string;
+  images: {
+    left: { src: string; alt: string };
+    right: { src: string; alt: string };
+  };
   className?: string;
 }
 
-export function ExclusiveSection({ className }: IExclusiveSection) {
+export async function ExclusiveSection({
+  title = '',
+  description = '',
+  btnSeeMore = '',
+  images,
+  className,
+}: IExclusiveSection) {
   return (
     <>
       <ContentGridSection
+        ariaLabelledbySection="exclusive"
         className={cn(className)}
-        heading="Exclusive from Ganka"
+        heading={title}
         text={
-          <Text className="text-text-secondary max-w-[90%] text-sm leading-relaxed md:text-center">
-            Ukrainian artist Ganka Tretyak transferred her rich artistic
-            experience to the new homeware project Ganka for Home. Ganka for
-            Home collections will bring a festive atmosphere and warmth to your
-            home...
+          <Text className="max-w-[90%] indent-4 text-sm leading-relaxed xl:indent-8">
+            {description}
           </Text>
         }
         firstImage={{
-          src: '/images/home/exclusive-plate-with-fruits-on-table.webp',
-          alt: 'exclusive-plate-with-fruits-on-table',
+          src: images.left.src || '',
+          alt: images.left.alt || '',
         }}
         secondImage={{
-          src: '/images/home/exclusive-plate-with-rabbits.webp',
-          alt: 'exclusive-plate-with-rabbits',
+          src: images.right.src || '',
+          alt: images.right.alt || '',
         }}
         action={
           <Button
             asChild
             variant={'outline'}
-            className="fmt-8/16 sm:max-w-75 mx-auto flex"
+            className="sm:max-w-75 mx-auto mt-8 flex md:mt-4 xl:mt-16"
           >
-            <AppLink href={routes.exclusive}>See More</AppLink>
+            <AppLink href={routes.exclusive}>{btnSeeMore}</AppLink>
           </Button>
         }
       />

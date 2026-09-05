@@ -4,11 +4,11 @@ import { Section } from '@/shared/ui/section';
 import { type TBannerSlide } from './model/types';
 import { BannerSlider } from './ui/banner-slider';
 
-interface IHero {
+interface IHeroProps {
   bannerSlides: TBannerSlide[];
 }
 
-export async function Hero({ bannerSlides }: IHero) {
+export function Hero({ bannerSlides = [] }: IHeroProps) {
   // Info generate blurDataUrl
   // const slidesWithBlur = await Promise.all(
   //   bannerSlides.map(async slide => {
@@ -38,7 +38,3 @@ export async function Hero({ bannerSlides }: IHero) {
     </Section>
   );
 }
-
-// 'h-[calc(640px-var(--h-topbar))]',
-//"landscape:max-md:h-80",
-// 'md:h-[calc(100dvh-var(--h-topbar))]',

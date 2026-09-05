@@ -20,7 +20,7 @@
         "slug": "winter",
         "media": {
           "type": "image",
-          "src": "/images/product.webp",
+          "src": "/images/hero_image_2.webp",
           "alt": "Зимова колекція"
         }
       }
@@ -28,7 +28,7 @@
   },
   "sections": {
     "productTypes": {
-      "sectionTitle": "Type of Products"
+      "title": "Type of Products"
     },
     "recommendedProducts": {
       "title": "Recommended products",
@@ -37,7 +37,9 @@
     "creatingGanka": {
       "title": "Creating Ganka",
       "subtitle": "Introducing new collection – Winter 2023/2024",
-      "teaser": "Teaser version: Konyushina",
+      "teaser": "Table service",
+      "collection": "Konyushina",
+      "slug": "agro",
       "releaseDate": "Release Date: 01/01/2024",
       "images": {
         "left": {
@@ -64,7 +66,7 @@
           "alt": "exclusive-plate-with-rabbits"
         }
       },
-      "btnViewMore": "View more"
+      "btnSeeMore": "See more"
     },
     "stayInTouch": {
       "title": "Stay in Touch with Ganka",

@@ -1,11 +1,10 @@
 // 'use client';
 
-import { type Category } from '@/entities/category';
-import { CategoryCard } from '@/entities/category/ui';
+import { CategoryCard, type CategoryDTO } from '@/entities/category';
 import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 
 interface ProductTypeListProps {
-  categories: Category[];
+  categories: CategoryDTO[];
 }
 
 export function ProductTypeList({ categories }: ProductTypeListProps) {

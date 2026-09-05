@@ -1,7 +1,6 @@
-import { type FC, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import {
@@ -17,26 +16,33 @@ interface IContentGridSectionProps {
   secondImage: IImageGridItemProps['image'];
   aspect?: string;
   action?: ReactNode;
+  ariaLabelledbySection?: string;
   className?: string;
 }
 
-export const ContentGridSection: FC<IContentGridSectionProps> = ({
+export function ContentGridSection({
   heading,
   text,
   firstImage,
   secondImage,
   aspect = 'aspect-343/300',
   action,
+  ariaLabelledbySection,
   className,
-}) => {
+}: IContentGridSectionProps) {
   return (
-    <Section className={cn('', className)}>
+    <Section className={cn(className)} aria-labelledby={ariaLabelledbySection}>
       <Container>
-        <Heading headingLevel="h2" className="fmb-6/16 text-center">
+        <Heading
+          id={ariaLabelledbySection}
+          headingLevel="h2"
+          variant="section"
+          position="center"
+        >
           {heading}
         </Heading>
 
-        <Box className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:gap-1">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:gap-1">
           <ImageGridItem
             className="order-1 md:order-2"
             image={firstImage}
@@ -44,15 +50,15 @@ export const ContentGridSection: FC<IContentGridSectionProps> = ({
             items={2}
           />
 
-          <Box
+          <div
             className={cn(
-              'max-md:bg-muted flex flex-col items-center justify-center rounded-lg p-6 max-md:min-h-80 max-md:py-10',
+              'max-md:bg-muted flex flex-col items-center justify-center p-6 max-md:min-h-80 max-md:py-10',
               'order-2',
               'md:order-1 md:col-span-2 md:p-0 md:pb-4',
             )}
           >
             {text}
-          </Box>
+          </div>
 
           <ImageGridItem
             className="order-3 md:order-3"
@@ -60,9 +66,9 @@ export const ContentGridSection: FC<IContentGridSectionProps> = ({
             aspect={aspect}
             items={2}
           />
-        </Box>
+        </div>
         {action && <>{action}</>}
       </Container>
     </Section>
   );
-};
+}
