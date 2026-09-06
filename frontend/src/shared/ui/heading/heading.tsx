@@ -9,11 +9,15 @@ export const headingVariants = cva(
   {
     variants: {
       variant: {
-        pageHeader: 'ftext-6/12 fleading-8/14',
-        section: 'ftext-6/12 fleading-8/14 tracking-wider',
-        cardItem: 'ftext-6/8 fleading-8/9',
+        pageHeader:
+          'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
+        section:
+          'xl:leading-14 mb-8 text-2xl tracking-wide md:mb-6 md:text-3xl xl:mb-16 xl:text-5xl',
+        footer: 'text-xl uppercase tracking-wide lg:text-2xl',
+        collectionCard: 'text-base md:text-lg lg:text-2xl',
         productCard: 'ftext-4 fleading-7',
-        footer: 'text-xl uppercase tracking-wider lg:text-2xl',
+        textPanel:
+          'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
       },
       tone: {
         primary: 'text-foreground',

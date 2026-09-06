@@ -4,17 +4,17 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/shared/lib/utils';
 
-export const textVariants = cva('text-base font-normal tracking-normal', {
+export const textVariants = cva('font-normal tracking-normal', {
   variants: {
     variant: {
-      default: 'text-text-primary',
+      default: 'text-foreground',
       secondary: 'text-text-secondary text-lg tracking-wider',
-      accent: 'text-text-brand',
+      accent: 'text-accent-foreground',
       danger: 'text-text-error',
       inherit: 'text-inherit',
     },
     size: {
-      main: 'ftext-3.5/6 fleading-5/8',
+      main: 'text-sm md:text-base lg:text-lg xl:text-xl 2xl:xl:text-2xl',
       sm: 'text-sm',
       md: 'text-base',
       lg: 'text-lg',
@@ -25,7 +25,7 @@ export const textVariants = cva('text-base font-normal tracking-normal', {
       left: 'text-left',
       center: 'max-w-[95%] text-center',
     },
-    font: { primary: 'font-text', secondary: 'font-heading' },
+    font: { primary: 'font-text', secondary: 'font-caption' },
     // weight: {
     //   normal: "font-normal",
     //   medium: "font-medium",

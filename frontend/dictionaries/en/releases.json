@@ -1,0 +1,44 @@
+{
+  "pageTitle": "Releases by Ganka for home",
+  "releases": {
+    "title": "Section our Releases",
+    "data": [
+      {
+        "title": "Our special new collection",
+        "paragraphs": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.\n\nHer works are an exquisite balance between form and color, embodying joy, tenderness, and kindness....",
+        "cta": "Explore collection",
+        "image": {
+          "src": "/images/releases/releases_1.webp",
+          "alt": "Hand painted porcelain plate by Ganka"
+        }
+      },
+      {
+        "title": "Our special new collection",
+        "paragraphs": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.\n\nHer works are an exquisite balance between form and color, embodying joy, tenderness, and kindness....",
+        "cta": "Explore collection",
+        "image": {
+          "src": "/images/releases/releases_2.webp",
+          "alt": "Hand painted porcelain plate by Ganka"
+        }
+      },
+      {
+        "title": "Our special new collection",
+        "paragraphs": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.\n\nHer works are an exquisite balance between form and color, embodying joy, tenderness, and kindness....",
+        "cta": "Explore collection",
+        "image": {
+          "src": "/images/releases/releases_3.webp",
+          "alt": "Hand painted porcelain plate by Ganka"
+        }
+      },
+      {
+        "title": "Our special new collection",
+        "paragraphs": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special.\n\nHer works are an exquisite balance between form and color, embodying joy, tenderness, and kindness....",
+        "cta": "Explore collection",
+        "image": {
+          "src": "/images/releases/releases_4.webp",
+          "alt": "Hand painted porcelain plate by Ganka"
+        }
+      }
+    ]
+  }
+}

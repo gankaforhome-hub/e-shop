@@ -1,0 +1,51 @@
+{
+  "pageTitle": "Exclusive by Ganka for home",
+  "hero": {
+    "title": "Exclusive Custom Porcelain",
+    "description": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.",
+    "image": {
+      "src": "/images/exclusive/hero-banner.jpg",
+      "alt": "Ganka painting exclusive porcelain"
+    }
+  },
+
+  "customOrder": {
+    "title": "Make an Exclusive Order",
+    "subtitle": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.",
+    "formTitle": "Have a question? ",
+    "image": {
+      "src": "/images/exclusive/cat-plate.jpg",
+      "alt": "Exclusive cat illustration on porcelain plate"
+    }
+  },
+
+  "releases": {
+    "title": "Section our Exclusive works",
+    "data": [
+      {
+        "title": "Summer Citronelle Collection",
+        "paragraphs": "In collaboration with the restaurant Citronelle, Ganka created a series of exclusive porcelain collections designed to complement its extraordinary interior.\n\nThese artistic plates enhance the dining experience, allowing guests to enjoy each dish with an added sense of beauty and individuality.\n\nSelected pieces are also available for collectors who wish to bring this refined restaurant atmosphere into their own homes.",
+        "image": {
+          "src": "/images/exclusive/exclusive_1.webp",
+          "alt": "Summer Citronelle tea set and plate"
+        }
+      },
+      {
+        "title": "Summer Citronelle Collection",
+        "paragraphs": "In collaboration with the restaurant Citronelle, Ganka created a series of exclusive porcelain collections designed to complement its extraordinary interior.\n\nThese artistic plates enhance the dining experience, allowing guests to enjoy each dish with an added sense of beauty and individuality.\n\nSelected pieces are also available for collectors who wish to bring this refined restaurant atmosphere into their own homes.",
+        "image": {
+          "src": "/images/exclusive/exclusive_2.webp",
+          "alt": "Handmade decorated plate with teacup"
+        }
+      },
+      {
+        "title": "Summer Citronelle Collection",
+        "paragraphs": "In collaboration with the restaurant Citronelle, Ganka created a series of exclusive porcelain collections designed to complement its extraordinary interior.\n\nThese artistic plates enhance the dining experience, allowing guests to enjoy each dish with an added sense of beauty and individuality.\n\nSelected pieces are also available for collectors who wish to bring this refined restaurant atmosphere into their own homes.",
+        "image": {
+          "src": "/images/exclusive/exclusive_3.webp",
+          "alt": "Exclusive horse portrait painted on plate"
+        }
+      }
+    ]
+  }
+}
