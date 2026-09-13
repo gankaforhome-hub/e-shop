@@ -3,6 +3,7 @@ import type CollectionsPageDict from '@/dictionaries/en/collections.json';
 import type CommonDictionary from '@/dictionaries/en/common.json';
 import type ContactsPageDict from '@/dictionaries/en/contacts.json';
 import type ExclusivePageDict from '@/dictionaries/en/exclusive.json';
+import type FaqPageDict from '@/dictionaries/en/faq.json';
 import type HomePageDict from '@/dictionaries/en/home.json';
 import type LayoutDictionary from '@/dictionaries/en/layout.json';
 import type HomeMetadataDict from '@/dictionaries/en/metadata/home.json';
@@ -29,6 +30,7 @@ export type RawDictionarySchemas = {
   releases: typeof ReleasesPageDict;
   exclusive: typeof ExclusivePageDict;
   contacts: typeof ContactsPageDict;
+  faq: typeof FaqPageDict;
 };
 
 export type LayoutDict = RawDictionarySchemas['layout'];

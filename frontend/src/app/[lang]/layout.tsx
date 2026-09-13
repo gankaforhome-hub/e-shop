@@ -66,12 +66,12 @@ export default async function LocaleLayout({
   return (
     <html lang={lang} dir={dir}>
       <body
-        className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen w-full grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
+        className={`${inter.variable} ${lora.variable} flex min-h-screen w-full flex-col antialiased`}
       >
         <NextIntlClientProvider>
           <ToasterProvider />
           <Header lang={lang} />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer lang={lang} />
         </NextIntlClientProvider>
       </body>

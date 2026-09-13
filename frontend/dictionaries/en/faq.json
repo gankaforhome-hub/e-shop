@@ -1,0 +1,35 @@
+{
+  "pageTitle": "Frequently asked questions",
+  "items": [
+    {
+      "id": "dishwasher-microwave",
+      "question": "Can your tableware be used in a dishwasher/microwave?",
+      "answer": "Yes, except for items that have gold or silver detailing."
+    },
+    {
+      "id": "where-to-see",
+      "question": "Where can I see your tableware?",
+      "answer": "You can visit our showroom or partner stores listed on the contact page."
+    },
+    {
+      "id": "gift-certificates",
+      "question": "Do you offer gift certificates?",
+      "answer": "Yes, we offer physical and digital gift certificates in various denominations."
+    },
+    {
+      "id": "loyalty-program",
+      "question": "Is there a loyalty program?",
+      "answer": "Yes, our members get exclusive offers and cashback on every purchase."
+    },
+    {
+      "id": "delivery-regions",
+      "question": "Which regions do you deliver to?",
+      "answer": "We deliver nationwide as well as internationally to selected countries."
+    },
+    {
+      "id": "delivery-cost",
+      "question": "What is the delivery cost?",
+      "answer": "Delivery cost depends on the destination and total order weight, calculated at checkout."
+    }
+  ]
+}
