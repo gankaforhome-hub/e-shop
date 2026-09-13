@@ -1,9 +1,13 @@
 import { notFound } from 'next/navigation';
 
-import { categories } from '@/entities/category/mock/categories';
-import { getCollections } from '@/entities/collection/mock/collections';
-import { mapProductToCard } from '@/entities/product/api/product-mapper';
-import { productStore } from '@/entities/product/mock/products';
+import { getCategories } from '@/entities/category';
+import { getCollections } from '@/entities/collection';
+import { getProducts } from '@/entities/product/api/get-products';
+import { createRoute } from '@/shared/config/routes';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
+import { isValidLocale } from '@/shared/i18n/helpers';
+import { type Locale } from '@/shared/i18n/routing';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
@@ -11,8 +15,8 @@ import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
 import { ProductGrid } from '@/widgets/sections/products';
 
-export async function getCollectionDataBySlug(slug: string) {
-  const allCollection = await getCollections();
+export async function getCollectionDataBySlug(slug: string, lang: Locale) {
+  const allCollection = await getCollections(lang);
   const collection = allCollection.find(col => col.slug === slug);
 
   if (!collection) {
@@ -21,14 +25,11 @@ export async function getCollectionDataBySlug(slug: string) {
 
   const categoryIdsSet = new Set(collection?.categoryIds ?? []);
 
-  // 2. Фільтруємо категорії з обов'язковою перевіркою на наявність cat.id
-  const collectionCategories = categories.filter(
+  const collectionCategories = (await getCategories(lang)).filter(
     cat => cat?.id && categoryIdsSet.has(cat.id),
   );
 
-  const collectionProducts = productStore
-    .filter(prod => collection.productIds?.includes(prod.id))
-    .map(mapProductToCard);
+  const collectionProducts = (await getProducts({ lang })).data;
 
   return {
     collection,
@@ -45,8 +46,14 @@ interface PageProps {
 }
 
 export default async function CollectionPage({ params }: PageProps) {
-  const { collectionSlug } = await params;
-  const data = await getCollectionDataBySlug(collectionSlug);
+  const { lang, collectionSlug } = await params;
+
+  if (!isValidLocale(lang)) {
+    notFound();
+  }
+  const dict = await getDictionary(['common'], lang);
+
+  const data = await getCollectionDataBySlug(collectionSlug, lang);
 
   if (!data) {
     notFound();
@@ -56,7 +63,15 @@ export default async function CollectionPage({ params }: PageProps) {
 
   return (
     <>
-      <Section spacing="compact">
+      <Breadcrumbs
+        items={[
+          {
+            label: dict.common.navigation.main.collections,
+            href: createRoute('/collections'),
+          },
+        ]}
+      />
+      <Section>
         <Container>
           <SectionIntro
             className="tracking-wider"
@@ -64,7 +79,6 @@ export default async function CollectionPage({ params }: PageProps) {
             headingLevel="h1"
             heading={collection.title}
             description={collection.shortDescription}
-            descriptionClassName="text-center"
           />
           <ImageTextPanel
             className="fmt-4/14"
