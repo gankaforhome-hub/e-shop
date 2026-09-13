@@ -13,6 +13,7 @@ import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { getLocaleDirection, isValidLocale } from '@/shared/i18n/helpers';
 import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
 import { locales } from '@/shared/i18n/routing';
+import { ToasterProvider } from '@/shared/providers/toaster';
 import '@/shared/styles/global.css';
 import { Footer } from '@/widgets/layout/footer';
 import { Header } from '@/widgets/layout/header';
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
         className={`${inter.variable} ${lora.variable} m-0 grid min-h-screen w-full grid-cols-1 grid-rows-[auto_1fr] antialiased lg:grid-rows-[auto_1fr_auto]`}
       >
         <NextIntlClientProvider>
+          <ToasterProvider />
           <Header lang={lang} />
           <main>{children}</main>
           <Footer lang={lang} />
