@@ -8,7 +8,7 @@ export const CollectionCardSkeleton = () => {
         <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
       </div>
 
-      <Skeleton className="mx-auto mt-4 h-5 w-[70%] lg:mt-6" />
+      <Skeleton className="mx-auto mt-4 h-5 w-[70%] xl:mt-6" />
     </div>
   );
 };
