@@ -20,7 +20,20 @@
       "label": "gankaforhome@gmail.com"
     }
   ],
-
+  "contactsUsForm": {
+    "image": {
+      "src": "/images/contact-us/contact-us.webp",
+      "alt": "Один великий і три руді коти на тарілці"
+    },
+    "title": "Форма зв'язку з нами",
+    "formTitle": "Маєте запитання?",
+    "label": {
+      "email": "E-mail",
+      "phoneNumber": "Телефон",
+      "comment": "Коментарі"
+    },
+    "btnLetsTalk": "Надіслати"
+  },
   "navigation": {
     "main": {
       "home": "Головна",
@@ -72,74 +85,95 @@
     { "label": "Google Pay", "icon": "googlepay" }
   ],
 
-  "action": {
-    "save": "",
-    "cancel": "",
-    "delete": "",
-    "edit": "",
-    "back": "",
-    "continue": "",
-    "checkout": "",
-    "buyNow": "",
-    "showMore": "",
-    "loadMore": "",
-    "search": ""
+  "forms": {
+    "validation": {
+      "emailRequired": "Введіть e-mail",
+      "emailInvalid": "Некоректна адреса e-mail",
+      "phoneRequired": "Введіть номер телефону",
+      "phoneInvalid": "Некоректний номер телефону",
+      "commentsMax": "Коментар не повинен перевищувати 300 символів",
+      "required": "Обов'язкове поле",
+      "tooShort": "Занадто коротке значення"
+    },
+    "status": {
+      "sending": "Надсилання...",
+      "success": "Ваше повідомлення успішно надіслано!",
+      "error": "Не вдалося надіслати повідомлення. Спробуйте ще раз."
+    }
   },
-
-  "validation": { "required": "", "invalidEmail": "", "tooShort": "" },
+  "action": {
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "back": "Назад",
+    "continue": "Продовжити",
+    "checkout": "Оформити замовлення",
+    "buyNow": "Купити зараз",
+    "showMore": "Показати більше",
+    "loadMore": "Завантажити ще",
+    "search": "Пошук"
+  },
   "status": {
-    "loading": "",
-    "success": "",
-    "error": "",
-    "empty": "",
-    "comingSoon": ""
+    "loading": "Завантаження...",
+    "success": "Успішно",
+    "error": "Помилка",
+    "empty": "Нічого не знайдено",
+    "comingSoon": "Незабаром у продажу"
   },
   "label": {
-    "price": "",
-    "quantity": "",
-    "total": "",
-    "email": "",
-    "phone": "",
-    "address": ""
+    "price": "Ціна",
+    "quantity": "Кількість",
+    "total": "Всього",
+    "email": "E-mail",
+    "phone": "Телефон",
+    "address": "Адреса"
   },
-  "placeholder": { "search": "", "email": "", "phone": "" },
-  "message": {
-    "noResults": "",
-    "networkError": "",
-    "somethingWentWrong": ""
+  "placeholder": {
+    "search": "Пошук...",
+    "email": "gankaforhome@gmail.com",
+    "phone": "+380 (63) 585 46 78",
+    "comments": "Ваш коментар..."
   },
-
+  "common": {
+    "aria": {
+      "notifications": "Сповіщення",
+      "close": "Закрити сповіщення"
+    },
+    "errors": {
+      "networkError": "Помилка мережі. Перевірте підключення до інтернету.",
+      "somethingWentWrong": "Щось пішло не так. Будь ласка, спробуйте пізніше."
+    }
+  },
   "languages": {
-    "title": "Мова",
-    "subTitle": "Оберіть зручну для вас мову інтерфейсу",
+    "title": "Оберіть мову",
+    "subTitle": "Оберіть зручну мову інтерфейсу",
     "options": {
       "uk": {
         "codeTitle": "Українська",
         "codeLabel": "UA",
-        "ariaLabel": "змінити мову на українську"
+        "ariaLabel": "Змінити мову на українську"
       },
       "en": {
         "codeTitle": "English",
         "codeLabel": "EN",
-        "ariaLabel": "змінити мову на англійську"
+        "ariaLabel": "Змінити мову на англійську"
       }
     }
   },
-
   "notFound": {
     "imageSrc": "/images/not-found.webp",
-    "imageAlt": "равлик з номером помилки 404",
+    "imageAlt": "Равлик із номером помилки 404",
     "textError": "Помилка 404",
-    "pageTitle": "Сторінка не знайдена",
-    "description": "Сторінка, яку ви шукали, не існує або була переміщена.",
-    "buttonText": "Назад додому",
+    "pageTitle": "Сторінку не знайдено",
+    "description": "Сторінка, яку ви шукаєте, не існує або була переміщена.",
+    "buttonText": "На головну",
     "buttonAriaLabel": "Повернутися на головну сторінку"
   },
-
   "stock": {
-    "in_stock": "Є в наявності",
-    "low_stock": "Закінчується",
-    "sold_out": "Немає в наявності"
+    "inStock": "Є в наявності",
+    "lowStock": "Закінчується",
+    "soldOut": "Немає в наявності"
   },
   "old": {
     "header": {

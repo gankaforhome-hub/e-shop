@@ -19,6 +19,20 @@
       "label": "gankaforhome@gmail.com"
     }
   ],
+  "contactsUsForm": {
+    "image": {
+      "src": "/images/contact-us/contact-us.webp",
+      "alt": "One big and three red cats on plate"
+    },
+    "title": "Contact Us form",
+    "formTitle": "Have a question? ",
+    "label": {
+      "email": "E-mail",
+      "phoneNumber": "Phone number",
+      "comment": "Comment"
+    },
+    "btnLetsTalk": "Let`s talk"
+  },
   "navigation": {
     "main": {
       "home": "Home",
@@ -39,7 +53,7 @@
     "legal": {
       "terms_conditions": "Terms & Conditions",
       "privacy_policy": "Privacy Policy",
-      "cookie_policy": "Files Cookie"
+      "cookie_policy": "Cookie Policy"
     },
     "aria": {
       "breadcrumbs": {
@@ -82,48 +96,65 @@
       "icon": "googlepay"
     }
   ],
-  "action": {
-    "save": "",
-    "cancel": "",
-    "delete": "",
-    "edit": "",
-    "back": "",
-    "continue": "",
-    "checkout": "",
-    "buyNow": "",
-    "showMore": "",
-    "loadMore": "",
-    "search": ""
+  "forms": {
+    "validation": {
+      "emailRequired": "E-mail is required",
+      "emailInvalid": "Invalid email address",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Invalid phone number",
+      "commentsMax": "Comment must not exceed 300 characters",
+      "required": "This field is required",
+      "tooShort": "Value is too short"
+    },
+    "status": {
+      "sending": "Sending...",
+      "success": "Your message has been sent successfully!",
+      "error": "Failed to send message. Please try again."
+    }
   },
-  "validation": {
-    "required": "",
-    "invalidEmail": "",
-    "tooShort": ""
+  "action": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "continue": "Continue",
+    "checkout": "Checkout",
+    "buyNow": "Buy Now",
+    "showMore": "Show more",
+    "loadMore": "Load more",
+    "search": "Search"
   },
   "status": {
-    "loading": "",
-    "success": "",
-    "error": "",
-    "empty": "",
-    "comingSoon": ""
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "empty": "No items found",
+    "comingSoon": "Coming soon"
   },
   "label": {
-    "price": "",
-    "quantity": "",
-    "total": "",
-    "email": "",
-    "phone": "",
-    "address": ""
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "email": "E-mail",
+    "phone": "Phone",
+    "address": "Address"
   },
   "placeholder": {
-    "search": "",
-    "email": "",
-    "phone": ""
+    "search": "Search...",
+    "email": "gankaforhome@gmail.com",
+    "phone": "+380 (63) 585 46 78",
+    "comments": "Your comments..."
   },
-  "message": {
-    "noResults": "",
-    "networkError": "",
-    "somethingWentWrong": ""
+  "common": {
+    "aria": {
+      "notifications": "Notifications",
+      "close": "Close notification"
+    },
+    "errors": {
+      "networkError": "Network error. Check your connection.",
+      "somethingWentWrong": "Something went wrong. Please try again later."
+    }
   },
   "languages": {
     "title": "Select Language",
@@ -132,29 +163,30 @@
       "uk": {
         "codeTitle": "Українська",
         "codeLabel": "UA",
-        "ariaLabel": "change language to Ukraine"
+        "ariaLabel": "Change language to Ukrainian"
       },
       "en": {
         "codeTitle": "English",
         "codeLabel": "EN",
-        "ariaLabel": "change language to English"
+        "ariaLabel": "Change language to English"
       }
     }
   },
   "notFound": {
     "imageSrc": "/images/not-found.webp",
-    "imageAlt": "snail with error number 404",
+    "imageAlt": "Snail with error number 404",
     "textError": "Error 404",
     "pageTitle": "Page not found",
     "description": "The page you were looking for doesn't exist or has been moved.",
     "buttonText": "Back home",
-    "buttonAriaLabel": " Go back to the home page"
+    "buttonAriaLabel": "Go back to the home page"
   },
   "stock": {
-    "in_stock": "In stock",
-    "low_stock": "Low stock",
-    "sold_out": "Sold out"
+    "inStock": "In stock",
+    "lowStock": "Low stock",
+    "soldOut": "Sold out"
   },
+
   "old": {
     "header": {
       "topBar": {

@@ -1,11 +1,13 @@
 import type AboutPageDict from '@/dictionaries/en/about.json';
 import type CollectionsPageDict from '@/dictionaries/en/collections.json';
 import type CommonDictionary from '@/dictionaries/en/common.json';
+import type ContactsPageDict from '@/dictionaries/en/contacts.json';
+import type ExclusivePageDict from '@/dictionaries/en/exclusive.json';
 import type HomePageDict from '@/dictionaries/en/home.json';
 import type LayoutDictionary from '@/dictionaries/en/layout.json';
 import type HomeMetadataDict from '@/dictionaries/en/metadata/home.json';
+import type ReleasesPageDict from '@/dictionaries/en/releases.json';
 import { type dynamicRoutes, type staticRoutes } from '@/shared/config/routes';
-
 // -------------------------------------------------------------
 // Basic Vocabulary Schemes / Extended
 // -------------------------------------------------------------
@@ -24,6 +26,9 @@ export type RawDictionarySchemas = {
   home: typeof HomePageDict;
   about: typeof AboutPageDict;
   collections: typeof CollectionsPageDict;
+  releases: typeof ReleasesPageDict;
+  exclusive: typeof ExclusivePageDict;
+  contacts: typeof ContactsPageDict;
 };
 
 export type LayoutDict = RawDictionarySchemas['layout'];

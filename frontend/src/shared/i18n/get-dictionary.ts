@@ -20,6 +20,12 @@ const dictionaryLoaders: Record<
     about: () => import('@/dictionaries/uk/about.json').then(m => m.default),
     collections: () =>
       import('@/dictionaries/uk/collections.json').then(m => m.default),
+    releases: () =>
+      import('@/dictionaries/uk/releases.json').then(m => m.default),
+    exclusive: () =>
+      import('@/dictionaries/uk/exclusive.json').then(m => m.default),
+    contacts: () =>
+      import('@/dictionaries/uk/contacts.json').then(m => m.default),
   },
   en: {
     common: () => import('@/dictionaries/en/common.json').then(m => m.default),
@@ -28,6 +34,12 @@ const dictionaryLoaders: Record<
     about: () => import('@/dictionaries/en/about.json').then(m => m.default),
     collections: () =>
       import('@/dictionaries/en/collections.json').then(m => m.default),
+    releases: () =>
+      import('@/dictionaries/en/releases.json').then(m => m.default),
+    exclusive: () =>
+      import('@/dictionaries/en/exclusive.json').then(m => m.default),
+    contacts: () =>
+      import('@/dictionaries/en/contacts.json').then(m => m.default),
   },
 };
 
