@@ -1,9 +1,8 @@
-import { type Category } from '@/entities/category';
-import { type Media } from '@/shared/types';
+import { type Locale } from '@/shared/i18n/routing';
 
-// --- Base Types ---
+export type ProductCurrency = 'UAH' | 'USD' | 'EUR';
 
-export type ProductBadge =
+export type ProductBadgeStatus =
   | 'new'
   | 'top'
   | 'pre_order'
@@ -12,42 +11,53 @@ export type ProductBadge =
   | 'most_popular'
   | 'sale';
 
-export type ProductCurrency = 'UAH' | 'USD' | 'EUR';
+export type ProductStockStatus =
+  'in_stock' | 'low_stock' | 'out_of_stock' | 'pre_order';
 
-export type ProductStockStatus = 'in_stock' | 'low_stock' | 'sold_out';
+export type ProductWeightUnit = 'g' | 'kg';
 
-export const BADGE_LABELS: Record<ProductBadge, string> = {
-  new: 'new',
-  top: 'top',
-  bestseller: 'hit sales',
-  pre_order: 'pre-order',
-  most_popular: 'most popular',
-  limited: 'limited',
-  sale: 'discount',
-};
+export interface ProductAttribute {
+  nameKey:
+    | 'material'
+    | 'dishwasher'
+    | 'microwave'
+    | 'glaze_type'
+    | 'heat_resistance'
+    | 'care_instructions';
+  valueKey: string;
+}
 
-export const STOCK_STATUS_LABELS: Record<
-  ProductStockStatus,
-  { label: string; isAvailable: boolean }
-> = {
-  in_stock: { label: 'In stock', isAvailable: true },
-  low_stock: { label: 'Low stock', isAvailable: true },
-  sold_out: { label: 'Sold out', isAvailable: false },
-};
+export interface ProductOption {
+  nameKey: 'diameter' | 'volume' | 'pieces' | 'height' | 'size';
+  valueKey: string;
+}
 
-export type ProductStock = {
-  status: ProductStockStatus;
-  quantity?: number;
-};
+export interface ProductWeight {
+  weight: number;
+  weightUnit: ProductWeightUnit;
+}
 
-export type Money = {
+export type ProductPrice = {
   amount: number;
   currency: ProductCurrency;
 };
 
-// --- Ref Types (для уникнення зайвих API запитів на фронті) ---
+export interface ProductBadge {
+  id: ProductBadgeStatus;
+  color?: string;
+  translations: Record<Locale, string>;
+}
+export interface ProductStock {
+  quantity: number;
+  lowStockThreshold?: number;
+  allowBackorder?: boolean;
+}
 
-export type ProductCategoryRef = Pick<Category, 'id' | 'slug' | 'title'>;
+export type ProductCategoryRef = {
+  id: string;
+  slug: string;
+  title: string;
+};
 
 export type ProductCollectionRef = {
   id: string;
@@ -55,86 +65,82 @@ export type ProductCollectionRef = {
   title: string;
 };
 
-// --- Attributes & Options ---
-
-// Перелік характеристик для фільтрації та специфікації (об'єм, розмір, матеріал)
-export type ProductAttribute = {
-  key: string; // e.g. 'volume', 'diameter', 'material'
-  label: string; // e.g. 'Об'єм', 'Діаметр', 'Матеріал'
-  value: string; // e.g. '350 мл', '22 см', 'Порцеляна'
-};
-
-// Опції для вибору варіації на стейті товару
-export type ProductOption = {
-  name: string; // e.g. 'Розмір'
-  value: string; // e.g. 'M'
-};
-
-// --- Variants ---
+export interface ProductMedia {
+  id: string;
+  src: string;
+  objectFit: 'contain' | 'cover';
+}
 
 export interface ProductVariant {
   id: string;
   sku: string;
-  title?: string;
-  price: Money;
-  compareAtPrice?: Money;
-  media?: Media[];
+  price: ProductPrice;
+  compareAtPrice?: ProductPrice;
   stock: ProductStock;
-  badges?: ProductBadge[];
   options: ProductOption[];
+  mediaId?: string;
+  weight?: ProductWeight;
 }
-
-// --- Main Entity ---
 
 export interface Product {
   id: string;
   slug: string;
-  sku: string;
-  title: string;
-  description?: string;
-  media: Media[];
-
-  price: Money;
-  compareAtPrice?: Money;
-
-  stock: ProductStock;
-  badges?: ProductBadge[];
-
-  // Прив'язка до категорії (для фільтрів ?category=cups)
-  category: ProductCategoryRef;
-
-  // Колекція (для посилань на сторінку колекції /collections/[slug])
-  primaryCollection: ProductCollectionRef;
-  collections?: ProductCollectionRef[];
-
-  // Специфічні характеристики (об'єм для склянки, діаметр для тарілки)
-  attributes?: ProductAttribute[];
-
-  // Варіанти та опції
-  variants?: ProductVariant[];
-  options?: ProductOption[];
-
-  // UI state для клієнта
-  isFavorite?: boolean;
-
-  metadata?: Record<string, string>;
+  badges: ProductBadgeStatus[];
+  categoryId: string;
+  primaryCollectionId: string;
+  featuredMediaId: string;
+  media: ProductMedia[];
+  attributes: ProductAttribute[];
+  variants: ProductVariant[];
+  isFavorite: boolean;
 }
 
-export type ProductCardDTO = {
-  id: string;
-  slug: string;
-  sku: string;
-  title: string;
+export interface ProductBadgeTranslation {
+  id: ProductBadgeStatus;
+  label: string;
+  color?: string;
+}
 
-  price: Money;
-  compareAtPrice?: Money;
-  media: {
-    primary: Media;
-    hover?: Media;
-  };
-  stock: ProductStock;
-  badges?: ProductBadge[];
-  category: ProductCategoryRef;
-  primaryCollection: ProductCollectionRef;
-  isFavorite: boolean;
-};
+export interface ProductStockTranslation {
+  quantity: number;
+  status: ProductStockStatus;
+  label: string;
+}
+
+export interface ProductAttributeTranslation {
+  nameKey: string;
+  name: string;
+  value: string;
+}
+
+export interface ProductOptionTranslation {
+  nameKey: string; // 'diameter'
+  name: string; // 'Діаметр'
+  valueKey: string; // '22_cm'
+  value: string; // '22 см'
+}
+
+export interface ProductWeightTranslation {
+  weight: number;
+  weightUnit: ProductWeightUnit;
+  label: string;
+}
+
+export interface ProductVariantTranslation {
+  id: string;
+  sku: string;
+  price: ProductPrice;
+  compareAtPrice?: ProductPrice;
+  stock: ProductStockTranslation;
+  options: ProductOptionTranslation[];
+  mediaId?: string;
+  weight?: ProductWeightTranslation;
+}
+export interface ProductTranslation {
+  productId: string;
+  languageCode: Locale;
+  title: string;
+  description: string;
+  attributes: ProductAttributeTranslation[];
+  options?: ProductOptionTranslation[];
+}

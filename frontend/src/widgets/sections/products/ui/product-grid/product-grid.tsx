@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { ProductCard } from '@/entities/product';
-import { type ProductCardDTO } from '@/entities/product/model/types';
+import { type ProductCardDTO } from '@/entities/product/model/product-card.dto';
 import { FavoriteButton } from '@/features/add-to-favorite';
 
 import { ProductGridSkeleton } from './product-grid-skeleton';
