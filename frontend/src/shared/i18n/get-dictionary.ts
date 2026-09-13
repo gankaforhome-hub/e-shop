@@ -27,6 +27,8 @@ const dictionaryLoaders: Record<
     contacts: () =>
       import('@/dictionaries/uk/contacts.json').then(m => m.default),
     faq: () => import('@/dictionaries/uk/faq.json').then(m => m.default),
+    delivery: () =>
+      import('@/dictionaries/uk/delivery.json').then(m => m.default),
   },
   en: {
     common: () => import('@/dictionaries/en/common.json').then(m => m.default),
@@ -42,6 +44,8 @@ const dictionaryLoaders: Record<
     contacts: () =>
       import('@/dictionaries/en/contacts.json').then(m => m.default),
     faq: () => import('@/dictionaries/en/faq.json').then(m => m.default),
+    delivery: () =>
+      import('@/dictionaries/en/delivery.json').then(m => m.default),
   },
 };
 
