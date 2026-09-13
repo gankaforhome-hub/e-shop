@@ -8,7 +8,7 @@ export interface ISocialLinksProps {
   links: NavItem[];
   heading?: string;
   className?: string;
-  variant?: 'footer' | 'mobileMenu';
+  variant?: 'footer' | 'mobileMenu' | 'contactUsForm';
   onItemClick?: () => void;
 }
 export function SocialLinks({
@@ -25,6 +25,12 @@ export function SocialLinks({
   const isMobileMenu = variant === 'mobileMenu';
 
   const styles = {
+    contactUsForm: {
+      list: 'gap-3',
+      link: 'flex h-12 w-16 items-center justify-center rounded-lg border border-brand/80 bg-white transition hover:border-brand',
+      icon: 'text-icon size-5',
+      label: 'sr-only',
+    },
     footer: {
       list: 'mt-4 gap-4',
       link: 'size-8 justify-center rounded-full bg-white/20 shadow-lg',
