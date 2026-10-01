@@ -25,15 +25,17 @@
   --dot-hover: var(--primitive-brand-800);
 
   /* Badges*/
-  --badge-new-bg: var(--primitive-brand-200);
+  --badge-new-bg: #f0aacc;
   --badge-new-text: var(--primitive-neutral-0);
   --badge-top-bg: var(--primitive-brand-900);
-  --badge-top-text: var(--primitive-amber-50);
+  --badge-top-text: var(--primitive-neutral-0);
   --badge-bestseller-bg: var(--primitive-brand-900);
   --badge-bestseller-text: var(--primitive-neutral-0);
-  --badge-preorder-bg: var(--primitive-slate-700);
+  /* --badge-preorder-bg: var(--primitive-emerald-500); */
+  --badge-preorder-bg: #d8df82;
+
   --badge-preorder-text: var(--primitive-neutral-0);
-  --badge-popular-bg: var(--primitive-stone-900);
+  --badge-popular-bg: var(--primitive-brand-600);
   --badge-popular-text: var(--primitive-neutral-0);
   --badge-limited-bg: var(--primitive-amber-950);
   --badge-limited-text: var(--primitive-amber-50);

@@ -13,9 +13,9 @@
 
 @theme inline {
   --breakpoint-3xl: 120rem;
-  --font-heading: var(--font-lora);
-  --font-text: var(--font-lora);
-  --font-caption: var(--font-inter);
+  --font-heading: var(--font-noto);
+  --font-text: var(--font-noto);
+  --font-caption: var(--font-noto);
   --color-brand: var(--primary);
 
   --color-background: var(--background);
@@ -35,7 +35,7 @@
   --color-action-secondary-hover: var(--secondary-hover);
   --color-action-secondary-active: var(--secondary-active);
 
-  --color-icon: var(--primitive-neutral-1000);
+  --color-icon: var(--primitive-neutral-900);
   --color-icon-hover: var(--primitive-brand-900);
   --color-icon-active: var(--primitive-brand-950);
 
