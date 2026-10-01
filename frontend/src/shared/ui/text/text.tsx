@@ -1,4 +1,8 @@
-import { type HTMLAttributes } from 'react';
+import {
+  type ComponentPropsWithoutRef,
+  type ElementType,
+  type ReactNode,
+} from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -8,71 +12,68 @@ export const textVariants = cva('font-normal tracking-normal', {
   variants: {
     variant: {
       default: 'text-foreground',
-      secondary: 'text-text-secondary text-lg tracking-wider',
+      primary: 'text-(--primitive-neutral-600)',
+      secondary: 'text-(--primitive-neutral-700)',
+      card: 'text-(--primitive-neutral-600)',
+      caption: 'text-caption',
       accent: 'text-accent-foreground',
-      danger: 'text-text-error',
+      error: 'text-status-error-fg',
+      success: 'text-status-success-fg',
       inherit: 'text-inherit',
     },
     size: {
-      main: 'text-sm md:text-base lg:text-lg xl:text-xl 2xl:xl:text-2xl',
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-      '2xl': 'text-2xl',
+      text: 'text-base xl:text-lg',
+      label: 'text-base xl:text-lg',
+      status: 'text-base xl:text-lg',
+      commerce: 'text-base xl:text-lg',
+      none: '',
     },
     position: {
       left: 'text-left',
       center: 'max-w-[95%] text-center',
     },
-    font: { primary: 'font-text', secondary: 'font-caption' },
-    // weight: {
-    //   normal: "font-normal",
-    //   medium: "font-medium",
-    //   semibold: "font-semibold",
-    //   bold: "font-bold",
-    // },
-    // align: {
-    //   left: "text-left",
-    //   center: "text-center",
-    //   right: "text-right",
-    //   justify: "text-justify",
-    // },
+    font: {
+      primary: 'font-text',
+      secondary: 'font-caption',
+    },
   },
 
   defaultVariants: {
-    variant: 'default',
-    size: 'main',
+    variant: 'primary',
+    size: 'text',
     font: 'primary',
-    // weight: "normal",
-    // align: "left",
   },
-  compoundVariants: [
-    // { variant: "default", size: "lg", class: "h-10 w-10" },
-  ],
 });
 
-interface ITextProps
-  extends HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
+export interface TextProps<T extends ElementType = 'p'> extends VariantProps<
+  typeof textVariants
+> {
+  as?: T;
   className?: string;
-  as?: 'p' | 'span';
+  children?: ReactNode;
 }
 
-export function Text({
+export type PolymorphicTextProps<T extends ElementType> = TextProps<T> &
+  Omit<ComponentPropsWithoutRef<T>, keyof TextProps<T>>;
+
+export function Text<T extends ElementType = 'p'>({
+  as,
   className,
   variant,
   size,
   position,
   font,
-  // size,
-  as = 'p',
+  children,
   ...props
-}: ITextProps) {
-  const Component = as;
+}: PolymorphicTextProps<T>) {
+  const Component = as || 'p';
+
   return (
     <Component
       className={cn(textVariants({ variant, font, size, position, className }))}
       {...props}
-    />
+    >
+      {children}
+    </Component>
   );
 }
