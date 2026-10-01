@@ -10,18 +10,18 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        new: 'border-white/40 bg-white/70 text-neutral-800 shadow-sm dark:border-white/10 dark:bg-neutral-900/70 dark:text-neutral-200',
+        new: 'bg-badge-new-bg text-badge-new-text border-white/40 shadow-sm dark:border-white/10 dark:bg-neutral-900/70 dark:text-neutral-200',
 
-        top: 'bg-accent-foreground border-white/50 font-semibold text-white shadow-sm dark:border-amber-700/50 dark:bg-amber-900/80',
+        top: 'bg-badge-top-bg text-badge-top-text border-white/50 font-semibold shadow-sm dark:border-amber-700/50 dark:bg-amber-900/80',
 
         pre_order:
-          'border-white/20 bg-neutral-900/75 font-medium text-white dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
+          'bg-badge-preorder-bg text-badge-preorder-text border-white/20 font-medium dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
 
         bestseller:
           'border-white/50 bg-amber-500/85 font-semibold text-white shadow-sm dark:border-amber-700/50 dark:bg-amber-900/80',
 
         most_popular:
-          'border-white/20 bg-neutral-900/75 font-medium text-white dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
+          'bg-badge-popular-bg text-badge-popular-text border-white/20 font-medium dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
 
         limited:
           'border-slate-300/60 bg-slate-100/80 text-slate-800 hover:bg-slate-200/80 dark:border-slate-700/60 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80',
