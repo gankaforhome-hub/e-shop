@@ -13,7 +13,7 @@ export const BREADCRUMB_KEYS = {
   delivery: 'help.delivery',
   returns: 'help.returns',
 
-  'terms-and-conditions': 'legal.terms_conditions',
+  'terms-conditions': 'legal.terms_conditions',
   'privacy-policy': 'legal.privacy_policy',
   'cookie-policy': 'legal.cookie_policy',
 } as const;

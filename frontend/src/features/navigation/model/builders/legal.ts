@@ -9,17 +9,17 @@ export function getLegalNavConfig(
     {
       id: 'terms_conditions',
       label: dict.terms_conditions,
-      href: routes.terms_conditions,
+      href: routes.info('terms-conditions'),
     },
     {
       id: 'privacy_policy',
       label: dict.privacy_policy,
-      href: routes.privacy_policy, // 👈 Виправлено баг (було routes.faq)
+      href: routes.info('privacy-policy'),
     },
     {
       id: 'cookie_policy',
       label: dict.cookie_policy,
-      href: routes.cookie_policy,
+      href: routes.info('cookie-policy'),
     },
   ];
 }

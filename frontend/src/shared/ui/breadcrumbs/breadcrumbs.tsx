@@ -31,6 +31,8 @@ interface BreadcrumbsProps {
   items?: CustomBreadcrumbItem[];
 }
 
+const IGNORED_SEGMENTS = new Set(['info']);
+
 export function Breadcrumbs({ lastItemTitle, items }: BreadcrumbsProps) {
   const t = useTranslations('common.navigation');
 
@@ -43,25 +45,37 @@ export function Breadcrumbs({ lastItemTitle, items }: BreadcrumbsProps) {
 
     const segments = pathname.split('/').filter(Boolean);
 
-    return segments.map((segment, index) => {
-      const href = createRoute(`/${segments.slice(0, index + 1).join('/')}`);
-      const isLast = index === segments.length - 1;
+    // 1. Спочатку відфільтровуємо ігноровані сегменти
+    const filteredItems: CustomBreadcrumbItem[] = segments
+      .filter(segment => !IGNORED_SEGMENTS.has(segment))
+      .map(segment => {
+        const originalIndex = segments.indexOf(segment);
 
-      let label = segment;
+        const href = createRoute(
+          `/${segments.slice(0, originalIndex + 1).join('/')}`,
+        );
 
-      if (isLast && lastItemTitle) {
-        label = lastItemTitle;
-      } else if (segment in BREADCRUMB_KEYS) {
-        const jsonKey =
-          BREADCRUMB_KEYS[segment as keyof typeof BREADCRUMB_KEYS];
+        let label = segment;
 
-        if (t.has(jsonKey)) {
-          label = t(jsonKey);
+        if (segment in BREADCRUMB_KEYS) {
+          const jsonKey =
+            BREADCRUMB_KEYS[segment as keyof typeof BREADCRUMB_KEYS];
+
+          if (t.has(jsonKey)) {
+            label = t(jsonKey);
+          }
         }
-      }
 
-      return { label, href };
-    });
+        return { label, href };
+      });
+
+    // 2. Безпечно оновлюємо заголовок останнього елемента
+    const lastItem = filteredItems[filteredItems.length - 1];
+    if (lastItemTitle && lastItem) {
+      lastItem.label = lastItemTitle;
+    }
+
+    return filteredItems;
   })();
 
   const hasExplicitCustomItems = Boolean(items && items.length > 0);

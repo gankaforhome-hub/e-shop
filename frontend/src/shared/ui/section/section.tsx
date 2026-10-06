@@ -1,3 +1,5 @@
+import { type HTMLAttributes } from 'react';
+
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/shared/lib/utils';
@@ -29,9 +31,7 @@ const sectionVariants = cva('w-full', {
   },
 });
 export interface ISectionProps
-  extends
-    React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof sectionVariants> {
+  extends HTMLAttributes<HTMLElement>, VariantProps<typeof sectionVariants> {
   asChild?: boolean;
 }
 

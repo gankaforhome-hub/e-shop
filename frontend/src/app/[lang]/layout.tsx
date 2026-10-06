@@ -8,7 +8,9 @@ import { NextIntlClientProvider } from 'next-intl';
 
 import { setRequestLocale } from 'next-intl/server';
 
-import { inter, lora } from '@/shared/config';
+import { getCartAction } from '@/features/cart/api/cart-actions';
+import { CartProvider } from '@/features/cart/model/cart-context';
+import { noto, playfair } from '@/shared/config';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { getLocaleDirection, isValidLocale } from '@/shared/i18n/helpers';
 import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
@@ -17,17 +19,6 @@ import { ToasterProvider } from '@/shared/providers/toaster';
 import '@/shared/styles/global.css';
 import { Footer } from '@/widgets/layout/footer';
 import { Header } from '@/widgets/layout/header';
-
-// export const viewport: Viewport = {
-
-//   width: 'device-width',
-//   initialScale: 1,
-//   maximumScale: 1,
-//   userScalable: false,
-//   // Also supported but less commonly used
-//   // interactiveWidget: 'resizes-visual',
-//   colorScheme: 'dark',
-// };
 
 export async function generateMetadata({
   params,
@@ -62,17 +53,19 @@ export default async function LocaleLayout({
   }
   setRequestLocale(lang);
   const dir = getLocaleDirection(lang);
-
+  const initialCart = await getCartAction();
   return (
     <html lang={lang} dir={dir}>
       <body
-        className={`${inter.variable} ${lora.variable} flex min-h-screen w-full flex-col antialiased`}
+        className={`${noto.variable} ${playfair.variable} flex min-h-screen w-full flex-col antialiased`}
       >
         <NextIntlClientProvider>
           <ToasterProvider />
-          <Header lang={lang} />
-          <main className="flex-1">{children}</main>
-          <Footer lang={lang} />
+          <CartProvider initialItems={initialCart}>
+            <Header lang={lang} />
+            <main className="flex-1">{children}</main>
+            <Footer lang={lang} />
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

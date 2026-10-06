@@ -14,22 +14,22 @@ export function getHelpNavConfig(
     {
       id: 'faq',
       label: dict.faq,
-      href: routes.faq,
+      href: routes.info('faq'),
     },
     {
       id: 'payments',
       label: dict.payments,
-      href: routes.payments,
+      href: routes.info('payments'),
     },
     {
       id: 'delivery',
       label: dict.delivery,
-      href: routes.delivery,
+      href: routes.info('delivery'),
     },
     {
       id: 'returns',
       label: dict.returns,
-      href: routes.returns,
+      href: routes.info('returns'),
     },
   ];
 }

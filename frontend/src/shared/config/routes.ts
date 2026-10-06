@@ -10,13 +10,6 @@ export const staticRoutes = {
   exclusive: '/exclusive' as const,
   releases: '/releases' as const,
   contacts: '/contacts' as const,
-  faq: '/faq' as const,
-  delivery: '/delivery' as const,
-  returns: '/returns' as const,
-  payments: '/payments' as const,
-  privacy_policy: '/privacy-policy' as const,
-  terms_conditions: '/terms-conditions' as const,
-  cookie_policy: '/cookie-policy' as const,
   checkouts: '/checkouts' as const,
   account: '/account' as const,
   wishlist: '/wishlist' as const,
@@ -24,6 +17,18 @@ export const staticRoutes = {
 
 export type CategorySlug =
   'plates' | 'sets' | 'kettles' | 'cups' | 'candlesticks' | 'glass';
+
+export const InfoSlugs = [
+  'faq',
+  'delivery',
+  'returns',
+  'payments',
+  'privacy-policy',
+  'terms-conditions',
+  'cookie-policy',
+] as const;
+
+export type InfoSlug = (typeof InfoSlugs)[number];
 
 type ProductsRoute = '/products' | `/products?${string}`;
 
@@ -36,6 +41,7 @@ type ProductsSearchParams = {
 
 //INFO Functions for dynamic routes
 export const dynamicRoutes = {
+  info: (infoSlug: InfoSlug) => `/info/${infoSlug}` as const,
   product: (productSlug: string) => `/product/${productSlug}` as const,
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,

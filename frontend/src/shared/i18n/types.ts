@@ -8,6 +8,7 @@ import type FaqPageDict from '@/dictionaries/en/faq.json';
 import type HomePageDict from '@/dictionaries/en/home.json';
 import type LayoutDictionary from '@/dictionaries/en/layout.json';
 import type HomeMetadataDict from '@/dictionaries/en/metadata/home.json';
+import type ProductPageDict from '@/dictionaries/en/product.json';
 import type ReleasesPageDict from '@/dictionaries/en/releases.json';
 import { type dynamicRoutes, type staticRoutes } from '@/shared/config/routes';
 // -------------------------------------------------------------
@@ -33,6 +34,7 @@ export type RawDictionarySchemas = {
   contacts: typeof ContactsPageDict;
   faq: typeof FaqPageDict;
   delivery: typeof DeliveryPageDict;
+  product: typeof ProductPageDict;
 };
 
 export type LayoutDict = RawDictionarySchemas['layout'];
@@ -40,6 +42,12 @@ export type CommonDict = RawDictionarySchemas['common'];
 export type HomeDict = RawDictionarySchemas['home'];
 export type AboutDict = RawDictionarySchemas['about'];
 export type CollectionsDict = RawDictionarySchemas['collections'];
+export type ReleasesDict = RawDictionarySchemas['releases'];
+export type ExclusiveDict = RawDictionarySchemas['exclusive'];
+export type ContactsDict = RawDictionarySchemas['contacts'];
+export type FaqDict = RawDictionarySchemas['faq'];
+export type DeliveryDict = RawDictionarySchemas['delivery'];
+export type ProductDict = RawDictionarySchemas['product'];
 
 export type PageToDictionaryMap = {
   [K in PageDictionaryName]: readonly (GlobalDictionaryName | K)[];

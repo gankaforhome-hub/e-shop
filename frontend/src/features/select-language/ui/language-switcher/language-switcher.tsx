@@ -8,7 +8,9 @@ import { usePathname } from '@/shared/i18n/navigation';
 import { type ILanguageOption, type Locale } from '@/shared/i18n/routing';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
+import { Heading } from '@/shared/ui/heading';
 import { Icon } from '@/shared/ui/icon';
+import { Text } from '@/shared/ui/text';
 
 interface ILanguageSwitcherProps {
   languages: ILanguageOption[];
@@ -40,14 +42,21 @@ export function LanguageSwitcher({
       {isDesktop && (title || subtitle) && (
         <div className="border-brand mb-4 flex flex-col gap-1 border-b-2 pb-2">
           {title && (
-            <h3 className="text-foreground font-serif text-2xl font-normal tracking-tight">
+            <Heading
+              headingLevel="h3"
+              variant="none"
+              className="text-2xl tracking-tight"
+            >
               {title}
-            </h3>
+            </Heading>
           )}
           {subtitle && (
-            <p className="text-muted-foreground text-xs leading-relaxed">
+            <Text
+              size="none"
+              className="text-foreground/80 text-xs leading-relaxed"
+            >
               {subtitle}
-            </p>
+            </Text>
           )}
         </div>
       )}
@@ -69,7 +78,7 @@ export function LanguageSwitcher({
                   'flex items-center justify-between py-3.5 text-sm tracking-wide transition-colors',
                   isActive
                     ? 'text-foreground font-semibold'
-                    : 'text-foreground/70 hover:text-foreground font-normal',
+                    : 'text-foreground hover:text-secondary-foreground font-normal',
                 )}
               >
                 <span>{codeTitle}</span>

@@ -2,6 +2,7 @@ import { type CollectionDTO } from '@/entities/collection';
 
 import { type NavigationDict } from '../types';
 import { getHelpNavConfig } from './help';
+import { getInfoNavConfig } from './info';
 import { getLegalNavConfig } from './legal';
 import { getMainNavConfig } from './main';
 
@@ -20,4 +21,8 @@ export function buildHelpNav(dict: NavigationDict['help']) {
 
 export function buildLegalNav(dict: NavigationDict['legal']) {
   return getLegalNavConfig(dict);
+}
+
+export function buildInfoNav(dict: Omit<NavigationDict, 'aria'>) {
+  return getInfoNavConfig(dict);
 }

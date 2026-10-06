@@ -14,7 +14,7 @@ interface IBlankPageProps {
 export function BlankPage({ className }: IBlankPageProps) {
   const path = usePathname();
   return (
-    <Section className={cn('bg-muted', className)}>
+    <Section className={cn('bg-muted/20 h-full', className)}>
       <Container>
         <Box className="mb-10 flex justify-center">
           <Link

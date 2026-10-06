@@ -29,6 +29,8 @@ const dictionaryLoaders: Record<
     faq: () => import('@/dictionaries/uk/faq.json').then(m => m.default),
     delivery: () =>
       import('@/dictionaries/uk/delivery.json').then(m => m.default),
+    product: () =>
+      import('@/dictionaries/uk/product.json').then(m => m.default),
   },
   en: {
     common: () => import('@/dictionaries/en/common.json').then(m => m.default),
@@ -46,6 +48,8 @@ const dictionaryLoaders: Record<
     faq: () => import('@/dictionaries/en/faq.json').then(m => m.default),
     delivery: () =>
       import('@/dictionaries/en/delivery.json').then(m => m.default),
+    product: () =>
+      import('@/dictionaries/en/product.json').then(m => m.default),
   },
 };
 

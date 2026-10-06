@@ -51,7 +51,7 @@ export default async function CollectionPage({ params }: PageProps) {
   if (!isValidLocale(lang)) {
     notFound();
   }
-  const dict = await getDictionary(['common'], lang);
+  const dict = await getDictionary(['common', 'collections'], lang);
 
   const data = await getCollectionDataBySlug(collectionSlug, lang);
 
@@ -79,6 +79,7 @@ export default async function CollectionPage({ params }: PageProps) {
             headingLevel="h1"
             heading={collection.title}
             description={collection.shortDescription}
+            headingVisible
           />
           <ImageTextPanel
             className="fmt-4/14"
@@ -92,10 +93,10 @@ export default async function CollectionPage({ params }: PageProps) {
       <Section>
         <Container>
           <Heading headingLevel="h2" visibility={'hidden'}>
-            Products from collection {collection.title}
+            {`${dict.collections.collectionProducts.sectionTitle} ${collection.title}`}
           </Heading>
 
-          <ProductGrid products={products} limit={12} />
+          <ProductGrid products={products} limit={12} lang={lang} />
         </Container>
       </Section>
     </>

@@ -40,17 +40,18 @@ export async function Footer({ lang, className }: IFooterNavProps) {
           )}
         >
           <div className={cn('col-span-2 flex flex-col')}>
-            <div className="max-h-30 mx-auto mb-10 flex max-w-60 flex-col items-center gap-4 md:mx-0">
+            <div className="max-h-30 mx-auto mb-10 flex max-w-60 flex-col items-center gap-2 md:mx-0">
               <Logo
-                aria={common.brand.name}
+                aria={common.brand.ariaLabel}
                 variant="logo-icon"
                 className="sm:h-22 sm:w-22 h-20 w-20"
                 asLink
               />
               <Logo
-                aria={common.brand.name}
+                aria={common.brand.ariaLabel}
                 variant="logo-text"
                 className="w-50 h-8 max-[300px]:hidden sm:h-10 sm:w-60"
+                asLink
               />
             </div>
             <AddressLink variant="footer" links={contacts} />

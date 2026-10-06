@@ -9,6 +9,7 @@ interface ISectionIntroProps {
   description: string;
   headingId: string;
   headingLevel?: 'h1' | 'h2';
+  headingVisible?: boolean;
   className?: string;
   textPosition?: 'center';
   descriptionClassName?: string;
@@ -20,6 +21,7 @@ export function SectionIntro({
   description,
   headingId,
   headingLevel = 'h2',
+  headingVisible,
   className,
   textPosition,
   descriptionClassName,
@@ -31,6 +33,7 @@ export function SectionIntro({
         variant="section"
         position="center"
         className={cn('mx-auto text-balance md:max-w-[80%]', className)}
+        visibility={headingVisible ? null : 'hidden'}
         id={headingId}
       >
         {heading}
@@ -38,7 +41,7 @@ export function SectionIntro({
 
       <Text
         className={cn(
-          'mx-auto md:max-w-[95%] lg:max-w-[85%]',
+          'mx-auto px-4 md:max-w-[95%] lg:max-w-full',
           textPosition === 'center' ? 'md:text-balance md:text-center' : '',
           descriptionClassName,
         )}
