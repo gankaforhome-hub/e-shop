@@ -16,14 +16,13 @@ export function CarouselPrevious({
 
   return (
     <Button
-      data-slot="carousel-previous"
       variant={variant}
       size={size}
       className={cn(
-        'absolute h-full w-full',
+        'bg-background/60 hover:bg-background/80 absolute z-10 size-8 rounded-full border border-white/20 shadow-sm backdrop-blur-sm',
         orientation === 'horizontal'
-          ? 'top-1/2 -translate-y-1/2'
-          : '-top-2 left-1/2 -translate-x-1/2 rotate-90',
+          ? 'left-3 top-1/2 -translate-y-1/2'
+          : 'left-1/2 top-3 -translate-x-1/2 rotate-90',
         className,
       )}
       disabled={!canScrollPrev}

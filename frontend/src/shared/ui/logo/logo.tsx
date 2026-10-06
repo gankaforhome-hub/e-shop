@@ -24,7 +24,7 @@ export function Logo({
   onClick,
 }: ILogoProps) {
   const containerClassName = cn(
-    'group inline-flex items-center justify-center fill-[#231F20]',
+    'group inline-flex items-center justify-center fill-[#231F20] text-secondary-foreground ',
     className,
   );
 
@@ -34,7 +34,6 @@ export function Logo({
         name={variant}
         className={cn(
           'custom-transition transition-color h-full w-full stroke-none group-hover:fill-[#231F20]',
-          asLink ? 'group-hover:text-brand' : '',
         )}
       />
       {children}

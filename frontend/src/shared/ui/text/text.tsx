@@ -12,9 +12,9 @@ export const textVariants = cva('font-normal tracking-normal', {
   variants: {
     variant: {
       default: 'text-foreground',
-      primary: 'text-(--primitive-neutral-600)',
-      secondary: 'text-(--primitive-neutral-700)',
-      card: 'text-(--primitive-neutral-600)',
+      primary: 'text-foreground',
+      secondary: 'text-secondary-foreground',
+      card: 'text-foreground',
       caption: 'text-caption',
       accent: 'text-accent-foreground',
       error: 'text-status-error-fg',

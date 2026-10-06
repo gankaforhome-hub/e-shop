@@ -13,28 +13,41 @@ export function HeaderActions({ className }: IHeaderActionsProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="max-lg:hidden"
+        className="group max-lg:hidden"
         aria-label="Search"
       >
-        <Icon name="search" size={24} />
+        <Icon
+          name="search"
+          size={24}
+          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
+        />
       </Button>
       <Button
         variant="ghost"
         size="icon"
-        className="max-lg:hidden"
+        className="group max-lg:hidden"
         aria-label="User profile"
       >
-        <Icon name="user" size={24} />
+        <Icon
+          name="user"
+          size={24}
+          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
+        />
       </Button>
       <Button
         variant="ghost"
         size="icon"
-        className="max-lg:hidden"
+        className="group max-lg:hidden"
         aria-label="Favorites"
       >
-        <Icon name="favorite" size={24} />
+        <Icon
+          name="favorite"
+          size={24}
+          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
+        />
       </Button>
       <CartDrawer />
+      {/* <CartSheet /> */}
       {/* <Button variant="ghost" size="icon" aria-label="Cart">
         <Icon name="shopping-cart" className="size-6 max-[300px]:size-4" />
       </Button> */}

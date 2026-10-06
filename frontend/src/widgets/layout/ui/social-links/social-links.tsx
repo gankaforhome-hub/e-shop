@@ -39,7 +39,7 @@ export function SocialLinks({
     },
     mobileMenu: {
       list: 'gap-2 max-[300px]:flex-col',
-      link: 'text-foreground/70 border-brand justify-between rounded-sm border px-3 py-2',
+      link: 'text-secondary-foreground border-brand justify-between rounded-sm border px-3 py-2',
       icon: 'size-3.5',
       label: '',
     },
@@ -48,7 +48,7 @@ export function SocialLinks({
   return (
     <div className={className}>
       {heading && (
-        <Heading headingLevel="h3" variant="footer" tone="accent">
+        <Heading headingLevel="h2" variant="footer" tone="accent">
           {heading}
         </Heading>
       )}

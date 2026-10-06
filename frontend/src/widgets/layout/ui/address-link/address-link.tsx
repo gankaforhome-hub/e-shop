@@ -22,11 +22,11 @@ export function AddressLink({
   const styles = {
     footer: {
       list: 'space-y-2',
-      link: 'text-icon text-base',
+      link: 'text-foreground text-base',
     },
     mobileMenu: {
       list: 'space-y-4',
-      link: 'text-foreground/70 hover:text-foreground text-sm',
+      link: 'text-secondary-foreground hover:text-foreground text-sm',
     },
   };
 

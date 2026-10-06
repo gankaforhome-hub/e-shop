@@ -25,7 +25,7 @@ export function MobileMenuQuickActions({
     <div
       className={cn(
         'max-[300px]:grid-cols-1',
-        'border-border/60 grid grid-cols-3 items-center justify-between border-t p-2',
+        'border-border grid grid-cols-3 items-center justify-between border-t p-2',
         className,
       )}
     >
@@ -35,8 +35,8 @@ export function MobileMenuQuickActions({
         asChild
         size="full"
         className={cn(
-          'text-foreground/70 rounded-none p-2',
-          'border-border/40 border-l',
+          'text-secondary-foreground rounded-none p-2',
+          'border-border border-l',
           'hover:text-foreground duration-(--dur-norm) transition-colors',
         )}
       >
@@ -44,7 +44,6 @@ export function MobileMenuQuickActions({
           href={routes.wishlist}
           onClick={onActionClick}
           aria-label="Wishlist"
-          className="text-foreground/70 hover:text-foreground group flex items-center justify-center gap-2 py-2.5 transition-colors"
         >
           <Icon
             iconPosition="left"
@@ -57,13 +56,14 @@ export function MobileMenuQuickActions({
         </AppLink>
       </Button>
 
+      {/* 2. ACCOUNT */}
       <Button
         variant="ghost"
         asChild
         size="full"
         className={cn(
-          'text-foreground/70 group rounded-none p-2',
-          'border-border/40 border-l',
+          'text-secondary-foreground group rounded-none p-2',
+          'border-border border-l',
           'hover:text-foreground duration-(--dur-norm) transition-colors',
         )}
       >
@@ -90,8 +90,8 @@ export function MobileMenuQuickActions({
         onClick={onLanguageClick}
         aria-label={ariaLabelLangMenu}
         className={cn(
-          'text-foreground/70 hover:text-foreground duration-(--dur-norm) group rounded-none p-2 transition-colors',
-          'border-border/40 border-l',
+          'text-secondary-foreground hover:text-foreground duration-(--dur-norm) group rounded-none p-2 transition-colors',
+          'border-border border-l',
         )}
       >
         <Icon

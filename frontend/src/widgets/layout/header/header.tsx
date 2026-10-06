@@ -1,5 +1,5 @@
 import { getCollections } from '@/entities/collection';
-import { buildMainNav } from '@/features/navigation';
+import { buildInfoNav, buildMainNav } from '@/features/navigation';
 import { DesktopLanguageSelector } from '@/features/select-language/ui/desktop-language-selector/desktop-language-selector';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
@@ -38,6 +38,7 @@ export async function Header({ lang }: IHeaderProps) {
     parseCommonDictionary(common);
 
   const mainNav = buildMainNav(navigation.main, collections);
+  const infoNav = buildInfoNav(navigation);
   return (
     <>
       <HeaderClientWrapper id={HEADER_ID}>
@@ -56,7 +57,7 @@ export async function Header({ lang }: IHeaderProps) {
                 subtitle={languages.subTitle}
               />
               <MobileMenu
-                navigation={{ main: mainNav }}
+                navigation={{ main: mainNav, info: infoNav }}
                 language={{
                   options: languages.options,
                   title: languages.title,
@@ -68,7 +69,10 @@ export async function Header({ lang }: IHeaderProps) {
                 className="lg:hidden"
               />
             </div>
-            <HeaderLogos className="min-w-0 max-w-full justify-self-center" />
+            <HeaderLogos
+              className="min-w-0 max-w-full justify-self-center"
+              aria={common.brand.ariaLabel}
+            />
             <HeaderActions className="justify-self-end" />
           </div>
           <HeaderNavWrapper>

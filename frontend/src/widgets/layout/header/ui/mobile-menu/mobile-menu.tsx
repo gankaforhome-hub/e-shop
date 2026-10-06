@@ -33,6 +33,7 @@ interface MobileMenuProps {
   };
   navigation: {
     main: INavItemConfig[];
+    info: INavItemConfig[];
   };
   language: {
     options: ILanguageOption[];
@@ -118,7 +119,7 @@ export function MobileMenu({
         {/* HEADER */}
         <SheetHeader className="border-brand/50 relative border-b-2 px-4 py-3">
           <SheetTitle className="sr-only">{label.menuTittle}</SheetTitle>
-          <div className="flex h-8 items-center justify-start">
+          <div className="text-secondary-foreground flex h-8 items-center justify-start">
             {isSubmenuActive ? (
               <Button
                 variant="ghost"
@@ -175,6 +176,11 @@ export function MobileMenu({
                 setActiveSubmenu={item => pushView({ type: 'submenu', item })}
                 onClick={handleClose}
               />
+              <MobileMenuBlock
+                items={navigation.info}
+                setActiveSubmenu={item => pushView({ type: 'submenu', item })}
+                onClick={handleClose}
+              />
             </nav>
 
             <div className="flex w-full shrink-0 flex-col space-y-4 p-4">
@@ -184,7 +190,7 @@ export function MobileMenu({
                 onItemClick={handleClose}
               />
               {contacts?.length > 0 && social?.length > 0 && (
-                <div className="bg-border/40 h-px w-full" />
+                <div className="bg-border h-px w-full" />
               )}
               <SocialLinks
                 variant="mobileMenu"
