@@ -32,7 +32,6 @@ export default async function ProductsPage({
   const filters = await searchParams;
   const categories = await getCategories(lang);
   const { data: products } = await getProducts({ lang, limit, ...filters });
-  // const products = await getProducts(filters);
 
   return (
     <>

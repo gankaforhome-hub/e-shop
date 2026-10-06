@@ -1,5 +1,4 @@
 import { cn, repeat } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 interface ProductSliderSkeletonWithProgressProps {
@@ -12,7 +11,7 @@ export function GankaGallerySkeleton({
   className,
 }: ProductSliderSkeletonWithProgressProps) {
   return (
-    <Box className={cn('w-full min-w-0', className)}>
+    <div className={cn('w-full min-w-0', className)}>
       <ul
         className={cn(
           'scrollbar-none flex w-full min-w-0 gap-3 overflow-hidden py-2 sm:gap-4 lg:gap-6',
@@ -35,9 +34,9 @@ export function GankaGallerySkeleton({
         ))}
       </ul>
 
-      <Box className="mt-3 flex justify-center md:px-20 xl:hidden">
+      <div className="mt-3 flex justify-center md:px-20 xl:hidden">
         <Skeleton className="h-0.5 w-full" />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

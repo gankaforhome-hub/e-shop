@@ -3,7 +3,7 @@
 // import rawJson from '@/dictionaries/home.json';
 // import { SubscribeForm } from '@/features/subscribe-form';
 // import { type IndexPage } from '@/shared/types/dictionary/index-page';
-// import { Box } from '@/shared/ui/box';
+// import { div } from '@/shared/ui/div';
 // import { Container } from '@/shared/ui/container';
 // import { Heading } from '@/shared/ui/heading';
 // import { Section } from '@/shared/ui/section';
@@ -23,8 +23,8 @@
 //     <>
 //       <Section>
 //         <Container>
-//           <Box className="bg-bg-accent grid grid-cols-1 lg:grid-cols-2">
-//             <Box>
+//           <div className="bg-bg-accent grid grid-cols-1 lg:grid-cols-2">
+//             <div>
 //               <Heading
 //                 headingLevel="h2"
 //                 className="fmb-5/6 capitalize leading-[1.1]"
@@ -35,14 +35,14 @@
 //                 {description}
 //               </Text>
 //               <SubscribeForm form={form} />
-//             </Box>
-//             {/* <Box
+//             </div>
+//             {/* <div
 //               className={cn(
 //                 "h-100 max-h-full w-full overflow-hidden bg-[url('/images/pages/home/news-letter-bg_mob.webp')] object-cover object-center sm:bg-[url('/images/pages/home/news-letter-bg_tab.webp')]",
 //                 'flex items-center justify-center',
 //               )}
-//             ></Box> */}
-//           </Box>
+//             ></div> */}
+//           </div>
 //         </Container>
 //       </Section>
 //     </>

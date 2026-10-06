@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 import { Button } from '@/shared/ui/button';
 
-import { CartItemCard } from './CartItem';
 import { useCart } from '../model/cart-context';
+import { CartItemCard } from './cart-item';
 
 export function CartSheet() {
   const [isOpen, setIsOpen] = useState(false);

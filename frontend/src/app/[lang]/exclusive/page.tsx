@@ -22,9 +22,6 @@ export default async function ExclusivePage({ params }: IExclusivePageProps) {
     notFound();
   }
 
-  // const cookieStore = await cookies();
-  // const userCountry = cookieStore.get('user-country')?.value || 'ua';
-
   const { exclusive, common } = await getDictionary(
     ['exclusive', 'common'],
     lang,

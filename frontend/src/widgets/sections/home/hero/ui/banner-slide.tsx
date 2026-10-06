@@ -3,7 +3,6 @@ import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
 import { type IAppMediaProps } from '@/shared/ui/app-media/app-media';
-import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
 import { Heading } from '@/shared/ui/heading';
@@ -29,7 +28,7 @@ export function BannerSlide({
   const isSelected = current === index;
   const isContentVisible = isInitialize && isSelected;
   return (
-    <Box className="relative h-full w-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden">
       <AppMedia
         fill
         sizes="100vw"
@@ -39,7 +38,7 @@ export function BannerSlide({
       />
       <Overlay aria-hidden="true" />
 
-      <Box
+      <div
         className={cn(
           'absolute inset-x-0 bottom-20 z-20 mx-auto flex max-w-xl flex-col items-center justify-end px-4 text-center uppercase',
           isContentVisible
@@ -63,7 +62,7 @@ export function BannerSlide({
         <Button asChild variant="default" className="mt-6 capitalize shadow-lg">
           <AppLink href={routes.collection(slug)}>View Collection</AppLink>
         </Button>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

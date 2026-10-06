@@ -7,24 +7,6 @@ import { isValidLocale } from '@/shared/i18n/helpers';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { ProductDetailSection } from '@/widgets/sections/product';
 
-// export async function generateMetadata({ params }: IGetMetadataProps): Promise<Metadata> {
-//   const { lang, slug } = await params;
-//   const product = await getProductBySlug(slug, lang);
-
-//   return buildMetadata({
-//     meta: {
-//       title: product.name,
-//       description: product.shortDescription,
-//       openGraph: {
-//         title: product.name,
-//         description: product.shortDescription,
-//       },
-//     },
-//     lang,
-//     path: `/product/${slug}`,
-//   });
-// }
-
 interface ProductPageProps {
   params: Promise<{ productSlug: string; lang: string }>;
   searchParams: Promise<{
@@ -67,7 +49,6 @@ export default async function ProductPage({
         lang={lang}
         searchParams={currentSearchParams}
       />
-      {/* <BlankPage /> */}
     </>
   );
 }

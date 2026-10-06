@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import { cn } from '@/shared/lib/utils';
-import { Box } from '@/shared/ui/box';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Label } from '@/shared/ui/label';
@@ -62,9 +61,9 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cn('', className)}>
-      <Box className="fmy-10/12 max-lg:fgap-7/9 lg:fgap-3/5 flex flex-col items-center justify-between lg:grid-cols-2 lg:flex-row lg:items-center">
+      <div className="fmy-10/12 max-lg:fgap-7/9 lg:fgap-3/5 flex flex-col items-center justify-between lg:grid-cols-2 lg:flex-row lg:items-center">
         {inputs.map(({ type, name, label }) => (
-          <Box key={name} className="relative w-full">
+          <div key={name} className="relative w-full">
             <input
               id={name}
               type={type}
@@ -100,9 +99,9 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
                 {errors[name].message}
               </Text>
             )}
-          </Box>
+          </div>
         ))}
-      </Box>
+      </div>
       <Button
         disabled={isLoading}
         variant="outline"

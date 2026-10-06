@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { useCart } from '@/features/cart/model/cart-context';
-import { CartItemCard } from '@/features/cart/ui/CartItem';
+import { CartItemCard } from '@/features/cart/ui/cart-item';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';

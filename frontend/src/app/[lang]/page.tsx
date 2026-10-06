@@ -29,7 +29,6 @@ export async function generateMetadata({
   const { lang } = await params;
   setRequestLocale(lang);
 
-  // Завантажуємо dictionaries/{lang}/metadata/home.json
   const meta = await getMetadata('home', lang);
 
   return buildMetadata({
