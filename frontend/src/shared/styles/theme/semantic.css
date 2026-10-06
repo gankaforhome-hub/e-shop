@@ -1,6 +1,6 @@
 :root {
   --background: var(--primitive-neutral-0);
-  --foreground: var(--primitive-neutral-900);
+  --foreground: var(--primitive-neutral-800);
 
   --card: var(--primitive-neutral-300);
   --card-foreground: var(--primitive-neutral-900);

@@ -26,7 +26,7 @@
 
   /* Badges*/
   --badge-new-bg: #f0aacc;
-  --badge-new-text: var(--primitive-neutral-0);
+  --badge-new-text: var(--primitive-neutral-1000);
   --badge-top-bg: var(--primitive-brand-900);
   --badge-top-text: var(--primitive-neutral-0);
   --badge-bestseller-bg: var(--primitive-brand-900);
@@ -34,7 +34,7 @@
   /* --badge-preorder-bg: var(--primitive-emerald-500); */
   --badge-preorder-bg: #d8df82;
 
-  --badge-preorder-text: var(--primitive-neutral-0);
+  --badge-preorder-text: var(--primitive-neutral-1000);
   --badge-popular-bg: var(--primitive-brand-600);
   --badge-popular-text: var(--primitive-neutral-0);
   --badge-limited-bg: var(--primitive-amber-950);
