@@ -122,7 +122,7 @@ export async function getProducts(
 export async function getProductBySlug(
   productSlug: string,
   lang: Locale = 'uk',
-): Promise<ProductCardDTO | null> {
+): Promise<TProduct | null> {
   const products = await getProductsWithTranslation(lang);
 
   const product = products.find(product => product.slug === productSlug);
@@ -131,5 +131,5 @@ export async function getProductBySlug(
     return null;
   }
 
-  return mapProductToCard(product, lang);
+  return product;
 }

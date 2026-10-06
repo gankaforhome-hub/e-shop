@@ -1,21 +1,26 @@
+import { type Locale } from '@/shared/i18n/routing';
+
 type Money = {
   amount: number;
   currency: 'UAH' | 'USD' | 'EUR';
 };
 
-export const formatMoney = (money?: Money): string => {
+export const formatMoney = (money?: Money, lang?: Locale): string => {
   if (!money) {
     return '';
   }
 
-  const currencyMap: Record<string, string> = {
-    UAH: 'UAH',
+  const currencyMap: Record<Money['currency'], string> = {
+    UAH: lang === 'uk' ? '₴' : '₴',
     USD: '$',
     EUR: '€',
   };
 
-  const formattedAmount = money.amount.toLocaleString('uk-UA');
-  const symbol = currencyMap[money.currency] || money.currency;
+  const formattedAmount = money.amount.toLocaleString(
+    lang === 'uk' ? 'uk-UA' : 'en-US',
+  );
+
+  const symbol = currencyMap[money.currency];
 
   return `${formattedAmount} ${symbol}`;
 };

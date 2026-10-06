@@ -2,12 +2,16 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { categories } from '@/entities/category/mock/categories';
+import { type CategoryDTO } from '@/entities/category';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 
-export function CategoryFilter() {
+interface ICategoryFilterProps {
+  categories: CategoryDTO[];
+}
+
+export function CategoryFilter({ categories }: ICategoryFilterProps) {
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get('category');
 

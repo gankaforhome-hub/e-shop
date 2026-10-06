@@ -43,7 +43,7 @@ export default async function ProductsPage({
             Ganka for home products
           </Heading>
           <CategoryFilter categories={categories} />
-          <ProductGrid products={products} limit={limit} />
+          <ProductGrid products={products} limit={limit} lang={lang} />
         </Container>
       </Section>
     </>

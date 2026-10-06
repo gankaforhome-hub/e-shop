@@ -15,7 +15,7 @@ export function PaymentBadges({
 }: IPaymentBadgesProps) {
   return (
     <div className={className}>
-      <Heading headingLevel="h3" variant="footer" tone="accent">
+      <Heading headingLevel="h2" variant="footer" tone="accent">
         {heading}
       </Heading>
       <ul className="mt-4 flex flex-wrap gap-2">

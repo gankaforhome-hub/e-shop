@@ -28,7 +28,8 @@ export interface ProductAttribute {
 }
 
 export interface ProductOption {
-  nameKey: 'diameter' | 'volume' | 'pieces' | 'height' | 'size';
+  nameKey:
+    'diameter' | 'volume' | 'pieces' | 'height' | 'size' | 'color' | 'glaze';
   valueKey: string;
 }
 

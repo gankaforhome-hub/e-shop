@@ -2,6 +2,7 @@ import { type CategorySlug, routes } from '@/shared/config/routes';
 import { type Media } from '@/shared/types';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
+import { Text } from '@/shared/ui/text';
 
 interface ICategoryCard {
   slug: CategorySlug;
@@ -27,9 +28,12 @@ export function CategoryCard({ slug, title, image }: ICategoryCard) {
           />
         </div>
       </div>
-      <span className="text-foreground group-hover:text-foreground/70 duration-(--dur-slow) ease-subtle text-sm font-medium transition-colors sm:text-base lg:text-lg xl:text-xl">
+      <Text
+        as="span"
+        className="group-hover:text-foreground/90 duration-(--dur-slow) ease-subtle text-sm font-normal transition-colors sm:text-base lg:text-lg xl:text-xl"
+      >
         {title}
-      </span>
+      </Text>
     </AppLink>
   );
 }

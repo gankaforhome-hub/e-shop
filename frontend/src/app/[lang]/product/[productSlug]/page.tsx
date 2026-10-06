@@ -5,7 +5,7 @@ import { createRoute } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
-import { BlankPage } from '@/widgets/blank-page';
+import { ProductDetailSection } from '@/widgets/sections/product';
 
 // export async function generateMetadata({ params }: IGetMetadataProps): Promise<Metadata> {
 //   const { lang, slug } = await params;
@@ -27,10 +27,18 @@ import { BlankPage } from '@/widgets/blank-page';
 
 interface ProductPageProps {
   params: Promise<{ productSlug: string; lang: string }>;
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+  searchParams,
+}: ProductPageProps) {
   const { productSlug, lang } = await params;
+  const currentSearchParams = await searchParams;
+
   if (!isValidLocale(lang)) {
     notFound();
   }
@@ -54,7 +62,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
           },
         ]}
       />
-      <BlankPage />
+      <ProductDetailSection
+        product={product}
+        lang={lang}
+        searchParams={currentSearchParams}
+      />
+      {/* <BlankPage /> */}
     </>
   );
 }

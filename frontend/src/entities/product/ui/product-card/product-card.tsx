@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 
 import { routes } from '@/shared/config/routes';
+import { type Locale } from '@/shared/i18n/routing';
 import { cn, formatMoney } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
@@ -13,6 +14,7 @@ export interface IProductCard {
   favoriteButton?: ReactNode;
   className?: string;
   /** Передавайте priority={index < 2} для карток на першому екрані */
+  lang?: Locale;
   priority?: boolean;
 }
 
@@ -20,6 +22,7 @@ export const ProductCard = ({
   product,
   favoriteButton,
   className,
+  lang,
   priority = false,
 }: IProductCard) => {
   const mainImage = product.media.primary.src || '/images/placeholder.jpg';
@@ -102,14 +105,13 @@ export const ProductCard = ({
       {/* Product Details */}
       <div className="flex flex-1 flex-col justify-between gap-1 p-2 pt-1">
         <div className="flex flex-col gap-1">
-          {/* Category / Collection Link */}
-          {/*//INFO Add if needed
-            <AppLink
-            href={routes.collection(product.primaryCollection.slug)}
+          {/* Category / Collection Link / //INFO Add if needed*/}
+          <span
+            // href={routes.collection(product.primaryCollection.slug)}
             className="text-brand hover:text-brand-hover text-xs font-semibold capitalize"
           >
             {product.primaryCollection.title}
-          </AppLink> */}
+          </span>
 
           {/* Title */}
           <AppLink
@@ -125,8 +127,8 @@ export const ProductCard = ({
         {/* Pricing & Compare Price */}
         <div className="flex flex-wrap items-center justify-between">
           <div className="flex items-baseline gap-2">
-            <span className="text-price-current text-sm md:text-base">
-              {formatMoney(product.price)}
+            <span className="text-commerce-price-current text-sm tabular-nums md:text-base">
+              {formatMoney(product.price, lang)}
             </span>
             {/* {product.compareAtPrice && (
               <span className="text-price-old text-[10px] line-through md:text-xs">
@@ -137,7 +139,7 @@ export const ProductCard = ({
           {product.stock.status !== 'in_stock' && (
             <span
               className={cn(
-                'text-price-current/80 bg-stock-warning rounded-2xl px-2 text-[10px] md:text-sm',
+                'text-commerce-price-current/80 bg-stock-warning rounded-2xl px-2 text-[10px] tabular-nums md:text-sm',
                 product.stock.status === 'low_stock' ? 'text-brand-active' : '',
               )}
             >

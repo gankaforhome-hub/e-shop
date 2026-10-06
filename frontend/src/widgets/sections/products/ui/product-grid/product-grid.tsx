@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { ProductCard } from '@/entities/product';
 import { type ProductCardDTO } from '@/entities/product/model/product-card.dto';
 import { FavoriteButton } from '@/features/add-to-favorite';
+import { type Locale } from '@/shared/i18n/routing';
 
 import { ProductGridSkeleton } from './product-grid-skeleton';
 
@@ -10,12 +11,14 @@ interface IProductGridProps {
   products: ProductCardDTO[];
   limit?: number;
   className?: string;
+  lang: Locale;
   isMasonry?: boolean;
 }
 
 export function ProductGrid({
   products,
   limit = 4,
+  lang,
   className = '',
   isMasonry = false,
 }: IProductGridProps) {
@@ -44,6 +47,7 @@ export function ProductGrid({
               <ProductCard
                 product={product}
                 priority={index < 9}
+                lang={lang}
                 favoriteButton={
                   <FavoriteButton
                     productId={product.id}
