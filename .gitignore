@@ -159,3 +159,11 @@ notes.md
 
 **/m-s
 **/api/sweet-tv
+
+.agents
+.claude
+
+AGENTS.md
+CLAUDE.md
+.claudeignore
+skills-lock.json

@@ -33,6 +33,10 @@ const nextConfig: NextConfig = {
     },
   },
 
+  logging: {
+    browserToTerminal: true,
+  },
+
   turbopack: {
     // resolveAlias: {
     //   '@/*': './src/*',

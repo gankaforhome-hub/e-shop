@@ -42,7 +42,10 @@
     "typescript": "^5"
   },
   "devEngines": {
-    "node": ">=22.14.0"
+    "runtime": {
+      "name": "node",
+      "version": ">=22.14.0"
+    }
   },
   "config": {
     "commitizen": {
