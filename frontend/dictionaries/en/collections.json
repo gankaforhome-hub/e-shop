@@ -1,5 +1,8 @@
 {
   "collectionsHero": {
     "pageTitle": "Ganka collections"
+  },
+  "collectionProducts": {
+    "sectionTitle": "Collection products"
   }
 }

@@ -1,5 +1,8 @@
 {
   "collectionsHero": {
     "pageTitle": "Колекції Ganka"
+  },
+  "collectionProducts": {
+    "sectionTitle": "Товари колекції"
   }
 }

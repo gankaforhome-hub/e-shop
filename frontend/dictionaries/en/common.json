@@ -5,7 +5,8 @@
     "description": "Exclusive handmade ceramic tableware and cozy decor for your home."
   },
   "brand": {
-    "name": "Ganka For Home"
+    "name": "Ganka For Home",
+    "ariaLabel": "go to home page"
   },
   "contacts": [
     {

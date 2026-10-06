@@ -6,7 +6,8 @@
   },
 
   "brand": {
-    "name": "Ganka For Home"
+    "name": "Ganka For Home",
+    "ariaLabel": "перейти на головну сторінку"
   },
   "contacts": [
     {
