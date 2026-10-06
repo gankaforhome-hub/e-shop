@@ -49,7 +49,7 @@ export const NavItem = memo(function NavItem({
     mobile:
       'flex items-center justify-between text-base py-4 w-full select-none text-left transition-all active:opacity-70 text-foreground hover:bg-muted/60 px-4',
     popover:
-      'hover:text-foreground/70 text-foreground duration-(--dur-norm) py-1 text-base transition-colors',
+      'hover:text-secondary-foreground text-foreground duration-(--dur-norm) py-1 text-base transition-colors',
   };
 
   const activeStyle = {
@@ -60,7 +60,7 @@ export const NavItem = memo(function NavItem({
   };
 
   const sharedClasses = cn(
-    'font-caption',
+    'font-heading',
     navLinkStyle[variant],
     isActive && activeStyle[variant],
     className,
