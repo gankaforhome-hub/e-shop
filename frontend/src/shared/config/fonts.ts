@@ -1,4 +1,4 @@
-import { Inter, Lora, Noto_Sans } from 'next/font/google';
+import { Inter, Lora, Noto_Sans, Playfair_Display } from 'next/font/google';
 
 export const inter = Inter({
   variable: '--font-inter',
@@ -15,5 +15,11 @@ export const lora = Lora({
 export const noto = Noto_Sans({
   variable: '--font-noto',
   weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin', 'cyrillic'],
+});
+
+export const playfair = Playfair_Display({
+  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
 });

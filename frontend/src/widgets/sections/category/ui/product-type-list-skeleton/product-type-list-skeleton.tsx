@@ -12,7 +12,12 @@ export function ProductTypeListSkeleton({
 }: IProductTypeListSkeletonProps) {
   return (
     <div className={cn('w-full min-w-0', className)}>
-      <ul className="scrollbar-none flex w-full min-w-0 justify-start gap-3 overflow-hidden py-2 sm:gap-4 lg:gap-6">
+      <ul
+        className={cn(
+          'scrollbar-none flex w-full min-w-0 justify-start overflow-hidden py-2',
+          'gap-4 lg:gap-8 xl:gap-10 2xl:gap-12',
+        )}
+      >
         {repeat(count).map((_, index) => (
           <li
             key={index}

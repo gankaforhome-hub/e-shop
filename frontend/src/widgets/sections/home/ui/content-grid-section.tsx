@@ -38,6 +38,7 @@ export function ContentGridSection({
           headingLevel="h2"
           variant="section"
           position="center"
+          visibility="hidden"
         >
           {heading}
         </Heading>

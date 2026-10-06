@@ -35,6 +35,7 @@ export async function RecommendedProductsSection({
           headingLevel="h2"
           variant="section"
           position="center"
+          visibility="hidden"
         >
           {title}
         </Heading>

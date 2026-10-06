@@ -43,6 +43,7 @@ export function CreatingGankaSection({
             headingLevel="h2"
             variant="section"
             position="center"
+            visibility="hidden"
           >
             {title}
           </Heading>
@@ -68,9 +69,7 @@ export function CreatingGankaSection({
               )}
             >
               <div className="flex max-w-[90%] flex-col items-center justify-center gap-4">
-                <Text className="text-base font-normal leading-snug sm:text-lg lg:text-xl">
-                  {subtitle}
-                </Text>
+                <Text className="leading-snug">{subtitle}</Text>
 
                 <Text className="text-sm leading-snug sm:text-base">
                   {teaser}:{' '}

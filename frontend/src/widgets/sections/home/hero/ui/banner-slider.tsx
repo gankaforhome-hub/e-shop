@@ -3,7 +3,14 @@
 import Autoplay from 'embla-carousel-autoplay';
 
 import { cn } from '@/shared/lib/utils';
-import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/shared/ui/carousel';
+import { Icon } from '@/shared/ui/icon';
 import { type TBannerSlide } from '@/widgets/sections/home/hero/model/types';
 
 import { BannerPagination } from './banner-pagination';
@@ -55,7 +62,6 @@ export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
           );
         })}
       </CarouselContent>
-
       <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
         {bannerSlides.map((_, idx) => (
           <BannerPagination key={idx} to={idx} />

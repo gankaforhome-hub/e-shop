@@ -16,8 +16,10 @@ export const headingVariants = cva(
         footer: 'text-xl uppercase tracking-wide lg:text-2xl',
         collectionCard: 'text-base md:text-lg lg:text-2xl',
         productCard: 'ftext-4 fleading-7',
+        productPage: 'text-wrap text-2xl lg:text-3xl',
         textPanel:
           'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
+        none: '',
       },
       tone: {
         primary: 'text-foreground',

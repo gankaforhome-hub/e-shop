@@ -26,7 +26,7 @@ export function GiftPackingSection({
         className={cn(className)}
         heading={title}
         text={
-          <Text className="max-w-[90%] indent-4 leading-relaxed xl:indent-8">
+          <Text className="mx-auto px-4 md:max-w-[95%] lg:max-w-full">
             {description}
           </Text>
         }

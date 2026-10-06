@@ -45,7 +45,7 @@ export const HeroExclusive = ({
           <div className="md:absolute md:left-[14%] md:top-[70%] md:w-[38%] md:-translate-y-1/2 max-lg:md:left-[10%] max-lg:md:w-[42%]">
             <Text
               size="none"
-              className="md:text-foreground/60 text-base md:text-sm md:leading-tight lg:text-base lg:leading-normal xl:text-xl"
+              className="md:text-foreground text-base md:text-sm md:leading-tight lg:text-base lg:leading-normal xl:text-xl"
             >
               {description}
             </Text>

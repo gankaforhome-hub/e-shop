@@ -35,6 +35,7 @@ export function StayInTouchSection({
           headingLevel="h2"
           variant="section"
           position="center"
+          visibility="hidden"
         >
           {title}
         </Heading>
@@ -64,7 +65,7 @@ export function StayInTouchSection({
               >
                 {brandSubtitle}
               </Text>
-              <Text className="text-justify indent-8 text-sm leading-relaxed max-lg:indent-4 lg:text-base">
+              <Text className="text-sm leading-normal lg:text-base">
                 {description}
               </Text>
             </div>

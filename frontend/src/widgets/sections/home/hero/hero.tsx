@@ -27,7 +27,7 @@ export function Hero({ bannerSlides = [] }: IHeroProps) {
   //   }),
   // );
   return (
-    <Section className="overflow-hidden pb-0">
+    <Section className="overflow-hidden" spacing="none">
       <BannerSlider
         bannerSlides={bannerSlides}
         className={cn(
