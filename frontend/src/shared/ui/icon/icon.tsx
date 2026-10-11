@@ -45,6 +45,7 @@ import {
   LogoTextIcon,
   MasterCardIcon,
   PaypalIcon,
+  SpinnerIcon,
   TelegramIcon,
   VisaIcon,
 } from './custom-icon';
@@ -53,8 +54,8 @@ export type IconComponent = ComponentType<
   SVGProps<SVGSVGElement> | LucideProps
 >;
 
-// Жорстка типізація: гарантує, що для КОЖНОГО IconName є реальний компонент
-export const ICON_MAP: Partial<Record<IconName, IconComponent>> = {
+// `satisfies` guarantees at compile time that every IconName has a component.
+export const ICON_MAP = {
   'shopping-cart': ShoppingCart,
   search: Search,
   user: UserPen,
@@ -94,9 +95,10 @@ export const ICON_MAP: Partial<Record<IconName, IconComponent>> = {
   googlepay: GooglepayIcon,
   'logo-icon': LogoIcon,
   'logo-text': LogoTextIcon,
-};
+  spinner: SpinnerIcon,
+} satisfies Record<IconName, IconComponent>;
 
-export interface IIconProps extends SVGProps<SVGSVGElement> {
+export interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   children?: ReactNode;
   iconPosition?: 'left' | 'right';
@@ -113,12 +115,8 @@ export function Icon({
   children,
   size,
   ...props
-}: IIconProps) {
-  const SvgIcon = ICON_MAP[name];
-
-  if (!SvgIcon) {
-    return null;
-  }
+}: IconProps) {
+  const SvgIcon: IconComponent = ICON_MAP[name];
 
   const renderIcon = () => (
     <SvgIcon
@@ -131,7 +129,6 @@ export function Icon({
     />
   );
 
-  // 1. Рендер, якщо Є children (з обгорткою)
   if (children) {
     return (
       <span
@@ -147,6 +144,5 @@ export function Icon({
     );
   }
 
-  // 2. РЕНДЕР ЗА ЗАМОВЧУВАННЯМ (якщо children НЕМАЄ) — ВИПРАВЛЕНО!
   return renderIcon();
 }

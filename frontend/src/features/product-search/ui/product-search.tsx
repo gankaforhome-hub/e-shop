@@ -40,7 +40,7 @@ export function ProductSearch() {
         onChange={e => handleSearch(e.target.value)}
         className="pr-8"
       />
-      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400">
+      <div className="text-muted-foreground absolute right-2.5 top-1/2 -translate-y-1/2">
         <Icon name="search" className="h-4 w-4" />
       </div>
     </div>

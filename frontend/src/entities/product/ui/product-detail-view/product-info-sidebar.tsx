@@ -601,7 +601,7 @@ export function ProductInfoSidebar({
             {label.price}: {formatMoney(currentPrice, lang)}
           </span>
           {selectedVariant?.compareAtPrice && (
-            <span className="text-sm text-neutral-400 line-through md:text-base">
+            <span className="text-commerce-price-old text-sm line-through md:text-base">
               {formatMoney(selectedVariant.compareAtPrice, lang)}
             </span>
           )}

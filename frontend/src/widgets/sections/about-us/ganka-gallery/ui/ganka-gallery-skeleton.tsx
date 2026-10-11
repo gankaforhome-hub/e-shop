@@ -29,7 +29,7 @@ export function GankaGallerySkeleton({
               'xl:w-auto xl:min-w-0 xl:shrink',
             )}
           >
-            <Skeleton className="rounded-card aspect-square w-full" />
+            <Skeleton className="aspect-square w-full" />
           </li>
         ))}
       </ul>

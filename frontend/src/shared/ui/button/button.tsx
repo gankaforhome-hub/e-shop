@@ -1,12 +1,12 @@
-import { type ButtonHTMLAttributes } from 'react';
+import { type ButtonHTMLAttributes, type Ref } from 'react';
 
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/shared/lib/utils';
 
-const buttonVariants = cva(
-  'font-caption focus-visible:ring-ring duration-(--dur-norm) inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none',
+export const buttonVariants = cva(
+  'font-caption focus-visible:ring-ring duration-(--dur-normal) inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -39,12 +39,13 @@ const buttonVariants = cva(
     },
   },
 );
-export interface IButtonProps
+
+export interface ButtonProps
   extends
     ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  ref?: React.Ref<HTMLButtonElement>;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export function Button({
@@ -54,7 +55,7 @@ export function Button({
   asChild = false,
   ref,
   ...props
-}: IButtonProps) {
+}: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
 
   return (

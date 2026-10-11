@@ -2,6 +2,8 @@
 
 import { memo, type ComponentPropsWithRef, type ReactNode } from 'react';
 
+import { cva, type VariantProps } from 'class-variance-authority';
+
 import { type AppRoutes } from '@/shared/config';
 import { usePathname } from '@/shared/i18n/navigation';
 import { cn } from '@/shared/lib/utils';
@@ -11,11 +13,39 @@ import { Icon } from '@/shared/ui/icon';
 
 import { isActiveRoute } from '../lib';
 
-export interface INavItemProps extends Omit<
-  ComponentPropsWithRef<'button'>,
-  'children'
-> {
-  variant: 'header' | 'footer' | 'mobile' | 'popover' | undefined;
+const navItemVariants = cva('font-heading', {
+  variants: {
+    variant: {
+      header: 'link text-xl capitalize',
+      footer: 'link text-base capitalize',
+      mobile:
+        'text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
+      popover:
+        'hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
+    },
+    active: {
+      true: '',
+      false: '',
+    },
+  },
+  compoundVariants: [
+    { variant: 'header', active: true, className: 'text-foreground' },
+    {
+      variant: ['mobile', 'popover'],
+      active: true,
+      className: 'text-foreground rounded-xs font-medium',
+    },
+  ],
+  defaultVariants: {
+    variant: 'header',
+    active: false,
+  },
+});
+
+export interface NavItemProps
+  extends
+    Omit<ComponentPropsWithRef<'button'>, 'children'>,
+    Pick<VariantProps<typeof navItemVariants>, 'variant'> {
   href?: AppRoutes;
   label: string;
   description?: string;
@@ -38,32 +68,13 @@ export const NavItem = memo(function NavItem({
   onClick,
   ref,
   ...buttonProps
-}: INavItemProps) {
+}: NavItemProps) {
   const pathname = usePathname();
   const isActive =
-    showActive && Boolean(href) && isActiveRoute(pathname, href!);
-
-  const navLinkStyle = {
-    header: 'text-xl capitalize link',
-    footer: 'text-base capitalize link',
-    mobile:
-      'flex items-center justify-between text-base py-4 w-full select-none text-left transition-all active:opacity-70 text-foreground hover:bg-muted/60 px-4',
-    popover:
-      'hover:text-secondary-foreground text-foreground duration-(--dur-norm) py-1 text-base transition-colors',
-  };
-
-  const activeStyle = {
-    header: 'text-foreground',
-    footer: '',
-    mobile: 'text-foreground font-medium rounded-xs',
-    popover: 'text-foreground font-medium rounded-xs',
-  };
+    showActive && href !== undefined && isActiveRoute(pathname, href);
 
   const sharedClasses = cn(
-    'font-heading',
-    navLinkStyle[variant],
-    isActive && activeStyle[variant],
-    className,
+    navItemVariants({ variant, active: isActive, className }),
   );
 
   const content = (
@@ -93,7 +104,7 @@ export const NavItem = memo(function NavItem({
         ref={ref}
         {...buttonProps}
         onClick={onClick}
-        className={cn('font-text rounded-none', sharedClasses)}
+        className={cn('rounded-none', sharedClasses)}
       >
         {content}
         {btnSubmenuChildren}

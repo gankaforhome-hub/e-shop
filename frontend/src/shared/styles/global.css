@@ -11,11 +11,18 @@
 @import './fluid';
 @import './base';
 
+/* No dark theme yet: `dark:` utilities apply only under an explicit `.dark`
+   ancestor instead of following the OS color scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic tokens → Tailwind utilities. Radius, shadow and easing scales are
+   declared directly in theme/radius.css, theme/shadows.css, theme/motion.css. */
 @theme inline {
   --breakpoint-3xl: 120rem;
   --font-heading: var(--font-playfair);
   --font-text: var(--font-noto);
   --font-caption: var(--font-noto);
+  /* Aliases of --primary kept for existing usages: brand, accent-border. */
   --color-brand: var(--primary);
 
   --color-background: var(--background);
@@ -36,9 +43,9 @@
   --color-action-secondary-hover: var(--secondary-hover);
   --color-action-secondary-active: var(--secondary-active);
 
-  --color-icon: var(--primitive-neutral-900);
-  --color-icon-hover: var(--primitive-brand-900);
-  --color-icon-active: var(--primitive-brand-950);
+  --color-icon: var(--icon);
+  --color-icon-hover: var(--icon-hover);
+  --color-icon-active: var(--icon-active);
 
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
@@ -52,7 +59,8 @@
   --color-destructive-hover: var(--destructive-hover);
 
   --color-border: var(--border);
-  --color-accent-border: var(--primary);
+  --color-border-strong: var(--border-strong);
+  --color-accent-border: var(--primary); /* alias of --primary */
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -111,32 +119,6 @@
 
   --color-product-card-bg: var(--product-card-bg);
   --color-faq-bg-base: var(--faq-bg-base);
-
-  --radius-xs: var(--radius-xs);
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-2xl: var(--radius-2xl);
-  --radius-full: var(--radius-full);
-
-  /* motion tokens exposed as Tailwind theme values */
-  --ease-subtle: var(--ease-subtle);
-  --ease-bounce: var(--ease-bounce);
-  --dur-fast: var(--dur-fast);
-  --dur-normal: var(--dur-normal);
-  --dur-slow: var(--dur-slow);
-
-  /* shadow tokens exposed as Tailwind theme values */
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-glass: var(--shadow-glass);
-  --shadow-card: var(--shadow-card);
-  --shadow-button: var(--shadow-button);
-  --shadow-floating: var(--shadow-floating);
 }
 
 @layer utilities {
@@ -201,7 +183,7 @@
 
   .link::before {
     content: '';
-    background-color: #b11226;
+    background-color: var(--primary);
     @apply absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
   }
 

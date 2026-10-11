@@ -80,11 +80,11 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
             <Label
               htmlFor={name}
               className={cn(
-                'text-fg custom-transition absolute left-0 transition-all',
-                'peer-placeholder-shown:ftext-4/4.5 peer-placeholder-shown:text-fg top-0 peer-placeholder-shown:top-0',
-                'peer-focus:ftext-2/2.5 peer-focus:text-fg/70 peer-focus:-top-2',
-                'peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:ftext-2/2.5 peer-not-placeholder-shown:text-fg/70',
-                !!errors[name] && 'ftext-2/2.5 text-fg/70 -top-2',
+                'text-foreground custom-transition absolute left-0 transition-all',
+                'peer-placeholder-shown:ftext-4/4.5 peer-placeholder-shown:text-foreground top-0 peer-placeholder-shown:top-0',
+                'peer-focus:ftext-2/2.5 peer-focus:text-foreground/70 peer-focus:-top-2',
+                'peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:ftext-2/2.5 peer-not-placeholder-shown:text-foreground/70',
+                !!errors[name] && 'ftext-2/2.5 text-foreground/70 -top-2',
               )}
             >
               {label}

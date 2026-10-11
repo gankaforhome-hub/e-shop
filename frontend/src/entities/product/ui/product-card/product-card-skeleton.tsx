@@ -4,7 +4,7 @@ export function ProductCardSkeleton() {
   return (
     <article className="flex h-full animate-pulse flex-col overflow-hidden">
       {/* Square image */}
-      <Skeleton className="rounded-card aspect-square w-full" />
+      <Skeleton className="aspect-square w-full" />
 
       {/* Content below image */}
       <div className="flex flex-1 flex-col justify-between gap-1 p-2 pt-2">

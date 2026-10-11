@@ -36,7 +36,8 @@ phase, we follow a two-phased backend execution strategy:
 - **Product Presentation**: Fully responsive UI displaying product details,
   dynamic galleries, stock availability, pricing, and localized content.
 - **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
-  v4, Radix UI, Framer Motion, next-intl, Zod, and React Hook Form.
+  v4, Shadcn, Radix UI, Framer Motion, next-intl, Zod, and React Hook Form,
+  Supabase, next-auth.
 
 ---
 
@@ -47,13 +48,16 @@ Role-Based Access Control (RBAC) divided into 3 core functional domains:
 
 1. **Content Management Block (`content/`)**:
    - Manages site content, blog posts, banners, marketing sections, and static
-     pages (e.g., "About Us").
+     pages (e.g., "About Us"), content editors and forms, content preview and
+     publishing.
 2. **Catalog & E-commerce Logic Block (`catalog/`)**:
    - Handles product creation/editing, inventory management, collections,
-     categories, and attributes (Direct DB access in Phase 1).
+     categories, and attributes, product listing, filtering, and sorting (Direct
+     DB access in Phase 1).
 3. **Admin Dashboard & Operations Block (`operations/`)**:
-   - Site usage analytics, order processing, general system management, and
-     operation metrics.
+   - Site usage analytics, dashboard and metrics order processing, general
+     system management, and operation metrics, order management, data tables,
+     filters, and reporting.
 
 ### 🔐 Access Control & Roles (RBAC):
 
@@ -78,4 +82,5 @@ Role-Based Access Control (RBAC) divided into 3 core functional domains:
   customer apps and administrative workflows.
 - **Database Architecture**: Interacts with the primary SQL database (via Prisma
   or Drizzle ORM).
-- **Tech Stack**: Node.js, NestJS, TypeScript, SQL/ORM.
+- **Tech Stack**: Node.js, NestJS, TypeScript, SQL/ORM. next-intl, Docker,
+  CI/CD, Zod.

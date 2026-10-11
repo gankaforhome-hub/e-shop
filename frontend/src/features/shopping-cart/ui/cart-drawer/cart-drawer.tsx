@@ -93,7 +93,7 @@ export function CartDrawer({ label, className }: ICartDrawerProps) {
 
         <div className="flex-1 overflow-y-auto p-4">
           {cartItems.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-gray-400">
+            <div className="text-muted-foreground flex h-full flex-col items-center justify-center">
               <p>Ваш кошик порожній</p>
             </div>
           ) : (

@@ -1,4 +1,9 @@
-:root {
+/*
+ * Border-radius scale.
+ * Declared in `@theme` so Tailwind generates `rounded-*` utilities from these
+ * values; `static` keeps every variable emitted for direct `var(--radius-*)` use.
+ */
+@theme static {
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 8px;

@@ -20,7 +20,7 @@ export function PlayButton({
   const themeIconClass = cn(
     'size-6',
     theme === 'white'
-      ? 'fill-none stroke-icon-secondary hover:fill-icon-secondary focus:fill-icon-secondary'
+      ? 'fill-none stroke-current'
       : 'stroke-icon hover:fill-icon focus:fill-icon',
   );
 

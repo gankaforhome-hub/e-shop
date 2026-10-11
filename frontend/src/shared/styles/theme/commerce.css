@@ -9,7 +9,9 @@
   --commerce-stock-in-bg: var(--primitive-emerald-50);
   --commerce-stock-low: var(--primitive-amber-700);
   --commerce-stock-low-bg: var(--primitive-amber-50);
-  --commerce-stock-out: var(--primitive-neutral-600);
+  --commerce-stock-out: var(
+    --primitive-neutral-700
+  ); /* 6.9:1 on stock-out-bg */
   --commerce-stock-out-bg: var(--primitive-neutral-100);
 
   /* Discounts & Ratings */
@@ -24,16 +26,15 @@
   --dot-inactive-secondary: var(--primitive-neutral-200);
   --dot-hover: var(--primitive-brand-800);
 
-  /* Badges*/
+  /* Badges — text/bg pairs pass 4.5:1 at full opacity.
+     new/preorder backgrounds have no primitive yet (primitives.css is frozen). */
   --badge-new-bg: #f0aacc;
   --badge-new-text: var(--primitive-neutral-1000);
   --badge-top-bg: var(--primitive-brand-900);
   --badge-top-text: var(--primitive-neutral-0);
-  --badge-bestseller-bg: var(--primitive-brand-900);
-  --badge-bestseller-text: var(--primitive-neutral-0);
-  /* --badge-preorder-bg: var(--primitive-emerald-500); */
+  --badge-bestseller-bg: var(--primitive-amber-500);
+  --badge-bestseller-text: var(--primitive-neutral-1000); /* 9.8:1 */
   --badge-preorder-bg: #d8df82;
-
   --badge-preorder-text: var(--primitive-neutral-1000);
   --badge-popular-bg: var(--primitive-brand-600);
   --badge-popular-text: var(--primitive-neutral-0);
@@ -43,9 +44,6 @@
   --badge-sale-text: var(--primitive-neutral-0);
 
   /* Components */
-  --product-card-bg: var(--card); /* from semantic.css */
-  --product-card-radius: var(--radius-md); /* from radius.css */
+  --product-card-bg: var(--card);
   --faq-bg-base: var(--primitive-neutral-50);
-  --faq-radius: var(--radius-lg);
-  --button-radius: var(--radius-lg);
 }

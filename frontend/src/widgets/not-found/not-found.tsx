@@ -23,7 +23,7 @@ export function NotFoundWidget() {
           sizes="(max-width: 1024px) 100vw, 66vw"
           className="h-auto w-full max-w-7xl"
         />
-        <div className="text-header max-w-lg">
+        <div className="max-w-lg">
           <Text className="ftext-3/4 fleading-8/9 fmb-2/4 uppercase tracking-wider">
             {t('textError')}
           </Text>

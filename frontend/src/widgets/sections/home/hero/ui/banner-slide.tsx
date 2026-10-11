@@ -1,15 +1,14 @@
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
-import { AppMedia } from '@/shared/ui/app-media';
-import { type IAppMediaProps } from '@/shared/ui/app-media/app-media';
+import { AppMedia, type AppMediaProps } from '@/shared/ui/app-media';
 import { Button } from '@/shared/ui/button';
 import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
 import { Heading } from '@/shared/ui/heading';
 import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
 
-interface IBannerSlide extends IAppMediaProps {
+interface BannerSlideProps extends AppMediaProps {
   bannerSlide: {
     title: string;
     subTitle: string;
@@ -23,7 +22,7 @@ export function BannerSlide({
   bannerSlide: { title, subTitle, slug, blurDataURL },
   index,
   ...props
-}: IBannerSlide) {
+}: BannerSlideProps) {
   const { isInitialize, current } = useCarousel();
   const isSelected = current === index;
   const isContentVisible = isInitialize && isSelected;

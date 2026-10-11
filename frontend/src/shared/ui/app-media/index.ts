@@ -1,1 +1,1 @@
-export { AppMedia } from './app-media';
+export { AppMedia, type AppMediaProps } from './app-media';

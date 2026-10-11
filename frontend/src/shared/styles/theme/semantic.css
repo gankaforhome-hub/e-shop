@@ -1,6 +1,13 @@
+/*
+ * Semantic color layer: maps primitives (primitives.css) to UI roles.
+ * Components consume these through the Tailwind utilities declared in
+ * global.css `@theme inline` — never reference primitives from components.
+ * Contrast notes are WCAG 2.2 ratios against --background (#ffffff) unless stated.
+ */
 :root {
+  /* Surfaces & text */
   --background: var(--primitive-neutral-0);
-  --foreground: var(--primitive-neutral-800);
+  --foreground: var(--primitive-neutral-800); /* 15.4:1 */
 
   --card: var(--primitive-neutral-300);
   --card-foreground: var(--primitive-neutral-900);
@@ -8,7 +15,13 @@
   --popover: var(--primitive-neutral-0);
   --popover-foreground: var(--primitive-neutral-900);
 
-  --primary: var(--primitive-brand-900);
+  --muted: var(--primitive-neutral-100);
+  /* 4.84:1 on background/popover; only 4.43:1 on --muted, 3.26:1 on --card —
+     don't place small muted text on those surfaces. */
+  --muted-foreground: var(--primitive-neutral-600);
+
+  /* Actions */
+  --primary: var(--primitive-brand-900); /* #b11226 brand accent, 7.04:1 */
   --primary-foreground: var(--primitive-neutral-0);
   --primary-hover: var(--primitive-brand-700);
   --primary-active: var(--primitive-brand-950);
@@ -18,37 +31,48 @@
   --secondary-hover: var(--primitive-brand-700);
   --secondary-active: var(--primitive-brand-950);
 
-  --muted: var(--primitive-neutral-100);
-  --muted-foreground: var(--primitive-neutral-600);
-
   --accent: var(--primitive-brand-200);
-  --accent-foreground: var(--primitive-brand-900);
+  --accent-foreground: var(--primitive-brand-900); /* 6.39:1 on --accent */
   --surface-brand-subtle: var(--primitive-brand-100);
 
-  --destructive: var(--primitive-red-600);
+  --destructive: var(--primitive-red-600); /* 4.83:1 */
   --destructive-foreground: var(--primitive-neutral-0);
   --destructive-hover: var(--primitive-brand-950);
 
+  /* Icons */
+  --icon: var(--primitive-neutral-900);
+  --icon-hover: var(--primitive-brand-900);
+  --icon-active: var(--primitive-brand-950);
+
+  /* Borders & focus */
+  /* Decorative dividers (1.57:1) — not for boundaries that identify a control. */
   --border: color-mix(in srgb, var(--primitive-neutral-900) 20%, transparent);
-  --input: var(--border);
-
+  /* Control boundaries (WCAG 1.4.11): 3.32:1 on background, 3.04:1 on --muted. */
+  --border-strong: color-mix(
+    in srgb,
+    var(--primitive-neutral-900) 46%,
+    transparent
+  );
+  --input: var(--border-strong);
   --ring: var(--primitive-brand-900);
-  --focus-ring-color: var(--ring);
 
+  /* Disabled (exempt from WCAG contrast; keep distinguishable) */
   --disabled-bg: var(--primitive-neutral-100);
   --disabled-foreground: var(--primitive-neutral-400);
   --disabled-border: var(--primitive-neutral-200);
 
+  /* Links */
   --link: var(--primitive-brand-900);
   --link-hover: var(--primitive-brand-700);
   --link-visited: var(--primitive-brand-950);
 
+  /* Status — every fg passes 4.5:1 on its bg; icons pass 3:1 on background */
   --status-success-fg: var(--primitive-emerald-700);
   --status-success-bg: var(--primitive-emerald-50);
-  --status-success-icon: var(--primitive-emerald-500);
+  --status-success-icon: var(--primitive-emerald-700);
   --status-warning-fg: var(--primitive-amber-700);
   --status-warning-bg: var(--primitive-amber-50);
-  --status-warning-icon: var(--primitive-amber-500);
+  --status-warning-icon: var(--primitive-amber-700);
   --status-error-fg: var(--primitive-red-600);
   --status-error-bg: var(--primitive-brand-50);
   --status-info-fg: var(--primitive-slate-700);

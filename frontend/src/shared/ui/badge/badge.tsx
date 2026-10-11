@@ -6,7 +6,7 @@ import { Slot } from 'radix-ui';
 import { cn } from '@/shared/lib/utils';
 
 const badgeVariants = cva(
-  'font-text rounded-badge inline-flex select-none items-center justify-center rounded-sm border px-2 py-0.5 text-[10px] font-normal uppercase tracking-widest backdrop-blur-md transition-colors',
+  'font-text inline-flex select-none items-center justify-center rounded-sm border px-2 py-0.5 text-[10px] font-normal uppercase tracking-widest backdrop-blur-md transition-colors',
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ const badgeVariants = cva(
           'bg-badge-preorder-bg text-badge-preorder-text border-white/20 font-medium dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
 
         bestseller:
-          'border-white/50 bg-amber-500/85 font-semibold text-white shadow-sm dark:border-amber-700/50 dark:bg-amber-900/80',
+          'bg-badge-bestseller-bg/85 text-badge-bestseller-text border-white/50 font-semibold shadow-sm dark:border-amber-700/50 dark:bg-amber-900/80',
 
         most_popular:
           'bg-badge-popular-bg text-badge-popular-text border-white/20 font-medium dark:border-neutral-700 dark:bg-white/80 dark:text-neutral-900',
@@ -26,7 +26,7 @@ const badgeVariants = cva(
         limited:
           'border-slate-300/60 bg-slate-100/80 text-slate-800 hover:bg-slate-200/80 dark:border-slate-700/60 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80',
 
-        sale: 'border-rose-200/50 bg-rose-500/85 text-white hover:bg-rose-600/90 dark:border-rose-800/50 dark:bg-rose-900/80 dark:hover:bg-rose-900',
+        sale: 'bg-badge-sale-bg/85 text-badge-sale-text hover:bg-badge-sale-bg border-rose-200/50 dark:border-rose-800/50 dark:bg-rose-900/80 dark:hover:bg-rose-900',
       },
     },
     defaultVariants: {

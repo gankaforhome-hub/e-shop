@@ -6,7 +6,7 @@ import { cn, getBase64, isVideoUrl, shimmer } from '@/shared/lib/utils';
 import { Overlay } from '@/shared/ui/overlay';
 import { VideoPlayer } from '@/shared/ui/video-player';
 
-export interface IAppMediaProps extends Omit<
+export interface AppMediaProps extends Omit<
   ImageProps,
   'src' | 'alt' | 'width' | 'height' | 'placeholder' | 'blurDataURL'
 > {
@@ -37,12 +37,11 @@ export function AppMedia({
   placeholder = 'blur',
   blurDataURL,
   ...restProps
-}: IAppMediaProps) {
+}: AppMediaProps) {
   const isVideo = isVideoUrl(src);
 
   const baseClass = cn('object-cover object-center w-full h-full', className);
 
-  // Готуємо контент
   let mediaContent: ReactNode;
 
   if (isVideo) {
@@ -57,8 +56,8 @@ export function AppMedia({
       />
     );
   } else {
-    const blurWidth = width ? Number(width) : 475;
-    const blurHeight = height ? Number(height) : 475;
+    const blurWidth = width ?? 475;
+    const blurHeight = height ?? 475;
 
     const finalBlurDataURL =
       blurDataURL ||

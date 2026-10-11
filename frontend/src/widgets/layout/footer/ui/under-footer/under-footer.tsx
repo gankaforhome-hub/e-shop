@@ -11,7 +11,7 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
   return (
     <div
       className={cn(
-        'border-border-muted/40 text-foreground/70 mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
+        'border-border text-foreground/70 mt-4 flex flex-col items-center gap-4 border-t pt-4 text-sm lg:flex-row-reverse lg:justify-center',
         className,
       )}
     >

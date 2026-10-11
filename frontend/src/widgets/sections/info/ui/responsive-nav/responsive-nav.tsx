@@ -20,7 +20,7 @@ export function ResponsiveNav({ items, currentSlug }: InfoSideNavProps) {
             className={`shrink-0 whitespace-nowrap text-xs uppercase tracking-widest transition-colors md:text-sm ${
               isActive
                 ? 'font-medium text-black underline underline-offset-4'
-                : 'text-neutral-400 hover:text-black'
+                : 'text-muted-foreground hover:text-black'
             }`}
           >
             {item.label}

@@ -108,7 +108,7 @@ export const ProductCard = ({
           {/* Category / Collection Link / //INFO Add if needed*/}
           <span
             // href={routes.collection(product.primaryCollection.slug)}
-            className="text-brand hover:text-brand-hover text-xs font-semibold capitalize"
+            className="text-brand text-xs font-semibold capitalize"
           >
             {product.primaryCollection.title}
           </span>
@@ -117,10 +117,10 @@ export const ProductCard = ({
           <AppLink
             href={routes.product(product.slug)}
             className={cn(
-              `text-text-primary custom-transition leading-1.5 line-clamp-2 text-sm capitalize tracking-wide md:text-base`,
+              `text-foreground custom-transition leading-1.5 line-clamp-2 text-sm capitalize tracking-wide md:text-base`,
             )}
           >
-            <span className="text-underline-animation">{product.title}</span>
+            <span>{product.title}</span>
           </AppLink>
         </div>
 
@@ -131,7 +131,7 @@ export const ProductCard = ({
               {formatMoney(product.price, lang)}
             </span>
             {/* {product.compareAtPrice && (
-              <span className="text-price-old text-[10px] line-through md:text-xs">
+              <span className="text-commerce-price-old text-[10px] line-through md:text-xs">
                 {formatMoney(product.compareAtPrice)}
               </span>
             )} */}
@@ -139,8 +139,9 @@ export const ProductCard = ({
           {product.stock.status !== 'in_stock' && (
             <span
               className={cn(
-                'text-commerce-price-current/80 bg-stock-warning rounded-2xl px-2 text-[10px] tabular-nums md:text-sm',
-                product.stock.status === 'low_stock' ? 'text-brand-active' : '',
+                'text-commerce-price-current/80 rounded-2xl px-2 text-[10px] tabular-nums md:text-sm',
+                product.stock.status === 'low_stock' &&
+                  'text-commerce-stock-low',
               )}
             >
               {product.stock.label}

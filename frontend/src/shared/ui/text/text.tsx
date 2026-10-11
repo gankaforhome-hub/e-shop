@@ -15,7 +15,7 @@ export const textVariants = cva('font-normal tracking-normal', {
       primary: 'text-foreground',
       secondary: 'text-secondary-foreground',
       card: 'text-foreground',
-      caption: 'text-caption',
+      caption: 'text-inherit',
       accent: 'text-accent-foreground',
       error: 'text-status-error-fg',
       success: 'text-status-success-fg',
@@ -26,6 +26,8 @@ export const textVariants = cva('font-normal tracking-normal', {
       label: 'text-base xl:text-lg',
       status: 'text-base xl:text-lg',
       commerce: 'text-base xl:text-lg',
+      /** 16px → 18px scaled continuously between 320px and 1920px viewports. */
+      fluid: 'ftext-4/4.5 fleading-6/7',
       none: '',
     },
     position: {
@@ -66,7 +68,7 @@ export function Text<T extends ElementType = 'p'>({
   children,
   ...props
 }: PolymorphicTextProps<T>) {
-  const Component = as || 'p';
+  const Component = as ?? 'p';
 
   return (
     <Component
