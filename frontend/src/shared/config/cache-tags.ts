@@ -9,4 +9,6 @@ export const cacheTags = {
   category: (slug: string) => `category-${slug}`,
   collections: 'collections',
   collection: (slug: string) => `collection-${slug}`,
+  infoPages: 'info-pages',
+  infoPage: (slug: string, lang: string) => `info-${slug}-${lang}`,
 } as const;
