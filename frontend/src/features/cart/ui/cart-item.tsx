@@ -1,91 +1,115 @@
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
+
+import { type CartLine } from '@/entities/cart';
+import { routes } from '@/shared/config/routes';
+import { type Locale } from '@/shared/i18n/routing';
+import { formatMoney } from '@/shared/lib/utils';
+import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
+import { Button } from '@/shared/ui/button';
+import { Icon } from '@/shared/ui/icon';
+import { Text } from '@/shared/ui/text';
 
-import { useCart } from '../model/cart-context';
-import { type CartItem as CartItemType } from '../model/types';
+interface CartItemCardProps {
+  line: CartLine;
+  onQuantityChange: (id: string, delta: number) => void;
+  onRemove: (id: string) => void;
+}
 
-export function CartItemCard({ item }: { item: CartItemType }) {
-  const { updateQuantity, removeItem } = useCart();
+export function CartItemCard({
+  line,
+  onQuantityChange,
+  onRemove,
+}: CartItemCardProps) {
+  const t = useTranslations('common');
+  const lang = useLocale() as Locale;
 
   return (
-    <div className="flex items-center gap-6 border-b border-gray-100 py-6 last:border-0">
-      {/* Кругла мініатюра з легким фоном та тінню */}
-      <div className="relative flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden bg-[#f7f7f7] shadow-sm">
+    <article className="border-border flex items-center gap-4 border-b py-5 last:border-0 sm:gap-6">
+      <div className="bg-muted relative size-20 shrink-0 overflow-hidden sm:size-24">
         <AppMedia
-          src={item.image}
-          alt={item.title}
+          src={line.image}
+          alt={line.title}
           fill
           sizes="96px"
           className="object-contain p-1"
         />
       </div>
 
-      {/* Інформація про товар */}
-      <div className="flex-1 space-y-2">
-        {/* Назва товару з елегантним серіфним шрифтом */}
-        <h3 className="font-serif text-lg font-normal leading-snug text-gray-900">
-          {item.title}
-        </h3>
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+        <AppLink
+          href={routes.product(line.slug)}
+          className="font-heading text-foreground hover:text-foreground/70 line-clamp-2 text-base leading-snug sm:text-lg"
+        >
+          {line.title}
+        </AppLink>
 
-        {/* Ціна */}
-        <p className="text-base font-medium tracking-tight text-gray-900">
-          {item.price.toLocaleString('uk-UA')} ₴
-        </p>
+        {line.variantLabel && (
+          <Text as="span" size="none" className="text-muted-foreground text-xs">
+            {line.variantLabel}
+          </Text>
+        )}
 
-        {/* Лічильник кількості та кнопка видалення */}
+        <Text
+          as="span"
+          size="none"
+          className="text-commerce-price-current text-sm font-medium tabular-nums sm:text-base"
+        >
+          {formatMoney(line.price, lang)}
+        </Text>
+
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-3 text-sm text-gray-600">
-            <span className="font-light text-gray-500">Quantity:</span>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => updateQuantity(item.id, -1)}
-                className="p-0.5 text-base font-light leading-none text-gray-500 transition-colors hover:text-black"
-                aria-label="Зменшити кількість"
+          <div className="flex items-center gap-3">
+            <Text
+              as="span"
+              size="none"
+              className="text-muted-foreground text-sm"
+            >
+              {t('label.quantity')}:
+            </Text>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => onQuantityChange(line.id, -1)}
+                aria-label={t('cart.decrease')}
+                className="text-muted-foreground hover:text-foreground size-7"
               >
-                —
-              </button>
-
-              <span className="w-4 text-center font-normal text-gray-900">
-                {item.quantity}
-              </span>
-
-              <button
-                type="button"
-                onClick={() => updateQuantity(item.id, 1)}
-                className="p-0.5 text-base font-light leading-none text-gray-500 transition-colors hover:text-black"
-                aria-label="Збільшити кількість"
+                <Icon name="minus" className="size-3.5" aria-hidden="true" />
+              </Button>
+              <Text
+                as="span"
+                size="none"
+                className="w-5 text-center text-sm tabular-nums"
+                aria-live="polite"
               >
-                +
-              </button>
+                {line.quantity}
+              </Text>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => onQuantityChange(line.id, 1)}
+                aria-label={t('cart.increase')}
+                className="text-muted-foreground hover:text-foreground size-7"
+              >
+                <Icon name="plus" className="size-3.5" aria-hidden="true" />
+              </Button>
             </div>
           </div>
 
-          {/* Іконка кошика / видалення */}
-          <button
-            type="button"
-            onClick={() => removeItem(item.id)}
-            className="p-1 text-gray-700 transition-colors hover:text-red-600"
-            aria-label="Видалити товар"
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onRemove(line.id)}
+            aria-label={t('cart.remove')}
+            className="text-muted-foreground hover:text-status-error-fg"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
-          </button>
+            <Icon name="delete-cart" className="size-5" aria-hidden="true" />
+          </Button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
