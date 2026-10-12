@@ -18,6 +18,12 @@ export const headingVariants = cva(
         productPage: 'text-wrap text-2xl lg:text-3xl',
         textPanel:
           'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
+        /** Long-form documents (info/legal pages): 24 → 30px page title. */
+        document: 'text-2xl leading-tight tracking-wide md:text-3xl',
+        /** Long-form section titles: 18 → 20px. */
+        subsection: 'text-lg leading-snug tracking-wide md:text-xl',
+        /** Long-form sub-titles and callout titles: 16 → 18px. */
+        minor: 'text-base leading-snug tracking-wide md:text-lg',
         none: '',
       },
       tone: {

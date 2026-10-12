@@ -14,6 +14,7 @@ export const textVariants = cva('font-normal tracking-normal', {
       default: 'text-foreground',
       primary: 'text-foreground',
       secondary: 'text-secondary-foreground',
+      muted: 'text-muted-foreground',
       card: 'text-foreground',
       caption: 'text-inherit',
       accent: 'text-accent-foreground',
@@ -28,6 +29,8 @@ export const textVariants = cva('font-normal tracking-normal', {
       commerce: 'text-base xl:text-lg',
       /** 16px → 18px scaled continuously between 320px and 1920px viewports. */
       fluid: 'ftext-4/4.5 fleading-6/7',
+      /** Long-form documents: 14 → 16px, relaxed leading. */
+      document: 'text-sm leading-relaxed md:text-base',
       none: '',
     },
     position: {

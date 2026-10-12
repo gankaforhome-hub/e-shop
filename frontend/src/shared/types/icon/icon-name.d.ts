@@ -26,6 +26,8 @@ export type IconName =
   | 'copyright'
   | 'delivery'
   | 'gift'
+  | 'download'
+  | 'file-text'
   | 'plus'
   | 'minus'
   | 'spinner'
