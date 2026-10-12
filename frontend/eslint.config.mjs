@@ -23,6 +23,7 @@ export default [
       '**/node_modules/**',
       '**/dist/**',
       '**/.next/**',
+      'next-env.d.ts',
       '**/coverage/**',
       '**/out/',
       '**/build/**',

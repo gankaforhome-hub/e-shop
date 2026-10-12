@@ -8,10 +8,13 @@ const withNextIntl = createNextIntlPlugin('./src/shared/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Enables 'use cache' / cacheLife / cacheTag and Partial Prerendering
+  cacheComponents: true,
   productionBrowserSourceMaps: false,
   images: {
     formats: ['image/avif', 'image/webp'], // AVIF стискає ще краще за WebP
-    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1440, 1920, 2048, 3840],
+    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1440, 1920, 2048],
+    qualities: [75, 90],
   },
   allowedDevOrigins: [
     'localhost:3000',
