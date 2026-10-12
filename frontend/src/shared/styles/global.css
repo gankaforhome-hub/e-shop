@@ -46,6 +46,7 @@
   --color-icon: var(--icon);
   --color-icon-hover: var(--icon-hover);
   --color-icon-active: var(--icon-active);
+  --color-logo: var(--logo);
 
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
@@ -192,16 +193,6 @@
     @apply origin-left scale-x-100;
   }
 
-  /* .link {
-    color: #080808;
-    @apply inline-block no-underline transition-colors duration-300 ease-out;
-  }
-
-  .link:hover,
-  .link:focus-visible {
-    color: color-mix(in srgb, #b11226 75%, #080808);
-  } */
-
   .collection-bg {
     background-image:
       radial-gradient(
@@ -217,7 +208,7 @@
   }
 
   .link-hover {
-    color: #0000;
+    color: transparent;
     background: linear-gradient(
         90deg,
         var(--primitive-brand-900) 50%,

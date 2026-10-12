@@ -43,6 +43,7 @@
   --icon: var(--primitive-neutral-900);
   --icon-hover: var(--primitive-brand-900);
   --icon-active: var(--primitive-brand-950);
+  --logo: var(--primitive-logo-ink);
 
   /* Borders & focus */
   /* Decorative dividers (1.57:1) — not for boundaries that identify a control. */

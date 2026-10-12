@@ -10,6 +10,8 @@
   --primitive-neutral-800: #22252a;
   --primitive-neutral-900: #080808;
   --primitive-neutral-1000: #000000;
+  /* Brand mark ink (logo SVG fill) */
+  --primitive-logo-ink: #231f20;
 
   --primitive-brand-50: #fef5f6;
   --primitive-brand-100: #f6e7ea;

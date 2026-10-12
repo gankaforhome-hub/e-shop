@@ -22,3 +22,22 @@
     outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
     --tw-gradient-via, --tw-gradient-to, opacity;
 }
+
+/* Respect the OS "reduce motion" setting: collapse motion tokens and any
+   remaining transitions/animations to an instant state change. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-normal: 0ms;
+    --dur-slow: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
