@@ -150,7 +150,13 @@
   "common": {
     "aria": {
       "notifications": "Notifications",
-      "close": "Close notification"
+      "close": "Close notification",
+      "search": "Search",
+      "account": "User profile",
+      "favorites": "Favorites",
+      "addToFavorites": "Add to favorites",
+      "removeFromFavorites": "Remove from favorites",
+      "closeMenu": "Close"
     },
     "errors": {
       "networkError": "Network error. Check your connection.",
@@ -187,7 +193,6 @@
     "lowStock": "Low stock",
     "soldOut": "Sold out"
   },
-
   "old": {
     "header": {
       "topBar": {
@@ -491,6 +496,44 @@
           }
         ]
       }
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "open": "Open cart",
+    "close": "Close cart",
+    "empty": "Your cart is empty",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "remove": "Remove item",
+    "added": "Added to cart",
+    "preOrder": "Pre-order"
+  },
+  "subscribe": {
+    "success": "You have successfully signed up!",
+    "error": "Something went wrong. Please try again.",
+    "firstNameTooLong": "First name is too long"
+  },
+  "infoPages": {
+    "returns": {
+      "title": "Returns & exchanges",
+      "text": "Products can be returned within 14 days..."
+    },
+    "payments": {
+      "title": "Payment",
+      "text": "Payment methods available on the website..."
+    },
+    "privacy-policy": {
+      "title": "Privacy policy",
+      "text": "How we process personal data..."
+    },
+    "terms-conditions": {
+      "title": "Terms & conditions",
+      "text": "Rules for using the service..."
+    },
+    "cookie-policy": {
+      "title": "Cookie policy",
+      "text": "Information about how we use cookies..."
     }
   }
 }

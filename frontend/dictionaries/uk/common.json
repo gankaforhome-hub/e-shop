@@ -4,7 +4,6 @@
     "shortName": "Ganka",
     "description": "Ексклюзивний керамічний посуд та затишний декор для вашої оселі."
   },
-
   "brand": {
     "name": "Ganka For Home",
     "ariaLabel": "перейти на головну сторінку"
@@ -64,7 +63,6 @@
       }
     }
   },
-
   "social": [
     {
       "label": "Instagram",
@@ -77,15 +75,28 @@
       "icon": "facebook"
     }
   ],
-
   "paymentMethods": [
-    { "label": "Mastercard", "icon": "mastercard" },
-    { "label": "Visa", "icon": "visa" },
-    { "label": "LiqPay", "icon": "liqpay" },
-    { "label": "Apple Pay", "icon": "applepay" },
-    { "label": "Google Pay", "icon": "googlepay" }
+    {
+      "label": "Mastercard",
+      "icon": "mastercard"
+    },
+    {
+      "label": "Visa",
+      "icon": "visa"
+    },
+    {
+      "label": "LiqPay",
+      "icon": "liqpay"
+    },
+    {
+      "label": "Apple Pay",
+      "icon": "applepay"
+    },
+    {
+      "label": "Google Pay",
+      "icon": "googlepay"
+    }
   ],
-
   "forms": {
     "validation": {
       "emailRequired": "Введіть e-mail",
@@ -139,7 +150,13 @@
   "common": {
     "aria": {
       "notifications": "Сповіщення",
-      "close": "Закрити сповіщення"
+      "close": "Закрити сповіщення",
+      "search": "Пошук",
+      "account": "Профіль користувача",
+      "favorites": "Обране",
+      "addToFavorites": "Додати в обране",
+      "removeFromFavorites": "Видалити з обраного",
+      "closeMenu": "Закрити"
     },
     "errors": {
       "networkError": "Помилка мережі. Перевірте підключення до інтернету.",
@@ -337,7 +354,6 @@
           }
         ]
       },
-
       "nav": {
         "title": "Navigation",
         "navMenu": [
@@ -480,6 +496,44 @@
           }
         ]
       }
+    }
+  },
+  "cart": {
+    "title": "Кошик",
+    "open": "Відкрити кошик",
+    "close": "Закрити кошик",
+    "empty": "Ваш кошик порожній",
+    "increase": "Збільшити кількість",
+    "decrease": "Зменшити кількість",
+    "remove": "Видалити товар",
+    "added": "Додано у кошик",
+    "preOrder": "Передзамовлення"
+  },
+  "subscribe": {
+    "success": "Ви успішно підписалися!",
+    "error": "Щось пішло не так. Спробуйте ще раз.",
+    "firstNameTooLong": "Занадто довге ім’я"
+  },
+  "infoPages": {
+    "returns": {
+      "title": "Повернення та обмін",
+      "text": "Умови повернення товарів протягом 14 днів..."
+    },
+    "payments": {
+      "title": "Оплата",
+      "text": "Способи оплати на сайті..."
+    },
+    "privacy-policy": {
+      "title": "Політика конфіденційності",
+      "text": "Правила обробки персональних даних..."
+    },
+    "terms-conditions": {
+      "title": "Умови використання",
+      "text": "Правила користування сервісом..."
+    },
+    "cookie-policy": {
+      "title": "Політика Cookie",
+      "text": "Інформація про використання файлів cookie..."
     }
   }
 }
