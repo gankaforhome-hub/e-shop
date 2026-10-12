@@ -54,7 +54,7 @@
     "legal": {
       "terms_conditions": "Terms & Conditions",
       "privacy_policy": "Privacy Policy",
-      "cookie_policy": "Cookie Policy"
+      "public_offer": "Public Offer"
     },
     "aria": {
       "breadcrumbs": {
@@ -487,12 +487,6 @@
             "title": "Privacy Policy",
             "href": "/privacy-policy",
             "ariaLabel": "link to page - Privacy Policy"
-          },
-          {
-            "id": 3,
-            "title": "Files Cookie",
-            "href": "/cookie-policy",
-            "ariaLabel": "link to page - Files Cookie"
           }
         ]
       }
@@ -514,6 +508,15 @@
     "error": "Something went wrong. Please try again.",
     "firstNameTooLong": "First name is too long"
   },
+  "infoSection": {
+    "currentPage": "Current page",
+    "navLabel": "Information pages",
+    "noticeOfWithdrawal": {
+      "title": "Annex 1. Notice of Withdrawal from the Purchase",
+      "description": "Fill in the form and send it to us by email or messenger to return a Product within 14 days.",
+      "cta": "Download form"
+    }
+  },
   "infoPages": {
     "returns": {
       "title": "Returns & exchanges",
@@ -522,18 +525,6 @@
     "payments": {
       "title": "Payment",
       "text": "Payment methods available on the website..."
-    },
-    "privacy-policy": {
-      "title": "Privacy policy",
-      "text": "How we process personal data..."
-    },
-    "terms-conditions": {
-      "title": "Terms & conditions",
-      "text": "Rules for using the service..."
-    },
-    "cookie-policy": {
-      "title": "Cookie policy",
-      "text": "Information about how we use cookies..."
     }
   }
 }

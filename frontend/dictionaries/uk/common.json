@@ -54,7 +54,7 @@
     "legal": {
       "terms_conditions": "Правила та умови",
       "privacy_policy": "Політика конфіденційності",
-      "cookie_policy": "Файли Cookie"
+      "public_offer": "Публічна оферта"
     },
     "aria": {
       "breadcrumbs": {
@@ -487,12 +487,6 @@
             "title": "Privacy Policy",
             "href": "/privacy-policy",
             "ariaLabel": "link to page - Privacy Policy"
-          },
-          {
-            "id": 3,
-            "title": "Files Cookie",
-            "href": "/cookie-policy",
-            "ariaLabel": "link to page - Files Cookie"
           }
         ]
       }
@@ -514,6 +508,15 @@
     "error": "Щось пішло не так. Спробуйте ще раз.",
     "firstNameTooLong": "Занадто довге ім’я"
   },
+  "infoSection": {
+    "currentPage": "Поточна сторінка",
+    "navLabel": "Інформаційні сторінки",
+    "noticeOfWithdrawal": {
+      "title": "Додаток 1. Заява про відмову від товару",
+      "description": "Заповніть форму та надішліть її нам електронною поштою або в месенджері, щоб повернути Товар протягом 14 днів.",
+      "cta": "Завантажити форму"
+    }
+  },
   "infoPages": {
     "returns": {
       "title": "Повернення та обмін",
@@ -522,18 +525,6 @@
     "payments": {
       "title": "Оплата",
       "text": "Способи оплати на сайті..."
-    },
-    "privacy-policy": {
-      "title": "Політика конфіденційності",
-      "text": "Правила обробки персональних даних..."
-    },
-    "terms-conditions": {
-      "title": "Умови використання",
-      "text": "Правила користування сервісом..."
-    },
-    "cookie-policy": {
-      "title": "Політика Cookie",
-      "text": "Інформація про використання файлів cookie..."
     }
   }
 }
