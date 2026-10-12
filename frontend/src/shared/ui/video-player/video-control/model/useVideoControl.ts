@@ -16,9 +16,9 @@ export function useVideoControl() {
     try {
       await video.play();
       setIsPlaying(true);
-    } catch (error) {
+    } catch {
+      // Autoplay can be blocked by the browser; reflect the paused state.
       setIsPlaying(false);
-      console.warn('Video playback was prevented:', error);
     }
   }, []);
 

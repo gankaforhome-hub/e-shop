@@ -26,6 +26,7 @@ export function CarouselCurrent({
       variant={variant}
       size={size}
       className={className}
+      data-active={to === current}
       disabled={to === current}
       onClick={() => scrollTo(to, animateScroll)}
       {...props}

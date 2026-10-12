@@ -23,13 +23,9 @@ export const getBlurPlaceholder = cache(async (src: string) => {
     }
 
     const { base64 } = await getPlaiceholder(buffer);
-
-    // Цей лог тепер викличеться максимум 1 раз для кожного src!
-    console.log('🚀 ~ Generated blurDataURL for:', src);
-
     return base64;
-  } catch (error) {
-    console.error('Failed to generate blur placeholder for:', src, error);
+  } catch {
+    // Missing/unsupported image: AppMedia falls back to its static placeholder
     return undefined;
   }
 });

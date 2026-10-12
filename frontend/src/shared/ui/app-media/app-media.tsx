@@ -2,9 +2,16 @@ import { type ReactNode } from 'react';
 
 import Image, { type ImageProps } from 'next/image';
 
-import { cn, getBase64, isVideoUrl, shimmer } from '@/shared/lib/utils';
+import { cn, isVideoUrl } from '@/shared/lib/utils';
 import { Overlay } from '@/shared/ui/overlay';
 import { VideoPlayer } from '@/shared/ui/video-player';
+
+/**
+ * Static 1×1 SVG in the shimmer base tone (#f6f7f8), ~170 bytes.
+ * Replaces the per-image animated shimmer SVG; real blur comes via `blurDataURL`.
+ */
+const STATIC_PLACEHOLDER =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxIDEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmNmY3ZjgiLz48L3N2Zz4=';
 
 export interface AppMediaProps extends Omit<
   ImageProps,
@@ -56,16 +63,8 @@ export function AppMedia({
       />
     );
   } else {
-    const blurWidth = width ?? 475;
-    const blurHeight = height ?? 475;
-
     const finalBlurDataURL =
-      blurDataURL ||
-      (placeholder === 'blur'
-        ? `data:image/svg+xml;base64,${getBase64(
-            shimmer(blurWidth, blurHeight),
-          )}`
-        : undefined);
+      blurDataURL || (placeholder === 'blur' ? STATIC_PLACEHOLDER : undefined);
 
     mediaContent = (
       <Image

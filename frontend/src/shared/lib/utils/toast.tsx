@@ -1,5 +1,7 @@
 import { toast } from 'sonner';
 
+import { Icon } from '@/shared/ui/icon';
+
 interface ShowSuccessBannerParams {
   message: string;
   closeLabel?: string;
@@ -14,43 +16,24 @@ export const showSuccessBanner = ({
       <div
         role="status"
         aria-live="polite"
-        className="flex w-screen items-center justify-between bg-emerald-600 px-4 py-3.5 text-white shadow-lg md:px-8"
+        className="bg-status-success-fg text-background flex w-screen items-center justify-between px-4 py-3.5 shadow-lg md:px-8"
       >
         <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <svg
-            className="h-5 w-5 shrink-0 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          <Icon
+            name="check"
+            className="size-5 shrink-0 stroke-[2.5]"
+            aria-hidden="true"
+          />
           <span className="text-sm font-medium md:text-base">{message}</span>
         </div>
 
         <button
+          type="button"
           onClick={() => toast.dismiss(id)}
-          className="rounded-lg p-1 transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-white"
+          className="hover:bg-background/15 focus-visible:ring-background duration-(--dur-normal) rounded-lg p-1 outline-none transition-colors focus-visible:ring-2"
           aria-label={closeLabel}
         >
-          <svg
-            className="h-5 w-5 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <Icon name="close" className="size-5" aria-hidden="true" />
         </button>
       </div>
     ),

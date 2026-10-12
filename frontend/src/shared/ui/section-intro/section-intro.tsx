@@ -32,7 +32,10 @@ export function SectionIntro({
         headingLevel={headingLevel}
         variant="section"
         position="center"
-        className={cn('mx-auto text-balance md:max-w-[80%]', className)}
+        className={cn(
+          'mx-auto mb-8 text-balance md:mb-6 md:max-w-[80%] xl:mb-16',
+          className,
+        )}
         visibility={headingVisible ? null : 'hidden'}
         id={headingId}
       >

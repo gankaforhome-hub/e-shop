@@ -10,13 +10,34 @@ export const staticRoutes = {
   exclusive: '/exclusive' as const,
   releases: '/releases' as const,
   contacts: '/contacts' as const,
+  cart: '/cart' as const,
   checkouts: '/checkouts' as const,
   account: '/account' as const,
   wishlist: '/wishlist' as const,
 };
 
-export type CategorySlug =
-  'plates' | 'sets' | 'kettles' | 'cups' | 'candlesticks' | 'glass';
+export const categorySlugs = [
+  'plates',
+  'sets',
+  'kettles',
+  'cups',
+  'candlesticks',
+  'glass',
+] as const;
+
+export type CategorySlug = (typeof categorySlugs)[number];
+
+export const isCategorySlug = (value: unknown): value is CategorySlug =>
+  typeof value === 'string' &&
+  (categorySlugs as readonly string[]).includes(value);
+
+export const productSortOptions = ['price', 'name'] as const;
+
+export type ProductSort = (typeof productSortOptions)[number];
+
+export const isProductSort = (value: unknown): value is ProductSort =>
+  typeof value === 'string' &&
+  (productSortOptions as readonly string[]).includes(value);
 
 export const InfoSlugs = [
   'faq',
@@ -30,11 +51,14 @@ export const InfoSlugs = [
 
 export type InfoSlug = (typeof InfoSlugs)[number];
 
+export const isInfoSlug = (value: unknown): value is InfoSlug =>
+  typeof value === 'string' && (InfoSlugs as readonly string[]).includes(value);
+
 type ProductsRoute = '/products' | `/products?${string}`;
 
 type ProductsSearchParams = {
   category?: CategorySlug | undefined;
-  sort?: 'price' | 'name' | undefined;
+  sort?: ProductSort | undefined;
   page?: string | undefined;
   search?: string | undefined;
 };

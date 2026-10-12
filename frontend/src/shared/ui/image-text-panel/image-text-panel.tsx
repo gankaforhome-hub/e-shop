@@ -16,6 +16,8 @@ interface IImageTextPanelProps extends ImageTextPanelContent {
   imageContainerClassName?: string;
   imageClassName?: string;
   textClassName?: string;
+  /** Set only when the panel image is the above-the-fold LCP candidate. */
+  priority?: boolean;
 }
 
 export function ImageTextPanel({
@@ -27,6 +29,7 @@ export function ImageTextPanel({
   imageClassName,
   imageContainerClassName,
   textClassName,
+  priority = false,
 }: IImageTextPanelProps) {
   return (
     <div
@@ -46,7 +49,8 @@ export function ImageTextPanel({
           src={image.src || ''}
           alt={image.alt || ''}
           fill
-          loading="eager"
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
           className={cn('object-cover object-center', imageClassName)}
           sizes="(min-width: 1024px) 50vw, 100vw"
         />

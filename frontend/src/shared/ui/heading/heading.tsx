@@ -11,8 +11,7 @@ export const headingVariants = cva(
       variant: {
         pageHeader:
           'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
-        section:
-          'xl:leading-14 mb-8 text-2xl tracking-wide md:mb-6 md:text-3xl xl:mb-16 xl:text-5xl',
+        section: 'xl:leading-14 text-2xl tracking-wide md:text-3xl xl:text-5xl',
         footer: 'text-xl uppercase tracking-wide lg:text-2xl',
         collectionCard: 'text-base md:text-lg lg:text-2xl',
         productCard: 'ftext-4 fleading-7',
@@ -27,7 +26,8 @@ export const headingVariants = cva(
       },
       position: {
         left: 'text-left',
-        center: 'mx-auto max-w-[80%] text-center',
+        // Horizontal centering (mx-auto) is owned by the call site
+        center: 'max-w-[80%] text-center',
       },
       visibility: { hidden: 'sr-only' },
     },

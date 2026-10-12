@@ -2,9 +2,11 @@
 
 import { type ComponentProps } from 'react';
 
-import { cn } from 'cn';
-import { MinusIcon, PlusIcon } from 'lucide-react';
 import { Accordion as AccordionPrimitive } from 'radix-ui';
+
+import { cn } from '@/shared/lib/utils';
+
+import { Icon } from '../icon';
 
 function Accordion({
   ...props
@@ -45,10 +47,16 @@ function AccordionTrigger({
       >
         <span>{children}</span>
 
-        {/* Іконки перемикаються залежно від стану батьківського AccordionItem */}
-        <span className="text-foreground shrink-0">
-          <PlusIcon className="duration-(--dur-slow) size-4 transition-transform group-data-[state=open]:hidden" />
-          <MinusIcon className="duration-(--dur-slow) hidden size-4 transition-transform group-data-[state=open]:block" />
+        {/* Icons toggle via the parent AccordionItem's data-state */}
+        <span className="text-foreground shrink-0" aria-hidden="true">
+          <Icon
+            name="plus"
+            className="duration-(--dur-slow) size-4 transition-transform group-data-[state=open]:hidden"
+          />
+          <Icon
+            name="minus"
+            className="duration-(--dur-slow) hidden size-4 transition-transform group-data-[state=open]:block"
+          />
         </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

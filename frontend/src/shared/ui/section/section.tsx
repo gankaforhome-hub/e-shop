@@ -30,19 +30,25 @@ const sectionVariants = cva('w-full', {
     border: 'none',
   },
 });
-export interface ISectionProps
-  extends HTMLAttributes<HTMLElement>, VariantProps<typeof sectionVariants> {
-  asChild?: boolean;
-}
+export interface SectionProps
+  extends HTMLAttributes<HTMLElement>, VariantProps<typeof sectionVariants> {}
 
 export function Section({
   className,
   spacing,
+  background,
+  border,
   children,
   ...props
-}: ISectionProps) {
+}: SectionProps) {
   return (
-    <section className={cn(sectionVariants({ spacing }), className)} {...props}>
+    <section
+      className={cn(
+        sectionVariants({ spacing, background, border }),
+        className,
+      )}
+      {...props}
+    >
       {children}
     </section>
   );

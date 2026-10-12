@@ -1,7 +1,8 @@
 'use client';
 
 import { cn } from '@/shared/lib/utils';
-import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
+
+import { useCarousel } from '../core/useCarousel';
 
 interface ICarouselProgressBarProps {
   totalSlides: number;
@@ -18,7 +19,7 @@ export function CarouselProgressBar({
 
   return (
     <div className={cn('px-4 py-3', classNameCarouselProgressBar)}>
-      <div className="h-px w-full overflow-hidden rounded-full bg-black/10">
+      <div className="bg-foreground/10 h-px w-full overflow-hidden rounded-full">
         <div
           className="bg-accent h-full rounded-full transition-all duration-300"
           style={{
