@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   // Enables 'use cache' / cacheLife / cacheTag and Partial Prerendering
   cacheComponents: true,
   productionBrowserSourceMaps: false,
+  // Info pages read Markdown via fs at runtime (cache revalidation) — ship it with the server output
+  outputFileTracingIncludes: {
+    '/[lang]/info/[infoSlug]': ['./dictionaries/**/*.md'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'], // AVIF стискає ще краще за WebP
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1440, 1920, 2048],
