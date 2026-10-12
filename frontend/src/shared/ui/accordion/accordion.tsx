@@ -30,17 +30,29 @@ function AccordionItem({
   );
 }
 
+interface AccordionTriggerProps extends ComponentProps<
+  typeof AccordionPrimitive.Trigger
+> {
+  /** Expand indicator: `plusMinus` (default) or a chevron rotating 180° when open. */
+  indicator?: 'plusMinus' | 'chevron';
+  /** Title scale: `default` 16 → 18px, `compact` 14 → 16px (long-form pages). */
+  size?: 'default' | 'compact';
+}
+
 function AccordionTrigger({
   className,
   children,
+  indicator = 'plusMinus',
+  size = 'default',
   ...props
-}: ComponentProps<typeof AccordionPrimitive.Trigger>) {
+}: AccordionTriggerProps) {
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          'font-caption focus-visible:border-ring focus-visible:ring-ring/50 text-foreground flex flex-1 cursor-pointer items-center justify-between gap-4 text-left text-base font-semibold outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 md:text-lg',
+          'font-caption focus-visible:border-ring focus-visible:ring-ring/50 text-foreground flex flex-1 cursor-pointer items-center justify-between gap-4 text-left font-semibold outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50',
+          size === 'compact' ? 'text-sm md:text-base' : 'text-base md:text-lg',
           className,
         )}
         {...props}
@@ -48,15 +60,27 @@ function AccordionTrigger({
         <span>{children}</span>
 
         {/* Icons toggle via the parent AccordionItem's data-state */}
-        <span className="text-foreground shrink-0" aria-hidden="true">
-          <Icon
-            name="plus"
-            className="duration-(--dur-slow) size-4 transition-transform group-data-[state=open]:hidden"
-          />
-          <Icon
-            name="minus"
-            className="duration-(--dur-slow) hidden size-4 transition-transform group-data-[state=open]:block"
-          />
+        <span className="shrink-0 text-inherit" aria-hidden="true">
+          {indicator === 'chevron' ? (
+            <Icon
+              name="chevron-down"
+              className={cn(
+                'duration-(--dur-normal) ease-subtle transition-transform group-data-[state=open]:rotate-180',
+                size === 'compact' ? 'size-4' : 'size-5',
+              )}
+            />
+          ) : (
+            <>
+              <Icon
+                name="plus"
+                className="duration-(--dur-slow) size-4 transition-transform group-data-[state=open]:hidden"
+              />
+              <Icon
+                name="minus"
+                className="duration-(--dur-slow) hidden size-4 transition-transform group-data-[state=open]:block"
+              />
+            </>
+          )}
         </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
