@@ -1,34 +1,39 @@
-import {
-  type TProduct,
-  getMainVariant,
-} from '@/entities/product/lib/product-mapper';
+import { type ReactNode } from 'react';
+
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 
 import { ProductAccordions } from './product-accordions';
 import { ProductGallery } from './product-gallery';
 import { ProductInfoSidebar } from './product-info-sidebar';
+import { resolveSelectedVariant } from '../../lib/product-mapper';
+import {
+  type LocalizedProduct,
+  type ProductVariantTranslation,
+} from '../../model/types';
 
-export interface IProductDetailViewProps {
-  product: TProduct;
+export interface ProductDetailViewProps {
+  product: LocalizedProduct;
   lang: Locale;
-  searchParams?: { variant?: string };
+  /** SKU from the `?variant=` query; falls back to the main variant. */
+  selectedVariantSku?: string;
+  /** Renders the purchase action for the resolved variant (composed by a widget). */
+  renderAction?: (variant: ProductVariantTranslation | undefined) => ReactNode;
 }
 
 export async function ProductDetailView({
   product,
   lang,
-  searchParams,
-}: IProductDetailViewProps) {
-  const dict = await getDictionary(['product'], lang);
-  const selectedVariantSku = searchParams?.variant;
-  const selectedVariant =
-    product.variants.find(v => v.sku === selectedVariantSku) ||
-    getMainVariant(product.variants);
+  selectedVariantSku,
+  renderAction,
+}: ProductDetailViewProps) {
+  const { product: dict, common } = await getDictionary(['product'], lang);
+  const selectedVariant = resolveSelectedVariant(
+    product.variants,
+    selectedVariantSku,
+  );
 
-  // 2. Визначаємо активне медіа на сервері
   const activeMediaId =
-    // searchParams?.media ||
     selectedVariant?.mediaId ||
     product.featuredMediaId ||
     product.media[0]?.id ||
@@ -36,29 +41,28 @@ export async function ProductDetailView({
 
   return (
     <div className="font-caption grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-      {/* Клієнтський інтерактивний блок галереї */}
       <ProductGallery
         media={product.media}
         title={product.title}
         activeMediaId={activeMediaId}
       />
 
-      <div className="flex flex-col space-y-6 lg:col-span-5">
-        {/* Клієнтський блок вибору варіантів та купівлі */}
+      <div className="flex flex-col gap-6 lg:col-span-5">
         <ProductInfoSidebar
           product={product}
           selectedVariant={selectedVariant}
           label={{
-            collection: dict.product.collection,
-            price: dict.product.price,
-            sku: dict.product.sku,
-            addToBag: dict.product.addToBag,
+            collection: dict.collection,
+            price: dict.price,
+            sku: dict.sku,
+            preOrder: common.cart.preOrder,
+            outOfStock: common.stock.soldOut,
           }}
           lang={lang}
+          action={renderAction?.(selectedVariant)}
         />
 
-        {/* 100% Серверний компонент акордеона */}
-        <ProductAccordions product={product} label={dict.product} />
+        <ProductAccordions product={product} label={dict} />
       </div>
     </div>
   );

@@ -1,31 +1,70 @@
-import { type TProduct } from '@/entities/product/lib/product-mapper';
-import { ProductDetailView } from '@/entities/product/ui/product-detail-view/product-detail-view';
+import {
+  type LocalizedProduct,
+  ProductDetailView,
+  type ProductVariantTranslation,
+} from '@/entities/product';
+import { AddToCartButton } from '@/features/cart';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 
-interface IProductDetailSectionProps {
-  product: TProduct;
+interface ProductDetailSectionProps {
+  product: LocalizedProduct;
   lang: Locale;
-  searchParams?: { variant?: string };
+  /** Request-time query; awaited here so the page shell can prerender. */
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export function ProductDetailSection({
+const toCartLine = (
+  product: LocalizedProduct,
+  variant: ProductVariantTranslation,
+) => ({
+  id: variant.id,
+  productId: product.id,
+  variantId: variant.id,
+  sku: variant.sku,
+  slug: product.slug,
+  title: product.title,
+  variantLabel: variant.options.map(o => o.value).join(' · ') || undefined,
+  price: variant.price,
+  image:
+    product.media.find(m => m.id === variant.mediaId)?.src ??
+    product.media.find(m => m.id === product.featuredMediaId)?.src ??
+    product.media[0]?.src ??
+    '/images/placeholder.jpg',
+});
+
+export async function ProductDetailSection({
   product,
   lang,
   searchParams,
-}: IProductDetailSectionProps) {
+}: ProductDetailSectionProps) {
+  const [{ variant }, { product: dict }] = await Promise.all([
+    searchParams,
+    getDictionary(['product'], lang),
+  ]);
+
   return (
     <Section>
       <Container>
         <ProductDetailView
           product={product}
           lang={lang}
-          searchParams={searchParams}
+          selectedVariantSku={typeof variant === 'string' ? variant : undefined}
+          renderAction={selected => {
+            const purchasable =
+              selected &&
+              (selected.stock.quantity > 0 ||
+                selected.stock.status === 'pre_order');
+            return (
+              <AddToCartButton
+                label={dict.addToBag}
+                line={purchasable ? toCartLine(product, selected) : null}
+              />
+            );
+          }}
         />
-        {/* <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-          {JSON.stringify(product, null, 2)}
-        </pre> */}
       </Container>
     </Section>
   );

@@ -1,25 +1,33 @@
 import { z } from 'zod';
 
-export const subscribeSchema = z.object({
-  firstName: z
-    .string({ message: 'First name is required' })
-    .min(3, 'Name should have at least 3 characters')
-    .max(100, 'Too long first name'),
-  emailSubscription: z
-    .string({ message: 'E-mail is required' })
-    .email('Invalid email'),
-});
+type TranslationFn = (
+  key: 'required' | 'tooShort' | 'emailRequired' | 'emailInvalid' | 'tooLong',
+) => string;
 
-export type SubscribeFormData = z.infer<typeof subscribeSchema>;
+/** Schema factory so client and server validate with the same localized messages. */
+export const getSubscribeSchema = (t: TranslationFn) =>
+  z.object({
+    firstName: z
+      .string({ message: t('required') })
+      .trim()
+      .min(3, t('tooShort'))
+      .max(100, t('tooLong')),
+    emailSubscription: z
+      .string({ message: t('emailRequired') })
+      .trim()
+      .min(1, t('emailRequired'))
+      .email(t('emailInvalid')),
+  });
 
-export interface SubscribeFormState {
+export type SubscribeFormData = z.infer<ReturnType<typeof getSubscribeSchema>>;
+
+export type SubscribeFormState = {
   success: boolean;
   message: string;
-  data?: SubscribeFormData;
   errors?: {
     [K in keyof SubscribeFormData]?: string[];
   };
-}
+};
 
 export type SubscribeFormField = {
   name: keyof SubscribeFormData;
@@ -28,16 +36,7 @@ export type SubscribeFormField = {
   placeholder: string;
 };
 
-export type Notifications = {
-  success: {
-    title: string;
-    text: string;
-  };
-  error: string;
-};
-
 export type FormSubscribe = {
   inputs: SubscribeFormField[];
   buttonText: string;
-  notifications: Notifications;
 };

@@ -1,56 +1,48 @@
-import { CartDrawer } from '@/features/shopping-cart';
+import { CartDrawer } from '@/features/cart';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
-interface IHeaderActionsProps {
+interface HeaderActionsProps {
+  label: {
+    search: string;
+    account: string;
+    favorites: string;
+  };
   className?: string;
 }
 
-export function HeaderActions({ className }: IHeaderActionsProps) {
+const iconClassName =
+  'group-hover:text-icon-hover duration-(--dur-normal) transition-colors';
+
+export function HeaderActions({ label, className }: HeaderActionsProps) {
   return (
     <div className={cn('flex items-center gap-4 md:gap-6', className)}>
       <Button
         variant="ghost"
         size="icon"
         className="group max-lg:hidden"
-        aria-label="Search"
+        aria-label={label.search}
       >
-        <Icon
-          name="search"
-          size={24}
-          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
-        />
+        <Icon name="search" size={24} className={iconClassName} />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         className="group max-lg:hidden"
-        aria-label="User profile"
+        aria-label={label.account}
       >
-        <Icon
-          name="user"
-          size={24}
-          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
-        />
+        <Icon name="user" size={24} className={iconClassName} />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         className="group max-lg:hidden"
-        aria-label="Favorites"
+        aria-label={label.favorites}
       >
-        <Icon
-          name="favorite"
-          size={24}
-          className="group-hover:text-icon-hover duration-(--dur-norm) transition-colors"
-        />
+        <Icon name="favorite" size={24} className={iconClassName} />
       </Button>
       <CartDrawer />
-      {/* <CartSheet /> */}
-      {/* <Button variant="ghost" size="icon" aria-label="Cart">
-        <Icon name="shopping-cart" className="size-6 max-[300px]:size-4" />
-      </Button> */}
     </div>
   );
 }

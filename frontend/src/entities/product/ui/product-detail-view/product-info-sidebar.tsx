@@ -1,584 +1,139 @@
-// 'use client';
-
-// import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
-// import { type Locale } from '@/shared/i18n/routing';
-// import { formatMoney } from '@/shared/lib/utils';
-// import { Button } from '@/shared/ui/button';
-// import { Heading } from '@/shared/ui/heading';
-
-// import { type TProduct } from '../../lib/product-mapper';
-// import { type ProductVariantTranslation } from '../../model/types';
-
-// interface ProductInfoSidebarProps {
-//   product: TProduct;
-//   selectedVariant?: ProductVariantTranslation;
-//   label: {
-//     collection: string;
-//     price: string;
-//     sku: string;
-//     addToBag: string;
-//   };
-//   lang: Locale;
-// }
-
-// export function ProductInfoSidebar({
-//   product,
-//   selectedVariant,
-//   label,
-//   lang,
-// }: ProductInfoSidebarProps) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const searchParams = useSearchParams();
-
-//   const currentPrice = selectedVariant?.price ?? { amount: 0, currency: 'UAH' };
-
-//   const handleSelectVariant = (variant: ProductVariantTranslation) => {
-//     const params = new URLSearchParams(searchParams.toString());
-//     params.set('variant', variant.sku);
-//     if (variant.mediaId) {
-//       params.set('media', variant.mediaId);
-//     }
-//     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-//   };
-
-//   return (
-//     <div className="flex flex-col space-y-6">
-//       <div>
-//         <Heading
-//           headingLevel="h1"
-//           variant="productPage"
-//           className="tracking-tight"
-//         >
-//           {product.title}
-//         </Heading>
-
-//         {product.primaryCollection?.title && (
-//           <p className="mt-2 text-sm font-medium md:text-base">
-//             {label.collection}:{' '}
-//             <span className="text-accent-foreground underline">
-//               {product.primaryCollection.title}
-//             </span>
-//           </p>
-//         )}
-
-//         <div className="mt-4 flex items-center gap-3">
-//           <span className="text-icon text-lg font-medium md:text-xl">
-//             {label.price}:{' '}
-//             {formatMoney(
-//               {
-//                 amount: currentPrice.amount,
-//                 currency: currentPrice.currency,
-//               },
-//               lang,
-//             )}
-//           </span>
-//           {selectedVariant?.compareAtPrice && (
-//             <span className="text-sm text-neutral-400 line-through md:text-base">
-//               {formatMoney(
-//                 {
-//                   amount: selectedVariant.compareAtPrice.amount,
-//                   currency: selectedVariant.compareAtPrice.currency,
-//                 },
-//                 lang,
-//               )}
-//             </span>
-//           )}
-//         </div>
-
-//         <p className="mt-2">
-//           {label.sku}: {selectedVariant?.sku || 'N/A'}
-//         </p>
-//       </div>
-
-//       {product.variants.length > 1 && (
-//         <div className="space-y-3">
-//           <label className="text-sm font-medium text-neutral-700">
-//             {product.variants[0]?.options[0]?.name || t('selectOption')}:
-//           </label>
-//           <div className="flex flex-wrap gap-2">
-//             {product.variants.map(variant => {
-//               const isSelected = variant.id === selectedVariant?.id;
-//               const optionLabel = variant.options[0]?.value || variant.sku;
-
-//               return (
-//                 <button
-//                   key={variant.id}
-//                   onClick={() => handleSelectVariant(variant)}
-//                   className={`cursor-pointer border px-4 py-2 text-sm font-medium transition-all ${
-//                     isSelected
-//                       ? 'border-neutral-900 bg-neutral-900 text-white'
-//                       : 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
-//                   }`}
-//                 >
-//                   {optionLabel}
-//                 </button>
-//               );
-//             })}
-//           </div>
-//         </div>
-//       )}
-
-//       <Button
-//         variant="default"
-//         className="w-full bg-[#A33333] py-6 text-base font-medium text-white shadow-none hover:bg-[#8B2B2B]"
-//       >
-//         {label.addToBag}
-//       </Button>
-//     </div>
-//   );
-// }
 'use client';
 
-import { useTransition } from 'react';
-
-import { useSearchParams } from 'next/navigation';
+import { type ReactNode, useTransition } from 'react';
 
 import { usePathname, useRouter } from '@/shared/i18n/navigation';
 import { type Locale } from '@/shared/i18n/routing';
-import { formatMoney } from '@/shared/lib/utils';
-import { Button } from '@/shared/ui/button';
+import { cn, formatMoney } from '@/shared/lib/utils';
 import { Heading } from '@/shared/ui/heading';
+import { Text } from '@/shared/ui/text';
 
-import { type TProduct } from '../../lib/product-mapper';
-import { type ProductVariantTranslation } from '../../model/types';
+import {
+  type LocalizedProduct,
+  type ProductVariantTranslation,
+} from '../../model/types';
 
 interface ProductInfoSidebarProps {
-  product: TProduct;
+  product: LocalizedProduct;
   selectedVariant?: ProductVariantTranslation;
   label: {
     collection: string;
     price: string;
     sku: string;
-    addToBag: string;
+    preOrder: string;
+    outOfStock: string;
   };
   lang: Locale;
+  /** Purchase action (e.g. add-to-cart) injected by the composing widget. */
+  action?: ReactNode;
 }
 
-// export function ProductInfoSidebar({
-//   product,
-//   selectedVariant,
-//   label,
-//   lang,
-// }: ProductInfoSidebarProps) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const searchParams = useSearchParams();
+type OptionGroup = {
+  key: string;
+  title: string;
+  values: Map<string, string>;
+};
 
-//   const currentPrice = selectedVariant?.price ?? { amount: 0, currency: 'UAH' };
+const COLOR_OPTION_KEYS = new Set(['color', 'glaze']);
 
-//   // 1. Групування опцій
-//   const optionsGrouped = useMemo(() => {
-//     const groups: Record<
-//       string,
-//       {
-//         key: string;
-//         values: { valueKey: string; label: string; hex?: string }[];
-//       }
-//     > = {};
+const isVariantPurchasable = (variant: ProductVariantTranslation) =>
+  variant.stock.quantity > 0 || variant.stock.status === 'pre_order';
 
-//     product.variants.forEach(variant => {
-//       variant.options?.forEach(opt => {
-//         const groupName = opt.name || opt.nameKey;
-//         if (!groups[groupName]) {
-//           groups[groupName] = { key: opt.nameKey, values: [] };
-//         }
-
-//         const exists = groups[groupName].values.some(
-//           v => v.valueKey === opt.valueKey,
-//         );
-//         if (!exists) {
-//           groups[groupName].values.push({
-//             valueKey: opt.valueKey,
-//             label: opt.value || opt.valueKey,
-//             // якщо колір приходить окремим полем (наприклад opt.hex або opt.color)
-//             // hex: (opt as Record<string, unknown>).hex as string | undefined,
-//           });
-//         }
-//       });
-//     });
-
-//     return groups;
-//   }, [product.variants]);
-
-//   // 1. Хелпер перевірки: чи доступне значення опції З УРАХУВАННЯМ поточного контексту інших опцій
-//   const isOptionAvailable = (targetNameKey: string, targetValueKey: string) => {
-//     if (!selectedVariant) {
-//       return false;
-//     }
-
-//     // Формуємо тимчасову мапу, де змінюємо ТІЛЬКИ досліджувану опцію
-//     const targetMap: Record<string, string> = {};
-//     selectedVariant.options?.forEach(opt => {
-//       targetMap[opt.nameKey] = opt.valueKey;
-//     });
-//     targetMap[targetNameKey] = targetValueKey;
-
-//     // Шукаємо, чи існує такий SKU і чи є він в наявності
-//     return product.variants.some(variant => {
-//       const matchesAll = Object.entries(targetMap).every(([nKey, vKey]) =>
-//         variant.options?.some(o => o.nameKey === nKey && o.valueKey === vKey),
-//       );
-
-//       const isInStock = variant.stock
-//         ? variant.stock.quantity > 0 || variant.stock.status === 'pre_order'
-//         : true;
-
-//       return matchesAll && isInStock;
-//     });
-//   };
-
-//   // 2. Хендлер перемикання опцій із записом УСІХ параметрів в URL
-//   const handleOptionSelect = (
-//     optionNameKey: string,
-//     targetValueKey: string,
-//   ) => {
-//     if (!selectedVariant) {
-//       return;
-//     }
-
-//     // Крок A: Беремо поточний набір обраних опцій (наприклад: { diameter: '20cm', color: 'red' })
-//     const nextOptionsMap: Record<string, string> = {};
-//     selectedVariant.options?.forEach(opt => {
-//       nextOptionsMap[opt.nameKey] = opt.valueKey;
-//     });
-
-//     // Крок B: Оновлюємо значення обраної опції
-//     nextOptionsMap[optionNameKey] = targetValueKey;
-
-//     // Крок C: Точний пошук варіанта за ВСІМА комбінаціями опцій
-//     let nextVariant = product.variants.find(variant =>
-//       Object.entries(nextOptionsMap).every(([nKey, vKey]) =>
-//         variant.options?.some(o => o.nameKey === nKey && o.valueKey === vKey),
-//       ),
-//     );
-
-//     // Крок D: Фолбек — якщо для обраного діаметра даного кольору немає,
-//     // шукаємо будь-який перший доступний варіант з цим кольором
-//     if (!nextVariant) {
-//       nextVariant = product.variants.find(v =>
-//         v.options?.some(
-//           o => o.nameKey === optionNameKey && o.valueKey === targetValueKey,
-//         ),
-//       );
-//     }
-
-//     // Крок E: Синхронізація URL
-//     if (nextVariant) {
-//       const params = new URLSearchParams(searchParams.toString());
-
-//       // 1. Записуємо ВСІ корисні опції варіанта в URL (колір, діаметр тощо)
-//       // nextVariant.options?.forEach(opt => {
-//       //   params.set(opt.nameKey, opt.valueKey);
-//       // });
-
-//       // 2. Записуємо SKU варіанта
-//       if (nextVariant.sku) {
-//         params.set('variant', nextVariant.sku);
-//       } else {
-//         params.delete('variant');
-//       }
-
-//       // 3. Записуємо Media ID для галереї
-//       // if (nextVariant.mediaId) {
-//       //   params.set('media', nextVariant.mediaId);
-//       // } else {
-//       //   params.delete('media');
-//       // }
-
-//       // Виконуємо перехід без скролу
-//       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-//     }
-//   };
-//   return (
-//     <div className="flex flex-col space-y-6">
-//       <div>
-//         <Heading
-//           headingLevel="h1"
-//           variant="productPage"
-//           className="tracking-tight"
-//         >
-//           {product.title}
-//         </Heading>
-
-//         {product.primaryCollection?.title && (
-//           <p className="mt-2 text-sm font-medium md:text-base">
-//             {label.collection}:{' '}
-//             <span className="text-accent-foreground underline">
-//               {product.primaryCollection.title}
-//             </span>
-//           </p>
-//         )}
-
-//         <div className="mt-4 flex items-center gap-3">
-//           <span className="text-icon text-lg font-medium md:text-xl">
-//             {label.price}:{' '}
-//             {formatMoney(
-//               { amount: currentPrice.amount, currency: currentPrice.currency },
-//               lang,
-//             )}
-//           </span>
-//           {selectedVariant?.compareAtPrice && (
-//             <span className="text-sm text-neutral-400 line-through md:text-base">
-//               {formatMoney(
-//                 {
-//                   amount: selectedVariant.compareAtPrice.amount,
-//                   currency: selectedVariant.compareAtPrice.currency,
-//                 },
-//                 lang,
-//               )}
-//             </span>
-//           )}
-//         </div>
-
-//         <p className="mt-2 text-sm text-neutral-500">
-//           {label.sku}: {selectedVariant?.sku || 'N/A'}
-//         </p>
-//       </div>
-
-//       {/* Опції з підтримкою стану Disabled / Перекреслено */}
-//       {product.variants.length > 1 && (
-//         <div className="space-y-4">
-//           {Object.entries(optionsGrouped).map(([groupTitle, groupData]) => {
-//             const isColorGroup =
-//               groupData.key === 'color' || groupData.key === 'glaze';
-
-//             return (
-//               <div key={groupData.key} className="space-y-2">
-//                 <label className="text-sm font-medium capitalize text-neutral-700">
-//                   {groupTitle}:
-//                 </label>
-
-//                 <div className="flex flex-wrap items-center gap-2.5">
-//                   {groupData.values.map(optValue => {
-//                     const isSelected = selectedVariant?.options?.some(
-//                       o =>
-//                         o.nameKey === groupData.key &&
-//                         o.valueKey === optValue.valueKey,
-//                     );
-//                     const isAvailable = isOptionAvailable(
-//                       groupData.key,
-//                       optValue.valueKey,
-//                     );
-
-//                     // 1. КОЛІР (кружечок з диагональною лінією)
-//                     if (isColorGroup) {
-//                       const colorStyle =
-//                         optValue.hex ||
-//                         (optValue.valueKey.startsWith('#')
-//                           ? optValue.valueKey
-//                           : optValue.label);
-
-//                       return (
-//                         <div
-//                           key={optValue.valueKey}
-//                           className="flex flex-col items-center gap-1"
-//                         >
-//                           <button
-//                             type="button"
-//                             disabled={!isAvailable}
-//                             title={`${optValue.label}${!isAvailable ? ' (Немає в наявності)' : ''}`}
-//                             onClick={() =>
-//                               handleOptionSelect(
-//                                 groupData.key,
-//                                 optValue.valueKey,
-//                               )
-//                             }
-//                             className={`relative size-7 rounded-full p-0.5 transition-transform ${
-//                               !isAvailable
-//                                 ? 'cursor-not-allowed opacity-35'
-//                                 : 'cursor-pointer hover:scale-110'
-//                             }`}
-//                           >
-//                             <span
-//                               className="relative block size-full overflow-hidden rounded-full border border-black/10 shadow-inner"
-//                               style={{ backgroundColor: colorStyle }}
-//                             >
-//                               {!isAvailable && (
-//                                 <span className="absolute inset-0 m-auto h-[1px] w-[140%] -rotate-45 bg-neutral-600" />
-//                               )}
-//                             </span>
-//                             <span className="sr-only">{optValue.label}</span>
-//                           </button>
-
-//                           {/* Маленька акуратна точка під обраним кольором */}
-//                           <span
-//                             className={`size-1 rounded-full bg-neutral-900 transition-all ${
-//                               isSelected
-//                                 ? 'scale-100 opacity-100'
-//                                 : 'scale-0 opacity-0'
-//                             }`}
-//                           />
-//                         </div>
-//                       );
-//                     }
-
-//                     // 2. ІНШІ ОПЦІЇ (наприклад, Діаметр)
-//                     return (
-//                       <button
-//                         key={optValue.valueKey}
-//                         type="button"
-//                         disabled={!isAvailable}
-//                         onClick={() =>
-//                           handleOptionSelect(groupData.key, optValue.valueKey)
-//                         }
-//                         className={`relative border px-4 py-2 text-sm font-medium transition-all ${
-//                           !isAvailable
-//                             ? 'cursor-not-allowed border-neutral-200 bg-neutral-100 text-neutral-400 opacity-60'
-//                             : 'cursor-pointer'
-//                         } ${
-//                           isSelected
-//                             ? 'border-neutral-900 bg-neutral-900 text-white'
-//                             : isAvailable
-//                               ? 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
-//                               : ''
-//                         }`}
-//                       >
-//                         {optValue.label}
-//                         {!isAvailable && (
-//                           <span className="absolute inset-0 m-auto h-px w-full -rotate-12 bg-neutral-400" />
-//                         )}
-//                       </button>
-//                     );
-//                   })}
-//                 </div>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       )}
-//       <p>
-//         {selectedVariant?.stock?.status === 'pre_order' && 'Передзамовлення'}
-//       </p>
-//       <Button
-//         variant="default"
-//         disabled={
-//           !selectedVariant?.stock?.quantity &&
-//           !(selectedVariant?.stock?.status === 'pre_order')
-//         }
-//         className="w-full bg-[#A33333] py-6 text-base font-medium text-white shadow-none hover:bg-[#8B2B2B] disabled:bg-neutral-300"
-//       >
-//         {label.addToBag}
-//       </Button>
-//     </div>
-//   );
-// }
+/** Unique option values per option key, in first-seen order. */
+function groupOptions(variants: ProductVariantTranslation[]): OptionGroup[] {
+  const groups = new Map<string, OptionGroup>();
+  for (const variant of variants) {
+    for (const opt of variant.options) {
+      const group = groups.get(opt.nameKey) ?? {
+        key: opt.nameKey,
+        title: opt.name || opt.nameKey,
+        values: new Map<string, string>(),
+      };
+      if (!group.values.has(opt.valueKey)) {
+        group.values.set(opt.valueKey, opt.value || opt.valueKey);
+      }
+      groups.set(opt.nameKey, group);
+    }
+  }
+  return [...groups.values()];
+}
 
 export function ProductInfoSidebar({
   product,
   selectedVariant,
   label,
   lang,
+  action,
 }: ProductInfoSidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const currentPrice = selectedVariant?.price ?? { amount: 0, currency: 'UAH' };
+  const optionGroups = groupOptions(product.variants);
 
-  // 1. Групування унікальних опцій (без зайвих useMemo)
-  const optionsGrouped = product.variants.reduce<
-    Record<
-      string,
-      { key: string; values: Map<string, { label: string; hex?: string }> }
-    >
-  >((acc, variant) => {
-    variant.options?.forEach(opt => {
-      const groupName = opt.name || opt.nameKey;
-      if (!acc[groupName]) {
-        acc[groupName] = { key: opt.nameKey, values: new Map() };
-      }
-      if (!acc[groupName].values.has(opt.valueKey)) {
-        acc[groupName].values.set(opt.valueKey, {
-          label: opt.value || opt.valueKey,
-        });
-      }
-    });
-    return acc;
-  }, {});
-
-  // 2. Перевірка доступності комбінації
-  const isOptionAvailable = (targetNameKey: string, targetValueKey: string) => {
+  /** Is `nameKey=valueKey` purchasable while keeping the other selected options? */
+  const isOptionAvailable = (nameKey: string, valueKey: string) => {
     if (!selectedVariant) {
       return false;
     }
-
-    return product.variants.some(variant => {
-      const matchesTarget = variant.options?.some(
-        o => o.nameKey === targetNameKey && o.valueKey === targetValueKey,
-      );
-      if (!matchesTarget) {
-        return false;
-      }
-
-      const matchesOthers = selectedVariant.options
-        ?.filter(o => o.nameKey !== targetNameKey)
-        .every(selectedOpt =>
-          variant.options?.some(
-            o =>
-              o.nameKey === selectedOpt.nameKey &&
-              o.valueKey === selectedOpt.valueKey,
-          ),
-        );
-
-      const isInStock = variant.stock
-        ? variant.stock.quantity > 0 || variant.stock.status === 'pre_order'
-        : true;
-
-      return matchesOthers && isInStock;
-    });
+    return product.variants.some(
+      variant =>
+        variant.options.some(
+          o => o.nameKey === nameKey && o.valueKey === valueKey,
+        ) &&
+        selectedVariant.options
+          .filter(o => o.nameKey !== nameKey)
+          .every(selected =>
+            variant.options.some(
+              o =>
+                o.nameKey === selected.nameKey &&
+                o.valueKey === selected.valueKey,
+            ),
+          ) &&
+        isVariantPurchasable(variant),
+    );
   };
 
-  // 3. Лаконічний та швидкий хендлер вибору
-  const handleOptionSelect = (
-    optionNameKey: string,
-    targetValueKey: string,
-  ) => {
+  const handleOptionSelect = (nameKey: string, valueKey: string) => {
     if (!selectedVariant) {
       return;
     }
 
-    const currentOptionsMap = new Map(
-      selectedVariant.options?.map(opt => [opt.nameKey, opt.valueKey]),
+    const nextOptions = new Map(
+      selectedVariant.options.map(opt => [opt.nameKey, opt.valueKey]),
     );
-    currentOptionsMap.set(optionNameKey, targetValueKey);
+    nextOptions.set(nameKey, valueKey);
 
-    // Точний пошук варіанта за всіма обраними опціями
-    let nextVariant = product.variants.find(variant =>
-      Array.from(currentOptionsMap.entries()).every(([nKey, vKey]) =>
-        variant.options?.some(o => o.nameKey === nKey && o.valueKey === vKey),
-      ),
-    );
-
-    // Фолбек: перший доступний варіант з цією опцією
-    if (!nextVariant) {
-      nextVariant = product.variants.find(v =>
-        v.options?.some(
-          o => o.nameKey === optionNameKey && o.valueKey === targetValueKey,
+    // Exact match on every selected option, else the first variant with this option
+    const nextVariant =
+      product.variants.find(variant =>
+        [...nextOptions].every(([nKey, vKey]) =>
+          variant.options.some(o => o.nameKey === nKey && o.valueKey === vKey),
+        ),
+      ) ??
+      product.variants.find(variant =>
+        variant.options.some(
+          o => o.nameKey === nameKey && o.valueKey === valueKey,
         ),
       );
-    }
 
     if (nextVariant?.sku) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('variant', nextVariant.sku);
-
-      // Використовуємо useTransition для збереження плавності UI при зміні URL
+      const query = new URLSearchParams({ variant: nextVariant.sku });
       startTransition(() => {
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+        router.replace(`${pathname}?${query.toString()}`, { scroll: false });
       });
     }
   };
 
-  const isAvailableForPurchase =
-    selectedVariant?.stock?.quantity ||
-    selectedVariant?.stock?.status === 'pre_order';
+  const isSelected = (nameKey: string, valueKey: string) =>
+    selectedVariant?.options.some(
+      o => o.nameKey === nameKey && o.valueKey === valueKey,
+    ) ?? false;
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
         <Heading
           headingLevel="h1"
           variant="productPage"
@@ -587,144 +142,157 @@ export function ProductInfoSidebar({
           {product.title}
         </Heading>
 
-        {product.primaryCollection?.title && (
-          <p className="mt-2 text-sm font-medium md:text-base">
+        {product.primaryCollection.title && (
+          <Text size="none" className="text-sm font-medium md:text-base">
             {label.collection}:{' '}
             <span className="text-accent-foreground underline">
               {product.primaryCollection.title}
             </span>
-          </p>
+          </Text>
         )}
 
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-lg font-medium md:text-xl">
+        <div className="mt-2 flex items-center gap-3">
+          <Text
+            as="span"
+            size="none"
+            className="text-commerce-price-current text-lg font-medium tabular-nums md:text-xl"
+          >
             {label.price}: {formatMoney(currentPrice, lang)}
-          </span>
+          </Text>
           {selectedVariant?.compareAtPrice && (
-            <span className="text-commerce-price-old text-sm line-through md:text-base">
+            <Text
+              as="span"
+              size="none"
+              className="text-commerce-price-old text-sm tabular-nums line-through md:text-base"
+            >
               {formatMoney(selectedVariant.compareAtPrice, lang)}
-            </span>
+            </Text>
           )}
         </div>
 
-        <p className="mt-2 text-sm text-neutral-500">
+        <Text size="none" className="text-muted-foreground text-sm">
           {label.sku}: {selectedVariant?.sku || 'N/A'}
-        </p>
+        </Text>
       </div>
 
       {product.variants.length > 1 && (
-        <div className="space-y-4">
-          {Object.entries(optionsGrouped).map(([groupTitle, groupData]) => {
-            const isColorGroup =
-              groupData.key === 'color' || groupData.key === 'glaze';
+        <div
+          className={cn(
+            'duration-(--dur-normal) flex flex-col gap-4 transition-opacity',
+            isPending && 'opacity-70',
+          )}
+          aria-busy={isPending}
+        >
+          {optionGroups.map(group => {
+            const isColorGroup = COLOR_OPTION_KEYS.has(group.key);
 
             return (
-              <div key={groupData.key} className="space-y-2">
-                <label className="text-sm font-medium capitalize text-neutral-700">
-                  {groupTitle}:
-                </label>
+              <fieldset key={group.key} className="flex flex-col gap-2">
+                <Text
+                  as="legend"
+                  size="none"
+                  className="text-foreground/80 mb-2 text-sm font-medium capitalize"
+                >
+                  {group.title}:
+                </Text>
 
                 <div className="flex flex-wrap items-center gap-2.5">
-                  {Array.from(groupData.values.entries()).map(
-                    ([valueKey, optValue]) => {
-                      const isSelected = selectedVariant?.options?.some(
-                        o =>
-                          o.nameKey === groupData.key &&
-                          o.valueKey === valueKey,
-                      );
-                      const isAvailable = isOptionAvailable(
-                        groupData.key,
-                        valueKey,
-                      );
+                  {[...group.values].map(([valueKey, valueLabel]) => {
+                    const selected = isSelected(group.key, valueKey);
+                    const available = isOptionAvailable(group.key, valueKey);
 
-                      if (isColorGroup) {
-                        const colorStyle = valueKey.startsWith('#')
-                          ? valueKey
-                          : optValue.label;
-
-                        return (
-                          <div
-                            key={valueKey}
-                            className="flex flex-col items-center gap-1"
-                          >
-                            <button
-                              type="button"
-                              disabled={!isAvailable}
-                              title={`${optValue.label}${!isAvailable ? ' (Немає в наявності)' : ''}`}
-                              onClick={() =>
-                                handleOptionSelect(groupData.key, valueKey)
-                              }
-                              className={`relative size-7 rounded-full p-0.5 transition-transform ${
-                                !isAvailable
-                                  ? 'cursor-not-allowed opacity-35'
-                                  : 'cursor-pointer hover:scale-110'
-                              }`}
-                            >
-                              <span
-                                className="relative block size-full overflow-hidden rounded-full border border-black/10 shadow-inner"
-                                style={{ backgroundColor: colorStyle }}
-                              >
-                                {!isAvailable && (
-                                  <span className="absolute inset-0 m-auto h-[1px] w-[140%] -rotate-45 bg-neutral-600" />
-                                )}
-                              </span>
-                              <span className="sr-only">{optValue.label}</span>
-                            </button>
-                            <span
-                              className={`size-1 rounded-full bg-neutral-900 transition-all ${
-                                isSelected
-                                  ? 'scale-100 opacity-100'
-                                  : 'scale-0 opacity-0'
-                              }`}
-                            />
-                          </div>
-                        );
-                      }
+                    if (isColorGroup) {
+                      const swatchColor = valueKey.startsWith('#')
+                        ? valueKey
+                        : valueLabel;
 
                       return (
-                        <button
+                        <div
                           key={valueKey}
-                          type="button"
-                          disabled={!isAvailable}
-                          onClick={() =>
-                            handleOptionSelect(groupData.key, valueKey)
-                          }
-                          className={`relative border px-4 py-2 text-sm font-medium transition-all ${
-                            !isAvailable
-                              ? 'cursor-not-allowed border-neutral-200 bg-neutral-100 text-neutral-400 opacity-60'
-                              : 'cursor-pointer'
-                          } ${
-                            isSelected
-                              ? 'border-neutral-900 bg-neutral-900 text-white'
-                              : 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
-                          }`}
+                          className="flex flex-col items-center gap-1"
                         >
-                          {optValue.label}
-                          {!isAvailable && (
-                            <span className="absolute inset-0 m-auto h-px w-full -rotate-12 bg-neutral-400" />
-                          )}
-                        </button>
+                          <button
+                            type="button"
+                            disabled={!available}
+                            aria-pressed={selected}
+                            title={
+                              available
+                                ? valueLabel
+                                : `${valueLabel} (${label.outOfStock})`
+                            }
+                            onClick={() =>
+                              handleOptionSelect(group.key, valueKey)
+                            }
+                            className={cn(
+                              'focus-visible:ring-ring relative size-7 rounded-full p-0.5 outline-none transition-transform focus-visible:ring-2 focus-visible:ring-offset-2',
+                              available
+                                ? 'cursor-pointer hover:scale-110 motion-reduce:hover:scale-100'
+                                : 'cursor-not-allowed opacity-35',
+                            )}
+                          >
+                            <span
+                              className="border-foreground/10 relative block size-full overflow-hidden rounded-full border shadow-inner"
+                              // Swatch color is product data, not a design token
+                              style={{ backgroundColor: swatchColor }}
+                            >
+                              {!available && (
+                                <span className="bg-muted-foreground absolute inset-0 m-auto h-px w-[140%] -rotate-45" />
+                              )}
+                            </span>
+                            <span className="sr-only">{valueLabel}</span>
+                          </button>
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'bg-foreground duration-(--dur-normal) size-1 rounded-full transition-all',
+                              selected
+                                ? 'scale-100 opacity-100'
+                                : 'scale-0 opacity-0',
+                            )}
+                          />
+                        </div>
                       );
-                    },
-                  )}
+                    }
+
+                    return (
+                      <button
+                        key={valueKey}
+                        type="button"
+                        disabled={!available}
+                        aria-pressed={selected}
+                        data-selected={selected}
+                        onClick={() => handleOptionSelect(group.key, valueKey)}
+                        className={cn(
+                          'focus-visible:ring-ring duration-(--dur-normal) relative border px-4 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2',
+                          'border-border bg-background text-foreground hover:border-border-strong cursor-pointer',
+                          'data-[selected=true]:border-foreground data-[selected=true]:bg-foreground data-[selected=true]:text-background',
+                          'disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60',
+                        )}
+                      >
+                        {valueLabel}
+                        {!available && (
+                          <span className="bg-muted-foreground absolute inset-0 m-auto h-px w-full -rotate-12" />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
-              </div>
+              </fieldset>
             );
           })}
         </div>
       )}
 
-      {selectedVariant?.stock?.status === 'pre_order' && (
-        <p className="text-sm font-medium text-amber-700">Передзамовлення</p>
+      {selectedVariant?.stock.status === 'pre_order' && (
+        <Text
+          size="none"
+          className="text-status-warning-fg text-sm font-medium"
+        >
+          {label.preOrder}
+        </Text>
       )}
 
-      <Button
-        variant="default"
-        disabled={!isAvailableForPurchase}
-        className="w-full bg-[#A33333] py-6 text-base font-medium text-white shadow-none hover:bg-[#8B2B2B] disabled:bg-neutral-300"
-      >
-        {label.addToBag}
-      </Button>
+      {action}
     </div>
   );
 }

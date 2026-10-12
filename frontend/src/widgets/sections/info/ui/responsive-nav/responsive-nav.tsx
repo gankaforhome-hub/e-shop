@@ -1,5 +1,6 @@
 import { type INavItemConfig } from '@/features/navigation';
 import { type InfoSlug } from '@/shared/config/routes';
+import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 
 interface InfoSideNavProps {
@@ -17,11 +18,13 @@ export function ResponsiveNav({ items, currentSlug }: InfoSideNavProps) {
           <AppLink
             key={item.id}
             href={item.href}
-            className={`shrink-0 whitespace-nowrap text-xs uppercase tracking-widest transition-colors md:text-sm ${
+            aria-current={isActive ? 'page' : undefined}
+            className={cn(
+              'duration-(--dur-normal) shrink-0 whitespace-nowrap text-xs uppercase tracking-widest transition-colors md:text-sm',
               isActive
-                ? 'font-medium text-black underline underline-offset-4'
-                : 'text-muted-foreground hover:text-black'
-            }`}
+                ? 'text-foreground font-medium underline underline-offset-4'
+                : 'text-muted-foreground hover:text-foreground',
+            )}
           >
             {item.label}
           </AppLink>

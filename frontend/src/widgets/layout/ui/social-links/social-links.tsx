@@ -27,13 +27,13 @@ export function SocialLinks({
   const styles = {
     contactUsForm: {
       list: 'gap-3',
-      link: 'flex h-12 w-16 items-center justify-center rounded-lg border border-brand/80 bg-white transition hover:border-brand',
+      link: 'flex h-12 w-16 items-center justify-center rounded-lg border border-brand/80 bg-background transition hover:border-brand',
       icon: 'text-icon size-5',
       label: 'sr-only',
     },
     footer: {
       list: 'mt-4 gap-4',
-      link: 'size-8 justify-center rounded-full bg-white/20 shadow-lg',
+      link: 'size-8 justify-center rounded-full bg-background/20 shadow-lg',
       icon: 'text-icon size-5',
       label: 'sr-only',
     },
@@ -63,7 +63,7 @@ export function SocialLinks({
               onClick={onItemClick}
               className={cn(
                 'group flex items-center gap-1',
-                'hover:text-foreground duration-(--dur-norm) transition-all',
+                'hover:text-foreground duration-(--dur-normal) transition-all',
                 styles[variant].link,
               )}
             >
@@ -72,7 +72,7 @@ export function SocialLinks({
                 name={soc.icon}
                 className={cn(
                   'fill-none',
-                  'group-hover:text-icon-hover duration-(--dur-norm) transition-colors',
+                  'group-hover:text-icon-hover duration-(--dur-normal) transition-colors',
                   styles[variant].icon,
                 )}
                 classNameContainer={cn('text-sm tracking-wider')}

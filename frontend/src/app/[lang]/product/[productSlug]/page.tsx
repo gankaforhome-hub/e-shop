@@ -1,17 +1,33 @@
+import { Suspense } from 'react';
+
 import { notFound } from 'next/navigation';
 
-import { getProductBySlug } from '@/entities/product/api/get-products';
+import { getLocalizedProducts, getProductBySlug } from '@/entities/product';
 import { createRoute } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
+import { locales } from '@/shared/i18n/routing';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
-import { ProductDetailSection } from '@/widgets/sections/product';
+import {
+  ProductDetailSection,
+  ProductDetailSkeleton,
+} from '@/widgets/sections/product';
 
 interface ProductPageProps {
   params: Promise<{ productSlug: string; lang: string }>;
-  searchParams: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export async function generateStaticParams() {
+  const perLocale = await Promise.all(
+    locales.map(async lang =>
+      (await getLocalizedProducts(lang)).map(product => ({
+        lang,
+        productSlug: product.slug,
+      })),
+    ),
+  );
+  return perLocale.flat();
 }
 
 export default async function ProductPage({
@@ -19,13 +35,15 @@ export default async function ProductPage({
   searchParams,
 }: ProductPageProps) {
   const { productSlug, lang } = await params;
-  const currentSearchParams = await searchParams;
 
   if (!isValidLocale(lang)) {
     notFound();
   }
-  const dict = await getDictionary(['common'], lang);
-  const product = await getProductBySlug(productSlug, lang);
+
+  const [dict, product] = await Promise.all([
+    getDictionary(['common'], lang),
+    getProductBySlug(productSlug, lang),
+  ]);
   if (!product) {
     notFound();
   }
@@ -44,11 +62,14 @@ export default async function ProductPage({
           },
         ]}
       />
-      <ProductDetailSection
-        product={product}
-        lang={lang}
-        searchParams={currentSearchParams}
-      />
+      {/* The selected variant comes from `?variant=`, so only this part streams */}
+      <Suspense fallback={<ProductDetailSkeleton />}>
+        <ProductDetailSection
+          product={product}
+          lang={lang}
+          searchParams={searchParams}
+        />
+      </Suspense>
     </>
   );
 }

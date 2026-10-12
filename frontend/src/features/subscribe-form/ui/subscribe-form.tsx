@@ -1,12 +1,16 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/shared/lib/utils';
+import { showSuccessBanner } from '@/shared/lib/utils/toast';
 import { Button } from '@/shared/ui/button';
+import { ErrorMessage } from '@/shared/ui/error-message';
 import { Icon } from '@/shared/ui/icon';
 import { Label } from '@/shared/ui/label';
 import { Text } from '@/shared/ui/text';
@@ -14,17 +18,29 @@ import { Text } from '@/shared/ui/text';
 import { subscribeHandler } from '../api/subscribe';
 import {
   type FormSubscribe,
+  getSubscribeSchema,
   type SubscribeFormData,
-  subscribeSchema,
 } from '../model/subscribe.schema';
 
-interface ISubscribeFormProps {
+interface SubscribeFormProps {
   className?: string;
   form: FormSubscribe;
 }
 
-export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
+export const SubscribeForm: FC<SubscribeFormProps> = ({ className, form }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const tValidation = useTranslations('common.forms.validation');
+  const tSubscribe = useTranslations('common.subscribe');
+  const tAria = useTranslations('common.common.aria');
+
+  const subscribeSchema = useMemo(
+    () =>
+      getSubscribeSchema(key =>
+        key === 'tooLong' ? tSubscribe('firstNameTooLong') : tValidation(key),
+      ),
+    [tValidation, tSubscribe],
+  );
 
   const { inputs, buttonText } = form;
 
@@ -41,19 +57,18 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
   });
 
   const onSubmit: SubmitHandler<SubscribeFormData> = async formData => {
+    setSubmitError(null);
     try {
       setIsLoading(true);
       const { success, message } = await subscribeHandler(formData);
       if (success) {
         reset();
-        //TODO Toaster('error');
-        console.log('🚀 ~ message:', message);
+        showSuccessBanner({ message, closeLabel: tAria('close') });
       } else {
-        //TODO Toaster('error');
-        console.log('🚀 ~ message:', message);
+        setSubmitError(message);
       }
     } catch {
-      //TODO Toaster('error');
+      setSubmitError(tSubscribe('error'));
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +86,7 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
               {...register(name)}
               className={cn(
                 'custom-transition peer placeholder-transparent transition-all',
-                errors[name] && 'border-b-destructive',
+                errors[name] && 'border-b-status-error-fg',
               )}
               aria-required
               aria-invalid={!!errors[name]}
@@ -102,6 +117,7 @@ export const SubscribeForm: FC<ISubscribeFormProps> = ({ className, form }) => {
           </div>
         ))}
       </div>
+      {submitError && <ErrorMessage error={submitError} />}
       <Button
         disabled={isLoading}
         variant="outline"

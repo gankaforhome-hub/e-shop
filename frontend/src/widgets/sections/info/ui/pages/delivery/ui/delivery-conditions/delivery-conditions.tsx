@@ -19,7 +19,7 @@ export async function DeliveryConditionsSection({
         headingLevel="h1"
         variant="pageHeader"
         position="center"
-        className="mb-4"
+        className="mx-auto mb-4"
       >
         {delivery.pageTitle}
       </Heading>

@@ -1,6 +1,9 @@
-import { ProductCard } from '@/entities/product';
-import { getProducts } from '@/entities/product/api/get-products';
+import { getProducts, ProductCard } from '@/entities/product';
 import { FavoriteButton } from '@/features/add-to-favorite';
+import {
+  getFavoriteIds,
+  withFavorites,
+} from '@/features/add-to-favorite/server';
 import { routes } from '@/shared/config/routes';
 import { type Locale } from '@/shared/i18n/routing';
 import { cn } from '@/shared/lib/utils';
@@ -25,7 +28,11 @@ export async function RecommendedProductsSection({
   limit = 8,
   btnViewAllCatalog,
 }: IRecommendedProductsSectionProps) {
-  const { data: products } = await getProducts({ lang, limit });
+  const [{ data }, favoriteIds] = await Promise.all([
+    getProducts({ lang, limit }),
+    getFavoriteIds(),
+  ]);
+  const products = withFavorites(data, favoriteIds);
 
   return (
     <Section aria-labelledby="recommended-product">
@@ -36,6 +43,7 @@ export async function RecommendedProductsSection({
           variant="section"
           position="center"
           visibility="hidden"
+          className="mx-auto mb-8 md:mb-6 xl:mb-16"
         >
           {title}
         </Heading>
@@ -46,7 +54,7 @@ export async function RecommendedProductsSection({
           scrollClassName="lg:grid lg:grid-cols-4 lg:overflow-visible"
           indicatorClassName="lg:hidden mt-3 md:px-20"
         >
-          {products.map((product, index) => (
+          {products.map(product => (
             <li
               key={product.id}
               className={cn(
@@ -59,7 +67,8 @@ export async function RecommendedProductsSection({
               <ProductCard
                 className="w-full"
                 product={product}
-                priority={index < 2}
+                lang={lang}
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 67vw, 100vw"
                 favoriteButton={
                   <FavoriteButton
                     productId={product.id}
@@ -81,24 +90,3 @@ export async function RecommendedProductsSection({
     </Section>
   );
 }
-
-//{/* Mobile: Slider via CSS. Desktop: Grid*/}
-// {/* <div className="scrollbar-none -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3 lg:grid-cols-4">
-//   {products.map(product => (
-//     <div
-//       key={product.id}
-//       className="w-full min-w-full shrink-0 snap-center sm:w-auto sm:min-w-0 sm:shrink"
-//     >
-//       <ProductCard
-//         className="w-full"
-//         product={product}
-//         favoriteButton={
-//           <FavoriteButton
-//             productId={product.id}
-//             initialFavorite={product.isFavorite}
-//           />
-//         }
-//       />
-//     </div>
-//   ))}
-// </div> */}

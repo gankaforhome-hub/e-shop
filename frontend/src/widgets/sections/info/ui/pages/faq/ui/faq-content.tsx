@@ -23,7 +23,7 @@ export async function FaqContentSection({ lang }: IFaqContentSectionProps) {
         headingLevel="h1"
         variant="pageHeader"
         position="center"
-        className="mb-4"
+        className="mx-auto mb-4"
       >
         {faq.pageTitle}
       </Heading>

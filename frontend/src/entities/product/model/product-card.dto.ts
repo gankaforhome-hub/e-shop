@@ -8,7 +8,7 @@ import {
   type ProductWeightTranslation,
 } from './types';
 
-export interface ProductCardDTO {
+export type ProductCardDTO = {
   id: string;
   slug: string;
   sku: string;
@@ -34,5 +34,6 @@ export interface ProductCardDTO {
   };
   attributes: ProductAttributeTranslation[];
   options: ProductOptionTranslation[];
+  /** Per-user flag merged in after the cached catalog read. */
   isFavorite: boolean;
-}
+};

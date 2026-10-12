@@ -1,37 +1,46 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import Autoplay from 'embla-carousel-autoplay';
 
 import { cn } from '@/shared/lib/utils';
 import {
   Carousel,
   CarouselContent,
+  CarouselCurrent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/shared/ui/carousel';
-import { Icon } from '@/shared/ui/icon';
 import { type TBannerSlide } from '@/widgets/sections/home/hero/model/types';
 
-import { BannerPagination } from './banner-pagination';
 import { BannerSlide } from './banner-slide';
 
-interface IBannerSlider {
+interface BannerSliderProps {
   bannerSlides: TBannerSlide[];
+  ctaLabel: string;
   className?: string;
 }
-export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
+
+export function BannerSlider({
+  className,
+  bannerSlides,
+  ctaLabel,
+}: BannerSliderProps) {
+  // Embla plugins only run in the browser, so reading matchMedia here can't
+  // cause a hydration mismatch; autoplay is skipped for reduced-motion users.
+  const plugins = useMemo(() => {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return prefersReducedMotion
+      ? []
+      : [Autoplay({ delay: 4000, stopOnInteraction: false })];
+  }, []);
+
   return (
     <Carousel
       className={cn('relative z-10 h-full w-full', className)}
-      plugins={[
-        Autoplay({
-          delay: 4000,
-          stopOnInteraction: false,
-          // stopOnMouseEnter: true,
-        }),
-      ]}
-      // isAutoplay
+      plugins={plugins}
       isFade
       opts={{
         startIndex: 0,
@@ -57,6 +66,7 @@ export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
                 alt={slide.media.alt ?? slide.title}
                 poster={slide.media.poster ?? ''}
                 index={index}
+                ctaLabel={ctaLabel}
               />
             </CarouselItem>
           );
@@ -64,7 +74,7 @@ export function BannerSlider({ className, bannerSlides }: IBannerSlider) {
       </CarouselContent>
       <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
         {bannerSlides.map((_, idx) => (
-          <BannerPagination key={idx} to={idx} />
+          <CarouselCurrent key={idx} to={idx} />
         ))}
       </div>
     </Carousel>

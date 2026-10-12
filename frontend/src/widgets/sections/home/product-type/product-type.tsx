@@ -24,6 +24,7 @@ export async function ProductTypeSection({
           headingLevel="h2"
           variant="section"
           visibility="hidden"
+          className="mb-8 md:mb-6 xl:mb-16"
         >
           {title}:
         </Heading>

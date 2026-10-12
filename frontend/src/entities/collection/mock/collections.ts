@@ -93,6 +93,22 @@ export const mockCollections: Collection[] = [
       alt: 'Royal Garden Collection',
     },
   },
+  {
+    id: 'col-13',
+    slug: 'konyushina',
+    media: {
+      src: '/images/hero_image.webp',
+      alt: 'Konyushina Collection',
+    },
+  },
+  {
+    id: 'col-14',
+    slug: 'winter',
+    media: {
+      src: '/images/hero_image_2.webp',
+      alt: 'Winter Collection',
+    },
+  },
 ];
 
 export const mockCollectionCategories: CollectionCategory[] = [
@@ -146,6 +162,13 @@ export const mockCollectionCategories: CollectionCategory[] = [
   { collectionId: 'col-12', categoryId: 'cat-4' },
   { collectionId: 'col-12', categoryId: 'cat-5' },
   { collectionId: 'col-12', categoryId: 'cat-6' },
+  // Konyushina
+  { collectionId: 'col-13', categoryId: 'cat-1' },
+  { collectionId: 'col-13', categoryId: 'cat-2' },
+  // Winter
+  { collectionId: 'col-14', categoryId: 'cat-2' },
+  { collectionId: 'col-14', categoryId: 'cat-3' },
+  { collectionId: 'col-14', categoryId: 'cat-4' },
 ];
 
 export const mockCollectionTranslations: CollectionTranslation[] = [
@@ -341,6 +364,46 @@ export const mockCollectionTranslations: CollectionTranslation[] = [
       'Вишукані акценти для столу, створені для незабутніх гастрономічних вражень.',
     description: `Вишукані акценти для столу, створені для незабутніх гастрономічних вражень.\n\nНасичені художні деталі, що підкреслюють красу кожної кулінарної подачі.`,
   },
+  {
+    collectionId: 'col-13',
+    languageCode: 'en',
+    title: 'Konyushina',
+    shortDescription:
+      'A new collection inspired by meadow clover — delicate botanical motifs for everyday serving.',
+    description: `Konyushina (clover) celebrates the quiet beauty of Ukrainian meadows. Soft greens and hand-painted leaves bring a fresh, natural mood to the table.
+
+Each piece is made at our workshop in Ukraine and is designed for both everyday meals and festive gatherings.`,
+  },
+  {
+    collectionId: 'col-13',
+    languageCode: 'uk',
+    title: 'Конюшина',
+    shortDescription:
+      'Нова колекція, натхненна лучною конюшиною, — ніжні ботанічні мотиви для щоденної сервіровки.',
+    description: `Конюшина оспівує тиху красу українських луків. М’які зелені відтінки та розписане вручну листя створюють свіжий, природний настрій за столом.
+
+Кожен виріб виготовлено в нашій майстерні в Україні — для щоденних трапез і святкових зустрічей.`,
+  },
+  {
+    collectionId: 'col-14',
+    languageCode: 'en',
+    title: 'Winter',
+    shortDescription:
+      'A popular collection for cosy winter evenings — warm tones and tea-time essentials.',
+    description: `Winter gathers everything for slow, warm evenings: teapots, cups and sets in calm, frosty tones.
+
+Made by hand in Ukraine to keep the warmth of home at every tea table.`,
+  },
+  {
+    collectionId: 'col-14',
+    languageCode: 'uk',
+    title: 'Зима',
+    shortDescription:
+      'Популярна колекція для затишних зимових вечорів — теплі відтінки та все для чаювання.',
+    description: `«Зима» об’єднує все для неспішних теплих вечорів: чайники, чашки та набори у спокійних морозних відтінках.
+
+Виготовлено вручну в Україні, щоб зберігати тепло дому за кожним чайним столом.`,
+  },
 ];
 
 export const mockCollectionSeo: CollectionSeo[] = [
@@ -494,5 +557,31 @@ export const mockCollectionSeo: CollectionSeo[] = [
     languageCode: 'uk',
     title: 'Royal Garden | Преміальна керамічна колекція',
     description: 'Розкішний керамічний посуд для вишуканої сервіровки столу.',
+  },
+  {
+    collectionId: 'col-13',
+    languageCode: 'en',
+    title: 'Konyushina Collection | Handmade Ceramic Tableware',
+    description: 'Clover-inspired handmade ceramic plates and sets.',
+  },
+  {
+    collectionId: 'col-13',
+    languageCode: 'uk',
+    title: 'Колекція Конюшина | Керамічний посуд ручної роботи',
+    description:
+      'Керамічні тарілки та набори ручної роботи з мотивами конюшини.',
+  },
+  {
+    collectionId: 'col-14',
+    languageCode: 'en',
+    title: 'Winter Collection | Ceramic Teapots & Cups',
+    description: 'Handmade ceramic teapots, cups and sets for winter evenings.',
+  },
+  {
+    collectionId: 'col-14',
+    languageCode: 'uk',
+    title: 'Колекція Зима | Керамічні чайники та чашки',
+    description:
+      'Керамічні чайники, чашки та набори ручної роботи для зимових вечорів.',
   },
 ];

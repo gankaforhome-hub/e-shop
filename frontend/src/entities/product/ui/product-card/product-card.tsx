@@ -9,13 +9,19 @@ import { Badge } from '@/shared/ui/badge';
 
 import { type ProductCardDTO } from '../../model/product-card.dto';
 
-export interface IProductCard {
+/** Default `sizes` for the catalog grid (2 → 3 → 4 columns). */
+const GRID_SIZES =
+  '(min-width: 1536px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw';
+
+export interface ProductCardProps {
   product: ProductCardDTO;
   favoriteButton?: ReactNode;
   className?: string;
-  /** Передавайте priority={index < 2} для карток на першому екрані */
   lang?: Locale;
+  /** Pass `index < 2` for above-the-fold cards only. */
   priority?: boolean;
+  /** Override when the card is rendered outside the catalog grid. */
+  sizes?: string;
 }
 
 export const ProductCard = ({
@@ -24,7 +30,8 @@ export const ProductCard = ({
   className,
   lang,
   priority = false,
-}: IProductCard) => {
+  sizes = GRID_SIZES,
+}: ProductCardProps) => {
   const mainImage = product.media.primary.src || '/images/placeholder.jpg';
   const hoverImage = product.media.hover?.src;
   const isSoldOut = product.stock.status === 'out_of_stock';
@@ -68,11 +75,11 @@ export const ProductCard = ({
           {/* Main Image */}
           <AppMedia
             src={mainImage}
-            alt={product.media.primary.src || product.title}
+            alt={product.media.primary.alt || product.title}
             fill
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            sizes={sizes}
             className={cn(
               'card-surface transition-opacity duration-500',
               product.media.primary.objectFit === 'contain'
@@ -86,10 +93,10 @@ export const ProductCard = ({
           {hoverImage && (
             <AppMedia
               src={hoverImage}
-              alt={product.media.hover?.src || product.title}
+              alt=""
               fill
               loading="lazy"
-              sizes="(max-width: 1024px) 50vw, 25vw"
+              sizes={sizes}
               className={cn(
                 product.media.hover?.objectFit === 'contain'
                   ? 'fp-4/12 object-contain'

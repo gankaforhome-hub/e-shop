@@ -1,4 +1,3 @@
-import { type Collection } from '@/entities/collection/model/types';
 import { type AppRoutes } from '@/shared/config/routes';
 import { type CommonDict } from '@/shared/i18n/types';
 
@@ -11,8 +10,3 @@ export interface INavItemConfig {
 }
 
 export type NavigationDict = CommonDict['navigation'];
-
-export interface BuildNavigationOptions {
-  dict: NavigationDict;
-  collections?: Collection[];
-}

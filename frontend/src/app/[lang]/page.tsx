@@ -4,8 +4,6 @@ import { type Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
-import { setRequestLocale } from 'next-intl/server';
-
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { isValidLocale } from '@/shared/i18n/helpers';
@@ -27,7 +25,9 @@ export async function generateMetadata({
   params,
 }: IGetMetadataProps): Promise<Metadata> {
   const { lang } = await params;
-  setRequestLocale(lang);
+  if (!isValidLocale(lang)) {
+    return {};
+  }
 
   const meta = await getMetadata('home', lang);
 
@@ -54,7 +54,10 @@ export default async function Page({ params }: IHomePageProps) {
   return (
     <>
       <Suspense fallback={<BannerSliderSkeleton />}>
-        <Hero bannerSlides={home.hero.banners} />
+        <Hero
+          bannerSlides={home.hero.banners}
+          ctaLabel={home.hero.viewCollection}
+        />
       </Suspense>
       <Heading headingLevel="h1" visibility="hidden">
         {home.pageTitle}

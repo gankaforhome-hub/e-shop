@@ -1,4 +1,3 @@
-import { type TProduct } from '@/entities/product/lib/product-mapper';
 import {
   Accordion,
   AccordionContent,
@@ -6,8 +5,10 @@ import {
   AccordionTrigger,
 } from '@/shared/ui/accordion';
 
-interface IProductAccordionsProps {
-  product: TProduct;
+import { type LocalizedProduct } from '../../model/types';
+
+interface ProductAccordionsProps {
+  product: LocalizedProduct;
   label: {
     descriptionAndDetails: string;
     careAndUse: string;
@@ -17,10 +18,7 @@ interface IProductAccordionsProps {
   };
 }
 
-export async function ProductAccordions({
-  product,
-  label,
-}: IProductAccordionsProps) {
+export function ProductAccordions({ product, label }: ProductAccordionsProps) {
   const {
     descriptionAndDetails,
     careAndUse,

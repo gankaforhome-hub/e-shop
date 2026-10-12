@@ -4,32 +4,17 @@ import { Section } from '@/shared/ui/section';
 import { type TBannerSlide } from './model/types';
 import { BannerSlider } from './ui/banner-slider';
 
-interface IHeroProps {
+interface HeroProps {
   bannerSlides: TBannerSlide[];
+  ctaLabel: string;
 }
 
-export function Hero({ bannerSlides = [] }: IHeroProps) {
-  // Info generate blurDataUrl
-  // const slidesWithBlur = await Promise.all(
-  //   bannerSlides.map(async slide => {
-  //     if (!slide.media?.src || slide.media.src.endsWith('.mp4')) {
-  //       return slide;
-  //     }
-  //     const blurDataURL = await getBlurPlaceholder(slide.media.src);
-  //     console.log('🚀 ~ Hero ~ blurDataURL:', blurDataURL);
-  //     return {
-  //       ...slide,
-  //       media: {
-  //         ...slide.media,
-  //         ...(blurDataURL ? { blurDataURL } : {}),
-  //       },
-  //     };
-  //   }),
-  // );
+export function Hero({ bannerSlides = [], ctaLabel }: HeroProps) {
   return (
     <Section className="overflow-hidden" spacing="none">
       <BannerSlider
         bannerSlides={bannerSlides}
+        ctaLabel={ctaLabel}
         className={cn(
           'md:aspect-21/9 relative aspect-video h-[calc(640px-var(--h-header-mobile))] w-full md:h-[calc(100dvh-var(--h-header-tab))] lg:h-[calc(100dvh-var(--h-header-desktop))] landscape:max-md:h-80',
           'touch-pan-y overscroll-none',

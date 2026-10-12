@@ -26,6 +26,7 @@ export const HeroExclusive = ({
           headingLevel="h2"
           variant="section"
           visibility="hidden"
+          className="mb-8 md:mb-6 xl:mb-16"
         >
           {title}
         </Heading>
@@ -37,6 +38,7 @@ export const HeroExclusive = ({
               alt={image.alt || ''}
               fill
               loading="eager"
+              fetchPriority="high"
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1200px"
               className="object-cover object-[100%_center] sm:object-[80%_center] md:object-center"
             />

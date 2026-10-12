@@ -1,48 +1,65 @@
+import { Suspense } from 'react';
+
 import { notFound } from 'next/navigation';
 
 import { getCategories } from '@/entities/category';
-import { getProducts } from '@/entities/product/api/get-products';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
-import { cn } from '@/shared/lib/utils';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
-import { ProductGrid } from '@/widgets/sections/products';
-import { CategoryFilter } from '@/widgets/sections/products/ui/category-filter/category-filter';
+import {
+  CategoryFilter,
+  ProductGridSkeleton,
+  ProductsCatalog,
+  type ProductsSearchParams,
+} from '@/widgets/sections/products';
 
-interface IProductsPage {
+const PRODUCTS_LIMIT = 24;
+
+interface ProductsPageProps {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{
-    search?: string;
-    category?: string;
-    favoritesOnly?: string;
-  }>;
+  searchParams: Promise<ProductsSearchParams>;
 }
 
 export default async function ProductsPage({
   params,
   searchParams,
-}: IProductsPage) {
+}: ProductsPageProps) {
   const { lang } = await params;
   if (!isValidLocale(lang)) {
     notFound();
   }
-  const limit = 24;
-  const filters = await searchParams;
-  const categories = await getCategories(lang);
-  const { data: products } = await getProducts({ lang, limit, ...filters });
+
+  const [{ common }, categories] = await Promise.all([
+    getDictionary(['common'], lang),
+    getCategories(lang),
+  ]);
 
   return (
     <>
       <Breadcrumbs />
-      <Section className={cn('mt-4')}>
+      <Section className="mt-4">
         <Container>
           <Heading headingLevel="h1" visibility="hidden">
-            Ganka for home products
+            {common.navigation.main.allProducts}
           </Heading>
-          <CategoryFilter categories={categories} />
-          <ProductGrid products={products} limit={limit} lang={lang} />
+          <Suspense
+            fallback={
+              <>
+                <CategoryFilter categories={categories} />
+                <ProductGridSkeleton count={8} />
+              </>
+            }
+          >
+            <ProductsCatalog
+              lang={lang}
+              categories={categories}
+              limit={PRODUCTS_LIMIT}
+              searchParams={searchParams}
+            />
+          </Suspense>
         </Container>
       </Section>
     </>

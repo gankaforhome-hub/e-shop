@@ -30,7 +30,12 @@ export default async function ContactsPage({ params }: IContactsPageProps) {
     <>
       <Breadcrumbs />
       <Container>
-        <Heading headingLevel="h1" variant="pageHeader" position="center">
+        <Heading
+          headingLevel="h1"
+          variant="pageHeader"
+          position="center"
+          className="mx-auto"
+        >
           {contacts.pageTitle}
         </Heading>
       </Container>

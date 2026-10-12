@@ -2,20 +2,19 @@
 
 import { useEffect, useRef } from 'react';
 
-import { cn } from 'cn';
-
+import { cn } from '@/shared/lib/utils';
 import { AppMedia } from '@/shared/ui/app-media';
 import {
   Carousel,
   CarouselContent,
+  CarouselCurrent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  useCarousel,
 } from '@/shared/ui/carousel';
-import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
 import { Icon } from '@/shared/ui/icon';
 import { ScrollableContainer } from '@/shared/ui/scrollable-container';
-import { BannerPagination } from '@/widgets/sections/home/hero/ui/banner-pagination';
 
 import { type ProductMedia } from '../../model/types';
 
@@ -25,65 +24,6 @@ interface ProductGalleryProps {
   activeMediaId: string;
 }
 
-// export function ProductGallery({
-//   media,
-//   title,
-//   activeMediaId,
-// }: ProductGalleryProps) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const searchParams = useSearchParams();
-
-//   const activeMedia = media.find(m => m.id === activeMediaId) || media[0];
-
-//   const handleSelectMedia = (id: string) => {
-//     const params = new URLSearchParams(searchParams.toString());
-//     params.set('media', id);
-//     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-//   };
-
-//   return (
-//     <div className="flex flex-col gap-4 lg:col-span-7 lg:flex-row">
-//       <div className="bg-muted relative aspect-square w-full overflow-hidden lg:order-2">
-//         {activeMedia && (
-//           <AppMedia
-//             src={activeMedia.src}
-//             alt={title}
-//             fill
-//             loading="eager"
-//             className={`object-${activeMedia.objectFit} duration-(--dur-slow) transition-all`}
-//             sizes="(max-width: 1024px) 100vw, 50vw"
-//           />
-//         )}
-//       </div>
-
-//       <div className="flex shrink-0 gap-3 overflow-x-auto pb-2 lg:order-1 lg:flex-col lg:overflow-x-visible lg:pb-0">
-//         {media.map(mediaItem => {
-//           const isActive = mediaItem.id === activeMedia?.id;
-//           return (
-//             <button
-//               key={mediaItem.id}
-//               onClick={() => handleSelectMedia(mediaItem.id)}
-//               className={cn(
-//                 'duration-(--dur-norm) relative size-16 shrink-0 cursor-pointer overflow-hidden transition-all sm:size-20 md:size-24',
-//                 isActive ? 'opacity-100' : 'opacity-40 hover:opacity-80',
-//               )}
-//             >
-//               <AppMedia
-//                 src={mediaItem.src}
-//                 alt={title}
-//                 fill
-//                 className={`object-${mediaItem.objectFit}`}
-//                 sizes="96px"
-//               />
-//             </button>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// }
-
 function ProductGalleryContent({
   media,
   title,
@@ -92,6 +32,11 @@ function ProductGalleryContent({
   const { api, current, scrollTo } = useCarousel();
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const isSingleMedia = media.length <= 1;
+  // The slide visible on first paint is the LCP candidate
+  const initialIndex = Math.max(
+    0,
+    media.findIndex(item => item.id === activeMediaId),
+  );
 
   // Реакція на зміну варіанта з сервера (зміна activeMediaId)
   useEffect(() => {
@@ -129,11 +74,11 @@ function ProductGalleryContent({
             >
               <AppMedia
                 src={item.src}
-                alt={`${title} - ${index + 1}`}
-                width={800}
-                height={800}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
+                alt={item.alt || `${title} - ${index + 1}`}
+                fill
+                loading={index === initialIndex ? 'eager' : 'lazy'}
+                fetchPriority={index === initialIndex ? 'high' : 'auto'}
+                sizes="(min-width: 1024px) 55vw, 100vw"
                 className="h-full w-full select-none object-cover"
               />
             </CarouselItem>
@@ -141,7 +86,7 @@ function ProductGalleryContent({
         </CarouselContent>
         <div className="absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
           {media.map((_, idx) => (
-            <BannerPagination key={idx} to={idx} />
+            <CarouselCurrent key={idx} to={idx} />
           ))}
         </div>
         {!isSingleMedia && (
@@ -177,20 +122,21 @@ function ProductGalleryContent({
                       }}
                       type="button"
                       onClick={() => scrollTo(index)}
-                      onMouseEnter={() => scrollTo(index)}
-                      onFocus={() => scrollTo(index)}
+                      aria-current={isSelected ? 'true' : undefined}
                       className={cn(
-                        'relative aspect-square h-16 w-16 shrink-0 border transition-colors duration-150 sm:h-20 sm:w-20',
-                        isSelected ? 'border-brand' : 'border-transparent',
+                        'focus-visible:ring-ring duration-(--dur-fast) relative aspect-square h-16 w-16 shrink-0 border outline-none transition-[border-color,opacity] focus-visible:ring-2 sm:h-20 sm:w-20',
+                        isSelected
+                          ? 'border-brand'
+                          : 'border-transparent opacity-80 hover:opacity-100',
                       )}
                       aria-label={`Go to slide ${index + 1}`}
                     >
                       <AppMedia
                         src={item.src}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={150}
-                        height={150}
-                        sizes="(max-width: 640px) 64px, 80px"
+                        alt=""
+                        width={80}
+                        height={80}
+                        sizes="80px"
                         className="h-full w-full select-none object-cover"
                       />
                     </button>

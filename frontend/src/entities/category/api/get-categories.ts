@@ -1,31 +1,34 @@
+import { cacheLife, cacheTag } from 'next/cache';
+
+import 'server-only';
+
+import { cacheTags } from '@/shared/config/cache-tags';
+import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
 
 import { mockCategories, mockCategoriesTranslations } from '../mock/categories';
 import { type CategoryDTO } from '../model/category.dto';
 
-export const getCategories = async (
-  lang: Locale = 'en',
-): Promise<CategoryDTO[]> => {
+/** Returns all categories flattened for `lang` (falls back to the default locale). */
+export async function getCategories(lang: Locale): Promise<CategoryDTO[]> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(cacheTags.categories);
+
+  const translationsById = groupTranslationsBy(
+    mockCategoriesTranslations,
+    t => t.categoryId,
+  );
+
   return mockCategories.map(category => {
-    const translation =
-      mockCategoriesTranslations.find(
-        t => t.categoryId === category.id && t.languageCode === lang,
-      ) ||
-      mockCategoriesTranslations.find(
-        t => t.categoryId === category.id && t.languageCode === 'en',
-      );
+    const translation = pickTranslation(
+      translationsById.get(category.id) ?? [],
+      lang,
+    );
     return {
       ...category,
       title: translation?.title ?? '',
       description: translation?.description ?? '',
     };
   });
-};
-
-export const getCategoriesBySlug = async (
-  slug: string,
-  lang: Locale = 'uk',
-): Promise<CategoryDTO | undefined> => {
-  const categories = await getCategories(lang);
-  return categories.find(category => category.slug === slug);
-};
+}

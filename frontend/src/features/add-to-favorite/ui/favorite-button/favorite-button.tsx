@@ -1,12 +1,14 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
 import { useFavorite } from '../../model';
 
-interface IFavoriteButton {
+interface FavoriteButtonProps {
   productId: string;
   initialFavorite: boolean;
   className?: string;
@@ -16,7 +18,8 @@ export function FavoriteButton({
   productId,
   initialFavorite,
   className,
-}: IFavoriteButton) {
+}: FavoriteButtonProps) {
+  const t = useTranslations('common.common.aria');
   const { isFavorite, isPending, toggle } = useFavorite({
     productId,
     initialValue: initialFavorite,
@@ -28,7 +31,8 @@ export function FavoriteButton({
       size="icon"
       onClick={toggle}
       disabled={isPending}
-      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+      aria-pressed={isFavorite}
+      aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
       className={cn('h-8 w-8 rounded-full', className)}
     >
       <Icon

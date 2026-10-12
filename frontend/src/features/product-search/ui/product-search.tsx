@@ -1,48 +1,85 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useEffect, useRef, useTransition } from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-import { routes } from '@/shared/config/routes';
+import { useTranslations } from 'next-intl';
+
+import { isCategorySlug, isProductSort, routes } from '@/shared/config/routes';
+import { useRouter } from '@/shared/i18n/navigation';
+import { cn } from '@/shared/lib/utils';
 import { Icon } from '@/shared/ui/icon';
-// твій Shadcn Input
+import { Input } from '@/shared/ui/input';
 
-export function ProductSearch() {
+const SEARCH_DEBOUNCE_MS = 350;
+
+interface ProductSearchProps {
+  className?: string;
+}
+
+/**
+ * Catalog search box. Debounces typing and navigates with the locale-aware
+ * router, keeping the active category/sort and resetting pagination.
+ * Must be rendered inside `<Suspense>` (reads `useSearchParams`).
+ */
+export function ProductSearch({ className }: ProductSearchProps) {
+  const t = useTranslations('common');
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const currentSearch = searchParams.get('search') || '';
-  const currentCategory = searchParams.get('category') as any;
-  const currentSort = searchParams.get('sort') as any;
+  const category = searchParams.get('category');
+  const sort = searchParams.get('sort');
 
-  const handleSearch = (term: string) => {
+  // Cancel a pending navigation if the component unmounts mid-debounce
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    [],
+  );
+
+  const navigate = (term: string) => {
     const targetUrl = routes.products({
       search: term.trim() || undefined,
-      category: currentCategory,
-      sort: currentSort,
-      // При новому пошуку скидаємо сторінку на 1-шу
+      category: isCategorySlug(category) ? category : undefined,
+      sort: isProductSort(sort) ? sort : undefined,
       page: undefined,
     });
-
     startTransition(() => {
-      router.push(targetUrl);
+      router.replace(targetUrl, { scroll: false });
     });
   };
 
+  const scheduleNavigate = (term: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => navigate(term), SEARCH_DEBOUNCE_MS);
+  };
+
   return (
-    <div className="relative w-full max-w-xs">
-      <input
+    <div role="search" className={cn('relative w-full max-w-xs', className)}>
+      <Input
         type="search"
-        placeholder="Пошук посуду..."
-        defaultValue={currentSearch}
-        onChange={e => handleSearch(e.target.value)}
+        aria-label={t('action.search')}
+        placeholder={t('placeholder.search')}
+        defaultValue={searchParams.get('search') ?? ''}
+        onChange={e => scheduleNavigate(e.target.value)}
         className="pr-8"
       />
-      <div className="text-muted-foreground absolute right-2.5 top-1/2 -translate-y-1/2">
-        <Icon name="search" className="h-4 w-4" />
-      </div>
+      <Icon
+        name={isPending ? 'spinner' : 'search'}
+        aria-hidden="true"
+        className={cn(
+          'text-muted-foreground pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2',
+          isPending && 'animate-spin',
+        )}
+      />
     </div>
   );
 }

@@ -1,28 +1,31 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
+import { z } from 'zod';
+
+import { FAVORITE_IDS_COOKIE, parseFavoriteIds } from '@/shared/lib/favorites';
+
+const productIdSchema = z.string().min(1).max(100);
+
 export async function toggleFavorite(productId: string) {
+  const id = productIdSchema.parse(productId);
   const cookieStore = await cookies();
-  const favoritesRaw = cookieStore.get('favorite_ids')?.value;
-  const favoriteIds: string[] = favoritesRaw ? JSON.parse(favoritesRaw) : [];
+  const favoriteIds = parseFavoriteIds(
+    cookieStore.get(FAVORITE_IDS_COOKIE)?.value,
+  );
 
-  let updatedFavorites: string[];
+  const updatedFavorites = favoriteIds.includes(id)
+    ? favoriteIds.filter(favoriteId => favoriteId !== id)
+    : [...favoriteIds, id];
 
-  if (favoriteIds.includes(productId)) {
-    updatedFavorites = favoriteIds.filter(id => id !== productId);
-  } else {
-    updatedFavorites = [...favoriteIds, productId];
-  }
-
-  // Зберігаємо оновлені лайки в cookies (на 30 днів)
-  cookieStore.set('favorite_ids', JSON.stringify(updatedFavorites), {
+  // Persist favorites for 30 days
+  cookieStore.set(FAVORITE_IDS_COOKIE, JSON.stringify(updatedFavorites), {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
     httpOnly: true,
+    sameSite: 'lax',
   });
-
-  // Оновлюємо кеш сторінки каталогу
-  revalidatePath('/products');
+  // Setting a cookie in a Server Action re-renders the current route, so
+  // favorites-aware grids refresh without path/tag revalidation.
 }

@@ -1,7 +1,10 @@
 import { type Metadata } from 'next';
 
+import { notFound } from 'next/navigation';
+
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
+import { isValidLocale } from '@/shared/i18n/helpers';
 import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
 import { parseAboutDictionary } from '@/shared/i18n/schemas/about.schema';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
@@ -33,6 +36,10 @@ export async function generateMetadata({
 
 export default async function AboutPage({ params }: IAboutPageProps) {
   const { lang } = await params;
+  if (!isValidLocale(lang)) {
+    notFound();
+  }
+
   const { about } = await getDictionary(['about'], lang);
   const { aboutHero, artistGallery, artOfLiving, ourStory, citronelle } =
     parseAboutDictionary(about);

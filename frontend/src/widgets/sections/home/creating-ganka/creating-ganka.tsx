@@ -44,6 +44,7 @@ export function CreatingGankaSection({
             variant="section"
             position="center"
             visibility="hidden"
+            className="mx-auto mb-8 md:mb-6 xl:mb-16"
           >
             {title}
           </Heading>

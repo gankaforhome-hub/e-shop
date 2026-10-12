@@ -1,8 +1,9 @@
-import Image from 'next/image';
+'use client';
 
 import { useTranslations } from 'next-intl';
 
 import { AppLink } from '@/shared/ui/app-link';
+import { AppMedia } from '@/shared/ui/app-media';
 import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
@@ -14,12 +15,14 @@ export function NotFoundWidget() {
   return (
     <Section className="fpy-6/30">
       <Container className="max-xl:fgap-8/16 flex flex-col items-center justify-center lg:flex-row-reverse lg:justify-between">
-        <Image
+        <AppMedia
           src={t('imageSrc')}
           alt={t('imageAlt')}
           width={820}
           height={620}
-          priority
+          placeholder="empty"
+          loading="eager"
+          fetchPriority="high"
           sizes="(max-width: 1024px) 100vw, 66vw"
           className="h-auto w-full max-w-7xl"
         />
@@ -33,9 +36,9 @@ export function NotFoundWidget() {
           >
             {t('pageTitle')}
           </Heading>
-          <h2 className="ftext-4/6 fleading-6/8 fmb-8/16">
+          <Text as="h2" size="none" className="ftext-4/6 fleading-6/8 fmb-8/16">
             {t('description')}
-          </h2>
+          </Text>
           <Button asChild>
             <AppLink href="/" aria-label={t('buttonAriaLabel')}>
               {t('buttonText')}

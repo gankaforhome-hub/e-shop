@@ -6,10 +6,6 @@ import { notFound } from 'next/navigation';
 
 import { NextIntlClientProvider } from 'next-intl';
 
-import { setRequestLocale } from 'next-intl/server';
-
-import { getCartAction } from '@/features/cart/api/cart-actions';
-import { CartProvider } from '@/features/cart/model/cart-context';
 import { noto, playfair } from '@/shared/config';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { getLocaleDirection, isValidLocale } from '@/shared/i18n/helpers';
@@ -51,9 +47,7 @@ export default async function LocaleLayout({
   if (!isValidLocale(lang)) {
     notFound();
   }
-  setRequestLocale(lang);
   const dir = getLocaleDirection(lang);
-  const initialCart = await getCartAction();
   return (
     <html lang={lang} dir={dir}>
       <body
@@ -61,11 +55,9 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider>
           <ToasterProvider />
-          <CartProvider initialItems={initialCart}>
-            <Header lang={lang} />
-            <main className="flex-1">{children}</main>
-            <Footer lang={lang} />
-          </CartProvider>
+          <Header lang={lang} />
+          <main className="flex-1">{children}</main>
+          <Footer lang={lang} />
         </NextIntlClientProvider>
       </body>
     </html>

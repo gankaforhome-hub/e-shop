@@ -1,11 +1,7 @@
-import { type CategorySlug } from '@/shared/config/routes';
-import { type Media } from '@/shared/types';
+import { type Category } from './types';
 
-export interface CategoryDTO {
-  id: string;
-  slug: CategorySlug;
-  image: Media;
-  productsCount?: number;
+/** Category resolved for one locale. */
+export type CategoryDTO = Category & {
   title: string;
   description: string;
-}
+};

@@ -3,7 +3,7 @@ import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia, type AppMediaProps } from '@/shared/ui/app-media';
 import { Button } from '@/shared/ui/button';
-import { useCarousel } from '@/shared/ui/carousel/core/useCarousel';
+import { useCarousel } from '@/shared/ui/carousel';
 import { Heading } from '@/shared/ui/heading';
 import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
@@ -16,11 +16,13 @@ interface BannerSlideProps extends AppMediaProps {
     blurDataURL?: string;
   };
   index: number;
+  ctaLabel: string;
 }
 
 export function BannerSlide({
   bannerSlide: { title, subTitle, slug, blurDataURL },
   index,
+  ctaLabel,
   ...props
 }: BannerSlideProps) {
   const { isInitialize, current } = useCarousel();
@@ -59,7 +61,7 @@ export function BannerSlide({
         </Heading>
 
         <Button asChild variant="default" className="mt-6 capitalize shadow-lg">
-          <AppLink href={routes.collection(slug)}>View Collection</AppLink>
+          <AppLink href={routes.collection(slug)}>{ctaLabel}</AppLink>
         </Button>
       </div>
     </div>

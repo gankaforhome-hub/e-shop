@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { buildInfoNav } from '@/features/navigation';
-import { type InfoSlug, InfoSlugs } from '@/shared/config/routes';
+import { InfoSlugs, isInfoSlug } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
 import { locales } from '@/shared/i18n/routing';
@@ -31,13 +31,11 @@ export async function generateStaticParams() {
 
 export default async function InfoPage({ params }: PageProps) {
   const { lang, infoSlug } = await params;
-  const isValidInfoSlug = InfoSlugs.includes(infoSlug as InfoSlug);
-
-  if (!isValidLocale(lang) || !isValidInfoSlug) {
+  if (!isValidLocale(lang) || !isInfoSlug(infoSlug)) {
     notFound();
   }
 
-  const validSlug = infoSlug as InfoSlug;
+  const validSlug = infoSlug;
 
   const { common } = await getDictionary(['common'], lang);
   const { navigation } = parseCommonDictionary(common);

@@ -27,7 +27,7 @@ export function AboutHeroSection({
             description={description}
             headingId="about-ganka-heading"
           />
-          <ImageTextPanel {...panel} />
+          <ImageTextPanel {...panel} priority />
         </Container>
       </Section>
     </>

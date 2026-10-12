@@ -1,1 +1,1 @@
-export { ProductGrid } from './ui';
+export * from './ui';

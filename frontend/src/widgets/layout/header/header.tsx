@@ -1,6 +1,6 @@
 import { getCollections } from '@/entities/collection';
 import { buildInfoNav, buildMainNav } from '@/features/navigation';
-import { DesktopLanguageSelector } from '@/features/select-language/ui/desktop-language-selector/desktop-language-selector';
+import { DesktopLanguageSelector } from '@/features/select-language';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
@@ -73,7 +73,14 @@ export async function Header({ lang }: IHeaderProps) {
               className="min-w-0 max-w-full justify-self-center"
               aria={common.brand.ariaLabel}
             />
-            <HeaderActions className="justify-self-end" />
+            <HeaderActions
+              className="justify-self-end"
+              label={{
+                search: common.common.aria.search,
+                account: common.common.aria.account,
+                favorites: common.common.aria.favorites,
+              }}
+            />
           </div>
           <HeaderNavWrapper>
             <HeaderNav items={mainNav} />

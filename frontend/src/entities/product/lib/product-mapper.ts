@@ -1,13 +1,14 @@
 import { type Locale } from '@/shared/i18n/routing';
 
+import { getStockStatus } from './get-stock-status';
 import {
   STOCK_TRANSLATIONS,
   WEIGHT_UNITS_TRANSLATIONS,
-} from '../mock/products';
+} from '../config/labels';
 import { type ProductCardDTO } from '../model/product-card.dto';
 import {
+  type LocalizedProduct,
   type Product,
-  type ProductAttributeTranslation,
   type ProductBadgeTranslation,
   type ProductCategoryRef,
   type ProductCollectionRef,
@@ -27,34 +28,6 @@ export const STOCK_PRIORITY: Record<ProductStockStatus, number> = {
   pre_order: 3,
   out_of_stock: 4,
 };
-
-export interface TProduct extends Omit<
-  Product,
-  'badges' | 'attributes' | 'variants'
-> {
-  title: string;
-  description: string;
-  attributes: ProductAttributeTranslation[];
-  category: ProductCategoryRef;
-  primaryCollection: ProductCollectionRef;
-  badges: ProductBadgeTranslation[];
-  variants: ProductVariantTranslation[];
-}
-
-// 1. Обчислення статусу зі ЗВИЧАЙНОГО (сирого) ProductStock
-export function getStockStatus(stock: ProductStock): ProductStockStatus {
-  const threshold = stock.lowStockThreshold ?? 2;
-
-  if (stock.quantity <= 0) {
-    return stock.allowBackorder ? 'pre_order' : 'out_of_stock';
-  }
-
-  if (stock.quantity <= threshold) {
-    return 'low_stock';
-  }
-
-  return 'in_stock';
-}
 
 // 2. Переклад стоку (викликається ТІЛЬКИ в normalizeProduct)
 export function getProductStockTranslation(
@@ -87,6 +60,17 @@ export function getMainVariant(
   return availableVariant ?? variants[0];
 }
 
+/** Variant chosen via `?variant=<sku>`, else the main (first purchasable) variant. */
+export function resolveSelectedVariant(
+  variants: ProductVariantTranslation[],
+  sku?: string,
+): ProductVariantTranslation | undefined {
+  return (
+    (sku ? variants.find(v => v.sku === sku) : undefined) ??
+    getMainVariant(variants)
+  );
+}
+
 // 4. Переклад ваги
 export function getProductWeightTranslation(
   weightObj?: ProductWeight,
@@ -106,7 +90,7 @@ export function getProductWeightTranslation(
   };
 }
 
-// 5. Нормалізація сирих даних з БД у TProduct
+// 5. Нормалізація сирих даних з БД у LocalizedProduct
 export function normalizeProduct(
   product: Product,
   translation?: ProductTranslation,
@@ -114,7 +98,7 @@ export function normalizeProduct(
   collectionRelation?: ProductCollectionRef,
   badges: ProductBadgeTranslation[] = [],
   lang: Locale = 'uk',
-): TProduct {
+): LocalizedProduct {
   const optionsTranslationMap = new Map<string, ProductOptionTranslation>(
     (translation?.options || []).map(opt => [
       `${opt.nameKey}_${opt.valueKey}`,
@@ -126,6 +110,7 @@ export function normalizeProduct(
     ...product,
     title: translation?.title ?? '',
     description: translation?.description ?? '',
+    ...(translation?.seo && { seo: translation.seo }),
     attributes: translation?.attributes ?? [],
     category: categoryRelation ?? {
       id: product.categoryId,
@@ -172,11 +157,8 @@ export function normalizeProduct(
   };
 }
 
-// 6. Мапер TProduct -> ProductCardDTO
-export function mapProductToCard(
-  product: TProduct,
-  lang: Locale = 'uk',
-): ProductCardDTO {
+// 6. Мапер LocalizedProduct -> ProductCardDTO
+export function mapProductToCard(product: LocalizedProduct): ProductCardDTO {
   const mainVariant = getMainVariant(product.variants);
 
   const primaryMedia = product.media.find(
@@ -189,16 +171,6 @@ export function mapProductToCard(
     };
 
   const hoverMedia = product.media.find(m => m.id !== primaryMedia.id);
-
-  const categoryTitle =
-    typeof product.category.title === 'string'
-      ? product.category.title
-      : product.category.title?.[lang] || '';
-
-  const collectionTitle =
-    typeof product.primaryCollection.title === 'string'
-      ? product.primaryCollection.title
-      : product.primaryCollection.title?.[lang] || '';
 
   return {
     id: product.id,
@@ -217,12 +189,12 @@ export function mapProductToCard(
     category: {
       id: product.category.id,
       slug: product.category.slug,
-      title: categoryTitle,
+      title: product.category.title,
     },
     primaryCollection: {
       id: product.primaryCollection.id,
       slug: product.primaryCollection.slug,
-      title: collectionTitle,
+      title: product.primaryCollection.title,
     },
     media: {
       primary: primaryMedia,
@@ -232,7 +204,7 @@ export function mapProductToCard(
       compareAtPrice: mainVariant.compareAtPrice,
     }),
     badges: product.badges ?? [],
-    isFavorite: product.isFavorite ?? false,
+    isFavorite: false,
     attributes: product.attributes,
     options: mainVariant?.options ?? [],
   };

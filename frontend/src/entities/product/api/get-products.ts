@@ -1,113 +1,156 @@
-'use server';
+import { cacheLife, cacheTag } from 'next/cache';
 
-import { cookies } from 'next/headers';
+import 'server-only';
 
+import { getCategories } from '@/entities/category';
+import { getCollections } from '@/entities/collection';
+import { cacheTags } from '@/shared/config/cache-tags';
+import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
 
 import {
   getMainVariant,
   mapProductToCard,
+  normalizeProduct,
   STOCK_PRIORITY,
-  type TProduct,
 } from '../lib/product-mapper';
-import { getProductsWithTranslation } from '../mock/products';
+import {
+  MOCK_BADGES,
+  MOCK_PRODUCT_TRANSLATIONS,
+  MOCK_PRODUCTS,
+} from '../mock/products';
 import { type ProductCardDTO } from '../model/product-card.dto';
+import {
+  type LocalizedProduct,
+  type ProductBadgeTranslation,
+} from '../model/types';
 
-export interface GetProductsParams {
+export type GetProductsParams = {
   lang: Locale;
-  limit?: number; // Кількість елементів на сторінку (наприклад, 12)
-  page?: number; // Номер сторінки (1, 2, 3...)
+  /** Items per page (e.g. 12). */
+  limit?: number;
+  /** 1-based page number. */
+  page?: number;
   search?: string;
   category?: string;
-  favoritesOnly?: string;
-}
+  collectionId?: string;
+  /** Restrict results to these product ids (e.g. the user's favorites). */
+  ids?: readonly string[];
+};
 
-export interface PaginatedProductsDTO {
+export type PaginatedProductsDTO = {
   data: ProductCardDTO[];
   meta: {
-    total: number; // Всього товарів за цими фільтрами
-    page: number; // Поточна сторінка
-    limit: number; // Скільки товарів на сторінці
-    totalPages: number; // Всього сторінок
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
     hasNextPage: boolean;
     hasPrevPage: boolean;
   };
+};
+
+/**
+ * Resolves every product for `lang`: joins translations (with default-locale
+ * fallback), category/collection refs and localized badges.
+ */
+export async function getLocalizedProducts(
+  lang: Locale,
+): Promise<LocalizedProduct[]> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(cacheTags.products, cacheTags.categories, cacheTags.collections);
+
+  const [categories, collections] = await Promise.all([
+    getCategories(lang),
+    getCollections(lang),
+  ]);
+
+  const translationsById = groupTranslationsBy(
+    MOCK_PRODUCT_TRANSLATIONS,
+    t => t.productId,
+  );
+  const categoriesById = new Map(categories.map(c => [c.id, c]));
+  const collectionsById = new Map(collections.map(c => [c.id, c]));
+
+  return MOCK_PRODUCTS.map(product => {
+    const badges: ProductBadgeTranslation[] = product.badges.map(badgeId => {
+      const badge = MOCK_BADGES[badgeId];
+      return {
+        id: badgeId,
+        label: badge.translations[lang] || badgeId,
+        ...(badge.color && { color: badge.color }),
+      };
+    });
+
+    return normalizeProduct(
+      product,
+      pickTranslation(translationsById.get(product.id) ?? [], lang),
+      categoriesById.get(product.categoryId),
+      collectionsById.get(product.primaryCollectionId),
+      badges,
+      lang,
+    );
+  });
 }
 
-// Повертаємо числовий пріоритет товару спираючись на статус головного варіанта
-function getProductStockPriority(product: TProduct): number {
+/** Numeric stock priority of a product, based on its main variant. */
+function getProductStockPriority(product: LocalizedProduct): number {
   const mainVariant = getMainVariant(product.variants);
-  if (!mainVariant?.stock) {
+  if (!mainVariant) {
     return STOCK_PRIORITY.out_of_stock;
   }
-
-  // Оскільки status вже обчислений у normalizeProduct, просто витягуємо його ваговий пріоритет
-  return (
-    STOCK_PRIORITY[mainVariant.stock.status] ?? STOCK_PRIORITY.out_of_stock
-  );
+  return STOCK_PRIORITY[mainVariant.stock.status];
 }
 
+/**
+ * Catalog query: filters, sorts by availability and paginates.
+ * Returns user-agnostic cards (`isFavorite: false`); callers merge per-user state.
+ */
 export async function getProducts(
   params: GetProductsParams,
 ): Promise<PaginatedProductsDTO> {
-  const cookieStore = await cookies();
-  const favoritesRaw = cookieStore.get('favorite_ids')?.value;
+  'use cache';
+  cacheLife('hours');
+  cacheTag(cacheTags.products);
 
-  let parsedFavorites: string[] = [];
-  if (favoritesRaw) {
-    try {
-      parsedFavorites = JSON.parse(favoritesRaw);
-    } catch {
-      parsedFavorites = [];
-    }
-  }
+  let filtered = await getLocalizedProducts(params.lang);
 
-  const favoriteIds = new Set<string>(parsedFavorites);
-
-  // 1. Отримуємо нормалізовані TProduct[] (усі stock/options вже перекладені)
-  let filtered = await getProductsWithTranslation(params.lang);
-
-  // 2. Фільтрація за пошуковим запитом
-  if (params.search) {
-    const query = params.search.trim().toLowerCase();
+  const query = params.search?.trim().toLowerCase();
+  if (query) {
     filtered = filtered.filter(p => p.title.toLowerCase().includes(query));
   }
 
-  // 3. Фільтрація за категорією
   if (params.category) {
     const categoryQuery = params.category.toLowerCase();
     filtered = filtered.filter(p => p.category.slug === categoryQuery);
   }
 
-  // 4. Фільтр "Тільки обране"
-  if (params.favoritesOnly === 'true') {
-    filtered = filtered.filter(p => favoriteIds.has(p.id));
+  if (params.collectionId) {
+    filtered = filtered.filter(
+      p => p.primaryCollectionId === params.collectionId,
+    );
   }
 
-  // 5. СОРТУВАННЯ: за пріоритетом стоку (в наявності -> закінчується -> передзамовлення -> немає)
+  if (params.ids) {
+    const ids = new Set(params.ids);
+    filtered = filtered.filter(p => ids.has(p.id));
+  }
+
+  // In stock -> low stock -> pre-order -> out of stock (stable sort)
   const sortedProducts = filtered
-    .map(product => ({
-      product,
-      priority: getProductStockPriority(product),
-    }))
+    .map(product => ({ product, priority: getProductStockPriority(product) }))
     .sort((a, b) => a.priority - b.priority)
     .map(item => item.product);
 
-  // 6. Розрахунок пагінації
   const total = sortedProducts.length;
   const page = Math.max(1, params.page ?? 1);
   const limit = Math.max(1, params.limit ?? 12);
   const totalPages = Math.ceil(total / limit) || 1;
-
   const offset = (page - 1) * limit;
-  const paginatedItems = sortedProducts.slice(offset, offset + limit);
 
-  // 7. Формуємо підсумковий результат (mapProductToCard викликається ТІЛЬКИ для відфільтрованої сторінки)
   return {
-    data: paginatedItems.map(product => ({
-      ...mapProductToCard(product, params.lang),
-      isFavorite: favoriteIds.has(product.id),
-    })),
+    data: sortedProducts.slice(offset, offset + limit).map(mapProductToCard),
     meta: {
       total,
       page,
@@ -121,15 +164,16 @@ export async function getProducts(
 
 export async function getProductBySlug(
   productSlug: string,
-  lang: Locale = 'uk',
-): Promise<TProduct | null> {
-  const products = await getProductsWithTranslation(lang);
+  lang: Locale,
+): Promise<LocalizedProduct | null> {
+  'use cache';
+  cacheLife('hours');
 
-  const product = products.find(product => product.slug === productSlug);
-
-  if (!product) {
-    return null;
-  }
-
+  const products = await getLocalizedProducts(lang);
+  const product = products.find(p => p.slug === productSlug) ?? null;
+  cacheTag(
+    cacheTags.products,
+    ...(product ? [cacheTags.product(product.id)] : []),
+  );
   return product;
 }

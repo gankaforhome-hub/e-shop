@@ -1,42 +1,22 @@
+import { Suspense } from 'react';
+
 import { notFound } from 'next/navigation';
 
-import { getCategories } from '@/entities/category';
-import { getCollections } from '@/entities/collection';
-import { getProducts } from '@/entities/product/api/get-products';
+import { getCollectionBySlug, getCollections } from '@/entities/collection';
 import { createRoute } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
-import { type Locale } from '@/shared/i18n/routing';
+import { locales } from '@/shared/i18n/routing';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
 import { SectionIntro } from '@/shared/ui/section-intro';
-import { ProductGrid } from '@/widgets/sections/products';
-
-export async function getCollectionDataBySlug(slug: string, lang: Locale) {
-  const allCollection = await getCollections(lang);
-  const collection = allCollection.find(col => col.slug === slug);
-
-  if (!collection) {
-    return null;
-  }
-
-  const categoryIdsSet = new Set(collection?.categoryIds ?? []);
-
-  const collectionCategories = (await getCategories(lang)).filter(
-    cat => cat?.id && categoryIdsSet.has(cat.id),
-  );
-
-  const collectionProducts = (await getProducts({ lang })).data;
-
-  return {
-    collection,
-    categories: collectionCategories,
-    products: collectionProducts,
-  };
-}
+import {
+  ProductGridLoader,
+  ProductGridSkeleton,
+} from '@/widgets/sections/products';
 
 interface PageProps {
   params: Promise<{
@@ -45,21 +25,33 @@ interface PageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  const perLocale = await Promise.all(
+    locales.map(async lang =>
+      (await getCollections(lang)).map(collection => ({
+        lang,
+        collectionSlug: collection.slug,
+      })),
+    ),
+  );
+  return perLocale.flat();
+}
+
 export default async function CollectionPage({ params }: PageProps) {
   const { lang, collectionSlug } = await params;
 
   if (!isValidLocale(lang)) {
     notFound();
   }
-  const dict = await getDictionary(['common', 'collections'], lang);
 
-  const data = await getCollectionDataBySlug(collectionSlug, lang);
+  const [dict, collection] = await Promise.all([
+    getDictionary(['common', 'collections'], lang),
+    getCollectionBySlug(collectionSlug, lang),
+  ]);
 
-  if (!data) {
+  if (!collection) {
     notFound();
   }
-
-  const { collection, products } = data;
 
   return (
     <>
@@ -86,6 +78,7 @@ export default async function CollectionPage({ params }: PageProps) {
             image={collection.media}
             paragraphs={collection.description}
             imagePosition="left"
+            priority
           />
         </Container>
       </Section>
@@ -96,7 +89,12 @@ export default async function CollectionPage({ params }: PageProps) {
             {`${dict.collections.collectionProducts.sectionTitle} ${collection.title}`}
           </Heading>
 
-          <ProductGrid products={products} limit={12} lang={lang} />
+          <Suspense fallback={<ProductGridSkeleton count={4} />}>
+            <ProductGridLoader
+              query={{ lang, collectionId: collection.id }}
+              limit={12}
+            />
+          </Suspense>
         </Container>
       </Section>
     </>

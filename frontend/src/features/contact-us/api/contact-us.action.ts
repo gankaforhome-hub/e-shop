@@ -7,6 +7,11 @@ import {
   getContactUsSchema,
 } from '../model/contact-us.schema';
 
+function getFormString(formData: FormData, key: string): string {
+  const value = formData.get(key);
+  return typeof value === 'string' ? value : '';
+}
+
 export async function submitContactUsAction(
   _prevState: ContactUsActionState,
   formData: FormData,
@@ -18,9 +23,9 @@ export async function submitContactUsAction(
   );
 
   const rawData = {
-    email: (formData.get('email') as string) ?? '',
-    phone: (formData.get('phone') as string) ?? '',
-    comment: (formData.get('comment') as string) ?? '',
+    email: getFormString(formData, 'email'),
+    phone: getFormString(formData, 'phone'),
+    comment: getFormString(formData, 'comment'),
   };
 
   const validated = contactUsSchema.safeParse(rawData);
@@ -33,8 +38,6 @@ export async function submitContactUsAction(
   }
 
   try {
-    console.log('[Server Action] Contact Us payload:', validated.data);
-
     await new Promise(resolve => setTimeout(resolve, 800));
 
     return {
@@ -42,6 +45,7 @@ export async function submitContactUsAction(
       message: tForms('status.success'),
     };
   } catch (error) {
+    // eslint-disable-next-line no-console -- server-side error trail
     console.error('[Server Action Error]:', error);
 
     return {

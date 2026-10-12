@@ -1,16 +1,8 @@
-import { getCategories } from '@/entities/category';
-import { getCollections } from '@/entities/collection';
-import { type Locale } from '@/shared/i18n/routing';
-
-import { normalizeProduct, type TProduct } from '../lib/product-mapper';
 import {
   type Product,
   type ProductBadge,
   type ProductBadgeStatus,
-  type ProductBadgeTranslation,
-  type ProductStockStatus,
   type ProductTranslation,
-  type ProductWeightUnit,
 } from '../model/types';
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -19,7 +11,7 @@ export const MOCK_PRODUCTS: Product[] = [
     slug: 'konyushina-sets-two-plates-small-and-big',
     badges: ['pre_order'],
     categoryId: 'cat-1',
-    primaryCollectionId: 'col-1',
+    primaryCollectionId: 'col-13',
     featuredMediaId: 'med-1-1',
     attributes: [
       { nameKey: 'material', valueKey: 'high_temp_clay' },
@@ -113,7 +105,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 2000 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-2',
@@ -152,7 +143,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-3',
@@ -193,7 +183,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-4',
@@ -230,7 +219,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-5',
@@ -274,7 +262,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-6',
@@ -316,7 +303,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-7',
@@ -352,14 +338,13 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-8',
     slug: 'ceramic-teapot-small',
     badges: [],
     categoryId: 'cat-3',
-    primaryCollectionId: 'col-1',
+    primaryCollectionId: 'col-14',
     featuredMediaId: 'med-8-1',
     attributes: [
       { nameKey: 'material', valueKey: 'clay' },
@@ -388,7 +373,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-9',
@@ -425,7 +409,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-10',
@@ -460,7 +443,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-11',
@@ -498,7 +480,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-12',
@@ -540,7 +521,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-13',
@@ -576,7 +556,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-14',
@@ -612,7 +591,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-15',
@@ -648,7 +626,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-16',
@@ -687,7 +664,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-17',
@@ -723,14 +699,13 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 500 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-18',
     slug: 'ceramic-tea-set-for-four',
     badges: ['top'],
     categoryId: 'cat-2',
-    primaryCollectionId: 'col-1',
+    primaryCollectionId: 'col-14',
     featuredMediaId: 'med-18-1',
     attributes: [
       { nameKey: 'material', valueKey: 'ceramic' },
@@ -763,7 +738,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 1000 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-19',
@@ -799,7 +773,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 1000 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-20',
@@ -836,7 +809,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 1000 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-21',
@@ -872,7 +844,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 1000 },
       },
     ],
-    isFavorite: true,
   },
   {
     id: 'prod-22',
@@ -907,7 +878,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-23',
@@ -943,7 +913,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: false,
   },
   {
     id: 'prod-24',
@@ -984,7 +953,6 @@ export const MOCK_PRODUCTS: Product[] = [
         weight: { weightUnit: 'g', weight: 300 },
       },
     ],
-    isFavorite: true,
   },
 ];
 
@@ -1616,98 +1584,3 @@ export const MOCK_BADGES: Record<ProductBadgeStatus, ProductBadge> = {
     translations: { uk: 'Знижка', en: 'Sale' },
   },
 };
-
-export const WEIGHT_UNITS_TRANSLATIONS: Record<
-  ProductWeightUnit,
-  Record<Locale, string>
-> = {
-  g: {
-    uk: 'г',
-    en: 'g',
-  },
-  kg: {
-    uk: 'кг',
-    en: 'kg',
-  },
-};
-
-export const STOCK_TRANSLATIONS: Record<
-  ProductStockStatus,
-  Record<Locale, (quantity?: number) => string>
-> = {
-  in_stock: {
-    uk: () => 'В наявності',
-    en: () => 'In Stock',
-  },
-  low_stock: {
-    uk: qty =>
-      qty ? `Закінчується (лишилося ${qty} шт.)` : 'Мало в наявності',
-    en: qty => (qty ? `Low stock (only ${qty} left)` : 'Low stock'),
-  },
-  out_of_stock: {
-    uk: () => 'Немає в наявності',
-    en: () => 'Out of Stock',
-  },
-  pre_order: {
-    uk: () => 'Передзамовлення',
-    en: () => 'Pre-order',
-  },
-};
-
-export const STOCK_COLORS: Record<ProductStockStatus, string> = {
-  in_stock: 'text-emerald-600 bg-emerald-50',
-  low_stock: 'text-amber-600 bg-amber-50',
-  out_of_stock: 'text-rose-600 bg-rose-50',
-  pre_order: 'text-blue-600 bg-blue-50',
-};
-
-export async function getProductsWithTranslation(
-  lang: Locale = 'uk',
-): Promise<TProduct[]> {
-  // 1. Отримуємо локалізовані категорії та колекції паралельно
-  const [categories, collections] = await Promise.all([
-    getCategories(lang),
-    getCollections(lang),
-  ]);
-
-  // 2. Створюємо Map для швидкого О(1) пошуку перекладу продукту
-  const translationsMap = new Map(
-    MOCK_PRODUCT_TRANSLATIONS.filter(t => t.languageCode === lang).map(t => [
-      t.productId,
-      t,
-    ]),
-  );
-
-  const categoriesMap = new Map(categories.map(c => [c.id, c]));
-  const collectionsMap = new Map(collections.map(c => [c.id, c]));
-
-  // 3. Нормалізуємо кожен товар
-  return MOCK_PRODUCTS.map(product => {
-    const translation = translationsMap.get(product.id);
-    const category = categoriesMap.get(product.categoryId);
-    const collection = collectionsMap.get(product.primaryCollectionId);
-
-    // Збираємо локалізовані бейджі
-    const localizedBadges: ProductBadgeTranslation[] = (
-      product.badges || []
-    ).map(badgeId => {
-      const catalogItem = MOCK_BADGES[badgeId];
-      const label = catalogItem?.translations?.[lang] || badgeId;
-      return {
-        id: badgeId,
-        label,
-        color: catalogItem?.color,
-      };
-    });
-
-    // Викликаємо єдине джерело правди для нормалізації
-    return normalizeProduct(
-      product,
-      translation,
-      category,
-      collection,
-      localizedBadges,
-      lang,
-    );
-  });
-}

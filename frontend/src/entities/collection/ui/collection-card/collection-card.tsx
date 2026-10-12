@@ -1,9 +1,10 @@
-import { type CollectionDTO } from '@/entities/collection/api/get-collections';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Heading } from '@/shared/ui/heading';
+
+import { type CollectionDTO } from '../../model/types';
 
 interface ICollectionCardProps {
   collection: CollectionDTO;

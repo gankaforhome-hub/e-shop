@@ -39,14 +39,14 @@ export function AddressLink({
               href={item.href}
               onClick={onItemClick}
               className={cn(
-                'duration-(--dur-norm) group flex items-center transition-colors',
+                'duration-(--dur-normal) group flex items-center transition-colors',
                 styles[variant].link,
               )}
             >
               <Icon
                 name={item.icon}
                 iconPosition="left"
-                className="group-hover:text-icon-hover duration-(--dur-norm) size-4 transition-colors"
+                className="group-hover:text-icon-hover duration-(--dur-normal) size-4 transition-colors"
                 aria-hidden="true"
                 classNameContainer="overflow-hidden text-ellipsis"
               >

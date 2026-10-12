@@ -1,46 +1,34 @@
 'use server';
 
-import { wait } from '@/shared/lib/utils';
+import { getTranslations } from 'next-intl/server';
 
 import {
+  getSubscribeSchema,
   type SubscribeFormData,
   type SubscribeFormState,
-  subscribeSchema,
 } from '../model/subscribe.schema';
 
-export const subscribeHandler = async (
+export async function subscribeHandler(
   data: SubscribeFormData,
-): Promise<SubscribeFormState> => {
-  //FIXME Remove when there will be a request to the server
-  await wait(4000);
+): Promise<SubscribeFormState> {
+  const [tValidation, tSubscribe] = await Promise.all([
+    getTranslations('common.forms.validation'),
+    getTranslations('common.subscribe'),
+  ]);
 
-  try {
-    const validatedData = subscribeSchema.safeParse(data);
+  const schema = getSubscribeSchema(key =>
+    key === 'tooLong' ? tSubscribe('firstNameTooLong') : tValidation(key),
+  );
+  const validated = schema.safeParse(data);
 
-    if (!validatedData.success) {
-      return {
-        success: false,
-        message: 'Please fix the errors in the form',
-        errors: validatedData.error.flatten().fieldErrors,
-        data: data,
-      };
-    }
-    // TODO: Save/Request/Integration Logic
-    //COMMENT Here you would typically save the address to your database
-    // const simulateError = true;
-    // if (simulateError) {
-    //   throw new Error();
-    // }
-
-    console.log('Address submitted:', validatedData.data);
-    return {
-      success: true,
-      message: 'You have successfully signed up!',
-    };
-  } catch {
+  if (!validated.success) {
     return {
       success: false,
-      message: 'An unexpected error occurred',
+      message: tSubscribe('error'),
+      errors: validated.error.flatten().fieldErrors,
     };
   }
-};
+
+  // Integration point: persist `validated.data` / call the mailing provider here.
+  return { success: true, message: tSubscribe('success') };
+}

@@ -1,11 +1,7 @@
-import { Suspense } from 'react';
-
-import { ProductCard } from '@/entities/product';
-import { type ProductCardDTO } from '@/entities/product/model/product-card.dto';
+import { ProductCard, type ProductCardDTO } from '@/entities/product';
 import { FavoriteButton } from '@/features/add-to-favorite';
 import { type Locale } from '@/shared/i18n/routing';
-
-import { ProductGridSkeleton } from './product-grid-skeleton';
+import { cn } from '@/shared/lib/utils';
 
 interface IProductGridProps {
   products: ProductCardDTO[];
@@ -29,36 +25,37 @@ export function ProductGrid({
   }
 
   return (
-    <Suspense fallback={<ProductGridSkeleton count={limit} />}>
-      <ul
-        className={`grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4 ${className}`}
-      >
-        {visibleProducts.map((product, index) => {
-          const isThird = (index + 1) % 3 === 0;
-          const isLast = index === visibleProducts.length - 1;
-          const isLastAlone = isLast && visibleProducts.length % 3 === 1;
-          return (
-            <li
-              key={product.id}
-              className={
-                isMasonry || isThird || isLastAlone ? 'max-sm:col-span-2' : ''
+    <ul
+      className={cn(
+        'grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4',
+        className,
+      )}
+    >
+      {visibleProducts.map((product, index) => {
+        const isThird = (index + 1) % 3 === 0;
+        const isLast = index === visibleProducts.length - 1;
+        const isLastAlone = isLast && visibleProducts.length % 3 === 1;
+        return (
+          <li
+            key={product.id}
+            className={
+              isMasonry || isThird || isLastAlone ? 'max-sm:col-span-2' : ''
+            }
+          >
+            <ProductCard
+              product={product}
+              priority={index < 2}
+              lang={lang}
+              favoriteButton={
+                <FavoriteButton
+                  productId={product.id}
+                  initialFavorite={product.isFavorite}
+                />
               }
-            >
-              <ProductCard
-                product={product}
-                priority={index < 9}
-                lang={lang}
-                favoriteButton={
-                  <FavoriteButton
-                    productId={product.id}
-                    initialFavorite={product.isFavorite}
-                  />
-                }
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </Suspense>
+            />
+          </li>
+        );
+      })}
+    </ul>
   );
 }
