@@ -38,14 +38,13 @@ export const navigationDictSchema = z.object({
   help: z.object({
     contacts: z.string(),
     faq: z.string(),
-    payments: z.string(),
-    delivery: z.string(),
-    returns: z.string(),
+    returns_exchanges: z.string(),
+    payment_delivery: z.string(),
+    public_offer: z.string(),
   }),
   legal: z.object({
     terms_conditions: z.string(),
     privacy_policy: z.string(),
-    cookie_policy: z.string(),
   }),
 });
 

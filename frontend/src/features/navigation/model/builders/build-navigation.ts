@@ -6,7 +6,12 @@ import { getInfoNavConfig } from './info';
 import { getLegalNavConfig } from './legal';
 import { getMainNavConfig } from './main';
 
-export { getHelpNavConfig, getLegalNavConfig, getMainNavConfig };
+export {
+  getHelpNavConfig,
+  getInfoNavConfig,
+  getLegalNavConfig,
+  getMainNavConfig,
+};
 
 export function buildMainNav(
   dict: NavigationDict['main'],
@@ -23,6 +28,7 @@ export function buildLegalNav(dict: NavigationDict['legal']) {
   return getLegalNavConfig(dict);
 }
 
-export function buildInfoNav(dict: Omit<NavigationDict, 'aria'>) {
+/** Info pages (`/info/[infoSlug]`): header mobile menu + info sidebar. */
+export function buildInfoNav(dict: Pick<NavigationDict, 'help' | 'legal'>) {
   return getInfoNavConfig(dict);
 }

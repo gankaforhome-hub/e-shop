@@ -17,19 +17,19 @@ export function getHelpNavConfig(
       href: routes.info('faq'),
     },
     {
-      id: 'payments',
-      label: dict.payments,
-      href: routes.info('payments'),
+      id: 'returns_exchanges',
+      label: dict.returns_exchanges,
+      href: routes.info('returns-exchanges'),
     },
     {
-      id: 'delivery',
-      label: dict.delivery,
-      href: routes.info('delivery'),
+      id: 'payment_delivery',
+      label: dict.payment_delivery,
+      href: routes.info('payment-delivery'),
     },
     {
-      id: 'returns',
-      label: dict.returns,
-      href: routes.info('returns'),
+      id: 'public_offer',
+      label: dict.public_offer,
+      href: routes.info('public-offer'),
     },
   ];
 }

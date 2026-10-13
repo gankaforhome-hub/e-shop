@@ -9,11 +9,10 @@ export const BREADCRUMB_KEYS = {
 
   contacts: 'help.contacts',
   faq: 'help.faq',
-  payments: 'help.payments',
-  delivery: 'help.delivery',
-  returns: 'help.returns',
+  'payment-delivery': 'help.payment_delivery',
+  'returns-exchanges': 'help.returns_exchanges',
+  'public-offer': 'help.public_offer',
 
   'terms-conditions': 'legal.terms_conditions',
   'privacy-policy': 'legal.privacy_policy',
-  'cookie-policy': 'legal.cookie_policy',
 } as const;

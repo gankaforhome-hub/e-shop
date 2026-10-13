@@ -1,5 +1,5 @@
 import { getCollections } from '@/entities/collection';
-import { buildInfoNav, buildMainNav } from '@/features/navigation';
+import { buildMainNav, type INavItemConfig } from '@/features/navigation';
 import { DesktopLanguageSelector } from '@/features/select-language';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
@@ -19,9 +19,11 @@ import {
 
 interface IHeaderProps {
   lang: Locale;
+  /** Info pages nav for the mobile menu; composed by the app layer (`@/widgets/info`). */
+  infoNav: INavItemConfig[];
 }
 
-export async function Header({ lang }: IHeaderProps) {
+export async function Header({ lang, infoNav }: IHeaderProps) {
   const HEADER_ID = 'main-header';
   const [
     {
@@ -38,7 +40,6 @@ export async function Header({ lang }: IHeaderProps) {
     parseCommonDictionary(common);
 
   const mainNav = buildMainNav(navigation.main, collections);
-  const infoNav = buildInfoNav(navigation);
   return (
     <>
       <HeaderClientWrapper id={HEADER_ID}>

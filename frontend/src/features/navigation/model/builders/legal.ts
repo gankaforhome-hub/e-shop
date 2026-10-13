@@ -16,10 +16,5 @@ export function getLegalNavConfig(
       label: dict.privacy_policy,
       href: routes.info('privacy-policy'),
     },
-    {
-      id: 'cookie_policy',
-      label: dict.cookie_policy,
-      href: routes.info('cookie-policy'),
-    },
   ];
 }

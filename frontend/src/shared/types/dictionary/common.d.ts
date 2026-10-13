@@ -76,10 +76,7 @@ export type Header = {
 export type UnderFooterServiceT = {
   id: number;
   title: string;
-  href: Extract<
-    RouteValue,
-    '/terms-conditions' | '/privacy-policy' | '/cookie-policy'
-  >;
+  href: Extract<RouteValue, '/terms-conditions' | '/privacy-policy'>;
   ariaLabel: string;
 };
 

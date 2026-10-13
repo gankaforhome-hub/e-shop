@@ -1,15 +1,27 @@
+import { Suspense } from 'react';
+
+import { type Metadata } from 'next';
+
 import { notFound } from 'next/navigation';
 
 import { buildInfoNav } from '@/features/navigation';
-import { InfoSlugs, isInfoSlug } from '@/shared/config/routes';
+import { InfoSlugs, isInfoSlug, routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
+import { buildMetadata } from '@/shared/i18n/helpers/build-metadata';
 import { locales } from '@/shared/i18n/routing';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
-import { InfoContent, ResponsiveNav } from '@/widgets/sections/info/ui';
+import {
+  getInfoPageMeta,
+  InfoContent,
+  InfoContentSkeleton,
+  InfoPageLayout,
+  InfoPageLayoutSkeleton,
+  ResponsiveNav,
+} from '@/widgets/info';
 
 interface PageProps {
   params: Promise<{
@@ -18,50 +30,78 @@ interface PageProps {
   }>;
 }
 
-export async function generateStaticParams() {
-  const params: { lang: string; infoSlug: string }[] = [];
-
-  for (const lang of locales) {
-    for (const infoSlug of InfoSlugs) {
-      params.push({ lang, infoSlug });
-    }
-  }
-  return params;
+export function generateStaticParams() {
+  return locales.flatMap(lang =>
+    InfoSlugs.map(infoSlug => ({ lang, infoSlug })),
+  );
 }
 
-export default async function InfoPage({ params }: PageProps) {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { lang, infoSlug } = await params;
   if (!isValidLocale(lang) || !isInfoSlug(infoSlug)) {
-    notFound();
+    return {};
   }
 
-  const validSlug = infoSlug;
+  const { title, description, indexable } = await getInfoPageMeta(
+    infoSlug,
+    lang,
+  );
 
-  const { common } = await getDictionary(['common'], lang);
-  const { navigation } = parseCommonDictionary(common);
+  return {
+    ...buildMetadata({
+      meta: { title, description },
+      lang,
+      path: routes.info(infoSlug),
+    }),
+    robots: { index: indexable, follow: true },
+  };
+}
 
-  const navItems = buildInfoNav({
-    main: navigation.main,
-    help: navigation.help,
-    legal: navigation.legal,
-  });
-
+// Sync shell (breadcrumbs + section) prerenders even for unknown slugs; the
+// params-dependent body streams behind a same-layout skeleton. Every real slug
+// is listed in `generateStaticParams`, so its page is fully static.
+export default function InfoPage({ params }: PageProps) {
   return (
     <>
       <Breadcrumbs />
       <Section>
         <Container>
-          <div className="flex flex-col items-start gap-8 lg:flex-row">
-            <aside className="w-full lg:sticky lg:w-64 lg:shrink-0">
-              <ResponsiveNav items={navItems} currentSlug={validSlug} />
-            </aside>
-
-            <div className="w-full min-w-0 flex-1">
-              <InfoContent infoSlug={validSlug} lang={lang} />
-            </div>
-          </div>
+          <Suspense fallback={<InfoPageLayoutSkeleton />}>
+            <InfoPageBody params={params} />
+          </Suspense>
         </Container>
       </Section>
     </>
+  );
+}
+
+async function InfoPageBody({ params }: PageProps) {
+  const { lang, infoSlug } = await params;
+  if (!isValidLocale(lang) || !isInfoSlug(infoSlug)) {
+    notFound();
+  }
+
+  const { common } = await getDictionary(['common'], lang);
+  const navItems = buildInfoNav(parseCommonDictionary(common).navigation);
+
+  return (
+    <InfoPageLayout
+      nav={
+        <ResponsiveNav
+          items={navItems}
+          currentSlug={infoSlug}
+          labels={{
+            nav: common.infoSection.navLabel,
+            currentPage: common.infoSection.currentPage,
+          }}
+        />
+      }
+    >
+      <Suspense fallback={<InfoContentSkeleton />}>
+        <InfoContent infoSlug={infoSlug} lang={lang} />
+      </Suspense>
+    </InfoPageLayout>
   );
 }

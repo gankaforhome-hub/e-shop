@@ -41,12 +41,11 @@ export const isProductSort = (value: unknown): value is ProductSort =>
 
 export const InfoSlugs = [
   'faq',
-  'delivery',
-  'returns',
-  'payments',
+  'payment-delivery',
+  'returns-exchanges',
+  'public-offer',
   'privacy-policy',
   'terms-conditions',
-  'cookie-policy',
 ] as const;
 
 export type InfoSlug = (typeof InfoSlugs)[number];

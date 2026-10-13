@@ -38,23 +38,22 @@
     "main": {
       "home": "Home",
       "collections": "Collections",
-      "allCollections": "All Collections",
+      "allCollections": "All collections",
       "allProducts": "Products",
-      "about": "Our Story",
+      "about": "Our story",
       "exclusive": "Exclusive",
       "releases": "Releases"
     },
     "help": {
-      "contacts": "Contact Us",
+      "contacts": "Contact us",
       "faq": "FAQs",
-      "payments": "Payments",
-      "delivery": "Delivery",
-      "returns": "Returns"
+      "returns_exchanges": "Returns & exchanges",
+      "payment_delivery": "Payment & delivery",
+      "public_offer": "Public offer"
     },
     "legal": {
-      "terms_conditions": "Terms & Conditions",
-      "privacy_policy": "Privacy Policy",
-      "public_offer": "Public Offer"
+      "terms_conditions": "Terms of use",
+      "privacy_policy": "Privacy policy"
     },
     "aria": {
       "breadcrumbs": {
@@ -515,16 +514,6 @@
       "title": "Annex 1. Notice of Withdrawal from the Purchase",
       "description": "Fill in the form and send it to us by email or messenger to return a Product within 14 days.",
       "cta": "Download form"
-    }
-  },
-  "infoPages": {
-    "returns": {
-      "title": "Returns & exchanges",
-      "text": "Products can be returned within 14 days..."
-    },
-    "payments": {
-      "title": "Payment",
-      "text": "Payment methods available on the website..."
     }
   }
 }
