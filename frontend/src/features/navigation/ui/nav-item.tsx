@@ -1,6 +1,11 @@
 'use client';
 
-import { memo, type ComponentPropsWithRef, type ReactNode } from 'react';
+import {
+  memo,
+  Suspense,
+  type ComponentPropsWithRef,
+  type ReactNode,
+} from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -13,15 +18,21 @@ import { Icon } from '@/shared/ui/icon';
 
 import { isActiveRoute } from '../lib';
 
-const navItemVariants = cva('font-heading', {
+const navItemVariants = cva('', {
   variants: {
     variant: {
-      header: 'link text-xl capitalize',
-      footer: 'link text-base capitalize',
+      header: 'font-heading link text-xl',
+      footer: 'font-heading link text-base',
       mobile:
-        'text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
+        'font-heading text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
       popover:
-        'hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
+        'font-heading hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
+      /** Info pages desktop sidebar. */
+      sidebar:
+        'text-muted-foreground hover:text-foreground duration-(--dur-normal) shrink-0 whitespace-nowrap text-xs uppercase tracking-widest transition-colors md:text-sm',
+      /** Info pages mobile dropdown: full-width rows, 48px touch targets. */
+      dropdown:
+        'text-muted-foreground hover:bg-muted/30 hover:text-foreground active:bg-muted/50 duration-(--dur-normal) flex min-h-12 w-full touch-manipulation items-center justify-between gap-4 px-4 text-sm uppercase tracking-widest transition-colors',
     },
     active: {
       true: '',
@@ -34,6 +45,16 @@ const navItemVariants = cva('font-heading', {
       variant: ['mobile', 'popover'],
       active: true,
       className: 'text-foreground rounded-xs font-medium',
+    },
+    {
+      variant: 'sidebar',
+      active: true,
+      className: 'text-foreground font-medium underline underline-offset-4',
+    },
+    {
+      variant: 'dropdown',
+      active: true,
+      className: 'bg-muted/50 text-foreground font-medium',
     },
   ],
   defaultVariants: {
@@ -56,23 +77,47 @@ export interface NavItemProps
   onClick?: () => void;
 }
 
-export const NavItem = memo(function NavItem({
+/**
+ * The active state reads `usePathname()`, which suspends while prerendering
+ * a route's fallback shell (Cache Components). Each item gets its own
+ * boundary whose fallback is the same item, inactive, so the shell keeps every
+ * link and there is no layout shift once the pathname resolves.
+ */
+export const NavItem = memo(function NavItem(props: NavItemProps) {
+  const { showActive = true, href } = props;
+
+  if (!showActive || href === undefined) {
+    return <NavItemView {...props} isActive={false} />;
+  }
+
+  return (
+    <Suspense fallback={<NavItemView {...props} isActive={false} />}>
+      <ActiveNavItem {...props} href={href} />
+    </Suspense>
+  );
+});
+
+function ActiveNavItem(props: NavItemProps & { href: AppRoutes }) {
+  const pathname = usePathname();
+  return (
+    <NavItemView {...props} isActive={isActiveRoute(pathname, props.href)} />
+  );
+}
+
+function NavItemView({
   variant = 'header',
   href,
   label,
   description,
   className,
-  showActive = true,
+  showActive: _showActive,
   hasSubmenu = false,
   btnSubmenuChildren,
   onClick,
   ref,
+  isActive,
   ...buttonProps
-}: NavItemProps) {
-  const pathname = usePathname();
-  const isActive =
-    showActive && href !== undefined && isActiveRoute(pathname, href);
-
+}: NavItemProps & { isActive: boolean }) {
   const sharedClasses = cn(
     navItemVariants({ variant, active: isActive, className }),
   );
@@ -113,8 +158,20 @@ export const NavItem = memo(function NavItem({
   }
 
   return (
-    <AppLink href={href} onClick={onClick} className={sharedClasses}>
+    <AppLink
+      href={href}
+      onClick={onClick}
+      aria-current={isActive ? 'page' : undefined}
+      className={sharedClasses}
+    >
       <span>{content}</span>
+      {isActive && variant === 'dropdown' && (
+        <Icon
+          name="check"
+          aria-hidden
+          className="text-action-primary size-4 shrink-0"
+        />
+      )}
     </AppLink>
   );
-});
+}
