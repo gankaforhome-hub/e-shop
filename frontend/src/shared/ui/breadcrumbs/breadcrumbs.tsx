@@ -1,6 +1,6 @@
 'use client';
 
-import { type ComponentProps, Fragment } from 'react';
+import { type ComponentProps, Fragment, Suspense } from 'react';
 
 import { useTranslations } from 'next-intl';
 
@@ -19,6 +19,8 @@ import {
 import { Container } from '@/shared/ui/container';
 import { Icon } from '@/shared/ui/icon';
 
+import { BreadcrumbsSkeleton } from './breadcrumbs-skeleton';
+
 type AppLinkHref = ComponentProps<typeof AppLink>['href'];
 
 export interface CustomBreadcrumbItem {
@@ -33,7 +35,24 @@ interface BreadcrumbsProps {
 
 const IGNORED_SEGMENTS = new Set(['info']);
 
-export function Breadcrumbs({ lastItemTitle, items }: BreadcrumbsProps) {
+/**
+ * `usePathname()` suspends while prerendering a route's fallback shell
+ * (Cache Components), so the trail streams in behind a same-size skeleton.
+ */
+export function Breadcrumbs(props: BreadcrumbsProps) {
+  // Auto trails (/about, /info/faq…) have one item after Home
+  const itemsCount = props.items
+    ? props.items.length + (props.lastItemTitle ? 1 : 0)
+    : 1;
+
+  return (
+    <Suspense fallback={<BreadcrumbsSkeleton itemsCount={itemsCount} />}>
+      <BreadcrumbsTrail {...props} />
+    </Suspense>
+  );
+}
+
+function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
   const t = useTranslations('common.navigation');
 
   const pathname = usePathname();
