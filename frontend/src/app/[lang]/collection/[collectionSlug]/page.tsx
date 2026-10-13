@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 
 import { getCollectionBySlug, getCollections } from '@/entities/collection';
-import { createRoute } from '@/shared/config/routes';
+import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
 import { locales } from '@/shared/i18n/routing';
@@ -59,7 +59,7 @@ export default async function CollectionPage({ params }: PageProps) {
         items={[
           {
             label: dict.common.navigation.main.collections,
-            href: createRoute('/collections'),
+            href: routes.collections,
           },
         ]}
       />

@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { type IconName } from '@/shared/types';
 
@@ -43,7 +44,7 @@ export function Logo({
   if (asLink) {
     return (
       <AppLink
-        href="/"
+        href={routes.home}
         className={containerClassName}
         aria-label={aria || 'go to home'}
         onClick={onClick}

@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { routes } from '@/shared/config/routes';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Button } from '@/shared/ui/button';
@@ -40,7 +41,7 @@ export function NotFoundWidget() {
             {t('description')}
           </Text>
           <Button asChild>
-            <AppLink href="/" aria-label={t('buttonAriaLabel')}>
+            <AppLink href={routes.home} aria-label={t('buttonAriaLabel')}>
               {t('buttonText')}
             </AppLink>
           </Button>

@@ -1,25 +1,30 @@
 import type { Metadata } from 'next';
 
+import { type AppRoutes, routes } from '@/shared/config/routes';
+import { getPathname } from '@/shared/i18n/navigation';
+import { defaultLocale, type Locale } from '@/shared/i18n/routing';
 import type { MetadataSchema } from '@/shared/i18n/types';
 
 interface BuildMetadataProps {
   meta: MetadataSchema;
-  lang: string;
-  path?: string;
+  lang: Locale;
+  path?: AppRoutes;
   isLayout?: boolean;
 }
 
 export function buildMetadata({
   meta,
   lang,
-  path = '',
+  path = routes.home,
   isLayout = false,
 }: BuildMetadataProps): Metadata {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || 'https://gankaforhome.com';
 
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  const canonicalUrl = `${baseUrl}/${lang}${cleanPath === '/' ? '' : cleanPath}`;
+  // Locale-aware like <Link>: `as-needed` → no prefix for the default locale
+  const urlFor = (locale: Locale) =>
+    `${baseUrl}${getPathname({ href: path, locale })}`;
+  const canonicalUrl = urlFor(lang);
   const ogImage = meta.openGraph?.image || '/og-image.jpg';
 
   return {
@@ -39,9 +44,9 @@ export function buildMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        uk: `${baseUrl}/uk${cleanPath === '/' ? '' : cleanPath}`,
-        en: `${baseUrl}/en${cleanPath === '/' ? '' : cleanPath}`,
-        'x-default': `${baseUrl}/uk${cleanPath === '/' ? '' : cleanPath}`,
+        uk: urlFor('uk'),
+        en: urlFor('en'),
+        'x-default': urlFor(defaultLocale),
       },
     },
 

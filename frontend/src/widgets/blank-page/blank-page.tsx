@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
+import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Container } from '@/shared/ui/container';
@@ -19,7 +20,7 @@ export function BlankPage({ className }: BlankPageProps) {
     <Section className={cn('bg-muted/20 h-full', className)}>
       <Container className="flex flex-col items-center gap-10">
         <AppLink
-          href="/"
+          href={routes.home}
           className="border-border bg-accent text-action-primary hover:text-action-primary-hover rounded-2xl border p-4 px-10 text-4xl"
         >
           Back

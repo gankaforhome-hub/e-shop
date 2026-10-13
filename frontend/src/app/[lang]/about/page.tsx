@@ -2,6 +2,7 @@ import { type Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
+import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { isValidLocale } from '@/shared/i18n/helpers';
@@ -24,13 +25,16 @@ export async function generateMetadata({
   params,
 }: IGetMetadataProps): Promise<Metadata> {
   const { lang } = await params;
+  if (!isValidLocale(lang)) {
+    return {};
+  }
 
   const meta = await getMetadata('about', lang);
 
   return buildMetadata({
     meta,
     lang,
-    path: '/about',
+    path: routes.about,
   });
 }
 
