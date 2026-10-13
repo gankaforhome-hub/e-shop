@@ -1,6 +1,8 @@
 @layer base {
+  /* The header is fixed: keep route, anchor and focus scroll targets below
+     it. Full (expanded) height — scrolling up re-expands the desktop header. */
   html {
-    @apply scrollbar-gutter-stable;
+    @apply scrollbar-gutter-stable scroll-pt-(--h-header-mobile) md:scroll-pt-(--h-header-tab) lg:scroll-pt-(--h-header-desktop);
   }
   body {
     @apply bg-background text-foreground font-text antialiased;

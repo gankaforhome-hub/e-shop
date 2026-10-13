@@ -4,6 +4,18 @@
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Route content entrance — `animate-page-enter` (pair with `motion-safe:`). */
+@theme {
+  --animate-page-enter: page-enter var(--dur-slow) var(--ease-subtle) both;
+
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      translate: 0 0.5rem;
+    }
+  }
+}
+
 /* Durations — consumed as `duration-(--dur-*)` (not a Tailwind theme namespace). */
 :root {
   --dur-fast: 150ms;
@@ -21,6 +33,15 @@
     transform, translate, scale, rotate, color, background-color, border-color,
     outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
     --tw-gradient-via, --tw-gradient-to, opacity;
+}
+
+/* Smooth scrolling only while a section opts in via `data-smooth-scroll`
+   (e.g. info pages): anchor jumps and the scroll-to-top on navigation glide
+   instead of jumping. Next 16 no longer forces `auto` during navigation. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has([data-smooth-scroll]) {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Respect the OS "reduce motion" setting: collapse motion tokens and any
