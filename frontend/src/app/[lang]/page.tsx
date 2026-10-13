@@ -4,6 +4,7 @@ import { type Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
+import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { isValidLocale } from '@/shared/i18n/helpers';
@@ -34,7 +35,7 @@ export async function generateMetadata({
   return buildMetadata({
     meta,
     lang,
-    path: '/',
+    path: routes.home,
   });
 }
 

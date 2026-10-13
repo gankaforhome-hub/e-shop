@@ -176,11 +176,11 @@ export function MobileMenu({
                 setActiveSubmenu={item => pushView({ type: 'submenu', item })}
                 onClick={handleClose}
               />
-              <MobileMenuBlock
+              {/* <MobileMenuBlock
                 items={navigation.info}
                 setActiveSubmenu={item => pushView({ type: 'submenu', item })}
                 onClick={handleClose}
-              />
+              /> */}
             </nav>
 
             <div className="flex w-full shrink-0 flex-col space-y-4 p-4">
