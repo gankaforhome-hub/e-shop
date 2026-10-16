@@ -5,18 +5,17 @@ import { notFound } from 'next/navigation';
 import { getCategories } from '@/entities/category';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
+import { BackToTop } from '@/shared/ui/back-to-top';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import {
-  CategoryFilter,
-  ProductGridSkeleton,
+  CATALOG_TOP_ID,
   ProductsCatalog,
+  ProductsCatalogSkeleton,
   type ProductsSearchParams,
 } from '@/widgets/sections/products';
-
-const PRODUCTS_LIMIT = 24;
 
 interface ProductsPageProps {
   params: Promise<{ lang: string }>;
@@ -40,28 +39,31 @@ export default async function ProductsPage({
   return (
     <>
       <Breadcrumbs />
-      <Section className="mt-4">
+      <Section>
         <Container>
           <Heading headingLevel="h1" visibility="hidden">
             {common.navigation.main.allProducts}
           </Heading>
           <Suspense
             fallback={
-              <>
-                <CategoryFilter categories={categories} />
-                <ProductGridSkeleton count={8} />
-              </>
+              <ProductsCatalogSkeleton
+                categories={categories}
+                labels={{
+                  nav: common.catalog.filters.category,
+                  all: common.catalog.filters.allCategories,
+                }}
+              />
             }
           >
             <ProductsCatalog
               lang={lang}
               categories={categories}
-              limit={PRODUCTS_LIMIT}
               searchParams={searchParams}
             />
           </Suspense>
         </Container>
       </Section>
+      <BackToTop label={common.catalog.backToTop} targetId={CATALOG_TOP_ID} />
     </>
   );
 }
