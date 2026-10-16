@@ -11,6 +11,9 @@ const sectionVariants = cva('w-full', {
       default: 'md:pb-15 xl:pb-30 pb-10',
       compact: 'py-8 md:py-12',
       relaxed: 'py-20 md:py-28',
+      /** Editorial pages: 32 → 56px top and bottom, so two adjacent
+       *  sections sit 64 → 112px apart. */
+      editorial: 'fpy-8/14',
     },
     background: {
       default: '',

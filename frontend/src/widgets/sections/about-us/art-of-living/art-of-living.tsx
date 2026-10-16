@@ -2,9 +2,10 @@ import { type Media } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
-import { SectionIntro } from '@/shared/ui/section-intro';
+import { SectionHeader } from '@/shared/ui/section-header';
 
-interface IArtOfLivingSectionProps {
+interface ArtOfLivingSectionProps {
+  eyebrow: string;
   heading: string;
   description: string;
   panel: {
@@ -14,20 +15,23 @@ interface IArtOfLivingSectionProps {
   };
 }
 
+/** Craftsmanship / ceramics artistry block. */
 export function ArtOfLivingSection({
+  eyebrow,
   heading,
   description,
   panel,
-}: IArtOfLivingSectionProps) {
+}: ArtOfLivingSectionProps) {
   return (
-    <Section aria-labelledby="art-of-living-heading">
+    <Section spacing="editorial" aria-labelledby="art-of-living-heading">
       <Container>
-        <SectionIntro
+        <SectionHeader
           headingId="art-of-living-heading"
+          eyebrow={eyebrow}
           heading={heading}
           description={description}
         />
-        <ImageTextPanel {...panel} />
+        <ImageTextPanel {...panel} surface="warm" />
       </Container>
     </Section>
   );

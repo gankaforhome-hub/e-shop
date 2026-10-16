@@ -19,6 +19,10 @@
    declared directly in theme/radius.css, theme/shadows.css, theme/motion.css. */
 @theme inline {
   --breakpoint-3xl: 120rem;
+  /* Editorial reading widths (`max-w-title`, `max-w-copy`): one scale for
+     section headers, quotes and panel text so measures match site-wide. */
+  --container-title: 56rem; /* 896px: headings, pull quotes */
+  --container-copy: 45rem; /* 720px: lead and body copy (~75ch) */
   --font-heading: var(--font-playfair);
   --font-text: var(--font-noto);
   --font-caption: var(--font-noto);
@@ -54,12 +58,14 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-surface-brand-subtle: var(--surface-brand-subtle);
+  --color-surface-warm: var(--surface-warm);
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive-hover: var(--destructive-hover);
 
   --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
   --color-border-strong: var(--border-strong);
   --color-accent-border: var(--primary); /* alias of --primary */
   --color-input: var(--input);

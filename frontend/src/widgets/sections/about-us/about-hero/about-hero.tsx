@@ -1,35 +1,36 @@
-import { cn } from '@/shared/lib/utils';
 import { type Media } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { Section } from '@/shared/ui/section';
-import { SectionIntro } from '@/shared/ui/section-intro';
+import { SectionHeader } from '@/shared/ui/section-header';
 
 interface AboutHeroSectionProps {
+  eyebrow: string;
   heading: string;
   description: string;
   panel: { image: Media; imagePosition: 'left' | 'right'; paragraphs: string };
-  className?: string;
 }
 
+/** Brand philosophy: the page `h1` + intro panel (LCP image). */
 export function AboutHeroSection({
+  eyebrow,
   heading,
   description,
   panel,
-  className,
 }: AboutHeroSectionProps) {
   return (
-    <>
-      <Section className={cn(className)} aria-labelledby="about-ganka-heading">
-        <Container>
-          <SectionIntro
-            heading={heading}
-            description={description}
-            headingId="about-ganka-heading"
-          />
-          <ImageTextPanel {...panel} priority />
-        </Container>
-      </Section>
-    </>
+    <Section spacing="editorial" aria-labelledby="about-ganka-heading">
+      <Container>
+        <SectionHeader
+          headingLevel="h1"
+          headingId="about-ganka-heading"
+          eyebrow={eyebrow}
+          heading={heading}
+          description={description}
+          accent
+        />
+        <ImageTextPanel {...panel} accent priority />
+      </Container>
+    </Section>
   );
 }

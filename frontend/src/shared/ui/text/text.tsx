@@ -33,6 +33,12 @@ export const textVariants = cva('font-normal tracking-normal', {
       document: 'text-sm leading-relaxed md:text-base',
       /** Compact UI controls (filters, menus): fixed 14px. */
       small: 'text-sm',
+      /** Editorial intro copy: 16 → 18px, airy leading. */
+      lead: 'text-base leading-relaxed xl:text-lg',
+      /** Small uppercase label above a heading (kicker / eyebrow). */
+      eyebrow: 'text-xs uppercase tracking-widest',
+      /** Pull quote: 20 → 30px, use with `font="heading"`. */
+      quote: 'text-xl italic leading-snug md:text-2xl xl:text-3xl',
       none: '',
     },
     position: {
@@ -42,6 +48,7 @@ export const textVariants = cva('font-normal tracking-normal', {
     font: {
       primary: 'font-text',
       secondary: 'font-caption',
+      heading: 'font-heading',
     },
   },
 

@@ -14,7 +14,9 @@ import {
   ArtOfLivingSection,
   CitronelleMapSection,
   GankaGallerySection,
+  ManifestoSection,
   OurStorySection,
+  OurValuesSection,
 } from '@/widgets/sections/about-us';
 
 interface IAboutPageProps {
@@ -45,15 +47,25 @@ export default async function AboutPage({ params }: IAboutPageProps) {
   }
 
   const { about } = await getDictionary(['about'], lang);
-  const { aboutHero, artistGallery, artOfLiving, ourStory, citronelle } =
-    parseAboutDictionary(about);
+  const {
+    aboutHero,
+    manifesto,
+    artOfLiving,
+    values,
+    artistGallery,
+    ourStory,
+    citronelle,
+  } = parseAboutDictionary(about);
 
+  // Philosophy → craft → values → media showcase → where to buy
   return (
     <>
       <Breadcrumbs />
       <AboutHeroSection {...aboutHero} />
-      <GankaGallerySection {...artistGallery} />
+      <ManifestoSection {...manifesto} />
       <ArtOfLivingSection {...artOfLiving} />
+      <OurValuesSection {...values} />
+      <GankaGallerySection {...artistGallery} />
       <OurStorySection {...ourStory} />
       <CitronelleMapSection {...citronelle} />
     </>

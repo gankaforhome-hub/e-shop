@@ -21,6 +21,8 @@
   --dur-fast: 150ms;
   --dur-normal: 250ms;
   --dur-slow: 350ms;
+  /* Slow media reveals (image hover zoom). */
+  --dur-slower: 700ms;
 }
 
 @utility custom-transition {

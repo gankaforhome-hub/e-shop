@@ -31,6 +31,8 @@ export const ContactUsBlock = ({
     <ImageTextPanel
       imagePosition="left"
       image={image}
+      surface="warm"
+      zoom={false}
       textClassName="max-lg:bg-background"
     >
       <div className="flex w-full flex-col items-center px-4 lg:px-10">

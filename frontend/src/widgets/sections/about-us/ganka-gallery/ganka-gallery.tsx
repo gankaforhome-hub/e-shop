@@ -6,26 +6,30 @@ import { AppMedia } from '@/shared/ui/app-media';
 import { Container } from '@/shared/ui/container';
 import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 import { Section } from '@/shared/ui/section';
-import { SectionIntro } from '@/shared/ui/section-intro';
+import { SectionHeader } from '@/shared/ui/section-header';
 
 import { GankaGallerySkeleton } from './ui';
 
-interface IArtistGallerySectionProps {
+interface ArtistGallerySectionProps {
+  eyebrow: string;
   heading: string;
   description: string;
   images: Media[];
 }
 
+/** Media showcase: scrollable row below `xl`, four-column grid above. */
 export function GankaGallerySection({
+  eyebrow,
   heading,
   description,
   images,
-}: IArtistGallerySectionProps) {
+}: ArtistGallerySectionProps) {
   return (
-    <Section aria-labelledby="artist-gallery-heading">
+    <Section spacing="editorial" aria-labelledby="artist-gallery-heading">
       <Container>
-        <SectionIntro
+        <SectionHeader
           headingId="artist-gallery-heading"
+          eyebrow={eyebrow}
           heading={heading}
           description={description}
         />
@@ -33,7 +37,7 @@ export function GankaGallerySection({
         <Suspense fallback={<GankaGallerySkeleton count={4} />}>
           <ScrollableContainer
             as="ul"
-            className="fmt-4/16"
+            className="mt-4 md:mt-8 lg:mt-10 xl:mt-16"
             indicatorType="progress"
             scrollClassName="xl:grid xl:grid-cols-4 xl:overflow-visible"
             indicatorClassName="xl:!hidden mt-3 md:px-20"

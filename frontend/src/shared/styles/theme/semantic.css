@@ -34,6 +34,9 @@
   --accent: var(--primitive-brand-200);
   --accent-foreground: var(--primitive-brand-900); /* 6.39:1 on --accent */
   --surface-brand-subtle: var(--primitive-brand-100);
+  /* Editorial panels (ImageTextPanel). --foreground on it is 13.9:1; keep
+     --muted-foreground (4.38:1) for large text only. */
+  --surface-warm: var(--primitive-sand-50);
 
   --destructive: var(--primitive-red-600); /* 4.83:1 */
   --destructive-foreground: var(--primitive-neutral-0);
@@ -48,6 +51,12 @@
   /* Borders & focus */
   /* Decorative dividers (1.57:1) — not for boundaries that identify a control. */
   --border: color-mix(in srgb, var(--primitive-neutral-900) 20%, transparent);
+  /* Decorative hairline (editorial cards); not for control boundaries. */
+  --border-subtle: color-mix(
+    in srgb,
+    var(--primitive-neutral-900) 8%,
+    transparent
+  );
   /* Control boundaries (WCAG 1.4.11): 3.32:1 on background, 3.04:1 on --muted. */
   --border-strong: color-mix(
     in srgb,

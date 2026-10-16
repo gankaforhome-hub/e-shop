@@ -1,6 +1,7 @@
 {
   "aboutHero": {
-    "heading": "Ganka for Home: A Touch of Sophistication to Your Interior",
+    "eyebrow": "Brand philosophy",
+    "heading": "Ganka for Home: a touch of sophistication to your interior",
     "description": "Ganka Tretyak is a name that embodies the essence of creativity. As a true artist, she transforms her multifaceted career as a painter, film director, author, and cultural event organizer into a magical world of porcelain.",
     "panel": {
       "image": {
@@ -11,8 +12,13 @@
       "paragraphs": "Ganka doesn’t just create, she reflects on all her experiences, bringing her unique perspective on life into every piece. \n\n You can feel Ganka’s love for details in every element, her ability to turn everyday things into something special. Her work is a refined balance between form and color, embodying cheerfulness, tenderness, and kindness."
     }
   },
+  "manifesto": {
+    "quote": "Everyday things, turned into something special.",
+    "cite": "Ganka for Home"
+  },
   "artistGallery": {
-    "heading": "Artist Ganka: Creativity in a Unique Form",
+    "eyebrow": "Gallery",
+    "heading": "Artist Ganka: creativity in a unique form",
     "description": "Ganka knows how to add color to life like no one else. Her porcelain creations are full of lightness and playfulness, reflecting her ability to catch beauty in the simplest things.",
     "images": [
       {
@@ -33,31 +39,50 @@
       }
     ]
   },
-
   "artOfLiving": {
-    "heading": "The Art of Living in Your Home",
+    "eyebrow": "Ceramics artistry",
+    "heading": "The art of living in your home",
     "description": "Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.",
     "panel": {
       "image": {
         "src": "/images/about/art-of-living-dragon.webp",
         "alt": "Plate illustrated with a green dragon and a woman in a flowing gown"
       },
-      "imagePosition": "left",
+      "imagePosition": "right",
       "paragraphs": "The artist suggests drawing daily inspiration from art and bright colors. Ganka's home collections will bring a festive atmosphere and warmth to your home. \n\n Their artistic perfection adds elegance to every celebration, while the unique style highlights the special moments spent at the table with your loved ones."
     }
   },
-
+  "values": {
+    "eyebrow": "Values",
+    "heading": "What we value",
+    "description": "Three ideas guide every Ganka for Home piece, from the first sketch to your table.",
+    "items": [
+      {
+        "title": "Art for every day",
+        "description": "Our illustrations are made to be used, not kept on a shelf: Ganka for Home tableware is designed for everyday meals as well as celebrations."
+      },
+      {
+        "title": "Ukrainian roots",
+        "description": "The collections draw on images of Ukrainian culture and fairy-tale motifs, bringing a cheerful, familiar story into your home."
+      },
+      {
+        "title": "Attention to detail",
+        "description": "Every element balances form and colour, so each piece feels considered — something to keep and enjoy for years."
+      }
+    ]
+  },
   "ourStory": {
-    "heading": "Our Story",
+    "eyebrow": "Ukrainian motifs",
+    "heading": "Our story",
     "description": "Ganka for Home collections combine images of Ukrainian culture with fairy tale motifs that will add a cheerful mood to your home. The bright illustration elements are designed for a festive atmosphere, since Ganka for Home tableware can be used every day.",
     "image": {
       "src": "/images/about/our-story-collage.webp",
       "alt": "Collage of illustrated plates featuring pumpkin, eggplant, pepper, and redcurrant motifs with two children"
     }
   },
-
   "citronelle": {
-    "heading": "Collection Citronelle at restaurants",
+    "eyebrow": "Where to find us",
+    "heading": "Citronelle collection at restaurants",
     "description": "Citronelle collections can be bought at Citronelle restaurant at the respective locations.",
     "mapImage": {
       "src": "/images/about/citronelle-map-kyiv.webp",
@@ -66,6 +91,9 @@
     "addressTitle": "Address of the restaurant",
     "addressText": "St. Bohdana Khmelnytskoho, 23, Kyiv, Ukraine, 01030",
     "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed",
-    "coordinates": { "lat": 2, "lng": 2 }
+    "coordinates": {
+      "lat": 2,
+      "lng": 2
+    }
   }
 }
