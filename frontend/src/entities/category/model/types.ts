@@ -14,7 +14,6 @@ export type Category = EntityMeta & {
   id: string;
   slug: CategorySlug;
   image: Media;
-  productsCount?: number;
   /** Short uppercase code used as the category segment of generated SKUs. */
   skuPrefix?: string;
 };

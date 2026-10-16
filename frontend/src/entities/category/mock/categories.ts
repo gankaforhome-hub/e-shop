@@ -8,7 +8,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-plates.webp',
       alt: 'Ceramic plates',
     },
-    productsCount: 12,
   },
   {
     id: 'cat-2',
@@ -18,7 +17,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-sets.webp',
       alt: 'Dinnerware sets',
     },
-    productsCount: 4,
   },
   {
     id: 'cat-3',
@@ -27,7 +25,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-kettles.webp',
       alt: 'Ceramic kettles',
     },
-    productsCount: 5,
   },
   {
     id: 'cat-4',
@@ -36,7 +33,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-cups.webp',
       alt: 'Ceramic cups',
     },
-    productsCount: 18,
   },
   {
     id: 'cat-5',
@@ -46,7 +42,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-candlesticks.webp',
       alt: 'Ceramic candlesticks',
     },
-    productsCount: 7,
   },
   {
     id: 'cat-6',
@@ -55,7 +50,6 @@ export const mockCategories: Category[] = [
       src: '/images/category/cat-glass.webp',
       alt: 'Glass collection',
     },
-    productsCount: 9,
   },
 ];
 
