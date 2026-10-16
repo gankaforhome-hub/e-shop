@@ -4,10 +4,24 @@ import type { NextConfig } from 'next';
 
 import createNextIntlPlugin from 'next-intl/plugin';
 
+import { isIndexingAllowed } from './src/shared/config/indexing';
+
 const withNextIntl = createNextIntlPlugin('./src/shared/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Pre-launch: `noindex` on every response (pages, images, PDFs) until
+  // ALLOW_INDEXING=true — overrides page-level `robots` metadata
+  async headers() {
+    return isIndexingAllowed
+      ? []
+      : [
+          {
+            source: '/:path*',
+            headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+          },
+        ];
+  },
   // Enables 'use cache' / cacheLife / cacheTag and Partial Prerendering
   cacheComponents: true,
   productionBrowserSourceMaps: false,
