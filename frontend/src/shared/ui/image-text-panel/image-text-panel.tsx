@@ -34,7 +34,7 @@ export function ImageTextPanel({
   return (
     <div
       className={cn(
-        'max-h-200 mt-4 flex flex-col gap-4 md:mt-8 md:gap-1 lg:mt-10 lg:flex-row xl:mt-16',
+        'mt-4 flex flex-col gap-4 md:mt-8 md:gap-1 lg:mt-10 lg:flex-row xl:mt-16',
         className,
       )}
     >
