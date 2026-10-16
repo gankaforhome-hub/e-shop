@@ -8,6 +8,7 @@ import {
 export const mockCollections: Collection[] = [
   {
     id: 'col-1',
+    season: 'autumn',
     slug: 'agro',
     media: {
       src: '/images/collections/agro-collection.png',
@@ -16,6 +17,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-2',
+    season: 'easter',
     slug: 'easter',
     media: {
       src: '/images/collections/easter_2025.png',
@@ -24,11 +26,13 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-3',
+    season: 'easter',
     slug: 'ptahy',
     media: { src: '/images/collections/ptahy.png', alt: 'Ptahy Collection' },
   },
   {
     id: 'col-4',
+    season: 'christmas',
     slug: 'botanica',
     media: {
       src: '/images/collections/agro-collection.png',
@@ -45,6 +49,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-6',
+    season: 'new_year',
     slug: 'solaris',
     media: { src: '/images/collections/ptahy.png', alt: 'Solaris' },
   },
@@ -58,6 +63,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-8',
+    season: 'winter',
     slug: 'terra',
     media: {
       src: '/images/collections/easter_2025.png',
@@ -66,11 +72,13 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-9',
+    season: 'christmas',
     slug: 'lumiere',
     media: { src: '/images/collections/ptahy.png', alt: 'Lumiere Collection' },
   },
   {
     id: 'col-10',
+    season: 'autumn',
     slug: 'vintage-bloom',
     media: {
       src: '/images/collections/agro-collection.png',
@@ -79,6 +87,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-11',
+    season: 'winter',
     slug: 'nordic-mist',
     media: {
       src: '/images/collections/easter_2025.png',
@@ -87,6 +96,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-12',
+    season: 'summer',
     slug: 'royal-garden',
     media: {
       src: '/images/collections/ptahy.png',
@@ -95,6 +105,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-13',
+    season: 'spring',
     slug: 'konyushina',
     media: {
       src: '/images/hero_image.webp',
@@ -103,6 +114,7 @@ export const mockCollections: Collection[] = [
   },
   {
     id: 'col-14',
+    season: 'winter',
     slug: 'winter',
     media: {
       src: '/images/hero_image_2.webp',

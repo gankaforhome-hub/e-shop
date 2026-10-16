@@ -5,6 +5,7 @@ import 'server-only';
 import { cacheTags } from '@/shared/config/cache-tags';
 import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
+import { compareSortOrder } from '@/shared/lib/utils';
 
 import {
   mockCollectionCategories,
@@ -14,7 +15,11 @@ import {
 } from '../mock/collections';
 import { type CollectionDTO } from '../model/types';
 
-/** Returns all collections flattened for `lang` (falls back to the default locale). */
+/**
+ * Returns all collections flattened for `lang` (falls back to the default
+ * locale), in CMS `sortOrder`. `categoryIds` resolves the M:N
+ * `collection_categories` join.
+ */
 export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
   'use cache';
   cacheLife('hours');
@@ -25,23 +30,26 @@ export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
     t => t.collectionId,
   );
   const seoById = groupTranslationsBy(mockCollectionSeo, s => s.collectionId);
+  // Join rows grouped once instead of scanned per collection
+  const categoriesById = groupTranslationsBy(
+    mockCollectionCategories,
+    cc => cc.collectionId,
+  );
 
-  return mockCollections.map(collection => {
+  return mockCollections.toSorted(compareSortOrder).map(collection => {
     const translation = pickTranslation(
       translationsById.get(collection.id) ?? [],
       lang,
     );
     const seo = pickTranslation(seoById.get(collection.id) ?? [], lang);
-    const categoryIds = mockCollectionCategories
-      .filter(cc => cc.collectionId === collection.id)
-      .map(cc => cc.categoryId);
-
     return {
       ...collection,
       title: translation?.title ?? '',
       shortDescription: translation?.shortDescription ?? '',
       description: translation?.description ?? '',
-      categoryIds,
+      categoryIds: (categoriesById.get(collection.id) ?? []).map(
+        cc => cc.categoryId,
+      ),
       seo: {
         title: seo?.title ?? '',
         description: seo?.description ?? '',

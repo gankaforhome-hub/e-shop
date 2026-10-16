@@ -9,6 +9,10 @@ export const cacheTags = {
   category: (slug: string) => `category-${slug}`,
   collections: 'collections',
   collection: (slug: string) => `collection-${slug}`,
+  /** Season entities and their translations. */
+  seasons: 'seasons',
+  /** Attribute names / value labels (`attribute_*_translations`). */
+  attributes: 'attributes',
   infoPages: 'info-pages',
   infoPage: (slug: string, lang: string) => `info-${slug}-${lang}`,
 } as const;
