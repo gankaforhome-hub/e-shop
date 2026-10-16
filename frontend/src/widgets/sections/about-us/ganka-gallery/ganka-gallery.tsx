@@ -40,7 +40,7 @@ export function GankaGallerySection({
           >
             {images.map((image, index) => (
               <li
-                key={image.src}
+                key={`${image.src}-${index}`}
                 className={cn(
                   'relative aspect-square shrink-0 snap-start overflow-hidden',
                   'w-full min-w-full',
