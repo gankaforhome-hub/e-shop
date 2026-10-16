@@ -62,7 +62,8 @@ export function ScrollableContainer<T extends ElementType = 'div'>({
     const { clientWidth, scrollWidth } = container;
     const maxScroll = scrollWidth - clientWidth;
 
-    if (maxScroll <= 1) {
+    // A hidden container measures 0 wide: `scrollWidth / 0` would be Infinity
+    if (maxScroll <= 1 || clientWidth <= 0) {
       setIsScrollable(false);
       setDotsCount(0);
       return;
