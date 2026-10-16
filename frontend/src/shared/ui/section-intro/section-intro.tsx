@@ -10,6 +10,8 @@ interface ISectionIntroProps {
   headingId: string;
   headingLevel?: 'h1' | 'h2';
   headingVisible?: boolean;
+  /** `display` = Playfair, for collection names only. */
+  headingFont?: 'display';
   className?: string;
   textPosition?: 'center';
   descriptionClassName?: string;
@@ -22,6 +24,7 @@ export function SectionIntro({
   headingId,
   headingLevel = 'h2',
   headingVisible,
+  headingFont,
   className,
   textPosition,
   descriptionClassName,
@@ -31,6 +34,7 @@ export function SectionIntro({
       <Heading
         headingLevel={headingLevel}
         variant="section"
+        font={headingFont}
         position="center"
         className={cn(
           'mx-auto mb-8 text-balance md:mb-6 md:max-w-[80%] xl:mb-16',
