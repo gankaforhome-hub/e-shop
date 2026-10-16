@@ -515,5 +515,65 @@
       "description": "Fill in the form and send it to us by email or messenger to return a Product within 14 days.",
       "cta": "Download form"
     }
+  },
+  "catalog": {
+    "filters": {
+      "open": "Filter",
+      "title": "Filters",
+      "close": "Close filters",
+      "clearAll": "Clear all",
+      "apply": "Show results",
+      "showProducts": "Show {count, plural, one {# product} other {# products}}",
+      "showMore": "Show more ({count})",
+      "showLess": "Show less",
+      "activeLabel": "Your filters",
+      "remove": "Remove filter: {label}",
+      "selected": "{count} selected",
+      "productsCount": "{count, plural, one {# product} other {# products}}",
+      "empty": "No products match the selected filters.",
+      "noFilters": "No filters available for this selection.",
+      "category": "Category",
+      "allCategories": "All"
+    },
+    "sort": {
+      "label": "Sort by",
+      "recommended": "Featured",
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low",
+      "current": "Sort by: {value}"
+    },
+    "groups": {
+      "collection": "Collection",
+      "season": "Season",
+      "features": "Features",
+      "price": "Price"
+    },
+    "units": {
+      "diameterCm": "{value} cm",
+      "volumeMl": "{value} ml",
+      "servesCount": "{value, plural, one {# person} other {# people}}",
+      "burnTimeHours": "{value} h",
+      "heightCm": "{value} cm",
+      "piecesCount": "{value, plural, one {# piece} other {# pieces}}"
+    },
+    "price": {
+      "under_1000": "Under 1,000 UAH",
+      "1000_2500": "1,000–2,500 UAH",
+      "2500_5000": "2,500–5,000 UAH",
+      "over_5000": "Over 5,000 UAH"
+    },
+    "pagination": {
+      "loadMore": "Load more",
+      "loading": "Loading…",
+      "progress": "Showing {shown} of {total, plural, one {# product} other {# products}}",
+      "progressRange": "Showing {from}–{to} of {total, plural, one {# product} other {# products}}",
+      "nav": "Catalog pages",
+      "previous": "Previous page",
+      "next": "Next page",
+      "page": "Page {page}",
+      "showPrevious": "Show previous page"
+    },
+    "backToTop": "Back to top"
   }
 }

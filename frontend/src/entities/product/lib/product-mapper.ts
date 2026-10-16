@@ -1,15 +1,21 @@
 import { type Locale } from '@/shared/i18n/routing';
 
+import { type DescribeVariantAttribute } from './attribute-labels';
 import { getStockStatus } from './get-stock-status';
 import {
   STOCK_TRANSLATIONS,
   WEIGHT_UNITS_TRANSLATIONS,
 } from '../config/labels';
-import { type ProductCardDTO } from '../model/product-card.dto';
+import { VARIANT_ATTRIBUTE_KEYS } from '../model/attributes';
+import {
+  type ProductCardDTO,
+  type ProductCardVariant,
+} from '../model/product-card.dto';
 import {
   type LocalizedProduct,
   type Product,
-  type ProductBadgeTranslation,
+  type ProductMedia,
+  type LocalizedProductBadge,
   type ProductCategoryRef,
   type ProductCollectionRef,
   type ProductOptionTranslation,
@@ -17,6 +23,7 @@ import {
   type ProductStockStatus,
   type ProductStockTranslation,
   type ProductTranslation,
+  type ProductVariant,
   type ProductVariantTranslation,
   type ProductWeight,
   type ProductWeightTranslation,
@@ -29,7 +36,7 @@ export const STOCK_PRIORITY: Record<ProductStockStatus, number> = {
   out_of_stock: 4,
 };
 
-// 2. Переклад стоку (викликається ТІЛЬКИ в normalizeProduct)
+/** Localized stock status and label (used by `normalizeProduct`). */
 export function getProductStockTranslation(
   stock: ProductStock,
   lang: Locale = 'uk',
@@ -45,7 +52,12 @@ export function getProductStockTranslation(
   };
 }
 
-// 3. Пошук головного варіанта
+export const isVariantPurchasable = (
+  variant: Pick<ProductVariantTranslation, 'stock'>,
+): boolean =>
+  variant.stock.quantity > 0 || variant.stock.status === 'pre_order';
+
+/** First purchasable variant, else the first one. */
 export function getMainVariant(
   variants?: ProductVariantTranslation[] | null,
 ): ProductVariantTranslation | undefined {
@@ -54,7 +66,7 @@ export function getMainVariant(
   }
 
   const availableVariant = variants.find(
-    v => v?.stock && (v.stock.quantity > 0 || v.stock.status === 'pre_order'),
+    v => v?.stock && isVariantPurchasable(v),
   );
 
   return availableVariant ?? variants[0];
@@ -71,7 +83,7 @@ export function resolveSelectedVariant(
   );
 }
 
-// 4. Переклад ваги
+/** Localized weight label ("350 г"). */
 export function getProductWeightTranslation(
   weightObj?: ProductWeight,
   lang: Locale = 'uk',
@@ -90,14 +102,70 @@ export function getProductWeightTranslation(
   };
 }
 
-// 5. Нормалізація сирих даних з БД у LocalizedProduct
+const PLACEHOLDER_MEDIA: ProductMedia = {
+  id: 'placeholder',
+  src: '/images/placeholder.jpg',
+  objectFit: 'contain',
+};
+
+/**
+ * Ordered gallery of a variant: its own `mediaIds` when set, otherwise the
+ * product media with the featured item first.
+ */
+export function getVariantGallery(
+  product: Pick<LocalizedProduct, 'media' | 'featuredMediaId'>,
+  variant?: Pick<ProductVariantTranslation, 'mediaIds'>,
+): ProductMedia[] {
+  const own = (variant?.mediaIds ?? []).flatMap(
+    id => product.media.find(m => m.id === id) ?? [],
+  );
+  if (own.length > 0) {
+    return own;
+  }
+
+  const featured = product.media.find(m => m.id === product.featuredMediaId);
+  return featured
+    ? [featured, ...product.media.filter(m => m !== featured)]
+    : product.media;
+}
+
+const rawVariantAttribute: DescribeVariantAttribute = (key, value) => ({
+  name: key,
+  value: String(value),
+});
+
+/** Variant attributes as selectable options, in `VARIANT_ATTRIBUTE_KEYS` order. */
+function getAttributeOptions(
+  variant: ProductVariant,
+  describe: DescribeVariantAttribute,
+): ProductOptionTranslation[] {
+  return VARIANT_ATTRIBUTE_KEYS.flatMap(key => {
+    const value = variant.attributes[key];
+    if (value === undefined) {
+      return [];
+    }
+    const label = describe(key, value);
+    return [
+      {
+        nameKey: key,
+        name: label.name,
+        valueKey: String(value),
+        value: label.value,
+      },
+    ];
+  });
+}
+
+/** Raw product + translation row + refs → `LocalizedProduct`. */
 export function normalizeProduct(
   product: Product,
   translation?: ProductTranslation,
   categoryRelation?: ProductCategoryRef,
   collectionRelation?: ProductCollectionRef,
-  badges: ProductBadgeTranslation[] = [],
+  badges: LocalizedProductBadge[] = [],
   lang: Locale = 'uk',
+  /** Localizes variant attributes (`getLocalizedProducts` passes the dictionary). */
+  describeAttribute: DescribeVariantAttribute = rawVariantAttribute,
 ): LocalizedProduct {
   const optionsTranslationMap = new Map<string, ProductOptionTranslation>(
     (translation?.options || []).map(opt => [
@@ -111,7 +179,7 @@ export function normalizeProduct(
     title: translation?.title ?? '',
     description: translation?.description ?? '',
     ...(translation?.seo && { seo: translation.seo }),
-    attributes: translation?.attributes ?? [],
+    characteristics: translation?.characteristics ?? [],
     category: categoryRelation ?? {
       id: product.categoryId,
       slug: '',
@@ -149,7 +217,10 @@ export function normalizeProduct(
         return {
           ...restVariant,
           stock: stockTranslation,
-          options: translatedOptions,
+          options: [
+            ...getAttributeOptions(variant, describeAttribute),
+            ...translatedOptions,
+          ],
           ...(weightTranslation && { weight: weightTranslation }),
         };
       },
@@ -157,35 +228,41 @@ export function normalizeProduct(
   };
 }
 
-// 6. Мапер LocalizedProduct -> ProductCardDTO
-export function mapProductToCard(product: LocalizedProduct): ProductCardDTO {
-  const mainVariant = getMainVariant(product.variants);
+function toCardVariant(
+  product: LocalizedProduct,
+  variant: ProductVariantTranslation,
+): ProductCardVariant {
+  const [primary = PLACEHOLDER_MEDIA, ...rest] = getVariantGallery(
+    product,
+    variant,
+  );
+  // A hover image only makes sense if it actually looks different
+  const hover = rest.find(media => media.src !== primary.src);
 
-  const primaryMedia = product.media.find(
-    m => m.id === product.featuredMediaId,
-  ) ||
-    product.media[0] || {
-      id: 'placeholder',
-      src: '/images/placeholder.jpg',
-      objectFit: 'contain' as const,
-    };
+  return {
+    id: variant.id,
+    sku: variant.sku,
+    price: variant.price,
+    ...(variant.compareAtPrice && { compareAtPrice: variant.compareAtPrice }),
+    stock: variant.stock,
+    media: { primary, ...(hover && { hover }) },
+  };
+}
 
-  const hoverMedia = product.media.find(m => m.id !== primaryMedia.id);
+/**
+ * LocalizedProduct → card DTO. `selectedVariant` (e.g. the SKU matching the
+ * active filters) wins over the main variant.
+ */
+export function mapProductToCard(
+  product: LocalizedProduct,
+  selectedVariant?: ProductVariantTranslation,
+): ProductCardDTO {
+  const selected = selectedVariant ?? getMainVariant(product.variants);
 
   return {
     id: product.id,
     slug: product.slug,
-    sku: mainVariant?.sku || '',
     title: product.title,
-    price: mainVariant?.price || { amount: 0, currency: 'UAH' },
-    // Беремо ВЖЕ ОБЧИСЛЕНИЙ stock з mainVariant!
-    stock: mainVariant?.stock ?? {
-      quantity: 0,
-      status: 'out_of_stock',
-      label: '',
-    },
-    // weight вже в потрібній структурі (або undefined)
-    ...(mainVariant?.weight && { weight: mainVariant.weight }),
     category: {
       id: product.category.id,
       slug: product.category.slug,
@@ -196,16 +273,17 @@ export function mapProductToCard(product: LocalizedProduct): ProductCardDTO {
       slug: product.primaryCollection.slug,
       title: product.primaryCollection.title,
     },
-    media: {
-      primary: primaryMedia,
-      ...(hoverMedia && { hover: hoverMedia }),
-    },
-    ...(mainVariant?.compareAtPrice && {
-      compareAtPrice: mainVariant.compareAtPrice,
-    }),
     badges: product.badges ?? [],
+    variant: selected
+      ? toCardVariant(product, selected)
+      : {
+          id: `${product.id}-placeholder`,
+          sku: '',
+          price: { amount: 0, currency: 'UAH' },
+          stock: { quantity: 0, status: 'out_of_stock', label: '' },
+          media: { primary: PLACEHOLDER_MEDIA },
+        },
+    hasVariants: product.variants.length > 1,
     isFavorite: false,
-    attributes: product.attributes,
-    options: mainVariant?.options ?? [],
   };
 }

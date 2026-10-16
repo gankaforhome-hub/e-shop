@@ -1,41 +1,28 @@
+import { type SeasonSlug } from '@/entities/collection/seasons';
 import { type Locale } from '@/shared/i18n/routing';
 import { type EntityMeta, type Media, type SeoFields } from '@/shared/types';
+
+import {
+  type ProductBaseAttributes,
+  type VariantAttributes,
+} from './attributes';
 
 export type ProductCurrency = 'UAH' | 'USD' | 'EUR';
 
 export type ProductBadgeStatus =
-  | 'new'
-  | 'top'
-  | 'pre_order'
-  | 'bestseller'
-  | 'limited'
-  | 'most_popular'
-  | 'sale';
+  'new' | 'pre_order' | 'bestseller' | 'limited' | 'most_popular' | 'sale';
 
 export type ProductStockStatus =
   'in_stock' | 'low_stock' | 'out_of_stock' | 'pre_order';
 
 export type ProductWeightUnit = 'g' | 'kg';
 
-export type ProductAttributeKey =
-  | 'material'
-  | 'dishwasher'
-  | 'microwave'
-  | 'glaze_type'
-  | 'heat_resistance'
-  | 'care_instructions';
-
-export type ProductOptionKey =
-  'diameter' | 'volume' | 'pieces' | 'height' | 'size' | 'color' | 'glaze';
+/** Appearance axes without a typed attribute (sizes/volumes are attributes). */
+export type ProductOptionKey = 'color' | 'glaze';
 
 /* ------------------------------------------------------------------ */
 /* Language-agnostic core (what the CMS / database stores)             */
 /* ------------------------------------------------------------------ */
-
-export type ProductAttribute = {
-  nameKey: ProductAttributeKey;
-  valueKey: string;
-};
 
 export type ProductOption = {
   nameKey: ProductOptionKey;
@@ -52,10 +39,10 @@ export type ProductPrice = {
   currency: ProductCurrency;
 };
 
+/** Badge core (future `badges` table); labels live in `ProductBadgeTranslation`. */
 export type ProductBadge = {
   id: ProductBadgeStatus;
   color?: string;
-  translations: Record<Locale, string>;
 };
 
 export type ProductStock = {
@@ -78,8 +65,12 @@ export type ProductVariant = {
   price: ProductPrice;
   compareAtPrice?: ProductPrice;
   stock: ProductStock;
-  options: ProductOption[];
-  mediaId?: string;
+  /** Price/size determinants (diameter, volume, burn time, scent…). */
+  attributes: VariantAttributes;
+  /** Appearance axes (colour, glaze); size-like axes come from `attributes`. */
+  options?: ProductOption[];
+  /** Variant gallery, ordered (first = lead image); omitted → product media. */
+  mediaIds?: string[];
   weight?: ProductWeight;
 };
 
@@ -91,7 +82,8 @@ export type Product = EntityMeta & {
   primaryCollectionId: string;
   featuredMediaId: string;
   media: ProductMedia[];
-  attributes: ProductAttribute[];
+  /** Attributes shared by every variant; keys are translated in the UI. */
+  attributes: ProductBaseAttributes;
   variants: ProductVariant[];
   /** Sequence number used by `buildSku` when the CMS generates variant SKUs. */
   skuSequence?: number;
@@ -101,17 +93,18 @@ export type Product = EntityMeta & {
 /* Translation records (one row per product × locale)                  */
 /* ------------------------------------------------------------------ */
 
-export type ProductAttributeTranslation = {
+/** Free-text localized characteristic row (product page "Details"). */
+export type ProductCharacteristic = {
   nameKey: string;
   name: string;
   value: string;
 };
 
 export type ProductOptionTranslation = {
-  nameKey: string; // 'diameter'
+  nameKey: string; // 'diameterCm' (variant attribute) or 'color'
   name: string; // 'Діаметр'
-  valueKey: string; // '22_cm'
-  value: string; // '22 см'
+  valueKey: string; // '23'
+  value: string; // '23 см'
 };
 
 export type ProductTranslation = {
@@ -119,16 +112,25 @@ export type ProductTranslation = {
   languageCode: Locale;
   title: string;
   description: string;
-  attributes: ProductAttributeTranslation[];
+  characteristics: ProductCharacteristic[];
+  /** Labels of appearance options (`ProductVariant.options`). */
   options?: ProductOptionTranslation[];
   seo?: SeoFields;
+};
+
+/** Translation row of a badge (one per badge × locale). */
+export type ProductBadgeTranslation = {
+  badgeId: ProductBadgeStatus;
+  languageCode: Locale;
+  label: string;
 };
 
 /* ------------------------------------------------------------------ */
 /* Resolved (locale-flattened) read models produced by the DAL         */
 /* ------------------------------------------------------------------ */
 
-export type ProductBadgeTranslation = {
+/** Badge resolved for one locale. */
+export type LocalizedProductBadge = {
   id: ProductBadgeStatus;
   label: string;
   color?: string;
@@ -152,8 +154,10 @@ export type ProductVariantTranslation = {
   price: ProductPrice;
   compareAtPrice?: ProductPrice;
   stock: ProductStockTranslation;
+  attributes: VariantAttributes;
+  /** Selectable options: variant attributes first, then appearance options. */
   options: ProductOptionTranslation[];
-  mediaId?: string;
+  mediaIds?: string[];
   weight?: ProductWeightTranslation;
 };
 
@@ -167,20 +171,19 @@ export type ProductCollectionRef = {
   id: string;
   slug: string;
   title: string;
+  /** The collection's season slug; the product inherits it (`product.primaryCollection.season`). */
+  season?: SeasonSlug;
 };
 
 /** Product resolved for one locale: core data + flattened translation. */
-export type LocalizedProduct = Omit<
-  Product,
-  'badges' | 'attributes' | 'variants'
-> & {
+export type LocalizedProduct = Omit<Product, 'badges' | 'variants'> & {
   title: string;
   description: string;
   seo?: SeoFields;
-  attributes: ProductAttributeTranslation[];
+  characteristics: ProductCharacteristic[];
   category: ProductCategoryRef;
   primaryCollection: ProductCollectionRef;
-  badges: ProductBadgeTranslation[];
+  badges: LocalizedProductBadge[];
   variants: ProductVariantTranslation[];
 };
 

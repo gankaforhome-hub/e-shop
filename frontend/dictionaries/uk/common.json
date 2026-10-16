@@ -515,5 +515,65 @@
       "description": "Заповніть форму та надішліть її нам електронною поштою або в месенджері, щоб повернути Товар протягом 14 днів.",
       "cta": "Завантажити форму"
     }
+  },
+  "catalog": {
+    "filters": {
+      "open": "Фільтр",
+      "title": "Фільтри",
+      "close": "Закрити фільтри",
+      "clearAll": "Скинути все",
+      "apply": "Показати результати",
+      "showProducts": "Показати {count, plural, one {# товар} few {# товари} many {# товарів} other {# товару}}",
+      "showMore": "Показати більше ({count})",
+      "showLess": "Згорнути",
+      "activeLabel": "Ваші фільтри",
+      "remove": "Прибрати фільтр: {label}",
+      "selected": "Обрано: {count}",
+      "productsCount": "{count, plural, one {# товар} few {# товари} many {# товарів} other {# товару}}",
+      "empty": "Немає товарів за обраними фільтрами.",
+      "noFilters": "Для цього вибору фільтрів немає.",
+      "category": "Категорія",
+      "allCategories": "Усі"
+    },
+    "sort": {
+      "label": "Сортування",
+      "recommended": "Рекомендовані",
+      "newest": "Новинки",
+      "price_asc": "Ціна: від низької",
+      "price_desc": "Ціна: від високої",
+      "current": "Сортування: {value}"
+    },
+    "groups": {
+      "collection": "Колекція",
+      "season": "Сезон",
+      "features": "Особливості",
+      "price": "Ціна"
+    },
+    "units": {
+      "diameterCm": "{value} см",
+      "volumeMl": "{value} мл",
+      "servesCount": "{value, plural, one {# персона} few {# персони} many {# персон} other {# персони}}",
+      "burnTimeHours": "{value} год",
+      "heightCm": "{value} см",
+      "piecesCount": "{value, plural, one {# предмет} few {# предмети} many {# предметів} other {# предмета}}"
+    },
+    "price": {
+      "under_1000": "До 1 000 грн",
+      "1000_2500": "1 000–2 500 грн",
+      "2500_5000": "2 500–5 000 грн",
+      "over_5000": "Понад 5 000 грн"
+    },
+    "pagination": {
+      "loadMore": "Показати ще",
+      "loading": "Завантаження…",
+      "progress": "Відображено {shown} з {total, plural, one {# товару} other {# товарів}}",
+      "progressRange": "Відображено {from}–{to} з {total, plural, one {# товару} other {# товарів}}",
+      "nav": "Сторінки каталогу",
+      "previous": "Попередня сторінка",
+      "next": "Наступна сторінка",
+      "page": "Сторінка {page}",
+      "showPrevious": "Показати попередню сторінку"
+    },
+    "backToTop": "Нагору"
   }
 }

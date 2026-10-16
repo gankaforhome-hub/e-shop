@@ -1,13 +1,32 @@
 export {
+  type CatalogFacetGroup,
+  type CatalogFacetOption,
+  getCatalogFacets,
+  getCatalogIndex,
+} from './api/get-catalog-facets';
+export {
   getLocalizedProducts,
   getProductBySlug,
   getProducts,
   type GetProductsParams,
   type PaginatedProductsDTO,
 } from './api/get-products';
-export { getMainVariant, resolveSelectedVariant } from './lib/product-mapper';
+export {
+  getMainVariant,
+  getVariantGallery,
+  isVariantPurchasable,
+  resolveSelectedVariant,
+} from './lib/product-mapper';
 export { buildSku, type BuildSkuParams } from './lib/sku';
-export { type ProductCardDTO } from './model/product-card.dto';
+export {
+  type ProductAttributes,
+  type ProductBaseAttributes,
+  type VariantAttributes,
+} from './model/attributes';
+export {
+  type ProductCardDTO,
+  type ProductCardVariant,
+} from './model/product-card.dto';
 export {
   type LocalizedProduct,
   type Product,

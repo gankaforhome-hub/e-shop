@@ -2,12 +2,28 @@ import { cacheLife, cacheTag } from 'next/cache';
 
 import 'server-only';
 
+import { createTranslator } from 'next-intl';
+
 import { getCategories } from '@/entities/category';
 import { getCollections } from '@/entities/collection';
 import { cacheTags } from '@/shared/config/cache-tags';
+import { type ProductSort } from '@/shared/config/routes';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
 
+import { getAttributeLabels } from './get-attribute-labels';
+import {
+  type CatalogDict,
+  createVariantAttributeDescriber,
+  type FormatAttributeUnit,
+} from '../lib/attribute-labels';
+import {
+  type FilterableProduct,
+  getActiveSelections,
+  getMatchingVariants,
+  type ProductFilters,
+} from '../lib/catalog-query';
 import {
   getMainVariant,
   mapProductToCard,
@@ -15,6 +31,7 @@ import {
   STOCK_PRIORITY,
 } from '../lib/product-mapper';
 import {
+  MOCK_BADGE_TRANSLATIONS,
   MOCK_BADGES,
   MOCK_PRODUCT_TRANSLATIONS,
   MOCK_PRODUCTS,
@@ -22,7 +39,11 @@ import {
 import { type ProductCardDTO } from '../model/product-card.dto';
 import {
   type LocalizedProduct,
-  type ProductBadgeTranslation,
+  type LocalizedProductBadge,
+  type ProductBadgeStatus,
+  type ProductCategoryRef,
+  type ProductCollectionRef,
+  type ProductVariantTranslation,
 } from '../model/types';
 
 export type GetProductsParams = {
@@ -36,6 +57,10 @@ export type GetProductsParams = {
   collectionId?: string;
   /** Restrict results to these product ids (e.g. the user's favorites). */
   ids?: readonly string[];
+  /** Validated catalog filters (`parseCatalogQuery`). */
+  filters?: ProductFilters;
+  /** Omitted → recommended order (availability first). */
+  sort?: ProductSort;
 };
 
 export type PaginatedProductsDTO = {
@@ -59,62 +84,120 @@ export async function getLocalizedProducts(
 ): Promise<LocalizedProduct[]> {
   'use cache';
   cacheLife('hours');
-  cacheTag(cacheTags.products, cacheTags.categories, cacheTags.collections);
+  cacheTag(
+    cacheTags.products,
+    cacheTags.categories,
+    cacheTags.collections,
+    cacheTags.attributes,
+  );
 
-  const [categories, collections] = await Promise.all([
-    getCategories(lang),
-    getCollections(lang),
-  ]);
+  const [categories, collections, attributeLabels, { common }] =
+    await Promise.all([
+      getCategories(lang),
+      getCollections(lang),
+      getAttributeLabels(lang),
+      getDictionary(['common'], lang),
+    ]);
+
+  // Variant attributes become localized options: names and enum values from
+  // the translation tables, numbers through the UI unit templates (23 см)
+  const dict: CatalogDict = common.catalog;
+  const t = createTranslator({
+    locale: lang,
+    messages: { units: dict.units },
+    namespace: 'units',
+  });
+  const formatUnit: FormatAttributeUnit = (key, value) => t(key, { value });
+  const describeAttribute = createVariantAttributeDescriber(
+    attributeLabels,
+    formatUnit,
+  );
 
   const translationsById = groupTranslationsBy(
     MOCK_PRODUCT_TRANSLATIONS,
     t => t.productId,
   );
-  const categoriesById = new Map(categories.map(c => [c.id, c]));
-  const collectionsById = new Map(collections.map(c => [c.id, c]));
+  // Lean refs only: full DTOs (descriptions, SEO, media) would be copied into
+  // every product and every cache entry built from it
+  const categoriesById = new Map(
+    categories.map((c): [string, ProductCategoryRef] => [
+      c.id,
+      { id: c.id, slug: c.slug, title: c.title },
+    ]),
+  );
+  const collectionsById = new Map(
+    collections.map((c): [string, ProductCollectionRef] => [
+      c.id,
+      {
+        id: c.id,
+        slug: c.slug,
+        title: c.title,
+        ...(c.season && { season: c.season }),
+      },
+    ]),
+  );
+  // Resolved once per locale and shared by every product that carries them
+  const badgeLabels = groupTranslationsBy(
+    MOCK_BADGE_TRANSLATIONS,
+    t => t.badgeId,
+  );
+  const badgesById = new Map(
+    Object.values(MOCK_BADGES).map(
+      ({ id, color }): [ProductBadgeStatus, LocalizedProductBadge] => [
+        id,
+        {
+          id,
+          label: pickTranslation(badgeLabels.get(id) ?? [], lang)?.label ?? id,
+          ...(color && { color }),
+        },
+      ],
+    ),
+  );
 
-  return MOCK_PRODUCTS.map(product => {
-    const badges: ProductBadgeTranslation[] = product.badges.map(badgeId => {
-      const badge = MOCK_BADGES[badgeId];
-      return {
-        id: badgeId,
-        label: badge.translations[lang] || badgeId,
-        ...(badge.color && { color: badge.color }),
-      };
-    });
-
-    return normalizeProduct(
+  return MOCK_PRODUCTS.map(product =>
+    normalizeProduct(
       product,
       pickTranslation(translationsById.get(product.id) ?? [], lang),
       categoriesById.get(product.categoryId),
       collectionsById.get(product.primaryCollectionId),
-      badges,
+      product.badges.flatMap(id => badgesById.get(id) ?? []),
       lang,
-    );
-  });
-}
-
-/** Numeric stock priority of a product, based on its main variant. */
-function getProductStockPriority(product: LocalizedProduct): number {
-  const mainVariant = getMainVariant(product.variants);
-  if (!mainVariant) {
-    return STOCK_PRIORITY.out_of_stock;
-  }
-  return STOCK_PRIORITY[mainVariant.stock.status];
+      describeAttribute,
+    ),
+  );
 }
 
 /**
- * Catalog query: filters, sorts by availability and paginates.
- * Returns user-agnostic cards (`isFavorite: false`); callers merge per-user state.
+ * Shape consumed by the pure catalog matcher (`getMatchingVariants`): own
+ * attributes plus the season slug inherited from the primary collection.
  */
-export async function getProducts(
-  params: GetProductsParams,
-): Promise<PaginatedProductsDTO> {
-  'use cache';
-  cacheLife('hours');
-  cacheTag(cacheTags.products);
+export const toFilterableProduct = (
+  product: LocalizedProduct,
+): FilterableProduct<ProductVariantTranslation> => {
+  const { season } = product.primaryCollection;
+  return {
+    attributes: product.attributes,
+    collectionSlug: product.primaryCollection.slug,
+    ...(season && { season }),
+    variants: product.variants,
+  };
+};
 
-  let filtered = await getLocalizedProducts(params.lang);
+/** A product in the result list with the SKU the card should show. */
+type CatalogEntry = {
+  product: LocalizedProduct;
+  variant: ProductVariantTranslation | undefined;
+};
+
+/** Category/search/ids narrowing shared by `getProducts` and facet counts. */
+export function filterProductsBase(
+  products: LocalizedProduct[],
+  params: Pick<
+    GetProductsParams,
+    'search' | 'category' | 'collectionId' | 'ids'
+  >,
+): LocalizedProduct[] {
+  let filtered = products;
 
   const query = params.search?.trim().toLowerCase();
   if (query) {
@@ -137,20 +220,91 @@ export async function getProducts(
     filtered = filtered.filter(p => ids.has(p.id));
   }
 
-  // In stock -> low stock -> pre-order -> out of stock (stable sort)
-  const sortedProducts = filtered
-    .map(product => ({ product, priority: getProductStockPriority(product) }))
-    .sort((a, b) => a.priority - b.priority)
-    .map(item => item.product);
+  return filtered;
+}
 
-  const total = sortedProducts.length;
-  const page = Math.max(1, params.page ?? 1);
+const entryPrice = (entry: CatalogEntry) => entry.variant?.price.amount ?? 0;
+
+/** 1 when the shown variant can't be bought (or there is none), else 0. */
+const isSoldOut = (entry: CatalogEntry) =>
+  entry.variant?.stock.status === 'out_of_stock' || !entry.variant ? 1 : 0;
+
+/** Stock priority of the shown variant (in stock → … → out of stock). */
+const entryStockPriority = (entry: CatalogEntry) =>
+  entry.variant
+    ? STOCK_PRIORITY[entry.variant.stock.status]
+    : STOCK_PRIORITY.out_of_stock;
+
+function sortEntries(
+  entries: CatalogEntry[],
+  sort: ProductSort | undefined,
+): CatalogEntry[] {
+  const compare: Record<
+    ProductSort,
+    (a: CatalogEntry, b: CatalogEntry) => number
+  > = {
+    price_asc: (a, b) => entryPrice(a) - entryPrice(b),
+    price_desc: (a, b) => entryPrice(b) - entryPrice(a),
+    // ISO dates compare lexicographically; undated products go last
+    newest: (a, b) =>
+      (b.product.createdAt ?? '').localeCompare(a.product.createdAt ?? ''),
+  };
+
+  // Default: in stock -> low stock -> pre-order -> out of stock. An explicit
+  // order (price, newest) applies within two tiers: purchasable first, sold
+  // out last. Sorts are stable, so ties keep the catalog order.
+  return entries.toSorted(
+    sort
+      ? (a, b) => isSoldOut(a) - isSoldOut(b) || compare[sort](a, b)
+      : (a, b) => entryStockPriority(a) - entryStockPriority(b),
+  );
+}
+
+/**
+ * Catalog query: filters, sorts by availability and paginates.
+ * Returns user-agnostic cards (`isFavorite: false`); callers merge per-user state.
+ */
+export async function getProducts(
+  params: GetProductsParams,
+): Promise<PaginatedProductsDTO> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(cacheTags.products);
+
+  const { filters } = params;
+  const base = filterProductsBase(
+    await getLocalizedProducts(params.lang),
+    params,
+  );
+  const active = filters && getActiveSelections(filters);
+  // Variant-level filters pick the SKU the card opens with (e.g. the 27 cm plate)
+  const entries = base.flatMap((product): CatalogEntry[] => {
+    if (!filters) {
+      return [{ product, variant: getMainVariant(product.variants) }];
+    }
+    const matching = getMatchingVariants(
+      toFilterableProduct(product),
+      filters,
+      active,
+    );
+    return matching.length > 0
+      ? [{ product, variant: getMainVariant(matching) }]
+      : [];
+  });
+
+  const sortedEntries = sortEntries(entries, params.sort);
+
+  const total = sortedEntries.length;
   const limit = Math.max(1, params.limit ?? 12);
   const totalPages = Math.ceil(total / limit) || 1;
+  // Out-of-range pages (stale links, `?page=99`) show the last page
+  const page = Math.min(Math.max(1, params.page ?? 1), totalPages);
   const offset = (page - 1) * limit;
 
   return {
-    data: sortedProducts.slice(offset, offset + limit).map(mapProductToCard),
+    data: sortedEntries
+      .slice(offset, offset + limit)
+      .map(({ product, variant }) => mapProductToCard(product, variant)),
     meta: {
       total,
       page,

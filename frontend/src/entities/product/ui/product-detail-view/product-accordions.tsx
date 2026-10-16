@@ -37,9 +37,9 @@ export function ProductAccordions({ product, label }: ProductAccordionsProps) {
         <AccordionTrigger>{descriptionAndDetails}</AccordionTrigger>
         <AccordionContent>
           <p className="mb-3">{product.description}</p>
-          {product.attributes.length > 0 && (
+          {product.characteristics.length > 0 && (
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              {product.attributes.map(attr => (
+              {product.characteristics.map(attr => (
                 <li key={attr.nameKey}>
                   <strong>{attr.name}:</strong> {attr.value}
                 </li>

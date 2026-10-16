@@ -1,4 +1,6 @@
 import {
+  getVariantGallery,
+  isVariantPurchasable,
   type LocalizedProduct,
   ProductDetailView,
   type ProductVariantTranslation,
@@ -29,10 +31,7 @@ const toCartLine = (
   variantLabel: variant.options.map(o => o.value).join(' · ') || undefined,
   price: variant.price,
   image:
-    product.media.find(m => m.id === variant.mediaId)?.src ??
-    product.media.find(m => m.id === product.featuredMediaId)?.src ??
-    product.media[0]?.src ??
-    '/images/placeholder.jpg',
+    getVariantGallery(product, variant)[0]?.src ?? '/images/placeholder.jpg',
 });
 
 export async function ProductDetailSection({
@@ -53,10 +52,7 @@ export async function ProductDetailSection({
           lang={lang}
           selectedVariantSku={typeof variant === 'string' ? variant : undefined}
           renderAction={selected => {
-            const purchasable =
-              selected &&
-              (selected.stock.quantity > 0 ||
-                selected.stock.status === 'pre_order');
+            const purchasable = selected && isVariantPurchasable(selected);
             return (
               <AddToCartButton
                 label={dict.addToBag}

@@ -6,7 +6,10 @@ import { type Locale } from '@/shared/i18n/routing';
 import { ProductAccordions } from './product-accordions';
 import { ProductGallery } from './product-gallery';
 import { ProductInfoSidebar } from './product-info-sidebar';
-import { resolveSelectedVariant } from '../../lib/product-mapper';
+import {
+  getVariantGallery,
+  resolveSelectedVariant,
+} from '../../lib/product-mapper';
 import {
   type LocalizedProduct,
   type ProductVariantTranslation,
@@ -33,16 +36,16 @@ export async function ProductDetailView({
     selectedVariantSku,
   );
 
-  const activeMediaId =
-    selectedVariant?.mediaId ||
-    product.featuredMediaId ||
-    product.media[0]?.id ||
-    '';
+  // A variant with its own gallery shows only its media (colour/finish
+  // differs); otherwise the full product gallery, featured item first
+  const gallery = getVariantGallery(product, selectedVariant);
+  const activeMediaId = gallery[0]?.id ?? '';
 
   return (
     <div className="font-caption grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
       <ProductGallery
-        media={product.media}
+        key={selectedVariant?.mediaIds ? selectedVariant.id : product.id}
+        media={gallery}
         title={product.title}
         activeMediaId={activeMediaId}
       />

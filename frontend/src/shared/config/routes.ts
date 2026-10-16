@@ -31,7 +31,11 @@ export const isCategorySlug = (value: unknown): value is CategorySlug =>
   typeof value === 'string' &&
   (categorySlugs as readonly string[]).includes(value);
 
-export const productSortOptions = ['price', 'name'] as const;
+export const productSortOptions = [
+  'newest',
+  'price_asc',
+  'price_desc',
+] as const;
 
 export type ProductSort = (typeof productSortOptions)[number];
 
@@ -55,17 +59,24 @@ export const isInfoSlug = (value: unknown): value is InfoSlug =>
 
 type ProductsRoute = '/products' | `/products?${string}`;
 
-type ProductsSearchParams = {
+export type ProductsSearchParams = {
   category?: CategorySlug | undefined;
   sort?: ProductSort | undefined;
   page?: string | undefined;
   search?: string | undefined;
+  favoritesOnly?: 'true' | undefined;
+  /** Catalog filters, already serialized and validated by `@/entities/product`. */
+  filters?: Readonly<Record<string, string>> | undefined;
 };
 
 //INFO Functions for dynamic routes
 export const dynamicRoutes = {
   info: (infoSlug: InfoSlug) => `/info/${infoSlug}` as const,
-  product: (productSlug: string) => `/product/${productSlug}` as const,
+  /** `variantSku` preselects a SKU on the product page (`?variant=`). */
+  product: (productSlug: string, variantSku?: string) =>
+    variantSku
+      ? (`/product/${productSlug}?variant=${encodeURIComponent(variantSku)}` as const)
+      : (`/product/${productSlug}` as const),
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,
   products: (params?: ProductsSearchParams) => {
@@ -73,15 +84,14 @@ export const dynamicRoutes = {
       return '/products' as const;
     }
 
-    const cleanParams = Object.fromEntries(
-      Object.entries(params).filter(
-        ([_, value]) => value !== undefined && value !== null && value !== '',
-      ),
-    );
-
-    const queryString = new URLSearchParams(
-      cleanParams as Record<string, string>,
-    ).toString();
+    const { filters, ...rest } = params;
+    const query = new URLSearchParams();
+    for (const [key, value] of Object.entries({ ...rest, ...filters })) {
+      if (value) {
+        query.set(key, value);
+      }
+    }
+    const queryString = query.toString();
 
     return (
       queryString ? `/products?${queryString}` : '/products'

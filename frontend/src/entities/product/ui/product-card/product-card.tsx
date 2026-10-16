@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 
 import { routes } from '@/shared/config/routes';
 import { type Locale } from '@/shared/i18n/routing';
-import { cn, formatMoney } from '@/shared/lib/utils';
+import { cn, formatMoney, toSentenceCase } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Badge } from '@/shared/ui/badge';
@@ -32,9 +32,18 @@ export const ProductCard = ({
   priority = false,
   sizes = GRID_SIZES,
 }: ProductCardProps) => {
-  const mainImage = product.media.primary.src || '/images/placeholder.jpg';
-  const hoverImage = product.media.hover?.src;
-  const isSoldOut = product.stock.status === 'out_of_stock';
+  const { variant } = product;
+  const mainImage = variant.media.primary.src || '/images/placeholder.jpg';
+  const hoverImage = variant.media.hover?.src;
+  const isSoldOut = variant.stock.status === 'out_of_stock';
+  // Multi-variant products open the product page on the shown SKU
+  const href = routes.product(
+    product.slug,
+    product.hasVariants ? variant.sku : undefined,
+  );
+  const hasDiscount =
+    variant.compareAtPrice !== undefined &&
+    variant.compareAtPrice.amount > variant.price.amount;
 
   return (
     <article
@@ -66,23 +75,20 @@ export const ProductCard = ({
         {favoriteButton}
       </div>
 
-      {/* Media */}
-      <AppLink
-        href={routes.product(product.slug)}
-        className="block w-full shrink-0"
-      >
+      {/* Media (variant gallery: lead + hover image) */}
+      <AppLink href={href} className="block w-full shrink-0">
         <div className="relative aspect-square w-full overflow-hidden">
           {/* Main Image */}
           <AppMedia
             src={mainImage}
-            alt={product.media.primary.alt || product.title}
+            alt={variant.media.primary.alt || product.title}
             fill
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             sizes={sizes}
             className={cn(
               'card-surface transition-opacity duration-500',
-              product.media.primary.objectFit === 'contain'
+              variant.media.primary.objectFit === 'contain'
                 ? 'fp-4/12 object-contain'
                 : 'object-cover',
               hoverImage ? 'lg:hover:opacity-0' : 'hover:scale-105',
@@ -98,7 +104,7 @@ export const ProductCard = ({
               loading="lazy"
               sizes={sizes}
               className={cn(
-                product.media.hover?.objectFit === 'contain'
+                variant.media.hover?.objectFit === 'contain'
                   ? 'fp-4/12 object-contain'
                   : 'object-cover',
                 // 'hidden lg:block',
@@ -122,37 +128,24 @@ export const ProductCard = ({
 
           {/* Title */}
           <AppLink
-            href={routes.product(product.slug)}
+            href={href}
             className={cn(
-              `text-foreground custom-transition leading-1.5 line-clamp-2 text-sm capitalize tracking-wide md:text-base`,
+              `text-foreground custom-transition leading-1.5 line-clamp-2 text-sm tracking-wide md:text-base`,
             )}
           >
-            <span>{product.title}</span>
+            <span>{toSentenceCase(product.title, lang)}</span>
           </AppLink>
         </div>
 
-        {/* Pricing & Compare Price */}
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="text-commerce-price-current text-sm tabular-nums md:text-base">
-              {formatMoney(product.price, lang)}
-            </span>
-            {/* {product.compareAtPrice && (
-              <span className="text-commerce-price-old text-[10px] line-through md:text-xs">
-                {formatMoney(product.compareAtPrice)}
-              </span>
-            )} */}
-          </div>
-          {product.stock.status !== 'in_stock' && (
-            <span
-              className={cn(
-                'text-commerce-price-current/80 rounded-2xl px-2 text-[10px] tabular-nums md:text-sm',
-                product.stock.status === 'low_stock' &&
-                  'text-commerce-stock-low',
-              )}
-            >
-              {product.stock.label}
-            </span>
+        {/* Price (+ old price when discounted) */}
+        <div className="flex flex-wrap items-baseline gap-x-2">
+          <span className="text-commerce-price-current text-sm tabular-nums md:text-base">
+            {formatMoney(variant.price, lang)}
+          </span>
+          {hasDiscount && (
+            <del className="text-commerce-price-old text-xs tabular-nums md:text-sm">
+              {formatMoney(variant.compareAtPrice, lang)}
+            </del>
           )}
         </div>
       </div>

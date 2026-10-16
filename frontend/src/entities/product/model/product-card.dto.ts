@@ -1,23 +1,29 @@
 import {
-  type ProductAttributeTranslation,
-  type ProductBadgeTranslation,
+  type LocalizedProductBadge,
   type ProductMedia,
-  type ProductOptionTranslation,
   type ProductPrice,
   type ProductStockTranslation,
-  type ProductWeightTranslation,
 } from './types';
 
-export type ProductCardDTO = {
+/** The SKU a card shows: price, stock and its own lead/hover media. */
+export type ProductCardVariant = {
   id: string;
-  slug: string;
   sku: string;
-  title: string;
   price: ProductPrice;
   compareAtPrice?: ProductPrice;
   stock: ProductStockTranslation;
-  weight?: ProductWeightTranslation;
-  badges: ProductBadgeTranslation[];
+  media: {
+    primary: ProductMedia;
+    hover?: ProductMedia;
+  };
+};
+
+/** Minimal catalog card: collection, title, price; options live on the product page. */
+export type ProductCardDTO = {
+  id: string;
+  slug: string;
+  title: string;
+  badges: LocalizedProductBadge[];
   category: {
     id: string;
     slug: string;
@@ -28,12 +34,10 @@ export type ProductCardDTO = {
     slug: string;
     title: string;
   };
-  media: {
-    primary: ProductMedia;
-    hover?: ProductMedia;
-  };
-  attributes: ProductAttributeTranslation[];
-  options: ProductOptionTranslation[];
+  /** The SKU matching active filters, else the main (first purchasable) one. */
+  variant: ProductCardVariant;
+  /** More than one SKU: the card links to the product page on `variant`. */
+  hasVariants: boolean;
   /** Per-user flag merged in after the cached catalog read. */
   isFavorite: boolean;
 };
