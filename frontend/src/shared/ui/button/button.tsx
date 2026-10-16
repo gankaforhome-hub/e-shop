@@ -16,6 +16,8 @@ export const buttonVariants = cva(
           'border-action-primary bg-action-secondary text-action-secondary-foreground hover:border-action-secondary-hover active:border-action-secondary-active hover:bg-action-secondary-hover/2 disabled:border-action-primary/40 disabled:text-action-secondary-foreground/20 border',
         ghost:
           'font-normal focus-visible:ring-0 focus-visible:ring-offset-0 active:scale-100',
+        /** Inline text action in the brand accent (e.g. "Clear all"). */
+        link: 'text-action-primary hover:text-action-primary-hover underline-offset-4 hover:underline active:scale-100',
         iconPrimary:
           'text-icon hover:text-icon-hover bg-white/20 shadow-lg hover:scale-105 hover:bg-white/30 active:scale-95 disabled:opacity-20',
         iconSecondary:

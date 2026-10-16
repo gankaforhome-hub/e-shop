@@ -35,8 +35,11 @@ interface AccordionTriggerProps extends ComponentProps<
 > {
   /** Expand indicator: `plusMinus` (default) or a chevron rotating 180° when open. */
   indicator?: 'plusMinus' | 'chevron';
-  /** Title scale: `default` 16 → 18px, `compact` 14 → 16px (long-form pages). */
-  size?: 'default' | 'compact';
+  /**
+   * Title scale: `default` 16 → 18px, `compact` 14 → 16px (long-form pages),
+   * `small` fixed 14px (filter panels).
+   */
+  size?: 'default' | 'compact' | 'small';
 }
 
 function AccordionTrigger({
@@ -52,7 +55,11 @@ function AccordionTrigger({
         data-slot="accordion-trigger"
         className={cn(
           'font-caption focus-visible:border-ring focus-visible:ring-ring/50 text-foreground flex flex-1 cursor-pointer items-center justify-between gap-4 text-left font-semibold outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50',
-          size === 'compact' ? 'text-sm md:text-base' : 'text-base md:text-lg',
+          {
+            default: 'text-base md:text-lg',
+            compact: 'text-sm md:text-base',
+            small: 'text-sm',
+          }[size],
           className,
         )}
         {...props}
@@ -66,7 +73,7 @@ function AccordionTrigger({
               name="chevron-down"
               className={cn(
                 'duration-(--dur-normal) ease-subtle transition-transform group-data-[state=open]:rotate-180',
-                size === 'compact' ? 'size-4' : 'size-5',
+                size === 'default' ? 'size-5' : 'size-4',
               )}
             />
           ) : (

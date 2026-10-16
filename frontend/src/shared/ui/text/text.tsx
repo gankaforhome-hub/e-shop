@@ -31,6 +31,8 @@ export const textVariants = cva('font-normal tracking-normal', {
       fluid: 'ftext-4/4.5 fleading-6/7',
       /** Long-form documents: 14 → 16px, relaxed leading. */
       document: 'text-sm leading-relaxed md:text-base',
+      /** Compact UI controls (filters, menus): fixed 14px. */
+      small: 'text-sm',
       none: '',
     },
     position: {
