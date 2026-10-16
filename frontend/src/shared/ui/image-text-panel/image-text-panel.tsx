@@ -34,13 +34,13 @@ export function ImageTextPanel({
   return (
     <div
       className={cn(
-        'mt-4 flex flex-col gap-4 md:mt-8 md:gap-1 lg:mt-10 lg:flex-row xl:mt-16',
+        'max-h-200 mt-4 flex flex-col gap-4 md:mt-8 md:gap-1 lg:mt-10 lg:flex-row xl:mt-16',
         className,
       )}
     >
       <div
         className={cn(
-          'min-h-85 lg:aspect-868/891 relative aspect-square w-full',
+          'min-h-85 relative aspect-square w-full lg:min-w-0 lg:basis-1/2',
           imagePosition === 'right' ? 'lg:order-2' : '',
           imageContainerClassName,
         )}
@@ -58,7 +58,9 @@ export function ImageTextPanel({
 
       <div
         className={cn(
-          'bg-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20',
+          'bg-muted flex w-full flex-col justify-center gap-4 lg:min-w-0 lg:basis-1/2 2xl:gap-8',
+          // '2xl:py-30 px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:px-20',
+          'fpy-6/30 fpx-6/30',
           imagePosition === 'right' ? 'lg:order-1' : '',
           textClassName,
         )}

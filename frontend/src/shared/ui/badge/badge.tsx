@@ -11,7 +11,6 @@ const badgeVariants = cva(
     variants: {
       variant: {
         new: 'bg-badge-new-bg text-badge-new-text border-white/40 shadow-sm',
-        top: 'bg-badge-top-bg text-badge-top-text border-white/50 font-semibold shadow-sm',
         pre_order:
           'bg-badge-preorder-bg text-badge-preorder-text border-white/20 font-medium',
         bestseller:
