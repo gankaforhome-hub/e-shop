@@ -70,6 +70,7 @@ export default async function CollectionPage({ params }: PageProps) {
             headingId={collection.title}
             headingLevel="h1"
             heading={collection.title}
+            headingFont="display"
             description={collection.shortDescription}
             headingVisible
           />

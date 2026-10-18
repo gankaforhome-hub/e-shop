@@ -37,7 +37,7 @@ export const textVariants = cva('font-normal tracking-normal', {
       lead: 'text-base leading-relaxed xl:text-lg',
       /** Small uppercase label above a heading (kicker / eyebrow). */
       eyebrow: 'text-xs uppercase tracking-widest',
-      /** Pull quote: 20 → 30px, use with `font="heading"`. */
+      /** Pull quote: 20 → 30px. */
       quote: 'text-xl italic leading-snug md:text-2xl xl:text-3xl',
       none: '',
     },
@@ -48,7 +48,6 @@ export const textVariants = cva('font-normal tracking-normal', {
     font: {
       primary: 'font-text',
       secondary: 'font-caption',
-      heading: 'font-heading',
     },
   },
 

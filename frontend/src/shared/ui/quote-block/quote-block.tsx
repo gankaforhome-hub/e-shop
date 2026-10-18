@@ -39,7 +39,7 @@ export function QuoteBlock({
         <span aria-hidden="true" className="bg-action-primary h-px w-12" />
       )}
       <blockquote>
-        <Text size="quote" font="heading" className="text-balance">
+        <Text size="quote" className="text-balance">
           {quote}
         </Text>
       </blockquote>

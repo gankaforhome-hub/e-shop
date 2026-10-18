@@ -21,18 +21,18 @@ import { isActiveRoute } from '../lib';
 const navItemVariants = cva('', {
   variants: {
     variant: {
-      header: 'font-heading link text-xl',
-      footer: 'font-heading link text-base',
+      header: 'link text-xl',
+      footer: 'link text-base',
       mobile:
-        'font-heading text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
+        'text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
       popover:
-        'font-heading hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
+        'hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
       /** Info pages desktop sidebar. */
       sidebar:
-        'text-muted-foreground hover:text-foreground duration-(--dur-normal) shrink-0 whitespace-nowrap text-xs uppercase tracking-widest transition-colors md:text-sm',
+        'text-muted-foreground hover:text-foreground duration-(--dur-normal) shrink-0 whitespace-nowrap text-base uppercase transition-colors',
       /** Info pages mobile dropdown: full-width rows, 48px touch targets. */
       dropdown:
-        'text-muted-foreground hover:bg-muted/30 hover:text-foreground active:bg-muted/50 duration-(--dur-normal) flex min-h-12 w-full touch-manipulation items-center justify-between gap-4 px-4 text-sm uppercase tracking-widest transition-colors',
+        'text-muted-foreground hover:bg-muted/30 hover:text-foreground active:bg-muted/50 duration-(--dur-normal) flex min-h-12 w-full touch-manipulation items-center justify-between gap-4 px-4 text-sm uppercase transition-colors',
     },
     active: {
       true: '',

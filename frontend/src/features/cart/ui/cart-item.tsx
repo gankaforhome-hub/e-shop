@@ -41,7 +41,7 @@ export function CartItemCard({
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">
         <AppLink
           href={routes.product(line.slug)}
-          className="font-heading text-foreground hover:text-foreground/70 line-clamp-2 text-base leading-snug sm:text-lg"
+          className="text-foreground hover:text-foreground/70 line-clamp-2 text-base leading-snug sm:text-lg"
         >
           {line.title}
         </AppLink>
