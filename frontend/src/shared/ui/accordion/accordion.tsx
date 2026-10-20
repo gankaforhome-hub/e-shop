@@ -40,6 +40,8 @@ interface AccordionTriggerProps extends ComponentProps<
    * `small` fixed 14px (filter panels).
    */
   size?: 'default' | 'compact' | 'small';
+  /** Extra classes for the indicator wrapper, e.g. an accent colour when open. */
+  indicatorClassName?: string;
 }
 
 function AccordionTrigger({
@@ -47,6 +49,7 @@ function AccordionTrigger({
   children,
   indicator = 'plusMinus',
   size = 'default',
+  indicatorClassName,
   ...props
 }: AccordionTriggerProps) {
   return (
@@ -67,7 +70,10 @@ function AccordionTrigger({
         <span>{children}</span>
 
         {/* Icons toggle via the parent AccordionItem's data-state */}
-        <span className="shrink-0 text-inherit" aria-hidden="true">
+        <span
+          className={cn('shrink-0 text-inherit', indicatorClassName)}
+          aria-hidden="true"
+        >
           {indicator === 'chevron' ? (
             <Icon
               name="chevron-down"
