@@ -10,7 +10,8 @@ export interface IContactUsBlockProps {
       alt: string;
     };
     title: string;
-    formTitle: string;
+    /** Omit to render the form without its own title. */
+    formTitle?: string;
     btnLetsTalk: string;
     label: {
       email: string;
