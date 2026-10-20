@@ -42,7 +42,7 @@ export function ResponsiveNav({
         <summary
           className={cn(
             'font-caption text-foreground flex min-h-12 cursor-pointer touch-manipulation select-none list-none items-center justify-between gap-4 rounded-lg px-4 py-3 text-sm uppercase tracking-widest outline-none [-webkit-tap-highlight-color:transparent] [&::-webkit-details-marker]:hidden',
-            'active:bg-muted/30 duration-(--dur-normal) transition-colors',
+            'hover:bg-muted active:bg-muted transition-colors duration-200',
             'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2',
           )}
         >

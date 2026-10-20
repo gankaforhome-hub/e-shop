@@ -26,13 +26,13 @@ const navItemVariants = cva('', {
       mobile:
         'text-foreground hover:bg-muted/60 flex w-full select-none items-center justify-between px-4 py-4 text-left text-base transition-all active:opacity-70',
       popover:
-        'hover:text-secondary-foreground text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
+        'hover:text-foreground-emphasis text-foreground duration-(--dur-normal) py-1 text-base transition-colors',
       /** Info pages desktop sidebar. */
       sidebar:
-        'text-muted-foreground hover:text-foreground duration-(--dur-normal) shrink-0 whitespace-nowrap text-base uppercase transition-colors',
+        'text-muted-foreground hover:text-action-primary shrink-0 whitespace-nowrap text-base uppercase transition-colors duration-200',
       /** Info pages mobile dropdown: full-width rows, 48px touch targets. */
       dropdown:
-        'text-muted-foreground hover:bg-muted/30 hover:text-foreground active:bg-muted/50 duration-(--dur-normal) flex min-h-12 w-full touch-manipulation items-center justify-between gap-4 px-4 text-sm uppercase transition-colors',
+        'text-muted-foreground hover:bg-muted hover:text-foreground-emphasis active:bg-muted flex min-h-12 w-full touch-manipulation items-center justify-between gap-4 px-4 text-sm uppercase transition-colors duration-200',
     },
     active: {
       true: '',

@@ -37,7 +37,7 @@ export function MobileMenuQuickActions({
         className={cn(
           'text-secondary-foreground rounded-none p-2',
           'border-border border-l',
-          'hover:text-foreground duration-(--dur-normal) transition-colors',
+          'hover:text-foreground-emphasis duration-(--dur-normal) transition-colors',
         )}
       >
         <AppLink
@@ -64,7 +64,7 @@ export function MobileMenuQuickActions({
         className={cn(
           'text-secondary-foreground group rounded-none p-2',
           'border-border border-l',
-          'hover:text-foreground duration-(--dur-normal) transition-colors',
+          'hover:text-foreground-emphasis duration-(--dur-normal) transition-colors',
         )}
       >
         <AppLink
@@ -90,7 +90,7 @@ export function MobileMenuQuickActions({
         onClick={onLanguageClick}
         aria-label={ariaLabelLangMenu}
         className={cn(
-          'text-secondary-foreground hover:text-foreground duration-(--dur-normal) group rounded-none p-2 transition-colors',
+          'text-secondary-foreground hover:text-foreground-emphasis duration-(--dur-normal) group rounded-none p-2 transition-colors',
           'border-border border-l',
         )}
       >

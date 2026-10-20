@@ -78,7 +78,7 @@ export function LanguageSwitcher({
                   'flex items-center justify-between py-3.5 text-sm tracking-wide transition-colors',
                   isActive
                     ? 'text-foreground font-semibold'
-                    : 'text-foreground hover:text-secondary-foreground font-normal',
+                    : 'text-foreground hover:text-foreground-emphasis font-normal',
                 )}
               >
                 <span>{codeTitle}</span>

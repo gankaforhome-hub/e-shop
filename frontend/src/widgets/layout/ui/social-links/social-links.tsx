@@ -63,7 +63,7 @@ export function SocialLinks({
               onClick={onItemClick}
               className={cn(
                 'group flex items-center gap-1',
-                'hover:text-foreground duration-(--dur-normal) transition-all',
+                'hover:text-foreground-emphasis duration-(--dur-normal) transition-all',
                 styles[variant].link,
               )}
             >
