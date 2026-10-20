@@ -26,6 +26,10 @@ export const headingVariants = cva('text-balance font-normal tracking-normal', {
     tone: {
       primary: 'text-foreground',
       accent: 'text-accent-foreground',
+      /** #22252a — primary page headings that need extra weight. */
+      emphasis: 'text-foreground-emphasis',
+      /** #080808 — exceptional highlights where max contrast is required. */
+      strong: 'text-foreground-strong',
     },
     position: {
       left: 'text-left',

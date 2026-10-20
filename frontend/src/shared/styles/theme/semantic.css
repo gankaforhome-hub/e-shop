@@ -7,13 +7,17 @@
 :root {
   /* Surfaces & text */
   --background: var(--primitive-neutral-0);
-  --foreground: var(--primitive-neutral-800); /* 15.4:1 */
+  --foreground: var(--primitive-neutral-ink); /* 7.5:1 */
+  /* Emphasis ink (15.4:1): main headings and hover of interactive text. */
+  --foreground-emphasis: var(--primitive-neutral-800);
+  /* Max-contrast ink (19.9:1): prices and exceptional heading highlights only. */
+  --foreground-strong: var(--primitive-neutral-900);
 
   --card: var(--primitive-neutral-300);
-  --card-foreground: var(--primitive-neutral-900);
+  --card-foreground: var(--primitive-neutral-ink);
 
   --popover: var(--primitive-neutral-0);
-  --popover-foreground: var(--primitive-neutral-900);
+  --popover-foreground: var(--primitive-neutral-ink);
 
   --muted: var(--primitive-neutral-100);
   /* 4.84:1 on background/popover; only 4.43:1 on --muted, 3.26:1 on --card —
@@ -27,7 +31,7 @@
   --primary-active: var(--primitive-brand-950);
 
   --secondary: var(--primitive-neutral-0);
-  --secondary-foreground: var(--primitive-neutral-900);
+  --secondary-foreground: var(--primitive-neutral-ink);
   --secondary-hover: var(--primitive-brand-700);
   --secondary-active: var(--primitive-brand-950);
 
@@ -40,7 +44,7 @@
   --destructive-hover: var(--primitive-brand-950);
 
   /* Icons */
-  --icon: var(--primitive-neutral-900);
+  --icon: var(--primitive-neutral-ink);
   --icon-hover: var(--primitive-brand-900);
   --icon-active: var(--primitive-brand-950);
   --logo: var(--primitive-logo-ink);
