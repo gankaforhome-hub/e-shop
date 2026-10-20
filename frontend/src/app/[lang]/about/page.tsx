@@ -60,7 +60,7 @@ export default async function AboutPage({ params }: IAboutPageProps) {
   // Philosophy → craft → values → media showcase → where to buy
   return (
     <>
-      <Breadcrumbs />
+      <Breadcrumbs spacing="editorial" />
       <AboutHeroSection {...aboutHero} />
       <ManifestoSection {...manifesto} />
       <ArtOfLivingSection {...artOfLiving} />
