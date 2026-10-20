@@ -20,6 +20,10 @@ import { Container } from '@/shared/ui/container';
 import { Icon } from '@/shared/ui/icon';
 
 import { BreadcrumbsSkeleton } from './breadcrumbs-skeleton';
+import {
+  breadcrumbsContainerVariants,
+  type BreadcrumbsSpacing,
+} from './breadcrumbs.styles';
 
 type AppLinkHref = ComponentProps<typeof AppLink>['href'];
 
@@ -31,6 +35,8 @@ export interface CustomBreadcrumbItem {
 interface BreadcrumbsProps {
   lastItemTitle?: string;
   items?: CustomBreadcrumbItem[];
+  /** `editorial` for pages whose first block is an editorial `Section`. */
+  spacing?: BreadcrumbsSpacing;
 }
 
 const IGNORED_SEGMENTS = new Set(['info']);
@@ -46,13 +52,17 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
     : 1;
 
   return (
-    <Suspense fallback={<BreadcrumbsSkeleton itemsCount={itemsCount} />}>
+    <Suspense
+      fallback={
+        <BreadcrumbsSkeleton itemsCount={itemsCount} spacing={props.spacing} />
+      }
+    >
       <BreadcrumbsTrail {...props} />
     </Suspense>
   );
 }
 
-function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
+function BreadcrumbsTrail({ lastItemTitle, items, spacing }: BreadcrumbsProps) {
   const t = useTranslations('common.navigation');
 
   const pathname = usePathname();
@@ -100,7 +110,7 @@ function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
   const hasExplicitCustomItems = Boolean(items && items.length > 0);
 
   return (
-    <Container className="pb-4 pt-2 md:pb-8 md:pt-4 xl:pb-16 xl:pt-8">
+    <Container className={breadcrumbsContainerVariants({ spacing })}>
       <Breadcrumb
         className="text-foreground"
         aria-label={t('aria.breadcrumbs.ariaLabel')}

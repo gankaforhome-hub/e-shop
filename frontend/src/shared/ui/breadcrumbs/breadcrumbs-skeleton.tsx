@@ -10,15 +10,22 @@ import {
 import { Container } from '@/shared/ui/container';
 import { Skeleton } from '@/shared/ui/skeleton';
 
+import {
+  breadcrumbsContainerVariants,
+  type BreadcrumbsSpacing,
+} from './breadcrumbs.styles';
+
 interface BreadcrumbsSkeletonProps {
   itemsCount?: number;
+  spacing?: BreadcrumbsSpacing;
 }
 
 export function BreadcrumbsSkeleton({
   itemsCount = 2,
+  spacing,
 }: BreadcrumbsSkeletonProps) {
   return (
-    <Container className="pb-4 pt-2 md:pb-8 md:pt-4 xl:pb-16 xl:pt-8">
+    <Container className={breadcrumbsContainerVariants({ spacing })}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
