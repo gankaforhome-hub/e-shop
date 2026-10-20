@@ -22,7 +22,12 @@ export async function FaqContentSection({ lang }: FaqContentSectionProps) {
       aria-labelledby="faq-content"
       className="fgap-5/8 flex flex-col"
     >
-      <Heading id="faq-content" headingLevel="h1" variant="document">
+      <Heading
+        id="faq-content"
+        headingLevel="h1"
+        variant="document"
+        tone="emphasis"
+      >
         {faq.pageTitle}
       </Heading>
       <Accordion
@@ -40,11 +45,12 @@ export async function FaqContentSection({ lang }: FaqContentSectionProps) {
             <AccordionTrigger
               indicator="chevron"
               size="compact"
-              className="font-text group-data-[state=open]:text-action-primary hover:text-action-primary duration-(--dur-normal) font-medium tracking-wide transition-colors"
+              className="font-text text-foreground group-data-[state=open]:text-foreground-emphasis hover:text-foreground-emphasis duration-(--dur-normal) font-medium tracking-wide transition-colors"
+              indicatorClassName="group-data-[state=open]:text-action-primary duration-(--dur-normal) transition-colors"
             >
               {item.question}
             </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground max-w-3xl">
+            <AccordionContent className="text-foreground max-w-3xl">
               {item.answer}
             </AccordionContent>
           </AccordionItem>
