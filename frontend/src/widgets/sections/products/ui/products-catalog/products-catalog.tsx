@@ -24,7 +24,6 @@ import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
 import { Text } from '@/shared/ui/text';
 
-import { CategoryFilter } from '../category-filter/category-filter';
 import { ProductGrid } from '../product-grid/product-grid';
 import { ProductGridSkeleton } from '../product-grid/product-grid-skeleton';
 
@@ -83,18 +82,19 @@ export async function ProductsCatalog({
   const groups = await getFilterGroups(facets, lang);
 
   const categoryChips = (align: 'center' | 'start') => (
-    <CategoryFilter
-      categories={categories}
-      labels={{
-        nav: common.catalog.filters.category,
-        all: common.catalog.filters.allCategories,
-      }}
-      activeCategory={category}
-      search={search}
-      sort={sort}
-      align={align}
-      size={align === 'start' ? 'small' : 'title'}
-    />
+    <div></div>
+    // <CategoryFilter
+    //   categories={categories}
+    //   labels={{
+    //     nav: common.catalog.filters.category,
+    //     all: common.catalog.filters.allCategories,
+    //   }}
+    //   activeCategory={category}
+    //   search={search}
+    //   sort={sort}
+    //   align={align}
+    //   size={align === 'start' ? 'small' : 'title'}
+    // />
   );
 
   return (
