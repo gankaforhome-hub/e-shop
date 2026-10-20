@@ -3,6 +3,11 @@ import { FavoriteButton } from '@/features/add-to-favorite';
 import { type Locale } from '@/shared/i18n/routing';
 import { cn } from '@/shared/lib/utils';
 
+import {
+  getProductGridItemClassName,
+  productGridClassName,
+} from './product-grid-layout';
+
 interface IProductGridProps {
   products: ProductCardDTO[];
   limit?: number;
@@ -25,22 +30,16 @@ export function ProductGrid({
   }
 
   return (
-    <ul
-      className={cn(
-        'grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4',
-        className,
-      )}
-    >
+    <ul className={cn(productGridClassName, className)}>
       {visibleProducts.map((product, index) => {
-        const isThird = (index + 1) % 3 === 0;
-        const isLast = index === visibleProducts.length - 1;
-        const isLastAlone = isLast && visibleProducts.length % 3 === 1;
         return (
           <li
             key={product.id}
-            className={
-              isMasonry || isThird || isLastAlone ? 'max-sm:col-span-2' : ''
-            }
+            className={getProductGridItemClassName(
+              index,
+              visibleProducts.length,
+              isMasonry,
+            )}
           >
             <ProductCard
               product={product}

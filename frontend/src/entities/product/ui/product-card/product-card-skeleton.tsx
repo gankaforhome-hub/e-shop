@@ -1,28 +1,34 @@
 import { Skeleton } from '@/shared/ui/skeleton';
 
+/**
+ * Mirrors `ProductCard` box by box: square media, then the details block
+ * with the same paddings and gaps. Each text bar sits in a wrapper with the
+ * card's typography and is `1lh` tall, so it takes exactly the height of the
+ * real line on every breakpoint (no layout shift on swap).
+ */
 export function ProductCardSkeleton() {
   return (
-    <article className="flex h-full animate-pulse flex-col overflow-hidden">
-      {/* Square image */}
-      <Skeleton className="aspect-square w-full" />
+    <article
+      aria-hidden="true"
+      className="font-caption flex h-full flex-col overflow-hidden"
+    >
+      <Skeleton className="aspect-square w-full rounded-none" />
 
-      {/* Content below image */}
-      <div className="flex flex-1 flex-col justify-between gap-1 p-2 pt-2">
-        <div className="flex flex-col gap-1.5">
-          {/* Категорія */}
-          <Skeleton className="h-3 w-1/3" />
-
-          {/* Product name (2 lines to simulate line-clamp-2) */}
-          <div className="space-y-1">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-3/4" />
+      <div className="flex flex-1 flex-col justify-between gap-1 p-2 pt-1">
+        <div className="flex flex-col gap-1">
+          {/* Collection */}
+          <div className="text-xs">
+            <Skeleton className="h-[1lh] w-1/3 rounded-sm" />
+          </div>
+          {/* Title: two lines (line-clamp-2) */}
+          <div className="text-sm leading-snug tracking-wide md:text-base">
+            <Skeleton className="h-[1lh] w-full rounded-sm" />
+            <Skeleton className="h-[1lh] w-3/4 rounded-sm" />
           </div>
         </div>
-
-        {/* Price and status */}
-        <div className="flex items-center justify-between pt-2">
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-12" />
+        {/* Price */}
+        <div className="text-sm md:text-base">
+          <Skeleton className="h-[1lh] w-20 rounded-sm" />
         </div>
       </div>
     </article>

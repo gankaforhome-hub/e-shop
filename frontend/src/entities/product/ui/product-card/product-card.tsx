@@ -130,7 +130,7 @@ export const ProductCard = ({
           <AppLink
             href={href}
             className={cn(
-              `text-foreground custom-transition leading-1.5 line-clamp-2 text-sm tracking-wide md:text-base`,
+              `text-foreground custom-transition line-clamp-2 text-sm leading-snug md:text-base`,
             )}
           >
             <span>{toSentenceCase(product.title, lang)}</span>
