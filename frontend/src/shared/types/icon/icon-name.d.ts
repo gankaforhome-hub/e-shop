@@ -1,5 +1,3 @@
-// Every name must have a component in ICON_MAP (shared/ui/icon/icon.tsx) — enforced by `satisfies`.
-
 export type IconName =
   | 'logo-icon'
   | 'logo-text'

@@ -16,7 +16,6 @@ interface IImageTextPanelProps extends ImageTextPanelContent {
   imageContainerClassName?: string;
   imageClassName?: string;
   textClassName?: string;
-  /** Set only when the panel image is the above-the-fold LCP candidate. */
   priority?: boolean;
 }
 
@@ -59,7 +58,6 @@ export function ImageTextPanel({
       <div
         className={cn(
           'bg-muted flex w-full flex-col justify-center gap-4 lg:min-w-0 lg:basis-1/2 2xl:gap-8',
-          // '2xl:py-30 px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:px-20',
           'fpy-6/30 fpx-6/30',
           imagePosition === 'right' ? 'lg:order-1' : '',
           textClassName,
