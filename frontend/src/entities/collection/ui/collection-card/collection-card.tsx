@@ -34,7 +34,7 @@ export function CollectionCard({
         variant="collectionCard"
         font="display"
         className={cn(
-          'mt-4 line-clamp-1 text-center first-letter:uppercase lg:mt-6',
+          'mt-3 line-clamp-1 text-center first-letter:uppercase',
           'group-hover:text-foreground/70 text-foreground duration-(--dur-slow) ease-subtle transition-colors',
         )}
       >

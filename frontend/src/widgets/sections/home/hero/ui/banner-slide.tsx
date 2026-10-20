@@ -55,6 +55,7 @@ export function BannerSlide({
 
         <Heading
           headingLevel="h2"
+          font="display"
           className="mt-2 text-4xl font-bold tracking-widest text-white drop-shadow-md sm:text-5xl"
         >
           {title}
