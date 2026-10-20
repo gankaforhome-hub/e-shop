@@ -2,11 +2,7 @@
  * Client-safe catalog API (no `server-only` DAL): filter attributes, URL query
  * parsing/serialization and label resolution. Server reads live in `./index`.
  */
-export {
-  CATALOG_PAGE_SIZE,
-  PRICE_RANGES,
-  type PriceRange,
-} from './config/catalog-filters';
+export { CATALOG_PAGE_SIZE } from './config/catalog-filters';
 export {
   CATALOG_FILTER_PARAMS,
   type CatalogFilterParam,
@@ -18,11 +14,16 @@ export {
   type FacetCounts,
   getFacetCounts,
   getFilterValues,
+  getPriceExtent,
+  hasPriceBounds,
   parseCatalogQuery,
+  PRICE_PARAMS,
+  type PriceBounds,
   type ProductFilters,
   serializeCatalogPage,
   serializeCatalogQuery,
   setCatalogSort,
+  setPriceBounds,
   toggleFilterValue,
 } from './lib/catalog-query';
 export {

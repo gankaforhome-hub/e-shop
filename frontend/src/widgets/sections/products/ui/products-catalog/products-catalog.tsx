@@ -14,7 +14,10 @@ import {
   getFavoriteIds,
   withFavorites,
 } from '@/features/add-to-favorite/server';
-import { CatalogToolbar } from '@/features/catalog-filters';
+import {
+  type CategoryFilterGroups,
+  CatalogToolbar,
+} from '@/features/catalog-filters';
 import { getFilterGroups } from '@/features/catalog-filters/server';
 import { CatalogFeed } from '@/features/catalog-pagination';
 import { routes } from '@/shared/config/routes';
@@ -22,18 +25,21 @@ import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
+import { Heading } from '@/shared/ui/heading';
 import { Text } from '@/shared/ui/text';
 
-import { CategoryFilter } from '../category-filter/category-filter';
+import { CatalogBreadcrumbs } from '../catalog-breadcrumbs/catalog-breadcrumbs';
 import { ProductGrid } from '../product-grid/product-grid';
 import { ProductGridSkeleton } from '../product-grid/product-grid-skeleton';
 
 /**
  * Scroll/focus anchor right above the catalog toolbar: page links, filter
- * changes and "Back to top" return here, so Filter, categories and Sort stay
+ * changes and "Back to top" return here, so Filter, count and Sort stay
  * visible under the fixed header (`scroll-padding-top` on `<html>`).
  */
 export const CATALOG_TOP_ID = 'catalog-top';
+
+const CATALOG_HEADING_ID = 'catalog-heading';
 
 /** Raw request query; validated by `parseCatalogQuery`. */
 export type ProductsSearchParams = Record<
@@ -49,8 +55,9 @@ interface ProductsCatalogProps {
 }
 
 /**
- * Toolbar (filter, categories, sort), paginated grid (`?page=`, 12 per page)
- * with "Load more", driven by the URL query and the favorites cookie.
+ * Breadcrumb header "Home / Catalog / Category" + hidden h1, toolbar
+ * (filter panel with categories, sort), paginated grid (`?page=`, 12 per
+ * page) with "Load more", driven by the URL query and the favorites cookie.
  */
 export async function ProductsCatalog({
   lang,
@@ -64,92 +71,112 @@ export async function ProductsCatalog({
   const favoriteIds = await getFavoriteIds();
   const ids = query.favoritesOnly ? [...favoriteIds] : undefined;
 
-  const baseParams = { lang, category, search, ...(ids && { ids }) };
-  const [{ data, meta }, facets, index, { common }] = await Promise.all([
-    getProducts({
-      lang,
-      limit,
-      page: query.page,
-      search,
-      category,
-      filters,
-      sort,
-      ...(ids && { ids }),
-    }),
-    getCatalogFacets(baseParams),
-    getCatalogIndex(baseParams),
-    getDictionary(['common'], lang),
-  ]);
-  const groups = await getFilterGroups(facets, lang);
-
-  const categoryChips = (align: 'center' | 'start') => (
-    <CategoryFilter
-      categories={categories}
-      labels={{
-        nav: common.catalog.filters.category,
-        all: common.catalog.filters.allCategories,
-      }}
-      activeCategory={category}
-      search={search}
-      sort={sort}
-      align={align}
-      size={align === 'start' ? 'small' : 'title'}
-    />
+  // The filter panel switches categories in its draft: it counts against
+  // every category and needs each category's groups up front (all cached)
+  const scopeParams = { lang, search, ...(ids && { ids }) };
+  const [{ data, meta }, index, { common }, ...scopeFacets] = await Promise.all(
+    [
+      getProducts({
+        lang,
+        limit,
+        page: query.page,
+        search,
+        category,
+        filters,
+        sort,
+        ...(ids && { ids }),
+      }),
+      getCatalogIndex(scopeParams),
+      getDictionary(['common'], lang),
+      getCatalogFacets(scopeParams),
+      ...categories.map(item =>
+        getCatalogFacets({ ...scopeParams, category: item.slug }),
+      ),
+    ],
   );
+  const [allGroups, ...categoryGroups] = await Promise.all(
+    scopeFacets.map(facets => getFilterGroups(facets, lang)),
+  );
+  const groups: CategoryFilterGroups = {
+    all: allGroups ?? [],
+    byCategory: Object.fromEntries(
+      categories.map((item, i) => [item.slug, categoryGroups[i] ?? []]),
+    ),
+  };
+
+  const activeCategory = categories.find(item => item.slug === category);
 
   return (
     <>
+      <CatalogBreadcrumbs
+        labels={{
+          home: common.navigation.main.home,
+          catalog: common.navigation.main.allProducts,
+          nav: common.navigation.aria.breadcrumbs.ariaLabel,
+        }}
+        categoryTitle={activeCategory?.title}
+        catalogHref={routes.products({ search, sort })}
+      />
+      {/* The page's only h1 (request-dependent, so inside Suspense); the
+          breadcrumb line is the visible header */}
+      <Heading id={CATALOG_HEADING_ID} headingLevel="h1" visibility="hidden">
+        {activeCategory?.title ?? common.navigation.main.allProducts}
+      </Heading>
       {/* Lands exactly at `scroll-padding-top` (= expanded header height,
           which is the header's state after any upward scroll): flush, no gap */}
       <div id={CATALOG_TOP_ID} tabIndex={-1} className="outline-none" />
-      <CatalogToolbar
-        scrollAnchorId={CATALOG_TOP_ID}
-        groups={groups}
-        total={meta.total}
-        index={index}
-        categories={{
-          bar: categoryChips('center'),
-          panel: categoryChips('start'),
-        }}
-      />
-      {data.length > 0 ? (
-        <CatalogFeed
+      {/* While the toolbar's navigation is pending (it carries
+          `data-catalog-pending`), the results dim and pulse softly: CSS
+          only, no shared client state between toolbar and server grid */}
+      <div className="group/catalog">
+        <CatalogToolbar
           scrollAnchorId={CATALOG_TOP_ID}
-          page={meta.page}
+          groups={groups}
           total={meta.total}
-          pageSize={meta.limit}
-          pageHrefs={Array.from({ length: meta.totalPages }, (_, index) =>
-            routes.products(serializeCatalogPage(query, index + 1)),
-          )}
-          queryKey={routes.products(serializeCatalogQuery(query))}
-          skeleton={
-            // Size of the next batch; 0 on the last page (no "Load more")
-            <ProductGridSkeleton
-              count={Math.max(
-                0,
-                Math.min(meta.limit, meta.total - meta.page * meta.limit),
+          index={index}
+          categories={categories.map(({ slug, title }) => ({ slug, title }))}
+        />
+        <div className="duration-(--dur-normal) transition-opacity group-has-[[data-catalog-pending]]/catalog:pointer-events-none group-has-[[data-catalog-pending]]/catalog:opacity-60 motion-safe:group-has-[[data-catalog-pending]]/catalog:animate-pulse">
+          {data.length > 0 ? (
+            <CatalogFeed
+              scrollAnchorId={CATALOG_TOP_ID}
+              page={meta.page}
+              total={meta.total}
+              pageSize={meta.limit}
+              pageHrefs={Array.from({ length: meta.totalPages }, (_, index) =>
+                routes.products(serializeCatalogPage(query, index + 1)),
               )}
-            />
-          }
-        >
-          <ProductGrid
-            products={withFavorites(data, favoriteIds)}
-            limit={limit}
-            lang={lang}
-          />
-        </CatalogFeed>
-      ) : (
-        <div className="flex flex-col items-center gap-4 px-4 py-16 text-center">
-          <Text variant="muted" size="document">
-            {common.catalog.filters.empty}
-          </Text>
-          <Button asChild variant="outline" size="small">
-            <AppLink href={routes.products({ category, search, sort })}>
-              {common.catalog.filters.clearAll}
-            </AppLink>
-          </Button>
+              queryKey={routes.products(serializeCatalogQuery(query))}
+              skeleton={
+                // Size of the next batch; 0 on the last page (no "Load more")
+                <ProductGridSkeleton
+                  count={Math.max(
+                    0,
+                    Math.min(meta.limit, meta.total - meta.page * meta.limit),
+                  )}
+                />
+              }
+            >
+              <ProductGrid
+                products={withFavorites(data, favoriteIds)}
+                limit={limit}
+                lang={lang}
+              />
+            </CatalogFeed>
+          ) : (
+            <div className="flex flex-col items-center gap-4 px-4 py-16 text-center">
+              <Text variant="muted" size="document">
+                {common.catalog.filters.empty}
+              </Text>
+              <Button asChild variant="outline" size="small">
+                <AppLink href={routes.products({ category, search, sort })}>
+                  {common.catalog.filters.clearAll}
+                </AppLink>
+              </Button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 }

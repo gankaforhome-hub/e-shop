@@ -1,33 +1,20 @@
-import { type ReactNode } from 'react';
-
 import { Skeleton } from '@/shared/ui/skeleton';
 
-interface CatalogToolbarSkeletonProps {
-  /** Category chips for the `lg+` centre slot (same markup as the real bar). */
-  categoryBar: ReactNode;
-}
-
-/** Mirrors `CatalogToolbar`: filter + count · categories · sort (`lg+`), filter · count · sort below. */
-export function CatalogToolbarSkeleton({
-  categoryBar,
-}: CatalogToolbarSkeletonProps) {
+/**
+ * Mirrors `CatalogToolbar`: Filter · Sort, plus the count from `md`
+ * (icons below 340px).
+ */
+export function CatalogToolbarSkeleton() {
   return (
-    <div className="px-4 pb-6">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-8">
-        <div
-          aria-hidden="true"
-          className="flex items-center gap-6 justify-self-start"
-        >
-          <Skeleton className="h-9 w-20" />
-          <Skeleton className="h-4 w-20 max-lg:hidden" />
-        </div>
-        <Skeleton aria-hidden="true" className="h-4 w-20 lg:hidden" />
-        <div className="max-lg:hidden">{categoryBar}</div>
-        <Skeleton
-          aria-hidden="true"
-          className="h-9 w-32 justify-self-end sm:w-52"
-        />
+    <div
+      aria-hidden="true"
+      className="flex w-full items-center justify-between gap-2 overflow-hidden px-4 pb-3 pt-1 md:gap-4 md:pb-5"
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        <Skeleton className="h-9 w-24 max-[339px]:w-9" />
+        <Skeleton className="h-4 w-24 max-md:hidden" />
       </div>
+      <Skeleton className="h-9 w-24 shrink-0 max-[339px]:w-9 sm:w-52" />
     </div>
   );
 }

@@ -41,10 +41,17 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
           variant="ghost"
           size="small"
           aria-label={t('current', { value: currentLabel })}
-          className="group gap-2 px-0"
+          className="group shrink-0 gap-2 px-0 max-[339px]:size-9"
         >
           <Icon name="sort" aria-hidden="true" className="size-4" />
-          <Text as="span" size="small" font="secondary" variant="inherit">
+          {/* Icon-only below 340px; `aria-label` keeps the accessible name */}
+          <Text
+            as="span"
+            size="small"
+            font="secondary"
+            variant="inherit"
+            className="max-[339px]:hidden"
+          >
             {t('label')}
             <Text
               as="span"
@@ -58,7 +65,7 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
           <Icon
             name="chevron-down"
             aria-hidden="true"
-            className="duration-(--dur-normal) ease-subtle size-4 transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none"
+            className="duration-(--dur-normal) ease-subtle size-4 transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none max-[339px]:hidden"
           />
         </Button>
       </DropdownMenuTrigger>

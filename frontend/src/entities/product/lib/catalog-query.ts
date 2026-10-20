@@ -8,11 +8,6 @@ import {
 } from '@/shared/config/routes';
 
 import {
-  PRICE_RANGE_BOUNDS,
-  PRICE_RANGES,
-  type PriceRange,
-} from '../config/catalog-filters';
-import {
   COLOR_DECORATIONS,
   CUP_TYPES,
   BURN_TIMES_HOURS,
@@ -50,8 +45,11 @@ export type ProductFilters = {
   collections: readonly string[];
   /** Season slugs (dynamic entities, validated by shape only). */
   seasons: readonly SeasonSlug[];
-  price: readonly PriceRange[];
+  price: PriceBounds;
 };
+
+/** Inclusive UAH bounds; a missing side is open. */
+export type PriceBounds = { min?: number; max?: number };
 
 /** Fully validated catalog URL state. */
 export type CatalogQuery = {
@@ -69,12 +67,15 @@ export const EMPTY_FILTERS: ProductFilters = {
   features: [],
   collections: [],
   seasons: [],
-  price: [],
+  price: {},
 };
 
 /** URL parameter of one filter group. */
 export type CatalogFilterParam =
-  ProductAttributeFilterKey | 'features' | 'collection' | 'season' | 'price';
+  ProductAttributeFilterKey | 'features' | 'collection' | 'season';
+
+/** URL params of the price range (`?minPrice=1900&maxPrice=5000`). */
+export const PRICE_PARAMS = { min: 'minPrice', max: 'maxPrice' } as const;
 
 type SearchParamsInput =
   URLSearchParams | Readonly<Record<string, string | string[] | undefined>>;
@@ -134,6 +135,26 @@ function parseAttributeFilters(
   };
 }
 
+/** Non-negative whole UAH; anything else is dropped. */
+function parsePrice(raw: string | undefined): number | undefined {
+  const amount = Number(raw);
+  return raw && Number.isSafeInteger(amount) && amount >= 0
+    ? amount
+    : undefined;
+}
+
+/** Drops missing sides and swaps reversed bounds (`min > max`). */
+export function normalizePriceBounds(bounds: PriceBounds): PriceBounds {
+  const { min, max } = bounds;
+  if (min !== undefined && max !== undefined && min > max) {
+    return { min: max, max: min };
+  }
+  return {
+    ...(min !== undefined && { min }),
+    ...(max !== undefined && { max }),
+  };
+}
+
 /** Positive integer page; anything else (missing, `0`, `2.5`, `abc`) → 1. */
 function parsePage(raw: string | undefined): number {
   const page = Number(raw);
@@ -164,7 +185,10 @@ export function parseCatalogQuery(input: SearchParamsInput): CatalogQuery {
       seasons: readValues(input, 'season').filter(slug =>
         SLUG_PATTERN.test(slug),
       ),
-      price: pickAllowed(PRICE_RANGES, readValues(input, 'price')),
+      price: normalizePriceBounds({
+        min: parsePrice(readFirst(input, PRICE_PARAMS.min)),
+        max: parsePrice(readFirst(input, PRICE_PARAMS.max)),
+      }),
     },
   };
 }
@@ -181,8 +205,6 @@ export function getFilterValues(
       return filters.collections;
     case 'season':
       return filters.seasons;
-    case 'price':
-      return filters.price;
     default: {
       const values: readonly (string | number)[] =
         filters.attributes[param] ?? [];
@@ -196,7 +218,6 @@ export const CATALOG_FILTER_PARAMS: readonly CatalogFilterParam[] = [
   'features',
   'collection',
   'season',
-  'price',
 ];
 
 function serializeFilters(filters: ProductFilters): Record<string, string> {
@@ -204,8 +225,13 @@ function serializeFilters(filters: ProductFilters): Record<string, string> {
     param =>
       [param, getFilterValues(filters, param).join(VALUE_SEPARATOR)] as const,
   ).filter(([, value]) => value !== '');
+  const { min, max } = filters.price;
 
-  return Object.fromEntries(entries);
+  return {
+    ...Object.fromEntries(entries),
+    ...(min !== undefined && { [PRICE_PARAMS.min]: String(min) }),
+    ...(max !== undefined && { [PRICE_PARAMS.max]: String(max) }),
+  };
 }
 
 /** Typed `routes.products()` params; pagination resets on every change. */
@@ -232,7 +258,6 @@ export function serializeCatalogPage(
   };
 }
 
-/** Adds/removes one value; the result is re-validated through the parser. */
 /** Replaces one group's values; the result is re-validated through the parser. */
 export function setFilterValues(
   filters: ProductFilters,
@@ -265,6 +290,18 @@ export function toggleFilterValue(
   );
 }
 
+/** Replaces the price range (normalized: open sides dropped, reversed swapped). */
+export function setPriceBounds(
+  filters: ProductFilters,
+  bounds: PriceBounds,
+): ProductFilters {
+  return { ...filters, price: normalizePriceBounds(bounds) };
+}
+
+export function hasPriceBounds({ price }: ProductFilters): boolean {
+  return price.min !== undefined || price.max !== undefined;
+}
+
 export function setCatalogSort(
   query: CatalogQuery,
   sort: ProductSort | undefined,
@@ -273,10 +310,11 @@ export function setCatalogSort(
   return sort ? { ...rest, sort } : rest;
 }
 
+/** Option values, plus one for a price range. */
 export function countActiveFilters(filters: ProductFilters): number {
   return CATALOG_FILTER_PARAMS.reduce(
     (total, param) => total + getFilterValues(filters, param).length,
-    0,
+    hasPriceBounds(filters) ? 1 : 0,
   );
 }
 
@@ -327,9 +365,33 @@ export function hasAttributeValue(
     : getAttributeValues(product.attributes, key).includes(value);
 }
 
-export function isInPriceRange(price: number, range: PriceRange): boolean {
-  const { min, max } = PRICE_RANGE_BOUNDS[range];
-  return price >= min && price < max;
+export function isInPriceBounds(price: number, bounds: PriceBounds): boolean {
+  return (
+    (bounds.min === undefined || price >= bounds.min) &&
+    (bounds.max === undefined || price <= bounds.max)
+  );
+}
+
+/**
+ * Lowest and highest SKU price in `index`; `undefined` when nothing matches.
+ * With `filters`, only SKUs matching them count, the price range itself
+ * excluded (faceted bounds: the slider never shrinks to its own selection).
+ */
+export function getPriceExtent(
+  index: readonly FilterableProduct<FilterableVariant>[],
+  filters?: ProductFilters,
+): { min: number; max: number } | undefined {
+  const scope = filters && { ...filters, price: {} };
+  const active = scope && getActiveSelections(scope);
+  const prices = index.flatMap(product =>
+    (scope
+      ? getMatchingVariants(product, scope, active)
+      : product.variants
+    ).map(variant => variant.price.amount),
+  );
+  return prices.length > 0
+    ? { min: Math.min(...prices), max: Math.max(...prices) }
+    : undefined;
 }
 
 type ActiveSelection = {
@@ -382,7 +444,8 @@ export function getMatchingVariants<V extends FilterableVariant>(
   if (!productMatches) {
     return [];
   }
-  if (active.variant.length === 0 && filters.price.length === 0) {
+  const hasPrice = hasPriceBounds(filters);
+  if (active.variant.length === 0 && !hasPrice) {
     return [...product.variants];
   }
 
@@ -391,10 +454,7 @@ export function getMatchingVariants<V extends FilterableVariant>(
       active.variant.every(selection =>
         matchesSelection(variant.attributes, selection),
       ) &&
-      (filters.price.length === 0 ||
-        filters.price.some(range =>
-          isInPriceRange(variant.price.amount, range),
-        )),
+      (!hasPrice || isInPriceBounds(variant.price.amount, filters.price)),
   );
 }
 
@@ -402,8 +462,13 @@ export function getMatchingVariants<V extends FilterableVariant>(
 /* Live counts (filter panel draft, server facets)                     */
 /* ------------------------------------------------------------------ */
 
-/** Compact, serializable product shape the client counts against. */
-export type CatalogIndexEntry = FilterableProduct<FilterableVariant>;
+/**
+ * Compact, serializable product shape the client counts against.
+ * `categorySlug` lets the filter panel narrow by a draft category.
+ */
+export type CatalogIndexEntry = FilterableProduct<FilterableVariant> & {
+  categorySlug: string;
+};
 
 /** Products in `index` with at least one SKU matching `filters`. */
 export function countMatchingProducts(

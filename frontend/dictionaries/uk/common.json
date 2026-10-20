@@ -129,7 +129,7 @@
     "loading": "Завантаження...",
     "success": "Успішно",
     "error": "Помилка",
-    "empty": "Нічого не знайдено",
+    "empty": "Збігів не знайдено",
     "comingSoon": "Незабаром у продажу"
   },
   "label": {
@@ -518,22 +518,30 @@
   },
   "catalog": {
     "filters": {
-      "open": "Фільтр",
+      "trigger": "{count, plural, =0 {Фільтр} other {Фільтр (#)}}",
       "title": "Фільтри",
       "close": "Закрити фільтри",
       "clearAll": "Скинути все",
       "apply": "Показати результати",
-      "showProducts": "Показати {count, plural, one {# товар} few {# товари} many {# товарів} other {# товару}}",
+      "showProducts": "{count, plural, =0 {Збігів не знайдено} other {Показати (#)}}",
       "showMore": "Показати більше ({count})",
       "showLess": "Згорнути",
-      "activeLabel": "Ваші фільтри",
+      "activeLabel": "Обрані фільтри",
       "remove": "Прибрати фільтр: {label}",
       "selected": "Обрано: {count}",
       "productsCount": "{count, plural, one {# товар} few {# товари} many {# товарів} other {# товару}}",
       "empty": "Немає товарів за обраними фільтрами.",
       "noFilters": "Для цього вибору фільтрів немає.",
       "category": "Категорія",
-      "allCategories": "Усі"
+      "allCategories": "Усі",
+      "searchOptions": "Пошук: {group}",
+      "noMatches": "Збігів не знайдено",
+      "priceFrom": "від",
+      "priceTo": "до",
+      "priceMin": "Мінімальна ціна",
+      "priceMax": "Максимальна ціна",
+      "priceChip": "{bound, select, both {{min}–{max} грн} min {від {min} грн} other {до {max} грн}}",
+      "clearPrice": "Скинути ціну"
     },
     "sort": {
       "label": "Сортування",
@@ -556,12 +564,6 @@
       "burnTimeHours": "{value} год",
       "heightCm": "{value} см",
       "piecesCount": "{value, plural, one {# предмет} few {# предмети} many {# предметів} other {# предмета}}"
-    },
-    "price": {
-      "under_1000": "До 1 000 грн",
-      "1000_2500": "1 000–2 500 грн",
-      "2500_5000": "2 500–5 000 грн",
-      "over_5000": "Понад 5 000 грн"
     },
     "pagination": {
       "loadMore": "Показати ще",

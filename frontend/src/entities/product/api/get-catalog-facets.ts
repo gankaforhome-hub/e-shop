@@ -17,13 +17,11 @@ import {
 import {
   getFeatureFlagsFor,
   getAttributeFiltersFor,
-  PRICE_RANGES,
 } from '../config/catalog-filters';
 import {
   type CatalogFilterParam,
   type CatalogIndexEntry,
   hasAttributeValue,
-  isInPriceRange,
 } from '../lib/catalog-query';
 import {
   PRODUCT_ATTRIBUTE_OPTIONS,
@@ -31,21 +29,21 @@ import {
 } from '../model/attributes';
 
 export type CatalogFacetOption = {
-  /** URL value (attribute key, flag, collection slug or price range). */
+  /** URL value (attribute key, flag, collection or season slug). */
   value: string;
   /** Products in the current category/search that match this value. */
   count: number;
   /**
    * Localized label from the translation tables (attribute values, features,
    * collection titles, seasons). Omitted for UI-formatted values: numeric
-   * attributes (unit templates) and price ranges (UI dictionary).
+   * attributes (unit templates).
    */
   label?: string;
 };
 
 export type CatalogFacetGroup = {
   param: CatalogFilterParam;
-  /** Attribute name from `attribute_translations`; UI groups (collection, features, price) omit it. */
+  /** Attribute name from `attribute_translations`; UI groups (collection, features) omit it. */
   label?: string;
   options: CatalogFacetOption[];
 };
@@ -61,7 +59,8 @@ export type GetCatalogFacetsParams = {
  * Panel order (top → bottom): collections · seasons & themes · material ·
  * colour/decoration · category-specific attributes (plate type, diameter,
  * volume, burn time, set type…) in `CATEGORY_ATTRIBUTE_FILTERS` order ·
- * usage features (dishwasher/microwave) · price.
+ * usage features (dishwasher/microwave). Price is a range control of the
+ * panel, bounded by the catalog index (`getPriceExtent`), not a facet group.
  */
 const SHARED_ATTRIBUTE_GROUPS = [
   'material',
@@ -91,7 +90,7 @@ const sortByLabel = (
 /**
  * Filter groups for the catalog panel, in the order documented on
  * `SHARED_ATTRIBUTE_GROUPS`. Counts are products in the category/search
- * result; variant-level values (diameter, volume…) and price count a product
+ * result; variant-level values (diameter, volume…) count a product
  * once if any of its SKUs has them. Empty values are omitted.
  */
 export async function getCatalogFacets(
@@ -205,18 +204,6 @@ export async function getCatalogFacets(
     ],
   };
 
-  const priceGroup: CatalogFacetGroup = {
-    param: 'price',
-    options: withProducts(
-      PRICE_RANGES.map(range => ({
-        value: range,
-        count: countBy(products, p =>
-          p.variants.some(v => isInPriceRange(v.price.amount, range)),
-        ),
-      })),
-    ),
-  };
-
   // Shared groups lead only when the category offers them (candles don't)
   const categoryKeys = getAttributeFiltersFor(params.category);
   const isShared = (key: ProductAttributeFilterKey) =>
@@ -230,7 +217,6 @@ export async function getCatalogFacets(
     ),
     ...categoryKeys.filter(key => !isShared(key)).map(attributeGroup),
     featureGroup,
-    priceGroup,
   ].filter(group => group.options.length > 0);
 }
 
@@ -253,6 +239,7 @@ export async function getCatalogIndex(
     const { attributes, collectionSlug, season, variants } =
       toFilterableProduct(product);
     return {
+      categorySlug: product.category.slug,
       attributes,
       collectionSlug,
       ...(season && { season }),

@@ -518,22 +518,30 @@
   },
   "catalog": {
     "filters": {
-      "open": "Filter",
+      "trigger": "{count, plural, =0 {Filter} other {Filter (#)}}",
       "title": "Filters",
       "close": "Close filters",
       "clearAll": "Clear all",
       "apply": "Show results",
-      "showProducts": "Show {count, plural, one {# product} other {# products}}",
+      "showProducts": "{count, plural, =0 {No matches found} other {Show (#)}}",
       "showMore": "Show more ({count})",
       "showLess": "Show less",
-      "activeLabel": "Your filters",
+      "activeLabel": "Selected filters",
       "remove": "Remove filter: {label}",
       "selected": "{count} selected",
       "productsCount": "{count, plural, one {# product} other {# products}}",
       "empty": "No products match the selected filters.",
       "noFilters": "No filters available for this selection.",
       "category": "Category",
-      "allCategories": "All"
+      "allCategories": "All",
+      "searchOptions": "Search {group}",
+      "noMatches": "No matches found",
+      "priceFrom": "from",
+      "priceTo": "to",
+      "priceMin": "Minimum price",
+      "priceMax": "Maximum price",
+      "priceChip": "{bound, select, both {UAH {min}–{max}} min {from UAH {min}} other {up to UAH {max}}}",
+      "clearPrice": "Reset price"
     },
     "sort": {
       "label": "Sort by",
@@ -556,12 +564,6 @@
       "burnTimeHours": "{value} h",
       "heightCm": "{value} cm",
       "piecesCount": "{value, plural, one {# piece} other {# pieces}}"
-    },
-    "price": {
-      "under_1000": "Under 1,000 UAH",
-      "1000_2500": "1,000–2,500 UAH",
-      "2500_5000": "2,500–5,000 UAH",
-      "over_5000": "Over 5,000 UAH"
     },
     "pagination": {
       "loadMore": "Load more",

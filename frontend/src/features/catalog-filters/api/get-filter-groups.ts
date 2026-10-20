@@ -17,8 +17,8 @@ import { type FilterGroupView } from '../model/types';
 /**
  * Turns facet groups into view models. Domain labels (attribute names, values,
  * seasons, collections) come translated from the DAL; this adds only the UI
- * wording from `common.catalog`: group headings for collection / features /
- * price, price-range labels and ICU unit templates for numeric attributes.
+ * wording from `common.catalog`: group headings for collection / features
+ * and ICU unit templates for numeric attributes.
  */
 export async function getFilterGroups(
   facets: CatalogFacetGroup[],
@@ -37,7 +37,7 @@ export async function getFilterGroups(
   return facets.map(group => ({
     param: group.param,
     // Attribute names / values arrive translated from the DAL (translation
-    // tables); only UI wording (group headings, prices, units) is resolved here
+    // tables); only UI wording (group headings, units) is resolved here
     label:
       group.label ??
       (isUiFilterGroup(group.param) ? dict.groups[group.param] : group.param),

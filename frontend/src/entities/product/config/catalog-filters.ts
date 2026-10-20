@@ -8,23 +8,6 @@ import {
 /** Products per catalog page (one "Load more" batch). */
 export const CATALOG_PAGE_SIZE = 12;
 
-/** Price buckets (UAH) shown as checkboxes; `max` is exclusive. */
-export const PRICE_RANGES = [
-  'under_1000',
-  '1000_2500',
-  '2500_5000',
-  'over_5000',
-] as const;
-
-export type PriceRange = (typeof PRICE_RANGES)[number];
-
-export const PRICE_RANGE_BOUNDS = {
-  under_1000: { min: 0, max: 1000 },
-  '1000_2500': { min: 1000, max: 2500 },
-  '2500_5000': { min: 2500, max: 5000 },
-  over_5000: { min: 5000, max: Number.POSITIVE_INFINITY },
-} as const satisfies Record<PriceRange, { min: number; max: number }>;
-
 /** Attribute groups shown when no category is selected. */
 export const DEFAULT_ATTRIBUTE_FILTERS = [
   'material',

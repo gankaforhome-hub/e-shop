@@ -1,7 +1,6 @@
 import { type CommonDict } from '@/shared/i18n/types';
 
 import { type CatalogFilterParam } from './catalog-query';
-import { type PriceRange } from '../config/catalog-filters';
 import { type AttributeLabels } from '../model/attribute-translations';
 import {
   type NumericAttributeFilterKey,
@@ -15,21 +14,23 @@ export type NumericAttributeKey =
   NumericAttributeFilterKey | NumericVariantAttributeKey;
 
 /** Filter groups whose heading is UI wording, not an attribute name. */
-export type UiFilterGroup = Extract<
+type UiFilterParam = Extract<
   CatalogFilterParam,
-  'collection' | 'season' | 'features' | 'price'
+  'collection' | 'season' | 'features'
 >;
+
+/** Headings from the UI dictionary; the price range is a control, not a facet param. */
+export type UiFilterGroup = UiFilterParam | 'price';
 
 /**
  * UI strings the catalog takes from the `common.catalog` dictionary. Domain
  * vocabulary lives in translation tables: attribute names and values
- * (`getAttributeLabels`), seasons (`getSeasons`, collection slice). The type fails `check-types` if a UI group heading,
- * unit template or price range lacks a translation.
+ * (`getAttributeLabels`), seasons (`getSeasons`, collection slice). The type fails `check-types` if a UI group heading
+ * or unit template lacks a translation.
  */
 type CompleteCatalogDict = {
   groups: Record<UiFilterGroup, string>;
   units: Record<NumericAttributeKey, string>;
-  price: Record<PriceRange, string>;
 };
 
 export type CatalogDict = CommonDict['catalog'] & CompleteCatalogDict;
@@ -52,21 +53,15 @@ const isNumericFilterKey = (
 ): key is NumericAttributeFilterKey =>
   (NUMERIC_FILTER_KEYS as readonly string[]).includes(key);
 
-const isPriceRange = (dict: CatalogDict, value: string): value is PriceRange =>
-  Object.hasOwn(dict.price, value);
-
 export const isUiFilterGroup = (
   param: CatalogFilterParam,
-): param is UiFilterGroup =>
-  param === 'collection' ||
-  param === 'season' ||
-  param === 'features' ||
-  param === 'price';
+): param is UiFilterParam =>
+  param === 'collection' || param === 'season' || param === 'features';
 
 /**
- * Label for values the translation tables don't carry: price ranges (UI
- * dictionary) and numeric attributes (unit template). Anything else falls back
- * to the raw key, so unexpected CMS data never breaks the UI.
+ * Label for values the translation tables don't carry: numeric attributes
+ * (unit template). Anything else falls back to the raw key, so unexpected CMS
+ * data never breaks the UI.
  */
 export function formatFilterOptionLabel(
   dict: CatalogDict,
@@ -74,9 +69,6 @@ export function formatFilterOptionLabel(
   param: CatalogFilterParam,
   value: string,
 ): string {
-  if (param === 'price') {
-    return isPriceRange(dict, value) ? dict.price[value] : value;
-  }
   if (isNumericFilterKey(param)) {
     const amount = Number(value);
     return Number.isFinite(amount) ? formatUnit(param, amount) : value;

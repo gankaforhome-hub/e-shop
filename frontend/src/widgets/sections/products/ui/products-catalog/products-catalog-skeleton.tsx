@@ -1,28 +1,18 @@
-import { type CategoryDTO } from '@/entities/category';
 import { CATALOG_PAGE_SIZE } from '@/entities/product/catalog';
 import { CatalogToolbarSkeleton } from '@/features/catalog-filters';
 
-import { CategoryFilter } from '../category-filter/category-filter';
+import { CatalogBreadcrumbsSkeleton } from '../catalog-breadcrumbs/catalog-breadcrumbs';
 import { ProductGridSkeleton } from '../product-grid/product-grid-skeleton';
 
-interface ProductsCatalogSkeletonProps {
-  categories: CategoryDTO[];
-  labels: { nav: string; all: string };
-}
-
 /**
- * Fallback for `ProductsCatalog`: same toolbar (with the real category chips,
- * which need no request data) and one page of card skeletons.
+ * Fallback for `ProductsCatalog`: breadcrumb line, toolbar and one page of
+ * card skeletons.
  */
-export function ProductsCatalogSkeleton({
-  categories,
-  labels,
-}: ProductsCatalogSkeletonProps) {
+export function ProductsCatalogSkeleton() {
   return (
     <>
-      <CatalogToolbarSkeleton
-        categoryBar={<CategoryFilter categories={categories} labels={labels} />}
-      />
+      <CatalogBreadcrumbsSkeleton />
+      <CatalogToolbarSkeleton />
       <ProductGridSkeleton count={CATALOG_PAGE_SIZE} />
     </>
   );

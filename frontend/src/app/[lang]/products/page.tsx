@@ -6,9 +6,7 @@ import { getCategories } from '@/entities/category';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
 import { BackToTop } from '@/shared/ui/back-to-top';
-import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Container } from '@/shared/ui/container';
-import { Heading } from '@/shared/ui/heading';
 import { Section } from '@/shared/ui/section';
 import {
   CATALOG_TOP_ID,
@@ -38,23 +36,11 @@ export default async function ProductsPage({
 
   return (
     <>
-      <Breadcrumbs />
       <Section>
         <Container>
-          <Heading headingLevel="h1" visibility="hidden">
-            {common.navigation.main.allProducts}
-          </Heading>
-          <Suspense
-            fallback={
-              <ProductsCatalogSkeleton
-                categories={categories}
-                labels={{
-                  nav: common.catalog.filters.category,
-                  all: common.catalog.filters.allCategories,
-                }}
-              />
-            }
-          >
+          {/* The breadcrumb header and h1 depend on `?category=`, so they
+              render inside the catalog's Suspense boundary */}
+          <Suspense fallback={<ProductsCatalogSkeleton />}>
             <ProductsCatalog
               lang={lang}
               categories={categories}

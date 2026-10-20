@@ -1,36 +1,29 @@
 'use client';
 
-import { type ReactNode } from 'react';
-
 import { useTranslations } from 'next-intl';
 
 import {
   type CatalogIndexEntry,
-  EMPTY_FILTERS,
   setCatalogSort,
-  toggleFilterValue,
 } from '@/entities/product/catalog';
-import { cn, scrollToTopIfHidden } from '@/shared/lib/utils';
+import { scrollToTopIfHidden } from '@/shared/lib/utils';
 import { Icon } from '@/shared/ui/icon';
 import { Text } from '@/shared/ui/text';
 
-import { ActiveFilters } from './active-filters';
 import { FilterSheet } from './filter-sheet';
 import { SortSelect } from './sort-select';
-import { type FilterGroupView } from '../model/types';
+import { type CategoryFilterGroups, type CategoryOption } from '../model/types';
 import { useCatalogQuery } from '../model/use-catalog-query';
 
 interface CatalogToolbarProps {
-  groups: FilterGroupView[];
+  /** Filter panel groups per category. */
+  groups: CategoryFilterGroups;
   /** Products matching the applied query (server count). */
   total: number;
-  /** Compact category/search result for live counts in the filter panel. */
+  /** Compact search result (all categories) for live counts in the panel. */
   index: readonly CatalogIndexEntry[];
-  /** Server-rendered category chips: toolbar centre (`lg+`) / filter sheet (below). */
-  categories: {
-    bar: ReactNode;
-    panel: ReactNode;
-  };
+  /** Localized categories, selectable only inside the filter sheet. */
+  categories: readonly CategoryOption[];
   /** `id` of the anchor above the toolbar that changes scroll back to. */
   scrollAnchorId: string;
 }
@@ -38,11 +31,9 @@ interface CatalogToolbarProps {
 function ProductsCount({
   total,
   isPending,
-  className,
 }: {
   total: number;
   isPending: boolean;
-  className?: string;
 }) {
   const t = useTranslations('common.catalog.filters');
 
@@ -53,7 +44,8 @@ function ProductsCount({
       size="none"
       font="secondary"
       aria-live="polite"
-      className={cn('relative text-xs tabular-nums sm:text-sm', className)}
+      // Visible from `md`; below it stays for screen readers only
+      className="relative whitespace-nowrap text-sm tabular-nums max-md:sr-only"
     >
       {t('productsCount', { count: total })}
       {/* Absolutely placed so the spinner never shifts the layout */}
@@ -69,11 +61,12 @@ function ProductsCount({
 }
 
 /**
- * Desktop: Filter + count · category chips (centre) · Sort.
- * Below `lg`: Filter · count (centre) · Sort; categories live in the sheet.
- * Then the active filters bar. Static on every viewport: it scrolls away with
- * the page. Every change resets to page 1 and, if the user had scrolled past
- * it, returns to `scrollAnchorId` (top of the catalog, right above this bar).
+ * Minimal bar: "Filter (N) · X products" · Sort from `md` (the page's only
+ * product count); below `md` just Filter · Sort, and below 340px both
+ * controls collapse to icons.
+ * Categories and the selected-filter summary live only in the filter sheet. Static: it
+ * scrolls away with the page. Every change resets to page 1 and, if the user
+ * had scrolled past it, returns to `scrollAnchorId` (right above this bar).
  * Must render inside `<Suspense>` (reads `useSearchParams`).
  */
 export function CatalogToolbar({
@@ -91,47 +84,37 @@ export function CatalogToolbar({
   };
 
   return (
-    <div className="flex flex-col gap-4 px-4 pb-6" aria-busy={isPending}>
-      {/* Equal side tracks below `lg` keep the count truly centred */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-8">
-        <div className="flex items-center gap-6 justify-self-start">
-          <FilterSheet
-            groups={groups}
-            filters={query.filters}
-            onApply={filters => navigate({ ...query, filters })}
-            index={index}
-            categories={categories.panel}
-          />
-          <ProductsCount
-            total={total}
-            isPending={isPending}
-            className="max-lg:hidden"
-          />
-        </div>
-        <ProductsCount
-          total={total}
+    <div
+      // `pt-1` keeps the buttons' focus rings inside the clipped box
+      className="flex w-full items-center justify-between gap-2 overflow-hidden px-4 pb-3 pt-1 md:gap-4 md:pb-5"
+      aria-busy={isPending}
+      // Read by the catalog grid wrapper (`group-has-[[data-catalog-pending]]`)
+      data-catalog-pending={isPending || undefined}
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        <FilterSheet
+          groups={groups}
+          categories={categories}
+          category={query.category}
+          filters={query.filters}
+          onApply={draft => navigate({ ...query, ...draft })}
           isPending={isPending}
-          className="lg:hidden"
+          index={index}
         />
-        <div className="max-lg:hidden">{categories.bar}</div>
-        <div className="justify-self-end">
-          <SortSelect
-            value={query.sort}
-            onChange={sort => navigate(setCatalogSort(query, sort))}
-          />
-        </div>
+        <Text
+          as="span"
+          variant="muted"
+          size="none"
+          aria-hidden="true"
+          className="text-sm max-md:hidden"
+        >
+          ·
+        </Text>
+        <ProductsCount total={total} isPending={isPending} />
       </div>
-
-      <ActiveFilters
-        groups={groups}
-        filters={query.filters}
-        onRemove={(param, value) =>
-          navigate({
-            ...query,
-            filters: toggleFilterValue(query.filters, param, value),
-          })
-        }
-        onClear={() => navigate({ ...query, filters: EMPTY_FILTERS })}
+      <SortSelect
+        value={query.sort}
+        onChange={sort => navigate(setCatalogSort(query, sort))}
       />
     </div>
   );
