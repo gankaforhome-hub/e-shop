@@ -577,5 +577,154 @@
       "showPrevious": "Показати попередню сторінку"
     },
     "backToTop": "Нагору"
+  },
+  "checkout": {
+    "pageTitle": "Оформлення замовлення",
+    "metaDescription": "Оформлення замовлення Ganka for Home: доставка Новою Поштою по Україні та міжнародна доставка.",
+    "region": {
+      "label": "Регіон доставки",
+      "ua": "Україна",
+      "international": "Міжнародна доставка"
+    },
+    "sections": {
+      "contact": "Контактні дані",
+      "delivery": "Доставка",
+      "payment": "Оплата",
+      "comment": "Коментар до замовлення"
+    },
+    "fields": {
+      "firstName": "Ім'я",
+      "lastName": "Прізвище",
+      "phone": "Телефон",
+      "email": "E-mail",
+      "city": "Місто",
+      "branch": "Відділення",
+      "locker": "Поштомат",
+      "street": "Вулиця",
+      "house": "Будинок",
+      "flat": "Квартира",
+      "preferredTime": "Бажаний час доставки",
+      "country": "Країна",
+      "postalCode": "Поштовий індекс",
+      "address": "Адреса доставки",
+      "billingSame": "Адреса для рахунку збігається з адресою доставки",
+      "billingAddress": "Адреса для рахунку",
+      "comment": "Коментар"
+    },
+    "placeholder": {
+      "firstName": "Ганна",
+      "lastName": "Шевченко",
+      "city": "Почніть вводити назву міста",
+      "selectBranch": "Оберіть відділення",
+      "selectLocker": "Оберіть поштомат",
+      "branchNumber": "Номер відділення або адреса",
+      "lockerNumber": "Номер поштомату або адреса",
+      "street": "вул. Хрещатик",
+      "house": "12",
+      "flat": "45",
+      "preferredTime": "Наприклад: будні після 18:00",
+      "country": "Польща",
+      "postalCode": "00-001",
+      "address": "Вулиця, будинок, квартира",
+      "comment": "Побажання щодо пакування чи доставки"
+    },
+    "hints": {
+      "cityNotListed": "Міста немає у списку — введіть номер або адресу вручну"
+    },
+    "delivery": {
+      "nova_poshta_branch": {
+        "title": "Відділення Нової Пошти",
+        "description": "1–3 дні, за тарифами перевізника"
+      },
+      "nova_poshta_locker": {
+        "title": "Поштомат Нової Пошти",
+        "description": "Цілодобово, посилки до 30 кг"
+      },
+      "nova_poshta_courier": {
+        "title": "Кур'єр Нової Пошти",
+        "description": "Доставка до дверей"
+      },
+      "scheduled_courier": {
+        "title": "Доставка кур'єром за узгодженим часом",
+        "description": "Узгодимо зручний час телефоном"
+      },
+      "international": {
+        "title": "Міжнародна доставка",
+        "description": "Вартість розраховуємо індивідуально"
+      }
+    },
+    "payment": {
+      "liqpay": {
+        "title": "Онлайн-оплата LiqPay",
+        "description": "Visa, Mastercard, Apple Pay, Google Pay"
+      },
+      "card": {
+        "title": "Переказ на рахунок",
+        "description": "Реквізити надішлемо після підтвердження"
+      },
+      "cod": {
+        "title": "Оплата при отриманні",
+        "description": "Накладений платіж Нової Пошти"
+      }
+    },
+    "summary": {
+      "title": "Ваше замовлення",
+      "items": "{count, plural, one {# товар} few {# товари} many {# товарів} other {# товару}}",
+      "subtotal": "Товари",
+      "shipping": "Доставка",
+      "shippingNote": "За тарифами перевізника",
+      "total": "До сплати",
+      "quantity": "× {count}"
+    },
+    "consent": "Я погоджуюся з <offer>офертою</offer> та <privacy>політикою конфіденційності</privacy>",
+    "submit": "Підтвердити замовлення",
+    "submitting": "Оформлюємо...",
+    "error": "Не вдалося оформити замовлення. Спробуйте ще раз.",
+    "empty": {
+      "title": "Ваш кошик порожній",
+      "description": "Додайте товари, щоб оформити замовлення.",
+      "action": "Перейти до каталогу"
+    },
+    "success": {
+      "pageTitle": "Замовлення оформлено",
+      "title": "Дякуємо!",
+      "message": "Ваше замовлення успішно оформлено. Ми зв'яжемося з Вами найближчим часом.",
+      "badge": "Замовлення прийнято",
+      "orderNumber": "Номер замовлення",
+      "details": {
+        "title": "Деталі замовлення",
+        "delivery": "Доставка",
+        "payment": "Оплата",
+        "total": "Сума"
+      },
+      "toHome": "На головну",
+      "toCatalog": "До каталогу"
+    },
+    "validation": {
+      "firstNameRequired": "Введіть ім'я",
+      "lastNameRequired": "Введіть прізвище",
+      "nameInvalid": "Використовуйте лише літери, пробіл, дефіс або апостроф",
+      "phoneRequired": "Введіть номер телефону",
+      "phoneInvalid": "Некоректний номер телефону",
+      "phoneUaInvalid": "Введіть номер у форматі +380XXXXXXXXX",
+      "emailRequired": "Введіть e-mail",
+      "emailInvalid": "Некоректна адреса e-mail",
+      "cityRequired": "Вкажіть місто",
+      "branchRequired": "Оберіть відділення",
+      "lockerRequired": "Оберіть поштомат",
+      "streetRequired": "Вкажіть вулицю",
+      "houseRequired": "Вкажіть номер будинку",
+      "preferredTimeRequired": "Вкажіть бажаний час доставки",
+      "countryRequired": "Вкажіть країну",
+      "postalCodeRequired": "Вкажіть поштовий індекс",
+      "postalCodeInvalid": "Некоректний поштовий індекс",
+      "addressRequired": "Вкажіть адресу доставки",
+      "billingAddressRequired": "Вкажіть адресу для рахунку",
+      "paymentUnavailable": "Цей спосіб оплати недоступний для міжнародної доставки",
+      "tooLong": "Занадто довге значення",
+      "commentMax": "Коментар не повинен перевищувати 500 символів",
+      "cartEmpty": "Кошик порожній",
+      "termsRequired": "Підтвердіть згоду з офертою та політикою конфіденційності"
+    }
   }
 }

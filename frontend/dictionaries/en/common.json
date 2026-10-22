@@ -577,5 +577,154 @@
       "showPrevious": "Show previous page"
     },
     "backToTop": "Back to top"
+  },
+  "checkout": {
+    "pageTitle": "Checkout",
+    "metaDescription": "Ganka for Home checkout: Nova Poshta delivery across Ukraine and international shipping.",
+    "region": {
+      "label": "Delivery region",
+      "ua": "Ukraine",
+      "international": "International delivery"
+    },
+    "sections": {
+      "contact": "Contact details",
+      "delivery": "Delivery",
+      "payment": "Payment",
+      "comment": "Order comment"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "E-mail",
+      "city": "City",
+      "branch": "Branch",
+      "locker": "Parcel locker",
+      "street": "Street",
+      "house": "House",
+      "flat": "Apartment",
+      "preferredTime": "Preferred delivery time",
+      "country": "Country",
+      "postalCode": "Postal code",
+      "address": "Shipping address",
+      "billingSame": "Billing address is the same as shipping address",
+      "billingAddress": "Billing address",
+      "comment": "Comment"
+    },
+    "placeholder": {
+      "firstName": "Hanna",
+      "lastName": "Shevchenko",
+      "city": "Start typing a city name",
+      "selectBranch": "Select a branch",
+      "selectLocker": "Select a parcel locker",
+      "branchNumber": "Branch number or address",
+      "lockerNumber": "Parcel locker number or address",
+      "street": "Khreshchatyk St",
+      "house": "12",
+      "flat": "45",
+      "preferredTime": "E.g. weekdays after 6 pm",
+      "country": "Poland",
+      "postalCode": "00-001",
+      "address": "Street, house, apartment",
+      "comment": "Packaging or delivery wishes"
+    },
+    "hints": {
+      "cityNotListed": "City not listed — enter the number or address manually"
+    },
+    "delivery": {
+      "nova_poshta_branch": {
+        "title": "Nova Poshta branch",
+        "description": "1–3 days, carrier rates apply"
+      },
+      "nova_poshta_locker": {
+        "title": "Nova Poshta parcel locker",
+        "description": "24/7, parcels up to 30 kg"
+      },
+      "nova_poshta_courier": {
+        "title": "Nova Poshta courier",
+        "description": "Door-to-door delivery"
+      },
+      "scheduled_courier": {
+        "title": "Courier at an agreed time",
+        "description": "We'll call to agree on a convenient time"
+      },
+      "international": {
+        "title": "International delivery",
+        "description": "Shipping cost is calculated individually"
+      }
+    },
+    "payment": {
+      "liqpay": {
+        "title": "Online payment via LiqPay",
+        "description": "Visa, Mastercard, Apple Pay, Google Pay"
+      },
+      "card": {
+        "title": "Bank transfer",
+        "description": "We'll send payment details after confirmation"
+      },
+      "cod": {
+        "title": "Cash on delivery",
+        "description": "Nova Poshta cash-on-delivery service"
+      }
+    },
+    "summary": {
+      "title": "Your order",
+      "items": "{count, plural, one {# item} other {# items}}",
+      "subtotal": "Items",
+      "shipping": "Shipping",
+      "shippingNote": "Carrier rates apply",
+      "total": "Total",
+      "quantity": "× {count}"
+    },
+    "consent": "I agree to the <offer>public offer</offer> and <privacy>privacy policy</privacy>",
+    "submit": "Place order",
+    "submitting": "Placing order...",
+    "error": "Could not place the order. Please try again.",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Add products to place an order.",
+      "action": "Go to catalog"
+    },
+    "success": {
+      "pageTitle": "Order placed",
+      "title": "Thank you!",
+      "message": "Your order has been placed successfully. We will contact you shortly.",
+      "badge": "Order accepted",
+      "orderNumber": "Order number",
+      "details": {
+        "title": "Order details",
+        "delivery": "Delivery",
+        "payment": "Payment",
+        "total": "Total"
+      },
+      "toHome": "Go to homepage",
+      "toCatalog": "Go to catalog"
+    },
+    "validation": {
+      "firstNameRequired": "Enter your first name",
+      "lastNameRequired": "Enter your last name",
+      "nameInvalid": "Use letters, spaces, hyphens or apostrophes only",
+      "phoneRequired": "Enter your phone number",
+      "phoneInvalid": "Invalid phone number",
+      "phoneUaInvalid": "Enter the number as +380XXXXXXXXX",
+      "emailRequired": "Enter your e-mail",
+      "emailInvalid": "Invalid e-mail address",
+      "cityRequired": "Enter your city",
+      "branchRequired": "Select a branch",
+      "lockerRequired": "Select a parcel locker",
+      "streetRequired": "Enter the street",
+      "houseRequired": "Enter the house number",
+      "preferredTimeRequired": "Enter the preferred delivery time",
+      "countryRequired": "Enter the country",
+      "postalCodeRequired": "Enter the postal code",
+      "postalCodeInvalid": "Invalid postal code",
+      "addressRequired": "Enter the shipping address",
+      "billingAddressRequired": "Enter the billing address",
+      "paymentUnavailable": "This payment method is unavailable for international delivery",
+      "tooLong": "Value is too long",
+      "commentMax": "Comment must not exceed 500 characters",
+      "cartEmpty": "Your cart is empty",
+      "termsRequired": "Please accept the public offer and privacy policy"
+    }
   }
 }
