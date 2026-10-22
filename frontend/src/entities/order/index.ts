@@ -1,6 +1,18 @@
 export {
+  deliveryMethods,
+  deliveryRegions,
+  isPaymentAvailable,
+  paymentMethods,
+  ukraineDeliveryMethods,
+  type DeliveryMethod,
+  type DeliveryRegion,
   type Order,
   type OrderCustomer,
+  type OrderPayload,
+  type OrderPayloadDelivery,
+  type OrderPayloadItem,
+  type OrderPayloadTotals,
   type OrderShipping,
   type OrderStatus,
+  type PaymentMethod,
 } from './model/types';
