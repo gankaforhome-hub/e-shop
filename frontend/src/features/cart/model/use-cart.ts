@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 
 import { useShallow } from 'zustand/react/shallow';
 
@@ -13,6 +13,18 @@ export function useCartRehydration() {
   useEffect(() => {
     void useCartStore.persist.rehydrate();
   }, []);
+}
+
+const subscribeHydration = (onChange: () => void) =>
+  useCartStore.persist.onFinishHydration(onChange);
+
+/** `false` on the server and until the persisted cart is restored. */
+export function useCartHydrated() {
+  return useSyncExternalStore(
+    subscribeHydration,
+    () => useCartStore.persist.hasHydrated(),
+    () => false,
+  );
 }
 
 export function useCart() {
