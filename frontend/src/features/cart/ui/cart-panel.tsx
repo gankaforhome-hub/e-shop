@@ -57,7 +57,7 @@ export default function CartPanel({ onNavigate }: CartPanelProps) {
           </Text>
         </div>
         <Button asChild size="full" className="py-3">
-          <AppLink href={routes.cart} onClick={onNavigate}>
+          <AppLink href={routes.checkout} onClick={onNavigate}>
             {t('action.checkout')}
           </AppLink>
         </Button>

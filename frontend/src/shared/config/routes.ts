@@ -11,7 +11,7 @@ export const staticRoutes = {
   releases: '/releases' as const,
   contacts: '/contacts' as const,
   cart: '/cart' as const,
-  checkouts: '/checkouts' as const,
+  checkout: '/checkout' as const,
   account: '/account' as const,
   wishlist: '/wishlist' as const,
 };
@@ -69,6 +69,11 @@ export type ProductsSearchParams = {
   filters?: Readonly<Record<string, string>> | undefined;
 };
 
+//INFO Route handlers (not pages: no locale prefix, never passed to AppLink)
+export const apiRoutes = {
+  checkout: '/api/checkout',
+} as const;
+
 //INFO Functions for dynamic routes
 export const dynamicRoutes = {
   info: (infoSlug: InfoSlug) => `/info/${infoSlug}` as const,
@@ -77,6 +82,11 @@ export const dynamicRoutes = {
     variantSku
       ? (`/product/${productSlug}?variant=${encodeURIComponent(variantSku)}` as const)
       : (`/product/${productSlug}` as const),
+  /** Confirmation screen; also the LiqPay `result_url` return target. */
+  checkoutSuccess: (orderId?: string) =>
+    orderId
+      ? (`/checkout/success?orderId=${encodeURIComponent(orderId)}` as const)
+      : ('/checkout/success' as const),
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,
   products: (params?: ProductsSearchParams) => {
