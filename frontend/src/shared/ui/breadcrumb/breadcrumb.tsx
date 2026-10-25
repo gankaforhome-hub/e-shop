@@ -1,13 +1,40 @@
 import { type ComponentProps } from 'react';
 
+import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
 
 import { cn } from '@/shared/lib/utils';
 
 import { Icon } from '../icon';
 
-function Breadcrumb({ ...props }: ComponentProps<'nav'>) {
-  return <nav data-slot="breadcrumb" {...props} />;
+/**
+ * Page-level breadcrumb rhythm (catalog reference): inner padding only, so
+ * trails line up identically on every page. Reuse it in skeletons.
+ */
+const breadcrumbVariants = cva('', {
+  variants: {
+    spacing: {
+      default: 'pb-3 pt-2 md:pb-4 md:pt-4',
+      none: '',
+    },
+  },
+  defaultVariants: {
+    spacing: 'default',
+  },
+});
+
+function Breadcrumb({
+  className,
+  spacing,
+  ...props
+}: ComponentProps<'nav'> & VariantProps<typeof breadcrumbVariants>) {
+  return (
+    <nav
+      data-slot="breadcrumb"
+      className={cn(breadcrumbVariants({ spacing }), className)}
+      {...props}
+    />
+  );
 }
 
 function BreadcrumbList({ className, ...props }: ComponentProps<'ol'>) {
@@ -107,4 +134,5 @@ export {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  breadcrumbVariants,
 };
