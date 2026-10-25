@@ -100,7 +100,7 @@ function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
   const hasExplicitCustomItems = Boolean(items && items.length > 0);
 
   return (
-    <Container className="pb-4 pt-2 md:pb-8 md:pt-4 xl:pb-16 xl:pt-8">
+    <Container>
       <Breadcrumb
         className="text-foreground"
         aria-label={t('aria.breadcrumbs.ariaLabel')}

@@ -1,6 +1,7 @@
 import { type ComponentProps } from 'react';
 
 import { routes } from '@/shared/config/routes';
+import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import {
   Breadcrumb,
@@ -9,6 +10,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  breadcrumbVariants,
 } from '@/shared/ui/breadcrumb';
 import { Icon } from '@/shared/ui/icon';
 import { Skeleton } from '@/shared/ui/skeleton';
@@ -26,13 +28,6 @@ interface CatalogBreadcrumbsProps {
   catalogHref: ComponentProps<typeof AppLink>['href'];
 }
 
-/**
- * The catalog's only header: "Home / Catalog / Category", styled like the
- * shared `Breadcrumbs` (home icon, brand-coloured home link) but with
- * compact paddings; "Catalog" clears the category in one click. No count
- * here: the toolbar holds the page's single product count. Server-rendered
- * from the parsed query, so it lives inside the catalog's Suspense boundary.
- */
 export function CatalogBreadcrumbs({
   labels,
   categoryTitle,
@@ -41,10 +36,7 @@ export function CatalogBreadcrumbs({
   const current = categoryTitle ?? labels.catalog;
 
   return (
-    <Breadcrumb
-      aria-label={labels.nav}
-      className="text-foreground pb-3 pt-2 md:pb-4 md:pt-4"
-    >
+    <Breadcrumb aria-label={labels.nav} className="text-foreground">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
@@ -81,14 +73,13 @@ export function CatalogBreadcrumbs({
   );
 }
 
-/** Same line height (breadcrumb list type, `1lh`) and paddings. */
 export function CatalogBreadcrumbsSkeleton() {
   return (
     <div
       aria-hidden="true"
-      className="pb-3 pt-2 text-sm md:pb-4 md:pt-4 md:text-base"
+      className={cn(breadcrumbVariants(), 'text-sm md:text-base')}
     >
-      <Skeleton className="h-[1lh] w-48 md:w-64" />
+      <Skeleton className="h-lh w-48 md:w-64" />
     </div>
   );
 }

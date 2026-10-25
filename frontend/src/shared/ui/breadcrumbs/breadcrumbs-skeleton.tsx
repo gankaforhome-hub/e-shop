@@ -18,13 +18,13 @@ export function BreadcrumbsSkeleton({
   itemsCount = 2,
 }: BreadcrumbsSkeletonProps) {
   return (
-    <Container className="pb-4 pt-2 md:pb-8 md:pt-4 xl:pb-16 xl:pt-8">
-      <Breadcrumb>
+    <Container>
+      <Breadcrumb aria-hidden="true">
         <BreadcrumbList>
           <BreadcrumbItem>
             <div className="flex items-center gap-2">
               <Skeleton className="size-4" />
-              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-[1lh] w-16" />
             </div>
           </BreadcrumbItem>
 
@@ -33,7 +33,7 @@ export function BreadcrumbsSkeleton({
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <Skeleton
-                  className={`h-4 ${
+                  className={`h-[1lh] ${
                     index === itemsCount - 1 ? 'w-28' : 'w-20'
                   }`}
                 />
