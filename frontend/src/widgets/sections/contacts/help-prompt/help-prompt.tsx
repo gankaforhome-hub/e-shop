@@ -1,7 +1,6 @@
 import { type AppRoutes } from '@/shared/config/routes';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
-import { Icon } from '@/shared/ui/icon';
 import { SectionHeader } from '@/shared/ui/section-header';
 
 export interface HelpPromptProps {
@@ -30,14 +29,9 @@ export function HelpPrompt({
         description={description}
         accent
       />
-      <Button
-        asChild
-        variant="outline"
-        className="min-h-11 w-full gap-2 sm:w-auto"
-      >
+      <Button asChild variant="outline" className="min-h-11 w-full sm:w-auto">
         <AppLink href={href} prefetch>
           {linkLabel}
-          <Icon name="arrow-up-right" className="size-4" aria-hidden />
         </AppLink>
       </Button>
     </div>
