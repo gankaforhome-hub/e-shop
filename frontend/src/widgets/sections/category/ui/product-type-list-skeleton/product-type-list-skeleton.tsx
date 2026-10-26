@@ -15,13 +15,13 @@ export function ProductTypeListSkeleton({
       <ul
         className={cn(
           'scrollbar-none flex w-full min-w-0 justify-start overflow-hidden py-2',
-          'gap-4 lg:gap-8 xl:gap-10 2xl:gap-12',
+          'gap-3 md:gap-4 lg:gap-8 xl:gap-10 2xl:gap-12',
         )}
       >
         {repeat(count).map((_, index) => (
           <li
             key={index}
-            className="flex w-[calc((100%-24px)/3)] shrink-0 justify-center sm:w-auto"
+            className="flex w-[calc((100%-36px)/3.5)] min-w-20 shrink-0 justify-center sm:w-auto"
           >
             <div className="flex flex-col items-center gap-3 text-center">
               <Skeleton className="h-20 w-20 rounded-full sm:h-28 sm:w-28 lg:h-36 lg:w-36 xl:h-40 xl:w-40" />

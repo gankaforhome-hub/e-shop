@@ -16,13 +16,19 @@ export function ProductTypeList({
     <ScrollableContainer
       indicatorType="dots"
       as="ul"
-      gapClassName="gap-4 lg:gap-8 xl:gap-10 2xl:gap-12"
+      // Below sm ~3.5 items per view: 3 full gaps (3 × 12px) + 3.5 widths;
+      // min-w-20 keeps the 80px circle inside its item on 320px screens
+      gapClassName="gap-3 md:gap-4 lg:gap-8 xl:gap-10 2xl:gap-12"
+      // The scroller clips both axes (overflow-x forces overflow-y): room for
+      // the card's hover scale + shadow, cancelled by negative margins so the
+      // list keeps its box; scroll-px keeps snap points where they were
+      scrollClassName="-mx-3 -my-2 w-[calc(100%+1.5rem)] scroll-px-3 px-3 py-4"
       className={className}
     >
       {categories.map(item => (
         <li
           key={item.id}
-          className="flex w-[calc((100%-24px)/3)] shrink-0 snap-start justify-center sm:w-auto"
+          className="flex w-[calc((100%-36px)/3.5)] min-w-20 shrink-0 snap-start justify-center sm:w-auto"
         >
           <CategoryCard
             slug={item.slug}
