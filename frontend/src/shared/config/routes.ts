@@ -72,6 +72,7 @@ export type ProductsSearchParams = {
 //INFO Route handlers (not pages: no locale prefix, never passed to AppLink)
 export const apiRoutes = {
   checkout: '/api/checkout',
+  leads: '/api/leads',
 } as const;
 
 //INFO Functions for dynamic routes

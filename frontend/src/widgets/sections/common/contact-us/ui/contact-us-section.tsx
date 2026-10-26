@@ -21,6 +21,7 @@ interface IContactUsSectionProps extends IContactUsBlockProps {
 export const ContactUsSection = ({
   sectionIntro,
   header,
+  formId,
   contactUsForm,
   social,
   headingId = 'contact-us-form',
@@ -31,7 +32,11 @@ export const ContactUsSection = ({
       <Section aria-labelledby={headingId} spacing={spacing}>
         <Container className="fgap-8/14 flex flex-col">
           {header}
-          <ContactUsBlock contactUsForm={contactUsForm} social={social} />
+          <ContactUsBlock
+            formId={formId}
+            contactUsForm={contactUsForm}
+            social={social}
+          />
         </Container>
       </Section>
     );
@@ -52,7 +57,11 @@ export const ContactUsSection = ({
           </Heading>
         )}
 
-        <ContactUsBlock contactUsForm={contactUsForm} social={social} />
+        <ContactUsBlock
+          formId={formId}
+          contactUsForm={contactUsForm}
+          social={social}
+        />
       </Container>
     </Section>
   );

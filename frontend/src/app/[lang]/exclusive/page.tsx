@@ -38,6 +38,7 @@ export default async function ExclusivePage({ params }: IExclusivePageProps) {
       </Container>
       <HeroExclusive {...exclusive.hero} />
       <ContactUsSection
+        formId="exclusive_form"
         sectionIntro={{
           title: exclusive.customOrder.title,
           description: exclusive.customOrder.description,

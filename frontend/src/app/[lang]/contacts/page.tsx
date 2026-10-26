@@ -56,6 +56,7 @@ export default async function ContactsPage({ params }: IContactsPageProps) {
         contacts={contactLinks}
       />
       <ContactUsSection
+        formId="contacts_form"
         spacing="standard"
         headingId={FORM_HEADING_ID}
         header={

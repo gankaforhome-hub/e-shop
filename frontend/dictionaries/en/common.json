@@ -108,8 +108,8 @@
     },
     "status": {
       "sending": "Sending...",
-      "success": "Your message has been sent successfully!",
-      "error": "Failed to send message. Please try again."
+      "success": "Thank you! Your message has been sent successfully. We will get back to you shortly.",
+      "error": "We couldn't send the form. Please try again or contact us directly."
     }
   },
   "action": {
