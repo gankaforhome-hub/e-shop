@@ -75,7 +75,6 @@ export default async function CollectionPage({ params }: PageProps) {
             headingVisible
           />
           <ImageTextPanel
-            className="fmt-4/14"
             image={collection.media}
             paragraphs={collection.description}
             imagePosition="left"

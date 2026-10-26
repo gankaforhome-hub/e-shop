@@ -23,7 +23,7 @@ export function OurStorySection({
           heading={heading}
           description={description}
         />
-        <div className="shadow-card 2xl:aspect-1754/988 relative mt-4 aspect-square sm:aspect-video md:mt-8 lg:mt-10 xl:mt-16">
+        <div className="shadow-card 2xl:aspect-1754/988 relative aspect-square sm:aspect-video">
           <AppMedia
             src={image.src}
             alt={image.alt}

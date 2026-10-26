@@ -30,7 +30,9 @@ export const ContactUsSection = ({
   if (header) {
     return (
       <Section aria-labelledby={headingId} spacing={spacing}>
-        <Container className="fgap-8/14 flex flex-col">
+        {/* One gap owns header → form spacing (former fgap-8/14 + the
+            panel's mt-4/md:mt-8; same 48px / 88px end values) */}
+        <Container className="fgap-12/22 flex flex-col">
           {header}
           <ContactUsBlock
             formId={formId}
@@ -58,6 +60,7 @@ export const ContactUsSection = ({
         )}
 
         <ContactUsBlock
+          className={sectionIntro ? undefined : 'mt-4 md:mt-8'}
           formId={formId}
           contactUsForm={contactUsForm}
           social={social}

@@ -42,12 +42,7 @@ export function ImageTextPanel({
   priority = false,
 }: IImageTextPanelProps) {
   return (
-    <div
-      className={cn(
-        'mt-4 flex flex-col gap-4 md:mt-8 md:gap-1 lg:mt-10 lg:flex-row xl:mt-16',
-        className,
-      )}
-    >
+    <div className={cn('flex flex-col gap-4 md:gap-1 lg:flex-row', className)}>
       <div
         className={cn(
           'min-h-85 relative aspect-square w-full lg:min-w-0 lg:basis-1/2',

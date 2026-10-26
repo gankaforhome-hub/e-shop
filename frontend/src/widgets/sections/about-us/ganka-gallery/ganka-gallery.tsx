@@ -33,7 +33,6 @@ export function GankaGallerySection({
         <Suspense fallback={<GankaGallerySkeleton count={4} />}>
           <ScrollableContainer
             as="ul"
-            className="fmt-4/16"
             indicatorType="progress"
             scrollClassName="xl:grid xl:grid-cols-4 xl:overflow-visible"
             indicatorClassName="xl:!hidden mt-3 md:px-20"

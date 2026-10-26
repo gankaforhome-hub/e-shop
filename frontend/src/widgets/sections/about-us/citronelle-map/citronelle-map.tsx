@@ -31,9 +31,8 @@ export function CitronelleMapSection({
           headingId="citronelle-heading"
           heading={heading}
           description={description}
-          textPosition="center"
         />
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-12 md:items-stretch">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:items-stretch">
           <div
             className={cn(
               'bg-muted 2xl:py-30 flex w-full flex-col justify-center gap-4 px-4 py-6 md:px-6 lg:px-5 lg:py-5 xl:px-10 xl:py-10 2xl:gap-8 2xl:px-20',

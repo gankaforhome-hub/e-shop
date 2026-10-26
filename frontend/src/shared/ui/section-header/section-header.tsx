@@ -10,8 +10,16 @@ const sectionHeaderVariants = cva('fgap-3/5 flex w-full flex-col', {
       center: 'items-center text-center',
       start: 'items-start text-left',
     },
+    // Gap to the block that follows, owned here so siblings carry no top
+    // margin. Padding, not margin: primitives set no external spacing.
+    // `fromMd`: below md the header sits in a padded card (ContentGridSection)
+    spacing: {
+      none: '',
+      default: 'fpb-4/14',
+      fromMd: 'md:fpb-4/14',
+    },
   },
-  defaultVariants: { align: 'center' },
+  defaultVariants: { align: 'center', spacing: 'none' },
 });
 
 export interface SectionHeaderProps extends VariantProps<
@@ -20,24 +28,41 @@ export interface SectionHeaderProps extends VariantProps<
   heading: string;
   headingId: string;
   headingLevel?: 'h1' | 'h2' | 'h3';
+  /** `false` keeps the heading for screen readers only (`sr-only`). */
+  headingVisible?: boolean;
+  /** `display` = Playfair, for collection names only. */
+  headingFont?: 'display';
+  /** Heading only (e.g. tracking); width and alignment belong to the header. */
+  headingClassName?: string;
   eyebrow?: string;
   description?: string;
+  /** Description ink: `muted` for editorial blocks, `default` for body copy. */
+  descriptionTone?: 'muted' | 'default';
   accent?: boolean;
   className?: string;
 }
 
+/**
+ * Centered section header: optional eyebrow, heading, accent line and a lead
+ * description (left-aligned, 80% wide from `lg`).
+ */
 export function SectionHeader({
   heading,
   headingId,
   headingLevel = 'h2',
+  headingVisible = true,
+  headingFont,
+  headingClassName,
   eyebrow,
   description,
+  descriptionTone = 'muted',
   accent = false,
   align,
+  spacing,
   className,
 }: SectionHeaderProps) {
   return (
-    <header className={cn(sectionHeaderVariants({ align }), className)}>
+    <div className={cn(sectionHeaderVariants({ align, spacing }), className)}>
       {eyebrow && (
         <Text as="p" size="eyebrow" font="secondary" variant="muted">
           {eyebrow}
@@ -46,8 +71,10 @@ export function SectionHeader({
       <Heading
         headingLevel={headingLevel}
         variant="section"
+        font={headingFont}
+        visibility={headingVisible ? null : 'hidden'}
         id={headingId}
-        className="max-w-title"
+        className={cn('max-w-title', headingClassName)}
       >
         {heading}
       </Heading>
@@ -58,12 +85,16 @@ export function SectionHeader({
         <Text
           size="lead"
           font="secondary"
-          variant="muted"
-          className="w-full text-left lg:w-4/5"
+          variant={descriptionTone === 'muted' ? 'muted' : 'default'}
+          // className="w-full max-md:px-4 max-lg:md:px-8 lg:max-w-[90%] lg:text-center"
+          className={cn(
+            'mx-auto px-4 md:max-w-[95%] md:px-8 lg:max-w-full',
+            'items-start text-left',
+          )}
         >
           {description}
         </Text>
       )}
-    </header>
+    </div>
   );
 }

@@ -1,8 +1,7 @@
-import { type ReactNode } from 'react';
-
-import { cn } from '@/shared/lib/utils';
-import { Heading } from '@/shared/ui/heading';
-import { Text } from '@/shared/ui/text';
+import {
+  SectionHeader,
+  type SectionHeaderProps,
+} from '@/shared/ui/section-header';
 
 interface ISectionIntroProps {
   heading: string;
@@ -12,49 +11,42 @@ interface ISectionIntroProps {
   headingVisible?: boolean;
   /** `display` = Playfair, for collection names only. */
   headingFont?: 'display';
+  /** `fromMd` inside a mobile card; `none` when nothing follows the intro. */
+  spacing?: SectionHeaderProps['spacing'];
+  /** Heading only (e.g. tracking); the intro owns width and alignment. */
   className?: string;
-  textPosition?: 'center';
-  descriptionClassName?: string;
-  children?: ReactNode;
+  /** Layout only: margins/order of the intro block inside its parent. */
+  wrapperClassName?: string;
 }
 
+/**
+ * Section intro on the shared `SectionHeader` layout (the contacts "Still have
+ * questions?" block): heading visually hidden by default, description in body
+ * ink, followed by the section's standard gap to the next block.
+ */
 export function SectionIntro({
   heading,
   description,
   headingId,
   headingLevel = 'h2',
-  headingVisible,
+  headingVisible = false,
   headingFont,
+  spacing = 'default',
   className,
-  textPosition,
-  descriptionClassName,
+  wrapperClassName,
 }: ISectionIntroProps) {
   return (
-    <>
-      <Heading
-        headingLevel={headingLevel}
-        variant="section"
-        font={headingFont}
-        position="center"
-        className={cn(
-          'mx-auto mb-8 text-balance md:mb-6 md:max-w-[80%] xl:mb-16',
-          className,
-        )}
-        visibility={headingVisible ? null : 'hidden'}
-        id={headingId}
-      >
-        {heading}
-      </Heading>
-
-      <Text
-        className={cn(
-          'mx-auto px-4 md:max-w-[95%] lg:max-w-full',
-          textPosition === 'center' ? 'md:text-balance md:text-center' : '',
-          descriptionClassName,
-        )}
-      >
-        {description}
-      </Text>
-    </>
+    <SectionHeader
+      heading={heading}
+      headingId={headingId}
+      headingLevel={headingLevel}
+      headingVisible={headingVisible}
+      headingFont={headingFont}
+      headingClassName={className}
+      description={description}
+      descriptionTone="default"
+      spacing={spacing}
+      className={wrapperClassName}
+    />
   );
 }
