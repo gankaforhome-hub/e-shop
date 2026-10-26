@@ -30,6 +30,8 @@ export const textVariants = cva('font-normal tracking-normal', {
       fluid: 'ftext-4/4.5 fleading-6/7',
       document: 'text-sm leading-relaxed md:text-base',
       small: 'text-sm',
+      lead: 'text-base leading-relaxed xl:text-lg',
+      eyebrow: 'text-xs uppercase tracking-widest',
       none: '',
     },
     position: {
