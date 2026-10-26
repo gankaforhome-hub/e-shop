@@ -19,13 +19,11 @@
    declared directly in theme/radius.css, theme/shadows.css, theme/motion.css. */
 @theme inline {
   --breakpoint-3xl: 120rem;
-  /* Noto is the only UI font (Tailwind default + text/caption aliases). */
+  --container-title: 56rem; /* 896px */
   --font-sans: var(--font-noto);
   --font-text: var(--font-noto);
   --font-caption: var(--font-noto);
-  /* Single exception: collection card titles (`Heading variant="collectionCard"`). */
   --font-display: var(--font-playfair);
-  /* Aliases of --primary kept for existing usages: brand, accent-border. */
   --color-brand: var(--primary);
 
   --color-background: var(--background);
@@ -59,6 +57,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-surface-brand-subtle: var(--surface-brand-subtle);
+  --color-surface-warm: var(--surface-warm);
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);

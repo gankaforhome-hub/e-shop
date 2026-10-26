@@ -38,6 +38,9 @@
   --accent: var(--primitive-brand-200);
   --accent-foreground: var(--primitive-brand-900); /* 6.39:1 on --accent */
   --surface-brand-subtle: var(--primitive-brand-100);
+  /* Editorial surfaces (contact channel icons). --foreground on it is ~6.8:1;
+     keep --muted-foreground for large text only. */
+  --surface-warm: var(--primitive-sand-50);
 
   --destructive: var(--primitive-red-600); /* 4.83:1 */
   --destructive-foreground: var(--primitive-neutral-0);
