@@ -6,6 +6,8 @@ import { cn, isVideoUrl } from '@/shared/lib/utils';
 import { Overlay } from '@/shared/ui/overlay';
 import { VideoPlayer } from '@/shared/ui/video-player';
 
+import { FadeImage } from './fade-image';
+
 /**
  * Static 1×1 SVG in the shimmer base tone (#f6f7f8), ~170 bytes.
  * Replaces the per-image animated shimmer SVG; real blur comes via `blurDataURL`.
@@ -63,21 +65,32 @@ export function AppMedia({
       />
     );
   } else {
+    // Above-the-fold images paint at once with the placeholder; lazy ones
+    // fade in on load instead (their placeholder would be hidden anyway)
+    const isEager =
+      restProps.loading === 'eager' ||
+      restProps.fetchPriority === 'high' ||
+      Boolean(restProps.preload ?? restProps.priority);
     const finalBlurDataURL =
       blurDataURL || (placeholder === 'blur' ? STATIC_PLACEHOLDER : undefined);
+    const imageProps: ImageProps = {
+      src,
+      alt,
+      fill,
+      sizes,
+      className: baseClass,
+      ...(!fill && width && height ? { width, height } : {}),
+      ...restProps,
+    };
 
-    mediaContent = (
+    mediaContent = isEager ? (
       <Image
-        src={src}
-        alt={alt}
-        fill={fill}
-        sizes={sizes}
-        className={baseClass}
+        {...imageProps}
         placeholder={placeholder}
         {...(finalBlurDataURL ? { blurDataURL: finalBlurDataURL } : {})}
-        {...(!fill && width && height ? { width, height } : {})}
-        {...restProps}
       />
+    ) : (
+      <FadeImage {...imageProps} />
     );
   }
 

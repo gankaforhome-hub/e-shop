@@ -21,6 +21,30 @@
   --dur-fast: 150ms;
   --dur-normal: 250ms;
   --dur-slow: 350ms;
+  /* Unhurried reveals of large editorial copy (hero captions) */
+  --dur-slower: 700ms;
+  /* Lazy image fade-in (AppMedia → FadeImage) */
+  --dur-reveal: 500ms;
+}
+
+/* Lazy images stay transparent until decoded, then fade in. Only with JS:
+   without it there is no load callback, so images show as usual. The
+   animation runs from 0 to the element's own opacity, so hover swaps
+   (`opacity-0 hover:opacity-100`) keep working. */
+@media (scripting: enabled) {
+  img[data-reveal]:not([data-loaded]) {
+    opacity: 0;
+  }
+}
+
+img[data-reveal][data-loaded] {
+  animation: image-reveal var(--dur-reveal) ease-out;
+}
+
+@keyframes image-reveal {
+  from {
+    opacity: 0;
+  }
 }
 
 @utility custom-transition {
@@ -51,6 +75,8 @@
     --dur-fast: 0ms;
     --dur-normal: 0ms;
     --dur-slow: 0ms;
+    --dur-slower: 0ms;
+    --dur-reveal: 0ms;
   }
 
   *,

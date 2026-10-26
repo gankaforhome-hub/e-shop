@@ -33,6 +33,10 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'], // AVIF стискає ще краще за WebP
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1440, 1920, 2048],
     qualities: [75, 90],
+    // 31 days instead of the 4h default: optimized variants of static assets
+    // are re-generated far less often. Replace a changed image under a new
+    // file name (CMS uploads get unique URLs anyway)
+    minimumCacheTTL: 2678400,
   },
   allowedDevOrigins: [
     'localhost:3000',
