@@ -2,7 +2,6 @@ import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
-import { Text } from '@/shared/ui/text';
 
 import { ContentGridSection } from '../ui';
 
@@ -30,11 +29,7 @@ export async function ExclusiveSection({
         ariaLabelledbySection="exclusive"
         className={cn(className)}
         heading={title}
-        text={
-          <Text className="mx-auto px-4 md:max-w-[95%] lg:max-w-full">
-            {description}
-          </Text>
-        }
+        description={description}
         firstImage={{
           src: images.left.src || '',
           alt: images.left.alt || '',
