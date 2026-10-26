@@ -24,11 +24,12 @@ import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 import { AppLink } from '@/shared/ui/app-link';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { Button } from '@/shared/ui/button';
+import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
 import { Text } from '@/shared/ui/text';
 
-import { CatalogBreadcrumbs } from '../catalog-breadcrumbs/catalog-breadcrumbs';
 import { ProductGrid } from '../product-grid/product-grid';
 import { ProductGridSkeleton } from '../product-grid/product-grid-skeleton';
 
@@ -108,75 +109,85 @@ export async function ProductsCatalog({
 
   return (
     <>
-      <CatalogBreadcrumbs
-        labels={{
-          home: common.navigation.main.home,
-          catalog: common.navigation.main.allProducts,
-          nav: common.navigation.aria.breadcrumbs.ariaLabel,
-        }}
-        categoryTitle={activeCategory?.title}
-        catalogHref={routes.products({ search, sort })}
+      {/* "Home / Catalog / Category": "Catalog" clears the category (search
+          and sort kept); without a category the trail ends at "Catalog" */}
+      <Breadcrumbs
+        items={
+          activeCategory
+            ? [
+                {
+                  label: common.navigation.main.allProducts,
+                  href: routes.products({ search, sort }),
+                },
+              ]
+            : []
+        }
+        lastItemTitle={
+          activeCategory?.title ?? common.navigation.main.allProducts
+        }
       />
-      {/* The page's only h1 (request-dependent, so inside Suspense); the
+      <Container>
+        {/* The page's only h1 (request-dependent, so inside Suspense); the
           breadcrumb line is the visible header */}
-      <Heading id={CATALOG_HEADING_ID} headingLevel="h1" visibility="hidden">
-        {activeCategory?.title ?? common.navigation.main.allProducts}
-      </Heading>
-      {/* Lands exactly at `scroll-padding-top` (= expanded header height,
+        <Heading id={CATALOG_HEADING_ID} headingLevel="h1" visibility="hidden">
+          {activeCategory?.title ?? common.navigation.main.allProducts}
+        </Heading>
+        {/* Lands exactly at `scroll-padding-top` (= expanded header height,
           which is the header's state after any upward scroll): flush, no gap */}
-      <div id={CATALOG_TOP_ID} tabIndex={-1} className="outline-none" />
-      {/* While the toolbar's navigation is pending (it carries
+        <div id={CATALOG_TOP_ID} tabIndex={-1} className="outline-none" />
+        {/* While the toolbar's navigation is pending (it carries
           `data-catalog-pending`), the results dim and pulse softly: CSS
           only, no shared client state between toolbar and server grid */}
-      <div className="group/catalog">
-        <CatalogToolbar
-          scrollAnchorId={CATALOG_TOP_ID}
-          groups={groups}
-          total={meta.total}
-          index={index}
-          categories={categories.map(({ slug, title }) => ({ slug, title }))}
-        />
-        <div className="duration-(--dur-normal) transition-opacity group-has-[[data-catalog-pending]]/catalog:pointer-events-none group-has-[[data-catalog-pending]]/catalog:opacity-60 motion-safe:group-has-[[data-catalog-pending]]/catalog:animate-pulse">
-          {data.length > 0 ? (
-            <CatalogFeed
-              scrollAnchorId={CATALOG_TOP_ID}
-              page={meta.page}
-              total={meta.total}
-              pageSize={meta.limit}
-              pageHrefs={Array.from({ length: meta.totalPages }, (_, index) =>
-                routes.products(serializeCatalogPage(query, index + 1)),
-              )}
-              queryKey={routes.products(serializeCatalogQuery(query))}
-              skeleton={
-                // Size of the next batch; 0 on the last page (no "Load more")
-                <ProductGridSkeleton
-                  count={Math.max(
-                    0,
-                    Math.min(meta.limit, meta.total - meta.page * meta.limit),
-                  )}
+        <div className="group/catalog">
+          <CatalogToolbar
+            scrollAnchorId={CATALOG_TOP_ID}
+            groups={groups}
+            total={meta.total}
+            index={index}
+            categories={categories.map(({ slug, title }) => ({ slug, title }))}
+          />
+          <div className="duration-(--dur-normal) group-has-data-catalog-pending/catalog:pointer-events-none group-has-data-catalog-pending/catalog:opacity-60 motion-safe:group-has-data-catalog-pending/catalog:animate-pulse transition-opacity">
+            {data.length > 0 ? (
+              <CatalogFeed
+                scrollAnchorId={CATALOG_TOP_ID}
+                page={meta.page}
+                total={meta.total}
+                pageSize={meta.limit}
+                pageHrefs={Array.from({ length: meta.totalPages }, (_, index) =>
+                  routes.products(serializeCatalogPage(query, index + 1)),
+                )}
+                queryKey={routes.products(serializeCatalogQuery(query))}
+                skeleton={
+                  // Size of the next batch; 0 on the last page (no "Load more")
+                  <ProductGridSkeleton
+                    count={Math.max(
+                      0,
+                      Math.min(meta.limit, meta.total - meta.page * meta.limit),
+                    )}
+                  />
+                }
+              >
+                <ProductGrid
+                  products={withFavorites(data, favoriteIds)}
+                  limit={limit}
+                  lang={lang}
                 />
-              }
-            >
-              <ProductGrid
-                products={withFavorites(data, favoriteIds)}
-                limit={limit}
-                lang={lang}
-              />
-            </CatalogFeed>
-          ) : (
-            <div className="flex flex-col items-center gap-4 px-4 py-16 text-center">
-              <Text variant="muted" size="document">
-                {common.catalog.filters.empty}
-              </Text>
-              <Button asChild variant="outline" size="small">
-                <AppLink href={routes.products({ category, search, sort })}>
-                  {common.catalog.filters.clearAll}
-                </AppLink>
-              </Button>
-            </div>
-          )}
+              </CatalogFeed>
+            ) : (
+              <div className="flex flex-col items-center gap-4 px-4 py-16 text-center">
+                <Text variant="muted" size="document">
+                  {common.catalog.filters.empty}
+                </Text>
+                <Button asChild variant="outline" size="small">
+                  <AppLink href={routes.products({ category, search, sort })}>
+                    {common.catalog.filters.clearAll}
+                  </AppLink>
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 }

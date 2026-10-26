@@ -7,14 +7,11 @@ import { cn } from '@/shared/lib/utils';
 
 import { Icon } from '../icon';
 
-/**
- * Page-level breadcrumb rhythm (catalog reference): inner padding only, so
- * trails line up identically on every page. Reuse it in skeletons.
- */
 const breadcrumbVariants = cva('', {
   variants: {
     spacing: {
       default: 'pb-3 pt-2 md:pb-4 md:pt-4',
+      top: 'pt-2 md:pt-4',
       none: '',
     },
   },

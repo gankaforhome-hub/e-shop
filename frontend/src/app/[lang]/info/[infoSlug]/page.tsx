@@ -59,14 +59,11 @@ export async function generateMetadata({
   };
 }
 
-// Sync shell (breadcrumbs + section) prerenders even for unknown slugs; the
-// params-dependent body streams behind a same-layout skeleton. Every real slug
-// is listed in `generateStaticParams`, so its page is fully static.
 export default function InfoPage({ params }: PageProps) {
   return (
     <>
       <Breadcrumbs />
-      <Section>
+      <Section spacing="standard" flush="top">
         <Container>
           <Suspense fallback={<InfoPageLayoutSkeleton />}>
             <InfoPageBody params={params} />

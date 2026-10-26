@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { BREADCRUMB_KEYS } from '@/shared/config/breadcrumbs';
 import { createRoute, routes } from '@/shared/config/routes';
 import { usePathname } from '@/shared/i18n/navigation';
+import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import {
   Breadcrumb,
@@ -20,6 +21,7 @@ import { Container } from '@/shared/ui/container';
 import { Icon } from '@/shared/ui/icon';
 
 import { BreadcrumbsSkeleton } from './breadcrumbs-skeleton';
+import { BREADCRUMBS_SPACING } from './breadcrumbs-spacing';
 
 type AppLinkHref = ComponentProps<typeof AppLink>['href'];
 
@@ -29,8 +31,14 @@ export interface CustomBreadcrumbItem {
 }
 
 interface BreadcrumbsProps {
-  lastItemTitle?: string;
+  lastItemTitle?: string | undefined;
+  /**
+   * Explicit trail between Home and `lastItemTitle` (may be empty). Omit to
+   * build the trail from the pathname.
+   */
   items?: CustomBreadcrumbItem[];
+  /** Layout only: overrides the default bottom margin per breakpoint. */
+  className?: string;
 }
 
 const IGNORED_SEGMENTS = new Set(['info']);
@@ -46,19 +54,30 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
     : 1;
 
   return (
-    <Suspense fallback={<BreadcrumbsSkeleton itemsCount={itemsCount} />}>
+    <Suspense
+      fallback={
+        <BreadcrumbsSkeleton
+          itemsCount={itemsCount}
+          className={props.className}
+        />
+      }
+    >
       <BreadcrumbsTrail {...props} />
     </Suspense>
   );
 }
 
-function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
+function BreadcrumbsTrail({
+  lastItemTitle,
+  items,
+  className,
+}: BreadcrumbsProps) {
   const t = useTranslations('common.navigation');
 
   const pathname = usePathname();
 
   const normalizedItems: CustomBreadcrumbItem[] = (() => {
-    if (items && items.length > 0) {
+    if (items) {
       return items;
     }
 
@@ -97,11 +116,12 @@ function BreadcrumbsTrail({ lastItemTitle, items }: BreadcrumbsProps) {
     return filteredItems;
   })();
 
-  const hasExplicitCustomItems = Boolean(items && items.length > 0);
+  const hasExplicitCustomItems = items !== undefined;
 
   return (
-    <Container>
+    <Container className={cn(BREADCRUMBS_SPACING, className)}>
       <Breadcrumb
+        spacing="top"
         className="text-foreground"
         aria-label={t('aria.breadcrumbs.ariaLabel')}
       >

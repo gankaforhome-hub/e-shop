@@ -6,7 +6,6 @@ import { getCategories } from '@/entities/category';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
 import { BackToTop } from '@/shared/ui/back-to-top';
-import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 import {
   CATALOG_TOP_ID,
@@ -36,18 +35,16 @@ export default async function ProductsPage({
 
   return (
     <>
-      <Section>
-        <Container>
-          {/* The breadcrumb header and h1 depend on `?category=`, so they
-              render inside the catalog's Suspense boundary */}
-          <Suspense fallback={<ProductsCatalogSkeleton />}>
-            <ProductsCatalog
-              lang={lang}
-              categories={categories}
-              searchParams={searchParams}
-            />
-          </Suspense>
-        </Container>
+      <Section spacing="standard" flush="top">
+        {/* The breadcrumbs and h1 depend on `?category=`, so they render
+            inside the catalog's Suspense boundary (which owns the Container) */}
+        <Suspense fallback={<ProductsCatalogSkeleton />}>
+          <ProductsCatalog
+            lang={lang}
+            categories={categories}
+            searchParams={searchParams}
+          />
+        </Suspense>
       </Section>
       <BackToTop label={common.catalog.backToTop} targetId={CATALOG_TOP_ID} />
     </>
