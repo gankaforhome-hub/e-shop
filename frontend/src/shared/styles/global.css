@@ -58,6 +58,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-surface-brand-subtle: var(--surface-brand-subtle);
   --color-surface-warm: var(--surface-warm);
+  --color-surface-photo: var(--surface-photo);
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
