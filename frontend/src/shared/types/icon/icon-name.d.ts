@@ -7,6 +7,7 @@ export type IconName =
   | 'language'
   | 'check'
   | 'copy'
+  | 'alert'
   | 'menu'
   | 'favorite'
   | 'close'
