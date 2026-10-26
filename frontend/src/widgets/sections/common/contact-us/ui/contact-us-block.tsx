@@ -10,7 +10,7 @@ export interface IContactUsBlockProps {
       alt: string;
     };
     title: string;
-    formTitle: string;
+    formTitle?: string;
     btnLetsTalk: string;
     label: {
       email: string;
@@ -28,11 +28,7 @@ export const ContactUsBlock = ({
   const { image, formTitle, label, btnLetsTalk } = contactUsForm;
 
   return (
-    <ImageTextPanel
-      imagePosition="left"
-      image={image}
-      textClassName="max-lg:bg-background"
-    >
+    <ImageTextPanel imagePosition="left" image={image}>
       <div className="flex w-full flex-col items-center px-4 lg:px-10">
         <ContactUsForm
           formTitle={formTitle}

@@ -1,1 +1,29 @@
-{ "pageTitle": "Contact Us" }
+{
+  "pageTitle": "Contact Us",
+  "hero": {
+    "eyebrow": "Contacts",
+    "description": "Questions about an order, a gift or a custom piece? Call or write to us — we will be glad to help."
+  },
+  "channels": {
+    "title": "Direct channels",
+    "phone": {
+      "title": "Phone",
+      "description": "Orders, delivery and gifting — call us directly."
+    },
+    "email": {
+      "title": "E-mail",
+      "description": "Custom orders, collaborations and any other questions."
+    },
+    "copy": "Copy",
+    "copied": "Copied"
+  },
+  "help": {
+    "eyebrow": "Help",
+    "heading": "Still have questions?",
+    "description": "If you couldn't find what you were looking for, visit our FAQ — or simply drop us a message using the form below. We'll get back to you shortly.",
+    "linkLabel": "Visit FAQ"
+  },
+  "form": {
+    "formTitle": "Write to us"
+  }
+}
