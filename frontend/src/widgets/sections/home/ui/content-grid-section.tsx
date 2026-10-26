@@ -48,8 +48,6 @@ export function ContentGridSection({
               'md:order-1 md:col-span-2 md:p-0',
             )}
           >
-            {/* Heading stays visually hidden; below md the intro is the
-                muted card between the two images */}
             <SectionIntro
               headingId={ariaLabelledbySection}
               heading={heading}

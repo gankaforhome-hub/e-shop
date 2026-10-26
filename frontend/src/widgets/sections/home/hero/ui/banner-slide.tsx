@@ -27,8 +27,6 @@ export function BannerSlide({
 }: BannerSlideProps) {
   const { isInitialize, current } = useCarousel();
   const isSelected = current === index;
-  // Before Embla initializes (SSR, hydration) the first slide's copy is shown
-  // statically, so it paints with the image instead of sliding in after JS
   const isContentVisible = isInitialize ? isSelected : index === 0;
   return (
     <div className="relative h-full w-full overflow-hidden">
@@ -47,8 +45,6 @@ export function BannerSlide({
           isContentVisible
             ? 'pointer-events-auto visible translate-y-0 opacity-100'
             : 'pointer-events-none invisible translate-y-2 opacity-0',
-          // Compositor-only (opacity/translate); visibility flips at the end
-          // of a fade-out. Static until Embla is ready: no first-paint motion
           isInitialize &&
             'transition-[opacity,translate,visibility] motion-reduce:transition-none',
           isInitialize &&

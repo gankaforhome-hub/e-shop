@@ -38,8 +38,6 @@
   }
 }
 
-/* The header hides its nav row on scroll down (data-show-submenu=false)
-   unless hovered; sticky elements follow it via this variable. */
 @media (width >= 80rem) {
   :root {
     --h-header-desktop-compact: 4rem; /* 64px, xl logo is 56px */

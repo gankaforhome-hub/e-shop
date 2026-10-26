@@ -14,7 +14,6 @@ interface IContactUsSectionProps extends IContactUsBlockProps {
   };
   header?: ReactNode;
   headingId?: string;
-  /** Vertical rhythm of the wrapping `Section` (its default when omitted). */
   spacing?: SectionProps['spacing'];
 }
 
@@ -30,8 +29,6 @@ export const ContactUsSection = ({
   if (header) {
     return (
       <Section aria-labelledby={headingId} spacing={spacing}>
-        {/* One gap owns header → form spacing (former fgap-8/14 + the
-            panel's mt-4/md:mt-8; same 48px / 88px end values) */}
         <Container className="fgap-12/22 flex flex-col">
           {header}
           <ContactUsBlock

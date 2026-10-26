@@ -188,7 +188,7 @@
   .link::before {
     content: '';
     background-color: var(--primary);
-    @apply absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
+    @apply ease-subtle absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 transition-transform duration-700;
   }
 
   .link:hover::before,

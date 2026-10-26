@@ -5,7 +5,6 @@ import { ImageTextPanel } from '@/shared/ui/image-text-panel';
 import { SocialLinks } from '@/widgets/layout/ui';
 
 export interface IContactUsBlockProps {
-  /** Identifies this placement in submitted leads. */
   formId: LeadFormId;
   contactUsForm: {
     image: {
@@ -22,7 +21,6 @@ export interface IContactUsBlockProps {
     };
   };
   social: NavItem[];
-  /** Layout only: offset from the block above when there is no intro. */
   className?: string;
 }
 
@@ -35,9 +33,6 @@ export const ContactUsBlock = ({
   const { image, formTitle, label, btnLetsTalk } = contactUsForm;
 
   return (
-    // Stacked below md; from md image and form sit side by side and stretch
-    // to the same row height. The photo is contained on its own studio
-    // backdrop, so the plate is never cropped whatever the box shape
     <ImageTextPanel
       imagePosition="left"
       image={image}

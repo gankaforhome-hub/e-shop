@@ -5,7 +5,6 @@ import { type ImagePosition, type Media } from '@/shared/types';
 import { AppMedia } from '@/shared/ui/app-media';
 import { Text } from '@/shared/ui/text';
 
-// `fluid` scales with the viewport for prose; `form` keeps inputs comfortable
 const TEXT_PADDING = {
   fluid: 'fpy-6/30 fpx-6/30',
   form: 'p-4 sm:p-6 md:p-8 lg:p-10',
@@ -23,7 +22,6 @@ interface IImageTextPanelProps extends ImageTextPanelContent {
   imageClassName?: string;
   textClassName?: string;
   padding?: keyof typeof TEXT_PADDING;
-  /** Must match the layout switch (`lg` by default). */
   imageSizes?: string;
   priority?: boolean;
 }

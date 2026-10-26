@@ -42,10 +42,6 @@ export interface SectionHeaderProps extends VariantProps<
   className?: string;
 }
 
-/**
- * Centered section header: optional eyebrow, heading, accent line and a lead
- * description (left-aligned, 80% wide from `lg`).
- */
 export function SectionHeader({
   heading,
   headingId,
@@ -86,7 +82,6 @@ export function SectionHeader({
           size="lead"
           font="secondary"
           variant={descriptionTone === 'muted' ? 'muted' : 'default'}
-          // className="w-full max-md:px-4 max-lg:md:px-8 lg:max-w-[90%] lg:text-center"
           className={cn(
             'mx-auto px-4 md:max-w-[95%] md:px-8 lg:max-w-full',
             'items-start text-left',
