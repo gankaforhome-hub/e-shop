@@ -1,12 +1,14 @@
 import { cn } from '@/shared/lib/utils';
 import { Skeleton } from '@/shared/ui/skeleton';
 
+import { HERO_HEIGHT } from '../config/hero-layout';
+
 export const BannerSliderSkeleton = () => {
   return (
     <div
       className={cn(
         'bg-muted/40 relative w-full overflow-hidden backdrop-blur-3xl',
-        'h-[calc(640px-var(--h-topbar))] md:h-[calc(100dvh-var(--h-topbar))] landscape:max-md:h-80',
+        HERO_HEIGHT,
       )}
     >
       <div

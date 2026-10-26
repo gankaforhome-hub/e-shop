@@ -1,6 +1,7 @@
 import { cn } from '@/shared/lib/utils';
 import { Section } from '@/shared/ui/section';
 
+import { HERO_HEIGHT } from './config/hero-layout';
 import { type TBannerSlide } from './model/types';
 import { BannerSlider } from './ui/banner-slider';
 
@@ -16,7 +17,8 @@ export function Hero({ bannerSlides = [], ctaLabel }: HeroProps) {
         bannerSlides={bannerSlides}
         ctaLabel={ctaLabel}
         className={cn(
-          'md:aspect-21/9 relative aspect-video h-[calc(640px-var(--h-header-mobile))] w-full md:h-[calc(100dvh-var(--h-header-tab))] lg:h-[calc(100dvh-var(--h-header-desktop))] landscape:max-md:h-80',
+          'relative w-full',
+          HERO_HEIGHT,
           'touch-pan-y overscroll-none',
         )}
       />
