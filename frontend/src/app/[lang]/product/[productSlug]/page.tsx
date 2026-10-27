@@ -11,6 +11,7 @@ import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import {
   ProductDetailSection,
   ProductDetailSkeleton,
+  ProductRecommendations,
 } from '@/widgets/sections/product';
 
 interface ProductPageProps {
@@ -70,6 +71,8 @@ export default async function ProductPage({
           searchParams={searchParams}
         />
       </Suspense>
+      {/* Cached headings + grids; only the favorites hearts stream (own Suspense) */}
+      <ProductRecommendations productId={product.id} lang={lang} />
     </>
   );
 }
