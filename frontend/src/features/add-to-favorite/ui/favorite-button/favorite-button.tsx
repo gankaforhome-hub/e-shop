@@ -11,12 +11,16 @@ import { useFavorite } from '../../model';
 interface FavoriteButtonProps {
   productId: string;
   initialFavorite: boolean;
+  /** `overlay`: small glass button on a card image; `action`: outlined
+   *  square beside a purchase button, as tall as it. */
+  appearance?: 'overlay' | 'action';
   className?: string;
 }
 
 export function FavoriteButton({
   productId,
   initialFavorite,
+  appearance = 'overlay',
   className,
 }: FavoriteButtonProps) {
   const t = useTranslations('common.common.aria');
@@ -24,21 +28,23 @@ export function FavoriteButton({
     productId,
     initialValue: initialFavorite,
   });
+  const isAction = appearance === 'action';
 
   return (
     <Button
-      variant="iconSecondary"
-      size="icon"
+      variant={isAction ? 'outline' : 'iconSecondary'}
+      size={isAction ? 'iconBlock' : 'icon'}
       onClick={toggle}
       disabled={isPending}
       aria-pressed={isFavorite}
       aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
-      className={cn('h-8 w-8 rounded-full', className)}
+      className={cn(!isAction && 'h-8 w-8 rounded-full', 'group', className)}
     >
       <Icon
         name="favorite"
         className={cn(
-          'custom-transition h-5 w-5 transition-all',
+          'custom-transition transition-all',
+          isAction ? 'size-5 md:size-6' : 'h-5 w-5',
           isFavorite ? 'fill-action-primary text-action-primary' : '',
           'group-hover:scale-105',
         )}
