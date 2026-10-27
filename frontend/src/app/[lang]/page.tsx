@@ -18,7 +18,7 @@ import {
   ProductTypeSectionSkeleton,
   RecommendedProductsSection,
   RecommendedProductsSectionSkeleton,
-  StayInTouchSection,
+  CollectionsTeaserSection,
 } from '@/widgets/sections/home';
 import { BannerSliderSkeleton, Hero } from '@/widgets/sections/home/hero';
 
@@ -75,7 +75,7 @@ export default async function Page({ params }: IHomePageProps) {
       </Suspense>
       <CreatingGankaSection {...home.sections.creatingGanka} />
       <ExclusiveSection {...home.sections.exclusiveFromGanka} />
-      <StayInTouchSection {...home.sections.stayInTouch} />
+      <CollectionsTeaserSection {...home.sections.stayInTouch} />
       <GiftPackingSection {...home.sections.giftPackaging} />
     </>
   );

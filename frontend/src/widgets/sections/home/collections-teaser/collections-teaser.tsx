@@ -8,7 +8,7 @@ import { ImageGridItem } from '@/shared/ui/image-grid-item';
 import { Section } from '@/shared/ui/section';
 import { Text } from '@/shared/ui/text';
 
-interface IStayInTouchSection {
+interface CollectionsTeaserSectionProps {
   title: string;
   brandSubtitle: string;
   description: string;
@@ -19,19 +19,19 @@ interface IStayInTouchSection {
   };
   className?: string;
 }
-export function StayInTouchSection({
+export function CollectionsTeaserSection({
   title,
   brandSubtitle,
   description,
   btnSeeMore,
   images,
   className,
-}: IStayInTouchSection) {
+}: CollectionsTeaserSectionProps) {
   return (
-    <Section className={cn(className)} aria-labelledby="stay-in-touch">
+    <Section className={cn(className)} aria-labelledby="collections-teaser">
       <Container>
         <Heading
-          id="stay-in-touch"
+          id="collections-teaser"
           headingLevel="h2"
           variant="section"
           position="center"
@@ -72,7 +72,7 @@ export function StayInTouchSection({
             </div>
 
             <Button asChild className="max-md:min-w-50 mt-6">
-              <AppLink href={routes.contacts}>{btnSeeMore}</AppLink>
+              <AppLink href={routes.collections}>{btnSeeMore}</AppLink>
             </Button>
           </div>
           <ImageGridItem

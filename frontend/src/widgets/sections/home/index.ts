@@ -3,4 +3,4 @@ export { ExclusiveSection } from './exclusive/exclusive';
 export { GiftPackingSection } from './gift-packing/gift-packing';
 export * from './product-type';
 export * from './recommended-products';
-export { StayInTouchSection } from './stay-in-touch/stay-in-touch';
+export { CollectionsTeaserSection } from './collections-teaser/collections-teaser';
