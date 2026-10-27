@@ -80,7 +80,9 @@ export const MOCK_PRODUCTS: Product[] = [
         compareAtPrice: { amount: 3200, currency: 'UAH' },
         stock: { quantity: 10, lowStockThreshold: 2, allowBackorder: true },
         attributes: { diameterCm: 23 },
-        options: [{ nameKey: 'color', valueKey: 'forest_red' }],
+        options: [
+          { nameKey: 'color', valueKey: 'forest_red', swatch: '#ff0019' },
+        ],
         mediaIds: ['med-1-1', 'med-1-2', 'med-1-4'],
         weight: { weightUnit: 'g', weight: 2000 },
       },
@@ -90,7 +92,9 @@ export const MOCK_PRODUCTS: Product[] = [
         price: { amount: 1580, currency: 'UAH' },
         stock: { quantity: 10, lowStockThreshold: 2, allowBackorder: true },
         attributes: { diameterCm: 27 },
-        options: [{ nameKey: 'color', valueKey: 'forest_yellow' }],
+        options: [
+          { nameKey: 'color', valueKey: 'forest_yellow', swatch: '#bb9900' },
+        ],
         mediaIds: ['med-1-3', 'med-1-6', 'med-1-9'],
         weight: { weightUnit: 'g', weight: 400 },
       },
@@ -101,7 +105,9 @@ export const MOCK_PRODUCTS: Product[] = [
         compareAtPrice: { amount: 3200, currency: 'UAH' },
         stock: { quantity: 10, lowStockThreshold: 2, allowBackorder: true },
         attributes: { diameterCm: 23 },
-        options: [{ nameKey: 'color', valueKey: 'forest_yellow' }],
+        options: [
+          { nameKey: 'color', valueKey: 'forest_yellow', swatch: '#bb9900' },
+        ],
         mediaIds: ['med-1-7', 'med-1-8'],
         weight: { weightUnit: 'g', weight: 2000 },
       },
@@ -1066,13 +1072,13 @@ export const MOCK_PRODUCT_TRANSLATIONS: ProductTranslation[] = [
         nameKey: 'color',
         name: 'Color',
         valueKey: 'forest_red',
-        value: '#ff0019',
+        value: 'Forest red',
       },
       {
         nameKey: 'color',
         name: 'Color',
         valueKey: 'forest_yellow',
-        value: '#bb9900',
+        value: 'Forest yellow',
       },
     ],
   },
@@ -1095,13 +1101,13 @@ export const MOCK_PRODUCT_TRANSLATIONS: ProductTranslation[] = [
         nameKey: 'color',
         name: 'Колір',
         valueKey: 'forest_red',
-        value: '#ff0019',
+        value: 'Лісовий червоний',
       },
       {
         nameKey: 'color',
         name: 'Колір',
         valueKey: 'forest_yellow',
-        value: '#bb9900',
+        value: 'Лісовий жовтий',
       },
     ],
   },
@@ -1500,11 +1506,10 @@ export const MOCK_PRODUCT_TRANSLATIONS: ProductTranslation[] = [
     ],
   },
 
-  // prod-19
   {
     productId: 'prod-19',
     languageCode: 'en',
-    title: 'Small Dessert Plate 18 cm',
+    title: 'Small Dessert Plate',
     description:
       'Compact round plate for desserts, appetizers, or bread serving.',
     characteristics: [{ nameKey: 'material', name: 'Material', value: 'Clay' }],
@@ -1512,7 +1517,7 @@ export const MOCK_PRODUCT_TRANSLATIONS: ProductTranslation[] = [
   {
     productId: 'prod-19',
     languageCode: 'uk',
-    title: 'Мала десертна тарілка 18 см',
+    title: 'Мала десертна тарілка',
     description:
       'Компактна кругла тарілка для десертів, закусок або подачі хліба.',
     characteristics: [

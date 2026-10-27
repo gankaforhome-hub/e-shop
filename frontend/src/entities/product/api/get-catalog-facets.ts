@@ -12,7 +12,7 @@ import { getAttributeLabels } from './get-attribute-labels';
 import {
   filterProductsBase,
   getLocalizedProducts,
-  toFilterableProduct,
+  toCatalogItems,
 } from './get-products';
 import {
   getFeatureFlagsFor,
@@ -89,9 +89,10 @@ const sortByLabel = (
 
 /**
  * Filter groups for the catalog panel, in the order documented on
- * `SHARED_ATTRIBUTE_GROUPS`. Counts are products in the category/search
- * result; variant-level values (diameter, volume…) count a product
- * once if any of its SKUs has them. Empty values are omitted.
+ * `SHARED_ATTRIBUTE_GROUPS`. Counts are catalog cards (one per colour/glaze,
+ * `toCatalogItems`) in the category/search result; variant-level values
+ * (diameter, volume…) count a card once if any of its SKUs has them. Empty
+ * values are omitted.
  */
 export async function getCatalogFacets(
   params: GetCatalogFacetsParams,
@@ -111,9 +112,10 @@ export async function getCatalogFacets(
     getSeasons(params.lang),
     getCollections(params.lang),
   ]);
-  const products = filterProductsBase(localized, params);
+  // Counted per card (one per colour/glaze), like the result list
+  const items = toCatalogItems(filterProductsBase(localized, params));
   // Built once: every attribute option is counted against the same shapes
-  const filterables = products.map(toFilterableProduct);
+  const filterables = items.map(item => item.filterable);
   const { compare } = new Intl.Collator(params.lang);
 
   const attributeGroup = (
@@ -151,7 +153,7 @@ export async function getCatalogFacets(
         getFeatureFlagsFor(params.category).map(flag => ({
           value: flag,
           label: labels.names[flag] ?? flag,
-          count: countBy(products, p => p.attributes[flag] === true),
+          count: countBy(items, i => i.product.attributes[flag] === true),
         })),
       ),
       compare,
@@ -165,7 +167,9 @@ export async function getCatalogFacets(
   const seasonCounts = new Map<string, number>();
   const increment = (counts: Map<string, number>, key: string) =>
     counts.set(key, (counts.get(key) ?? 0) + 1);
-  for (const { primaryCollection } of products) {
+  for (const {
+    product: { primaryCollection },
+  } of items) {
     if (primaryCollection.slug) {
       increment(collectionCounts, primaryCollection.slug);
     }
@@ -221,7 +225,8 @@ export async function getCatalogFacets(
 }
 
 /**
- * Compact filter index of the category/search result (attributes, collection,
+ * Compact filter index of the category/search result, one entry per catalog
+ * card (`toCatalogItems`: attributes, collection,
  * SKU attributes + prices only). The filter panel counts its draft against it
  * client-side, so option counts and "Show N products" update instantly.
  */
@@ -232,12 +237,10 @@ export async function getCatalogIndex(
   cacheLife('hours');
   cacheTag(cacheTags.products, cacheTags.collections);
 
-  return filterProductsBase(
-    await getLocalizedProducts(params.lang),
-    params,
-  ).map(product => {
-    const { attributes, collectionSlug, season, variants } =
-      toFilterableProduct(product);
+  return toCatalogItems(
+    filterProductsBase(await getLocalizedProducts(params.lang), params),
+  ).map(({ product, filterable }) => {
+    const { attributes, collectionSlug, season, variants } = filterable;
     return {
       categorySlug: product.category.slug,
       attributes,

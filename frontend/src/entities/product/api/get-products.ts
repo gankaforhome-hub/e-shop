@@ -30,6 +30,7 @@ import {
   normalizeProduct,
   STOCK_PRIORITY,
 } from '../lib/product-mapper';
+import { getAppearanceSlices } from '../lib/variant-options';
 import {
   MOCK_BADGE_TRANSLATIONS,
   MOCK_BADGES,
@@ -183,10 +184,33 @@ export const toFilterableProduct = (
   };
 };
 
-/** A product in the result list with the SKU the card should show. */
+/**
+ * One catalog card before filtering: a product's colour/glaze slice (or the
+ * whole product when it has no appearance choice), with its filter shape.
+ */
+export type CatalogItem = {
+  product: LocalizedProduct;
+  /** Colour/glaze label of the slice; absent for unsplit products. */
+  label?: string;
+  filterable: FilterableProduct<ProductVariantTranslation>;
+};
+
+/** Products → cards: what the result list, its count and the facets count. */
+export const toCatalogItems = (products: LocalizedProduct[]): CatalogItem[] =>
+  products.flatMap(product => {
+    const filterable = toFilterableProduct(product);
+    return getAppearanceSlices(product.variants).map(({ label, variants }) => ({
+      product,
+      ...(label && { label }),
+      filterable: { ...filterable, variants },
+    }));
+  });
+
+/** A card in the result list with the SKU it should show. */
 type CatalogEntry = {
   product: LocalizedProduct;
   variant: ProductVariantTranslation | undefined;
+  label?: string;
 };
 
 /** Category/search/ids narrowing shared by `getProducts` and facet counts. */
@@ -277,20 +301,22 @@ export async function getProducts(
     params,
   );
   const active = filters && getActiveSelections(filters);
-  // Variant-level filters pick the SKU the card opens with (e.g. the 27 cm plate)
-  const entries = base.flatMap((product): CatalogEntry[] => {
-    if (!filters) {
-      return [{ product, variant: getMainVariant(product.variants) }];
-    }
-    const matching = getMatchingVariants(
-      toFilterableProduct(product),
-      filters,
-      active,
-    );
-    return matching.length > 0
-      ? [{ product, variant: getMainVariant(matching) }]
-      : [];
-  });
+  // One card per colour/glaze; variant-level filters pick the SKU it opens
+  // with inside its slice (e.g. the 27 cm plate in yellow)
+  const entries = toCatalogItems(base).flatMap(
+    ({ product, label, filterable }): CatalogEntry[] => {
+      const entry = (variant: ProductVariantTranslation | undefined) => ({
+        product,
+        variant,
+        ...(label && { label }),
+      });
+      if (!filters) {
+        return [entry(getMainVariant(filterable.variants))];
+      }
+      const matching = getMatchingVariants(filterable, filters, active);
+      return matching.length > 0 ? [entry(getMainVariant(matching))] : [];
+    },
+  );
 
   const sortedEntries = sortEntries(entries, params.sort);
 
@@ -304,7 +330,9 @@ export async function getProducts(
   return {
     data: sortedEntries
       .slice(offset, offset + limit)
-      .map(({ product, variant }) => mapProductToCard(product, variant)),
+      .map(({ product, variant, label }) =>
+        mapProductToCard(product, variant, label),
+      ),
     meta: {
       total,
       page,

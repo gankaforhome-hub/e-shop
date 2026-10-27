@@ -34,7 +34,7 @@ export function ProductGrid({
       {visibleProducts.map((product, index) => {
         return (
           <li
-            key={product.id}
+            key={product.variant.id}
             className={getProductGridItemClassName(
               index,
               visibleProducts.length,

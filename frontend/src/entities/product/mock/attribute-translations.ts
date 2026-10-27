@@ -19,15 +19,22 @@ import {
 /* ------------------------------------------------------------------ */
 
 type AttributeNameKey =
-  ProductAttributeFilterKey | VariantAttributeKey | ProductFeatureFlag;
+  | ProductAttributeFilterKey
+  | VariantAttributeKey
+  | ProductFeatureFlag
+  | 'glazeType';
 
 type AttributeValueLabels = {
   [K in EnumAttributeFilterKey]: Record<ProductAttributeOption<K>, string>;
+} & {
+  /** Free-form CMS value (not a filter); unknown finishes fall back to the key. */
+  glazeType: Record<string, string>;
 };
 
 const ATTRIBUTE_NAMES = {
   uk: {
     material: 'Матеріал',
+    glazeType: 'Глазур',
     colorDecoration: 'Колір',
     plateType1: 'Тип',
     plateType2: 'Призначення',
@@ -50,6 +57,7 @@ const ATTRIBUTE_NAMES = {
   },
   en: {
     material: 'Material',
+    glazeType: 'Glaze',
     colorDecoration: 'Colour',
     plateType1: 'Type',
     plateType2: 'Purpose',
@@ -79,6 +87,10 @@ const ATTRIBUTE_VALUE_LABELS = {
       ceramic: 'Кераміка',
       glass: 'Скло',
       soy_wax: 'Соєвий віск',
+    },
+    glazeType: {
+      glossy: 'Глянцева',
+      matte: 'Матова',
     },
     colorDecoration: {
       coloured: 'Кольорові',
@@ -140,6 +152,10 @@ const ATTRIBUTE_VALUE_LABELS = {
       ceramic: 'Ceramic',
       glass: 'Glass',
       soy_wax: 'Soy wax',
+    },
+    glazeType: {
+      glossy: 'Glossy',
+      matte: 'Matte',
     },
     colorDecoration: {
       coloured: 'Coloured',

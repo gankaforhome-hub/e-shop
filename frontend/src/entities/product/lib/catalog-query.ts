@@ -8,10 +8,10 @@ import {
 } from '@/shared/config/routes';
 
 import {
-  COLOR_DECORATIONS,
   CUP_TYPES,
   BURN_TIMES_HOURS,
   CANDLE_SCENTS,
+  COLOR_DECORATIONS,
   PLATE_DIAMETERS_CM,
   PLATE_SHAPES,
   PLATE_TYPES_1,
@@ -470,7 +470,7 @@ export type CatalogIndexEntry = FilterableProduct<FilterableVariant> & {
   categorySlug: string;
 };
 
-/** Products in `index` with at least one SKU matching `filters`. */
+/** Index entries (catalog cards) with at least one SKU matching `filters`. */
 export function countMatchingProducts(
   index: readonly CatalogIndexEntry[],
   filters: ProductFilters,

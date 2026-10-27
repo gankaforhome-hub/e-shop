@@ -1,7 +1,9 @@
 import { type Locale } from '@/shared/i18n/routing';
+import { toSentenceCase } from '@/shared/lib/utils';
 
 import { type DescribeVariantAttribute } from './attribute-labels';
 import { getStockStatus } from './get-stock-status';
+import { isVariantPurchasable } from './variant-options';
 import {
   STOCK_TRANSLATIONS,
   WEIGHT_UNITS_TRANSLATIONS,
@@ -52,14 +54,11 @@ export function getProductStockTranslation(
   };
 }
 
-export const isVariantPurchasable = (
-  variant: Pick<ProductVariantTranslation, 'stock'>,
-): boolean =>
-  variant.stock.quantity > 0 || variant.stock.status === 'pre_order';
+export { isVariantPurchasable };
 
 /** First purchasable variant, else the first one. */
 export function getMainVariant(
-  variants?: ProductVariantTranslation[] | null,
+  variants?: readonly ProductVariantTranslation[] | null,
 ): ProductVariantTranslation | undefined {
   if (!Array.isArray(variants) || variants.length === 0) {
     return undefined;
@@ -156,6 +155,10 @@ function getAttributeOptions(
   });
 }
 
+/** System key → readable fallback label ("forest_red" → "Forest red"). */
+const humanizeKey = (key: string, lang: Locale) =>
+  toSentenceCase(key.replace(/[_-]+/g, ' '), lang);
+
 /** Raw product + translation row + refs → `LocalizedProduct`. */
 export function normalizeProduct(
   product: Product,
@@ -206,11 +209,14 @@ export function normalizeProduct(
           const translatedOpt = optionsTranslationMap.get(
             `${opt.nameKey}_${opt.valueKey}`,
           );
+          // A missing translation still reads as words ("Forest red"),
+          // never as a raw key
           return {
             nameKey: opt.nameKey,
-            name: translatedOpt?.name || opt.nameKey,
+            name: translatedOpt?.name || humanizeKey(opt.nameKey, lang),
             valueKey: opt.valueKey,
-            value: translatedOpt?.value || opt.valueKey,
+            value: translatedOpt?.value || humanizeKey(opt.valueKey, lang),
+            ...(opt.swatch && { swatch: opt.swatch }),
           };
         });
 
@@ -256,6 +262,8 @@ function toCardVariant(
 export function mapProductToCard(
   product: LocalizedProduct,
   selectedVariant?: ProductVariantTranslation,
+  /** Colour/glaze of the card's slice (`AppearanceSlice.label`). */
+  variantLabel?: string,
 ): ProductCardDTO {
   const selected = selectedVariant ?? getMainVariant(product.variants);
 
@@ -284,6 +292,7 @@ export function mapProductToCard(
           media: { primary: PLACEHOLDER_MEDIA },
         },
     hasVariants: product.variants.length > 1,
+    ...(variantLabel && { variantLabel }),
     isFavorite: false,
   };
 }

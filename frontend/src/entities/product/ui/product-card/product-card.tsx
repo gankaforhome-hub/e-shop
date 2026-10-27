@@ -32,7 +32,11 @@ export const ProductCard = ({
   priority = false,
   sizes = GRID_SIZES,
 }: ProductCardProps) => {
-  const { variant } = product;
+  const { variant, variantLabel } = product;
+  // A colour/glaze card is named after its colour ("…, Forest yellow")
+  const title = variantLabel
+    ? `${product.title}, ${variantLabel}`
+    : product.title;
   const mainImage = variant.media.primary.src || '/images/placeholder.jpg';
   const hoverImage = variant.media.hover?.src;
   const isSoldOut = variant.stock.status === 'out_of_stock';
@@ -81,7 +85,7 @@ export const ProductCard = ({
           {/* Main Image */}
           <AppMedia
             src={mainImage}
-            alt={variant.media.primary.alt || product.title}
+            alt={variant.media.primary.alt || title}
             fill
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
@@ -134,6 +138,9 @@ export const ProductCard = ({
             )}
           >
             <span>{toSentenceCase(product.title, lang)}</span>
+            {variantLabel && (
+              <span className="text-muted-foreground">, {variantLabel}</span>
+            )}
           </AppLink>
         </div>
 

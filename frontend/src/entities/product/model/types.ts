@@ -27,6 +27,8 @@ export type ProductOptionKey = 'color' | 'glaze';
 export type ProductOption = {
   nameKey: ProductOptionKey;
   valueKey: string;
+  /** Swatch colour (CSS hex) of a colour/glaze value; language-agnostic. */
+  swatch?: string;
 };
 
 export type ProductWeight = {
@@ -105,6 +107,8 @@ export type ProductOptionTranslation = {
   name: string; // 'Діаметр'
   valueKey: string; // '23'
   value: string; // '23 см'
+  /** Swatch colour of an appearance value, copied from `ProductOption`. */
+  swatch?: string;
 };
 
 export type ProductTranslation = {

@@ -56,7 +56,7 @@ export async function RecommendedProductsSection({
         >
           {products.map(product => (
             <li
-              key={product.id}
+              key={product.variant.id}
               className={cn(
                 'shrink-0 snap-start',
                 'w-full sm:w-[calc((100%-16px)/1.5)]',

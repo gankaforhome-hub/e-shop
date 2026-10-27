@@ -18,7 +18,11 @@ export type ProductCardVariant = {
   };
 };
 
-/** Minimal catalog card: collection, title, price; options live on the product page. */
+/**
+ * Catalog card: one per product colour/glaze (`getAppearanceSlices`) with
+ * collection, title, that SKU's media and price. Sizes and other options are
+ * chosen on the product page.
+ */
 export type ProductCardDTO = {
   id: string;
   slug: string;
@@ -38,6 +42,8 @@ export type ProductCardDTO = {
   variant: ProductCardVariant;
   /** More than one SKU: the card links to the product page on `variant`. */
   hasVariants: boolean;
+  /** Colour/glaze of this card when the product comes in several. */
+  variantLabel?: string;
   /** Per-user flag merged in after the cached catalog read. */
   isFavorite: boolean;
 };
