@@ -56,7 +56,12 @@ export default async function WishlistPage({ params }: WishlistPageProps) {
       <Breadcrumbs lastItemTitle={common.favorites.title} />
       <Section>
         <Container className="flex flex-col gap-6 md:gap-8">
-          <Heading headingLevel="h1" variant="document" tone="emphasis">
+          <Heading
+            headingLevel="h1"
+            variant="document"
+            tone="emphasis"
+            visibility="hidden"
+          >
             {common.favorites.title}
           </Heading>
           {/* The list comes from the favorites cookie (request time) */}
