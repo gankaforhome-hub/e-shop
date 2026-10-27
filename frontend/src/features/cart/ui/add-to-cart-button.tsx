@@ -19,12 +19,24 @@ interface AddToCartButtonProps {
   /** Line snapshot to add; `null` when the selected variant can't be bought. */
   line: Omit<CartLine, 'quantity'> | null;
   label: string;
+  /** Slide the cart drawer open after adding (off inside other drawers). */
+  openCart?: boolean;
+  /** `full`: PDP CTA; `small`: compact row action (wishlist drawer). */
+  size?: 'full' | 'small';
+  /** `default`: filled CTA; `outline`: bordered secondary action. */
+  variant?: 'default' | 'outline';
+  /** Runs after the line is added, e.g. to drop it from the wishlist. */
+  onAdded?: () => void;
   className?: string;
 }
 
 export function AddToCartButton({
   line,
   label,
+  openCart = true,
+  size = 'full',
+  variant = 'default',
+  onAdded,
   className,
 }: AddToCartButtonProps) {
   const t = useTranslations('common.cart');
@@ -38,7 +50,10 @@ export function AddToCartButton({
       return;
     }
     addLine(line);
-    openDrawer(true);
+    if (openCart) {
+      openDrawer(true);
+    }
+    onAdded?.();
     // Repeated clicks restart the checkmark instead of stacking timers
     setAdded(true);
     clearTimeout(resetTimer.current);
@@ -48,11 +63,16 @@ export function AddToCartButton({
   return (
     <Button
       type="button"
-      size="full"
+      size={size}
+      variant={variant}
       disabled={!line}
       onClick={handleClick}
       data-added={added || undefined}
-      className={cn('group/add relative py-6 text-base shadow-none', className)}
+      className={cn(
+        'group/add relative shadow-none',
+        size === 'full' && 'py-6 text-base',
+        className,
+      )}
     >
       {/* Both labels share one grid cell: the button never changes size */}
       <span className="grid place-items-center">
