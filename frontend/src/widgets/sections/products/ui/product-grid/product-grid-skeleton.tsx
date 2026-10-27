@@ -1,5 +1,5 @@
 import { ProductCardSkeleton } from '@/entities/product';
-import { repeat } from '@/shared/lib/utils';
+import { cn, repeat } from '@/shared/lib/utils';
 
 import {
   getProductGridItemClassName,
@@ -8,12 +8,16 @@ import {
 
 interface ProductGridSkeletonProps {
   count?: number;
+  className?: string;
 }
 
 /** Same tracks and item spans as `ProductGrid` on every viewport. */
-export function ProductGridSkeleton({ count = 4 }: ProductGridSkeletonProps) {
+export function ProductGridSkeleton({
+  count = 4,
+  className,
+}: ProductGridSkeletonProps) {
   return (
-    <div aria-hidden="true" className={productGridClassName}>
+    <div aria-hidden="true" className={cn(productGridClassName, className)}>
       {repeat(count).map((_, index) => (
         <div
           key={`skeleton-${index}`}

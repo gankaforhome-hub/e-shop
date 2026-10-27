@@ -14,6 +14,8 @@ interface IProductGridProps {
   className?: string;
   lang: Locale;
   isMasonry?: boolean;
+  /** Leading cards loaded eagerly; 0 for grids below the fold. */
+  priorityCount?: number;
 }
 
 export function ProductGrid({
@@ -22,6 +24,7 @@ export function ProductGrid({
   lang,
   className = '',
   isMasonry = false,
+  priorityCount = 2,
 }: IProductGridProps) {
   const visibleProducts = limit ? products.slice(0, limit) : products;
 
@@ -43,7 +46,7 @@ export function ProductGrid({
           >
             <ProductCard
               product={product}
-              priority={index < 2}
+              priority={index < priorityCount}
               lang={lang}
               favoriteButton={
                 <FavoriteButton
