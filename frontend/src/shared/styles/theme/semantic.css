@@ -12,6 +12,8 @@
   --foreground-emphasis: var(--primitive-neutral-800);
   /* Max-contrast ink (19.9:1): prices and exceptional heading highlights only. */
   --foreground-strong: var(--primitive-neutral-900);
+  /* Modal backdrop tint (used at partial opacity, e.g. `bg-scrim/55`). */
+  --scrim: var(--primitive-neutral-800);
 
   --card: var(--primitive-neutral-300);
   --card-foreground: var(--primitive-neutral-ink);

@@ -28,6 +28,7 @@ function SheetPortal({
   return <SheetPrimitive.Portal {...props} />;
 }
 
+/** One backdrop for every sheet (cart, mobile menu, filters): dark tint, hint of blur. */
 function SheetOverlay({
   className,
   ...props
@@ -35,7 +36,7 @@ function SheetOverlay({
   return (
     <SheetPrimitive.Overlay
       className={cn(
-        'bg-foreground/20 backdrop-blur-sm',
+        'bg-scrim/55 backdrop-blur-[2px]',
         'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 duration-(--dur-normal) fixed inset-0 z-50 ease-out',
         className,
       )}
@@ -61,7 +62,7 @@ function SheetContent({
         className={cn(
           'bg-background text-foreground fixed z-50 flex flex-col outline-none transition ease-out',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
-          'data-[state=closed]:duration-200 data-[state=open]:duration-200',
+          'duration-(--dur-normal)',
           side === 'right' &&
             'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 w-full',
           side === 'left' &&
