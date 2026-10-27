@@ -504,6 +504,19 @@
     "freeDeliveryRemaining": "Add {amount} more for free delivery",
     "freeDeliveryReached": "You've unlocked free delivery"
   },
+  "favorites": {
+    "title": "Favorites",
+    "open": "Open favorites",
+    "close": "Close favorites",
+    "empty": "Your favorites list is empty",
+    "addToCart": "Add to bag",
+    "chooseOptions": "Choose options",
+    "soldOut": "Sold out",
+    "remove": "Remove from favorites",
+    "viewAll": "View all",
+    "metaDescription": "Products you saved to come back to later.",
+    "emptyCta": "Browse the catalog"
+  },
   "subscribe": {
     "success": "You have successfully signed up!",
     "error": "Something went wrong. Please try again.",

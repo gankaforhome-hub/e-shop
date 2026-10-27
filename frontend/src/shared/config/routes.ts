@@ -74,6 +74,7 @@ export const apiRoutes = {
   checkout: '/api/checkout',
   leads: '/api/leads',
   cartTitles: '/api/cart/titles',
+  favorites: '/api/favorites',
 } as const;
 
 //INFO Functions for dynamic routes
