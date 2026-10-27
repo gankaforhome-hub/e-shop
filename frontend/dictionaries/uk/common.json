@@ -500,9 +500,7 @@
     "decrease": "Зменшити кількість",
     "remove": "Видалити товар",
     "added": "Додано у кошик",
-    "preOrder": "Передзамовлення",
-    "freeDeliveryRemaining": "Додайте ще {amount} — і доставка буде безкоштовною",
-    "freeDeliveryReached": "Доставка для вас безкоштовна"
+    "preOrder": "Передзамовлення"
   },
   "favorites": {
     "title": "Обране",

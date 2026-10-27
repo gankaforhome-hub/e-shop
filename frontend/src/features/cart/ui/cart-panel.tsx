@@ -10,7 +10,6 @@ import { Button } from '@/shared/ui/button';
 import { Text } from '@/shared/ui/text';
 
 import { CartItemCard } from './cart-item';
-import { FreeDeliveryProgress } from './free-delivery-progress';
 import { useCart } from '../model/use-cart';
 
 interface CartPanelProps {
@@ -33,7 +32,7 @@ export default function CartPanel({ onNavigate }: CartPanelProps) {
 
   return (
     <>
-      <ul className="flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain p-4">
+      <ul className="flex flex-1 flex-col gap-3 overflow-y-auto overflow-x-hidden overscroll-contain p-4">
         {lines.map(line => (
           <li key={line.id}>
             <CartItemCard
@@ -47,8 +46,7 @@ export default function CartPanel({ onNavigate }: CartPanelProps) {
       </ul>
 
       <div className="border-border bg-muted flex flex-col gap-4 border-t p-4">
-        <FreeDeliveryProgress subtotal={totalAmount} />
-        <div className="text-foreground flex items-center justify-between">
+        <div className="text-foreground flex flex-wrap items-center justify-between gap-x-4">
           <Text as="span" size="none" className="text-base font-medium">
             {t('label.total')}:
           </Text>
