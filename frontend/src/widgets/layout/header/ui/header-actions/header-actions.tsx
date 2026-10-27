@@ -3,6 +3,8 @@ import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
+import { FavoritesDrawer } from '../favorites-drawer';
+
 interface HeaderActionsProps {
   label: {
     search: string;
@@ -34,14 +36,7 @@ export function HeaderActions({ label, className }: HeaderActionsProps) {
       >
         <Icon name="user" size={24} className={iconClassName} />
       </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="group max-lg:hidden"
-        aria-label={label.favorites}
-      >
-        <Icon name="favorite" size={24} className={iconClassName} />
-      </Button>
+      <FavoritesDrawer className="max-lg:hidden" />
       <CartDrawer />
     </div>
   );
