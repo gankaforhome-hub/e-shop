@@ -62,7 +62,7 @@ export function CartDrawer({ className }: CartDrawerProps) {
 
       <SheetContent
         side="right"
-        className="flex w-full max-w-xs flex-col p-0 md:max-w-lg"
+        className="flex w-full max-w-xs flex-col p-0 sm:max-w-md md:max-w-lg"
         onOpenAutoFocus={e => e.preventDefault()}
       >
         <SheetHeader className="border-brand/50 relative border-b-2 px-4 py-3">

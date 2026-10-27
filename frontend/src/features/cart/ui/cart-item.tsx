@@ -55,7 +55,7 @@ export function CartItemCard({
         <AppLink
           href={routes.product(line.slug)}
           onClick={onNavigate}
-          className="text-foreground hover:text-foreground-emphasis duration-(--dur-normal) line-clamp-2 text-base leading-snug transition-colors sm:text-lg"
+          className="text-foreground hover:text-foreground-emphasis duration-(--dur-normal) wrap-break-word line-clamp-2 text-base leading-snug transition-colors sm:text-lg"
         >
           {line.title}
         </AppLink>
@@ -69,8 +69,9 @@ export function CartItemCard({
         </Text>
 
         {/* Stepper and delete sit at opposite ends with a guaranteed gap; the
-            "Quantity:" label only shows from sm (the drawer is 320px on phones) */}
-        <div className="flex items-center justify-between gap-4 pt-2">
+            "Quantity:" label only shows from sm (the drawer is 320px on phones);
+            delete wraps below the stepper only on sub-340px screens instead of overflowing */}
+        <div className="flex items-center justify-between gap-x-4 gap-y-2 pt-2 max-[339px]:flex-wrap">
           <div className="flex items-center gap-3">
             <Text
               as="span"
