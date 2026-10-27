@@ -17,14 +17,14 @@ export function getHelpNavConfig(
       href: routes.info('faq'),
     },
     {
-      id: 'returns_exchanges',
-      label: dict.returns_exchanges,
-      href: routes.info('returns-exchanges'),
-    },
-    {
       id: 'payment_delivery',
       label: dict.payment_delivery,
       href: routes.info('payment-delivery'),
+    },
+    {
+      id: 'returns_exchanges',
+      label: dict.returns_exchanges,
+      href: routes.info('returns-exchanges'),
     },
     {
       id: 'public_offer',
