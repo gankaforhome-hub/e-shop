@@ -5,8 +5,10 @@
   "selectOption": "Choose a size",
   "descriptionAndDetails": "Description and details",
   "careAndUse": "Care and use",
-  "deliveryAndReturns": "Delivery and returns",
-  "sku": "Code",
-  "careInstructionsText": "Made at our factory in Ukraine. Each product is created for modern serving and the highest quality.",
-  "deliveryTermsText": "Delivery within 5-7 working days. Returns are possible within 14 days."
+  "sku": "Product code",
+  "specifications": "Specifications",
+  "weight": "Weight",
+  "yes": "Yes",
+  "no": "No",
+  "careInstructionsText": "Made at our factory in Ukraine. Each product is created for modern serving and the highest quality."
 }

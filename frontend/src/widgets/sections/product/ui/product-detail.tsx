@@ -5,6 +5,8 @@ import {
   ProductDetailView,
   type ProductVariantTranslation,
 } from '@/entities/product';
+import { FavoriteButton } from '@/features/add-to-favorite';
+import { getFavoriteIds } from '@/features/add-to-favorite/server';
 import { AddToCartButton } from '@/features/cart';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
@@ -39,9 +41,11 @@ export async function ProductDetailSection({
   lang,
   searchParams,
 }: ProductDetailSectionProps) {
-  const [{ variant }, { product: dict }] = await Promise.all([
+  // Favorites are per-user (cookie): read here, inside the page's Suspense
+  const [{ variant }, { product: dict }, favoriteIds] = await Promise.all([
     searchParams,
     getDictionary(['product'], lang),
+    getFavoriteIds(),
   ]);
 
   return (
@@ -53,11 +57,20 @@ export async function ProductDetailSection({
           selectedVariantSku={typeof variant === 'string' ? variant : undefined}
           renderAction={selected => {
             const purchasable = selected && isVariantPurchasable(selected);
+            // One height per breakpoint (56 → 64 → 72px); the heart is its square
             return (
-              <AddToCartButton
-                label={dict.addToBag}
-                line={purchasable ? toCartLine(product, selected) : null}
-              />
+              <div className="flex gap-3">
+                <AddToCartButton
+                  label={dict.addToBag}
+                  line={purchasable ? toCartLine(product, selected) : null}
+                  className="xl:h-18 h-14 min-w-0 flex-1 py-0 text-sm md:h-16 md:text-base"
+                />
+                <FavoriteButton
+                  productId={product.id}
+                  initialFavorite={favoriteIds.has(product.id)}
+                  appearance="action"
+                />
+              </div>
             );
           }}
         />

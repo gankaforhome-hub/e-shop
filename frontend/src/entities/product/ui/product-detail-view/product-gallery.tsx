@@ -63,14 +63,20 @@ function ProductGalleryContent({
   }, [current]);
 
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
+    // lg+: rail 1fr / main 5.5fr, so ~5 thumbnails fill the main image height
+    <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,5.5fr)] lg:gap-6 xl:gap-8">
       {/* Основна картинка */}
-      <div className="relative w-full min-w-0 lg:order-2 lg:flex-1">
+      <div
+        className={cn(
+          'relative w-full min-w-0 lg:order-2 lg:self-start',
+          isSingleMedia && 'lg:col-span-2',
+        )}
+      >
         <CarouselContent>
           {media.map((item, index) => (
             <CarouselItem
               key={item.id}
-              className="relative aspect-square w-full pl-0"
+              className="relative aspect-square w-full rounded-none pl-0"
             >
               <AppMedia
                 src={item.src}
@@ -78,8 +84,8 @@ function ProductGalleryContent({
                 fill
                 loading={index === initialIndex ? 'eager' : 'lazy'}
                 fetchPriority={index === initialIndex ? 'high' : 'auto'}
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="h-full w-full select-none object-cover"
+                sizes="(min-width: 1024px) 55vw, (min-width: 768px) 50vw, 100vw"
+                className="h-full w-full select-none rounded-none object-cover"
               />
             </CarouselItem>
           ))}
@@ -103,14 +109,15 @@ function ProductGalleryContent({
 
       {/* Колонки мініатюр */}
       {!isSingleMedia && (
-        <div className="relative shrink-0 overflow-hidden max-lg:hidden lg:order-1 lg:w-20 lg:self-stretch">
+        <div className="relative min-w-0 overflow-hidden max-lg:hidden lg:order-1 lg:self-stretch">
           <div className="absolute inset-0 flex flex-col">
             <ScrollableContainer
               as="ul"
               indicatorType="none"
               gapClassName="gap-2 sm:gap-3 lg:flex-col"
               indicatorClassName="m-2"
-              scrollClassName="h-full min-h-0 lg:flex-col"
+              // Top-aligned with the main image; focus ring is inset instead
+              scrollClassName="h-full min-h-0 lg:flex-col lg:py-0"
             >
               {media.map((item, index) => {
                 const isSelected = current === index;
@@ -124,7 +131,7 @@ function ProductGalleryContent({
                       onClick={() => scrollTo(index)}
                       aria-current={isSelected ? 'true' : undefined}
                       className={cn(
-                        'focus-visible:ring-ring duration-(--dur-fast) relative aspect-square h-16 w-16 shrink-0 border outline-none transition-[border-color,opacity] focus-visible:ring-2 sm:h-20 sm:w-20',
+                        'focus-visible:ring-ring duration-(--dur-fast) relative block aspect-square w-full shrink-0 rounded-none border outline-none transition-[border-color,opacity] focus-visible:ring-2 focus-visible:ring-inset',
                         isSelected
                           ? 'border-brand'
                           : 'border-transparent opacity-80 hover:opacity-100',
@@ -134,10 +141,9 @@ function ProductGalleryContent({
                       <AppMedia
                         src={item.src}
                         alt=""
-                        width={80}
-                        height={80}
-                        sizes="80px"
-                        className="h-full w-full select-none object-cover"
+                        fill
+                        sizes="(min-width: 1536px) 160px, (min-width: 1280px) 128px, 100px"
+                        className="h-full w-full select-none rounded-none object-cover"
                       />
                     </button>
                   </li>
@@ -166,7 +172,8 @@ export function ProductGallery(props: ProductGalleryProps) {
     : 0;
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-3 lg:col-span-7">
+    // Dims while the sidebar is switching to another variant's gallery
+    <div className="duration-(--dur-normal) flex w-full min-w-0 flex-col gap-3 transition-opacity group-has-[[data-variant-pending]]/pdp:opacity-60">
       <Carousel
         className="relative z-10 h-full w-full"
         opts={{

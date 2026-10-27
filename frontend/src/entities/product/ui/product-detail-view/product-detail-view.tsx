@@ -6,10 +6,12 @@ import { type Locale } from '@/shared/i18n/routing';
 import { ProductAccordions } from './product-accordions';
 import { ProductGallery } from './product-gallery';
 import { ProductInfoSidebar } from './product-info-sidebar';
+import { getAttributeLabels } from '../../api/get-attribute-labels';
 import {
   getVariantGallery,
   resolveSelectedVariant,
 } from '../../lib/product-mapper';
+import { getProductSpecs } from '../../lib/product-specs';
 import {
   type LocalizedProduct,
   type ProductVariantTranslation,
@@ -30,7 +32,10 @@ export async function ProductDetailView({
   selectedVariantSku,
   renderAction,
 }: ProductDetailViewProps) {
-  const { product: dict, common } = await getDictionary(['product'], lang);
+  const [{ product: dict, common }, attributeLabels] = await Promise.all([
+    getDictionary(['product'], lang),
+    getAttributeLabels(lang),
+  ]);
   const selectedVariant = resolveSelectedVariant(
     product.variants,
     selectedVariantSku,
@@ -40,9 +45,17 @@ export async function ProductDetailView({
   // differs); otherwise the full product gallery, featured item first
   const gallery = getVariantGallery(product, selectedVariant);
   const activeMediaId = gallery[0]?.id ?? '';
+  const specs = getProductSpecs(product, selectedVariant, attributeLabels, {
+    weight: dict.weight,
+    yes: dict.yes,
+    no: dict.no,
+  });
 
+  // Two explicit tracks, so the column gap exists once: md 1fr/1fr, lg 7fr/5fr
+  // (a 12-col grid would repeat the fluid gap 11×, up to 1980px, and break
+  // out of the container). Gap from lg: ~80px at 1024 → 180px at 1920+
   return (
-    <div className="font-caption grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+    <div className="font-caption lg:fgapc-0/45 group/pdp grid grid-cols-1 items-start gap-8 md:grid-cols-2 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
       <ProductGallery
         key={selectedVariant?.mediaIds ? selectedVariant.id : product.id}
         media={gallery}
@@ -50,7 +63,7 @@ export async function ProductDetailView({
         activeMediaId={activeMediaId}
       />
 
-      <div className="flex flex-col gap-6 lg:col-span-5">
+      <div className="flex min-w-0 flex-col gap-6">
         <ProductInfoSidebar
           product={product}
           selectedVariant={selectedVariant}
@@ -65,7 +78,7 @@ export async function ProductDetailView({
           action={renderAction?.(selectedVariant)}
         />
 
-        <ProductAccordions product={product} label={dict} />
+        <ProductAccordions product={product} specs={specs} label={dict} />
       </div>
     </div>
   );
