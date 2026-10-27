@@ -12,6 +12,11 @@ export {
   type PaginatedProductsDTO,
 } from './api/get-products';
 export {
+  getRecommendedProducts,
+  type GetRecommendedProductsParams,
+  type RecommendationGroup,
+} from './api/get-recommended-products';
+export {
   getMainVariant,
   getVariantGallery,
   isVariantPurchasable,
