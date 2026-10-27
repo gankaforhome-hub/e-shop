@@ -33,22 +33,21 @@ export default function CartPanel({ onNavigate }: CartPanelProps) {
 
   return (
     <>
-      <div className="border-border border-b px-4 py-3">
-        <FreeDeliveryProgress subtotal={totalAmount} />
-      </div>
-
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4">
+      <ul className="flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain p-4">
         {lines.map(line => (
-          <CartItemCard
-            key={line.id}
-            line={line}
-            onQuantityChange={updateQuantity}
-            onRemove={removeLine}
-          />
+          <li key={line.id}>
+            <CartItemCard
+              line={line}
+              onQuantityChange={updateQuantity}
+              onRemove={removeLine}
+              onNavigate={onNavigate}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className="border-border bg-muted flex flex-col gap-4 border-t p-4">
+        <FreeDeliveryProgress subtotal={totalAmount} />
         <div className="text-foreground flex items-center justify-between">
           <Text as="span" size="none" className="text-base font-medium">
             {t('label.total')}:

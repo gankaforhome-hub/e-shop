@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import dynamic from 'next/dynamic';
 
 import { useTranslations } from 'next-intl';
@@ -18,7 +16,9 @@ import {
   SheetTrigger,
 } from '@/shared/ui/sheet';
 
+import { useCartDrawerStore } from '../model/cart-drawer-store';
 import { useCart, useCartRehydration } from '../model/use-cart';
+import { useCartLocaleSync } from '../model/use-cart-locale-sync';
 
 // The panel (lines, totals, money formatting) isn't needed until the drawer opens
 const CartPanel = dynamic(() => import('./cart-panel'));
@@ -29,9 +29,12 @@ interface CartDrawerProps {
 
 export function CartDrawer({ className }: CartDrawerProps) {
   const t = useTranslations('common.cart');
-  const [open, setOpen] = useState(false);
+  // Shared store: "Add to cart" opens the drawer too
+  const open = useCartDrawerStore(state => state.open);
+  const setOpen = useCartDrawerStore(state => state.setOpen);
   const { totalQuantity } = useCart();
   useCartRehydration();
+  useCartLocaleSync();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
