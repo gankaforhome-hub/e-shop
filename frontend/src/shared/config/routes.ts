@@ -73,6 +73,7 @@ export type ProductsSearchParams = {
 export const apiRoutes = {
   checkout: '/api/checkout',
   leads: '/api/leads',
+  cartTitles: '/api/cart/titles',
 } as const;
 
 //INFO Functions for dynamic routes

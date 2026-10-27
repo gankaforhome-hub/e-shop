@@ -1,4 +1,5 @@
 import { type ProductPrice } from '@/entities/product';
+import { type Locale } from '@/shared/i18n/routing';
 
 /** One line in the cart; keyed by variant (one product can have many lines). */
 export type CartLine = {
@@ -9,6 +10,8 @@ export type CartLine = {
   sku: string;
   slug: string;
   title: string;
+  /** Language of `title`; lines in another language are re-translated. */
+  locale?: Locale;
   /** Short variant description, e.g. "22 cm · Forest green". */
   variantLabel?: string;
   price: ProductPrice;

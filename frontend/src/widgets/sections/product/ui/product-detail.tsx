@@ -23,6 +23,7 @@ interface ProductDetailSectionProps {
 const toCartLine = (
   product: LocalizedProduct,
   variant: ProductVariantTranslation,
+  lang: Locale,
 ) => ({
   id: variant.id,
   productId: product.id,
@@ -30,6 +31,7 @@ const toCartLine = (
   sku: variant.sku,
   slug: product.slug,
   title: product.title,
+  locale: lang,
   variantLabel: variant.options.map(o => o.value).join(' · ') || undefined,
   price: variant.price,
   image:
@@ -62,7 +64,9 @@ export async function ProductDetailSection({
               <div className="flex gap-3">
                 <AddToCartButton
                   label={dict.addToBag}
-                  line={purchasable ? toCartLine(product, selected) : null}
+                  line={
+                    purchasable ? toCartLine(product, selected, lang) : null
+                  }
                   className="xl:h-18 h-14 min-w-0 flex-1 py-0 text-sm md:h-16 md:text-base"
                 />
                 <FavoriteButton
