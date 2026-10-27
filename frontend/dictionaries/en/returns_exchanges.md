@@ -1,63 +1,62 @@
-# Returns & Exchanges
+# Exchange and returns
 
-You can return a product within 14 days of receipt or make a claim for a
-defective one under the Law of Ukraine “On Consumer Protection”. These terms are
-part of the [Public Offer](/info/public-offer).
+## Exchange
 
-## Returning a product of proper quality
+Exchangeable Goods can be exchanged within 14 (fourteen) calendar days from the moment the Order is received if, for some reason, they didn’t suit the Buyer.
 
-You may withdraw from the purchase within 14 calendar days from the day you
-receive the product (Article 13 of the Law of Ukraine “On Consumer Protection”).
+We reserve the right to refuse an exchange if one or more conditions are not met:
+- full set of the Product (packaging, accompanying documents);
+- preserved commercial appearance (no signs of use);
+- having a receipt or proof of payment.
 
-A product is accepted for return if:
+### IMPORTANT:
+- Exchange is only made for another product from the available assortment. Money is not refunded;
+- after 14 (fourteen) calendar days have passed, exchange is not possible;
+- the delivery cost is non-refundable;
+- we do not replace or refund lost or stolen items;
+- exchanges are not available for individual and personalized orders.
 
-- it has not been used;
-- its presentation, consumer properties, packaging and labels have been
-  preserved;
-- you have proof of purchase.
+## Returning goods of proper quality
+
+You have the right to return a product of proper quality within 14 calendar days from the day you receive it (Article 13 of the Law of Ukraine 'On Consumer Rights Protection').
+
+The product can be returned if:
+- it hasn’t been used;
+- its appearance, consumer properties, packaging, and labels are intact;
+- you have a proof of purchase.
 
 ## How to return a product
 
-1. Notify us by email or via a messenger. You can use the Notice of Withdrawal
-   form below.
-2. Pack the product securely. A product damaged during return shipment due to
-   improper packing is not considered to have preserved its presentation.
-3. Send the product via a carrier to the address we provide. The cost of return
-   shipping is borne by the buyer.
+1. Let us know by email or messenger. You can use the opt-out form below.
+2. Pack the item securely. An item damaged during return shipping due to poor packaging is not considered to have kept its original condition.
+3. Send the product via a carrier to the address we provide. The buyer pays for return shipping.
 
-## Refunds
+## Refund
 
-We refund the full price of the product within 30 calendar days from the day we
-receive the returned product:
+We refund the full price of the item within 30 calendar days from the day we receive the returned item:
+- to the card that was used for payment;
+- for cash on delivery payments - to the account you provided.
 
-- to the card used for payment;
-- for cash-on-delivery orders, to the account you specify.
+The time it takes for funds to be credited depends on your bank.
 
-The crediting period depends on your bank.
+## Product of poor quality
 
-## Defective products
+A downside is considered to be manufacturing defects that occurred before the product was handed to you (for example, a crack, chip, peeling of the paint), as well as the product not matching the order.
 
-A defect means a manufacturing defect that arose before the product was handed
-over to you (for example, a crack, chip or flaking of the painting), as well as
-a product that does not match your order.
+If you notice a defect, you can, in particular, demand (Article 8 of the Law of Ukraine 'On Consumer Rights Protection'):
+- replace the product with the same one, if it's available;
+- proportional reduction of the price;
+- refund of paid funds.
 
-If you discover a defect, you may demand, in particular (Article 8 of the Law of
-Ukraine “On Consumer Protection”):
+To make a claim, please notify us and include a photo of the defect. We handle claims within the timeframes set by law. The seller pays for shipping items that are of poor quality.
 
-- replacement with an identical product, if available;
-- a proportionate price reduction;
-- a refund.
-
-To make a claim, notify us and attach a photo of the defect. We consider claims
-within the time limits established by law. The cost of shipping a defective
-product is borne by the seller.
-
-We are not liable for damage that occurred after you received the product as a
-result of a fall, impact or other mechanical action.
+We are not responsible for damage that occurs after receiving the item due to drops, impacts, or other mechanical influences.
 
 ## Exceptions
 
-- Personalised items made to your individual order cannot be returned or
-  exchanged as products of proper quality.
-- The features of art products described in section 4 of the Public Offer are
-  not defects, but they do not limit your right to withdraw within 14 days.
+- Personalized products made to your individual order are not subject to return or exchange as goods of proper quality.
+- The features of the art products described in section 4 of the Public Offer are not defects, but they do not limit your right to return the goods within 14 days.
+
+Other disputes between the Parties are resolved based on the Law of Ukraine 'On Consumer Rights Protection'.
+
+## Appendix 1. Statement of Refusal of Goods
