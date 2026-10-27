@@ -47,7 +47,9 @@ export async function Header({ lang, infoNav }: IHeaderProps) {
           <div
             className={cn(
               'grid grid-cols-[1fr_auto_1fr] items-center py-2.5',
-              'group-data-[show-submenu=false]/header:py-1 group-data-[show-submenu=true]/header:py-4',
+              'group-data-[show-submenu=true]/header:py-4',
+              // Compact: enough room above the cart badge (-top-1) below lg
+              'group-data-[show-submenu=false]/header:py-2 lg:group-data-[show-submenu=false]/header:py-1',
               'transition-all duration-300 ease-in-out',
             )}
           >
