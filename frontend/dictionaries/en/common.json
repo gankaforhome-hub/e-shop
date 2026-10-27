@@ -500,7 +500,9 @@
     "decrease": "Decrease quantity",
     "remove": "Remove item",
     "added": "Added to cart",
-    "preOrder": "Pre-order"
+    "preOrder": "Pre-order",
+    "freeDeliveryRemaining": "Add {amount} more for free delivery",
+    "freeDeliveryReached": "You've unlocked free delivery"
   },
   "subscribe": {
     "success": "You have successfully signed up!",

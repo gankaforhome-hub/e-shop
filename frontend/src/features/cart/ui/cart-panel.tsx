@@ -10,6 +10,7 @@ import { Button } from '@/shared/ui/button';
 import { Text } from '@/shared/ui/text';
 
 import { CartItemCard } from './cart-item';
+import { FreeDeliveryProgress } from './free-delivery-progress';
 import { useCart } from '../model/use-cart';
 
 interface CartPanelProps {
@@ -32,6 +33,10 @@ export default function CartPanel({ onNavigate }: CartPanelProps) {
 
   return (
     <>
+      <div className="border-border border-b px-4 py-3">
+        <FreeDeliveryProgress subtotal={totalAmount} />
+      </div>
+
       <div className="flex-1 overflow-y-auto overscroll-contain px-4">
         {lines.map(line => (
           <CartItemCard
