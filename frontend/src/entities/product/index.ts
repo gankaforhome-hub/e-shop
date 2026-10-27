@@ -23,6 +23,7 @@ export {
   resolveSelectedVariant,
 } from './lib/product-mapper';
 export { buildSku, type BuildSkuParams } from './lib/sku';
+export { getVariantSlice } from './lib/variant-options';
 export {
   type ProductAttributes,
   type ProductBaseAttributes,

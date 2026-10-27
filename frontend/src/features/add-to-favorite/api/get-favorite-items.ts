@@ -4,6 +4,7 @@ import {
   getLocalizedProducts,
   getMainVariant,
   getVariantGallery,
+  getVariantSlice,
   isVariantPurchasable,
 } from '@/entities/product';
 import { type Locale } from '@/shared/i18n/routing';
@@ -28,10 +29,13 @@ export async function getFavoriteItems(lang: Locale): Promise<FavoriteItem[]> {
       return [];
     }
 
-    const purchasable = isVariantPurchasable(variant);
-    const action = !purchasable
+    // A colour is its own card/PDP (one slice per colour/glaze), so only a
+    // real choice inside the slice (size, volume…) needs the product page;
+    // colour-only products add the shown colour's SKU straight away
+    const hasOptions = getVariantSlice(product.variants, variant).length > 1;
+    const action = !isVariantPurchasable(variant)
       ? 'soldOut'
-      : product.variants.length > 1
+      : hasOptions
         ? 'options'
         : 'add';
     const image =
@@ -41,6 +45,7 @@ export async function getFavoriteItems(lang: Locale): Promise<FavoriteItem[]> {
       {
         productId: product.id,
         slug: product.slug,
+        ...(product.variants.length > 1 && { variantSku: variant.sku }),
         title: product.title,
         image,
         price: variant.price,

@@ -38,7 +38,7 @@ export function FavoriteRow({
 }: FavoriteRowProps) {
   const t = useTranslations('common.favorites');
   const lang = useLocale() as Locale;
-  const href = routes.product(item.slug);
+  const href = routes.product(item.slug, item.variantSku);
 
   return (
     <article className="flex items-center gap-3 p-3 sm:gap-5">
