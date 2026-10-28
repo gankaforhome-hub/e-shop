@@ -1,0 +1,130 @@
+/*
+ * Semantic colour layer (shadcn token names): maps primitives.css to UI roles
+ * for both themes. Components consume them through the utilities declared in
+ * global.css `@theme inline` — never reference primitives from components.
+ * Contrast notes are WCAG 2.2 ratios against the theme's --background.
+ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces & text: the storefront's soft grey (its --muted) as the page,
+     white cards and popovers lifted above it */
+  --background: var(--primitive-neutral-100);
+  --foreground: var(--primitive-neutral-ink); /* 6.9:1 */
+  /* Headings and hover of interactive text (14.2:1) */
+  --foreground-emphasis: var(--primitive-neutral-800);
+  --card: var(--primitive-neutral-0);
+  --card-foreground: var(--primitive-neutral-ink);
+  --popover: var(--primitive-neutral-0);
+  --popover-foreground: var(--primitive-neutral-ink);
+  /* Modal backdrop tint (used at partial opacity, e.g. `bg-scrim/50`) */
+  --scrim: var(--primitive-neutral-800);
+
+  /* Actions: the storefront brand accent */
+  --primary: var(--primitive-brand-900); /* #b11226, 7.04:1 */
+  --primary-foreground: var(--primitive-neutral-0);
+  --primary-hover: var(--primitive-brand-700);
+  --secondary: var(--primitive-neutral-100);
+  --secondary-foreground: var(--primitive-neutral-800);
+
+  /* Neutral fills inside white surfaces (avatars, icon tiles, segmented tracks) */
+  --muted: var(--primitive-neutral-100);
+  /* 5.3:1 on background/muted, 5.8:1 on card, 4.9:1 on --sidebar */
+  --muted-foreground: color-mix(
+    in srgb,
+    var(--primitive-neutral-600) 85%,
+    var(--primitive-neutral-800)
+  );
+  /* Translucent hover of menus and ghost buttons: visible on grey and white */
+  --accent: color-mix(in srgb, var(--primitive-neutral-900) 6%, transparent);
+  --accent-foreground: var(--primitive-neutral-800);
+
+  /* Brand-coloured text and icons (eyebrows, active nav icons) */
+  --brand: var(--primitive-brand-900);
+  /* Logo mark: storefront black (19.5:1 on card) */
+  --logo: var(--primitive-neutral-900);
+  --destructive: var(--primitive-red-600); /* 4.83:1 */
+
+  /* Borders & focus */
+  --border: color-mix(in srgb, var(--primitive-neutral-900) 12%, transparent);
+  --input: color-mix(in srgb, var(--primitive-neutral-900) 22%, transparent);
+  --ring: var(--primitive-brand-900);
+
+  /* Sidebar: a shade darker grey than the page, white "lifted" active item */
+  --sidebar: color-mix(
+    in srgb,
+    var(--primitive-neutral-200) 60%,
+    var(--primitive-neutral-100)
+  );
+  --sidebar-foreground: var(--primitive-neutral-ink); /* 6.4:1 */
+  /* Group labels: 4.5:1 */
+  --sidebar-label: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 85%,
+    var(--sidebar)
+  );
+  --sidebar-accent: color-mix(
+    in srgb,
+    var(--primitive-neutral-900) 5%,
+    transparent
+  );
+  --sidebar-accent-foreground: var(--primitive-neutral-800);
+  --sidebar-active: var(--primitive-neutral-0);
+  --sidebar-active-foreground: var(--primitive-neutral-800);
+  --sidebar-primary: var(--primitive-brand-900);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--primitive-brand-900);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Surfaces & text */
+  --background: var(--primitive-stone-950);
+  --foreground: var(--primitive-stone-200); /* 15.6:1 */
+  --foreground-emphasis: var(--primitive-neutral-50);
+  --card: var(--primitive-stone-900);
+  --card-foreground: var(--primitive-stone-200);
+  --popover: var(--primitive-stone-900);
+  --popover-foreground: var(--primitive-stone-200);
+  --scrim: var(--primitive-neutral-1000);
+
+  /* Actions: brand-600 keeps white labels at 5.6:1 */
+  --primary: var(--primitive-brand-600);
+  --primary-foreground: var(--primitive-neutral-0);
+  --primary-hover: var(--primitive-brand-900);
+  --secondary: var(--primitive-stone-800);
+  --secondary-foreground: var(--primitive-neutral-50);
+
+  --muted: var(--primitive-stone-800);
+  --muted-foreground: var(--primitive-stone-400); /* 6:1 on --muted */
+  --accent: var(--primitive-stone-800);
+  --accent-foreground: var(--primitive-neutral-50);
+
+  --brand: var(--primitive-brand-400); /* 5.5:1 */
+  --logo: var(--primitive-neutral-50); /* 16.9:1 on card */
+  --destructive: var(--primitive-red-400); /* 7.1:1 */
+
+  --border: color-mix(in srgb, var(--primitive-neutral-0) 10%, transparent);
+  --input: color-mix(in srgb, var(--primitive-neutral-0) 16%, transparent);
+  --ring: var(--primitive-brand-400);
+
+  --sidebar: var(--primitive-stone-900);
+  --sidebar-foreground: var(--primitive-stone-300);
+  --sidebar-label: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 85%,
+    var(--sidebar)
+  );
+  --sidebar-accent: color-mix(
+    in srgb,
+    var(--primitive-neutral-0) 6%,
+    transparent
+  );
+  --sidebar-accent-foreground: var(--primitive-neutral-50);
+  --sidebar-active: var(--primitive-stone-800);
+  --sidebar-active-foreground: var(--primitive-neutral-50);
+  --sidebar-primary: var(--primitive-brand-400); /* 4.3:1 on --sidebar-active */
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--primitive-brand-400);
+}

@@ -1,0 +1,92 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@import './theme/primitives.css';
+@import './theme/semantic.css';
+@import './theme/radius.css';
+@import './theme/shadows.css';
+@import './theme/motion.css';
+@import './theme/layout.css';
+
+/* Theme: `.dark` on <html>, applied before first paint by PreferencesScript. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Desktop sidebar collapsed to its icon rail: <html data-sidebar-state="collapsed">.
+   Scoped to the sidebar, so the same nav rendered in the mobile Sheet never collapses. */
+@custom-variant sidebar-collapsed (&:where([data-sidebar-state='collapsed'] [data-slot='sidebar'], [data-sidebar-state='collapsed'] [data-slot='sidebar'] *));
+
+/* Semantic colours only: Tailwind's default palette is removed, so utilities
+   like `bg-red-500` generate nothing — use the tokens mapped below. */
+@theme {
+  --color-*: initial;
+}
+
+/* Semantic tokens → Tailwind utilities. Radius, shadow and easing scales are
+   declared directly in theme/radius.css, theme/shadows.css, theme/motion.css. */
+@theme inline {
+  --font-sans: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-foreground-emphasis: var(--foreground-emphasis);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-scrim: var(--scrim);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-brand: var(--brand);
+  --color-logo: var(--logo);
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-label: var(--sidebar-label);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-active-foreground: var(--sidebar-active-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+}
+
+/* Slim scrollbar for inner panels (sidebar, sheets) */
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* Scrollable without a visible scrollbar (collapsed icon rail) */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

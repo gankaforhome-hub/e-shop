@@ -1,0 +1,14 @@
+/*
+ * Border-radius scale (same as the storefront).
+ * Declared in `@theme` so Tailwind generates `rounded-*` utilities from these
+ * values; `static` keeps every variable emitted for direct `var(--radius-*)` use.
+ */
+@theme static {
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+}

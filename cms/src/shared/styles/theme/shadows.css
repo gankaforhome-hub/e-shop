@@ -1,0 +1,11 @@
+/*
+ * Elevation scale (same as the storefront). Shadow colours mirror
+ * --primitive-neutral-900 (8 8 8). Declared in `@theme` so Tailwind generates
+ * `shadow-*` utilities from these values.
+ */
+@theme static {
+  --shadow-xs: 0 1px 2px rgb(8 8 8 / 0.03);
+  --shadow-sm: 0 1px 3px rgb(8 8 8 / 0.06), 0 1px 2px rgb(8 8 8 / 0.04);
+  --shadow-md: 0 4px 6px rgb(8 8 8 / 0.08), 0 2px 4px rgb(8 8 8 / 0.04);
+  --shadow-lg: 0 10px 15px rgb(8 8 8 / 0.1), 0 4px 6px rgb(8 8 8 / 0.05);
+}

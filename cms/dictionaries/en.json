@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "title": "Ganka CMS",
+    "description": "Content management system of Ganka for Home."
+  },
+  "brand": {
+    "name": "Ganka for Home",
+    "product": "CMS",
+    "short": "Ganka CMS"
+  },
+  "nav": {
+    "label": "CMS sections",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Menu",
+    "menuDescription": "CMS sections, interface preferences and account",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "preferences": "Interface",
+    "groups": {
+      "overview": {
+        "label": "Overview",
+        "description": "Every CMS block with links to its sections."
+      },
+      "marketing": {
+        "label": "Marketing",
+        "description": "Dashboard, analytics, orders, inventory and reports."
+      },
+      "catalog": {
+        "label": "Catalog",
+        "description": "Collections, categories, products and attributes."
+      },
+      "content": {
+        "label": "Content",
+        "description": "Site banners, pages, blog and form submissions."
+      },
+      "system": {
+        "label": "System",
+        "description": "Settings, roles and your profile."
+      }
+    }
+  },
+  "sections": {
+    "overview": {
+      "home": {
+        "title": "Overview",
+        "description": "An overview of the CMS: jump to marketing, catalog and content."
+      }
+    },
+    "marketing": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Key sales and store performance indicators."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Site traffic and sales analytics."
+      },
+      "orders": {
+        "title": "Orders",
+        "description": "Order processing, statuses and delivery."
+      },
+      "inventory": {
+        "title": "Inventory",
+        "description": "Stock levels and availability of every SKU."
+      },
+      "reports": {
+        "title": "Reports",
+        "description": "Operational reports and data exports."
+      }
+    },
+    "catalog": {
+      "collections": {
+        "title": "Collections",
+        "description": "Seasonal and themed product collections."
+      },
+      "categories": {
+        "title": "Categories",
+        "description": "Catalog category tree and SKU prefixes."
+      },
+      "products": {
+        "title": "Products",
+        "description": "Create and edit products, variants, prices and media."
+      },
+      "attributes": {
+        "title": "Attributes",
+        "description": "Product attributes and catalog filter values."
+      }
+    },
+    "content": {
+      "banners": {
+        "title": "Banners",
+        "description": "Hero and promo banners of the storefront."
+      },
+      "pages": {
+        "title": "Pages",
+        "description": "Static pages such as About Us: editing, preview and publishing."
+      },
+      "blog": {
+        "title": "Blog",
+        "description": "Articles and news: drafts, editing and publishing."
+      },
+      "forms": {
+        "title": "Forms",
+        "description": "Submissions from the contact and lead forms of the site."
+      }
+    },
+    "system": {
+      "settings": {
+        "title": "Settings",
+        "description": "System settings, users and role management."
+      },
+      "account": {
+        "title": "Profile",
+        "description": "Your account details."
+      }
+    }
+  },
+  "emptyState": {
+    "title": "Nothing here yet",
+    "description": "This section is already part of the CMS structure — its tools will arrive in the next iterations."
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Toggle theme",
+    "switchToDark": "Switch to dark theme",
+    "switchToLight": "Switch to light theme"
+  },
+  "language": {
+    "label": "Language",
+    "current": "Language: {language}",
+    "names": {
+      "uk": "Українська",
+      "en": "English"
+    },
+    "codes": {
+      "uk": "UA",
+      "en": "EN"
+    }
+  },
+  "account": {
+    "menu": "Account menu",
+    "profile": "Profile",
+    "settings": "Settings",
+    "roles": {
+      "admin": "Administrator",
+      "content-editor": "Content editor",
+      "catalog-manager": "Catalog manager",
+      "order-manager": "Order manager"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "back": "Back to overview"
+  }
+}

@@ -1,0 +1,66 @@
+/*
+ * Raw palette. The Ganka for Home block is identical to
+ * frontend/src/shared/styles/theme/primitives.css — never change those values.
+ * Components never use primitives directly: see semantic.css.
+ */
+:root {
+  /* ── Ganka for Home palette (shared with the storefront) ── */
+  --primitive-neutral-0: #ffffff;
+  --primitive-neutral-50: #f8f8f8;
+  --primitive-neutral-100: #f4f5f7;
+  --primitive-neutral-200: #e2e8f0;
+  --primitive-neutral-300: #cbd5e1;
+  --primitive-neutral-400: #9ea3a8;
+  --primitive-neutral-600: #6a7282;
+  --primitive-neutral-700: #4a5568;
+  /* Body ink: text, subheadings, icons, interface elements */
+  --primitive-neutral-ink: #4a5565;
+  --primitive-neutral-800: #22252a;
+  --primitive-neutral-900: #080808;
+  --primitive-neutral-1000: #000000;
+  /* Brand mark ink (logo SVG fill) */
+  --primitive-logo-ink: #231f20;
+
+  --primitive-brand-50: #fef5f6;
+  --primitive-brand-100: #f6e7ea;
+  --primitive-brand-200: #fef1f2;
+  --primitive-brand-600: #c92330;
+  --primitive-brand-700: #8e0e1e;
+  --primitive-brand-800: #9f1022;
+  --primitive-brand-900: #b11226;
+  --primitive-brand-950: #3e060d;
+
+  --primitive-emerald-50: #f0fdf4;
+  --primitive-emerald-500: #34c759;
+  --primitive-emerald-700: #15803d;
+
+  --primitive-amber-50: #fffbeb;
+  --primitive-amber-400: #fbbf24;
+  --primitive-amber-500: #f59e0b;
+  --primitive-amber-700: #b45309;
+  --primitive-amber-950: #451a03;
+
+  --primitive-red-500: #ff0000;
+  --primitive-red-600: #dc2626;
+
+  --primitive-slate-700: #334155;
+  --primitive-slate-900: #0f172a;
+
+  --primitive-stone-800: #292524;
+  --primitive-stone-900: #1c1917;
+
+  /* Warm cream, complements ceramic imagery */
+  --primitive-sand-50: #f7f3ed;
+  /* Flat studio grey behind ceramic photography */
+  --primitive-greige-300: #c9c5c4;
+
+  /* ── CMS additions for the dark theme (the storefront has none) ──
+     The warm stone scale continues stone-800/900 above; brand-400 and red-400
+     keep brand and error accents readable on dark surfaces. */
+  --primitive-stone-200: #e7e5e4;
+  --primitive-stone-300: #d6d3d1;
+  --primitive-stone-400: #a8a29e;
+  --primitive-stone-950: #0c0a09;
+  --primitive-brand-400: #e75568;
+  --primitive-red-400: #f87171;
+}

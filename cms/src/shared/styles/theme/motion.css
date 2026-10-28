@@ -1,0 +1,30 @@
+/* Easing curve — `ease-subtle` utility. */
+@theme static {
+  --ease-subtle: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Durations — consumed as `duration-(--dur-*)` (not a Tailwind theme namespace). */
+:root {
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-slow: 350ms;
+}
+
+/* Respect the OS "reduce motion" setting: collapse motion tokens and any
+   remaining transitions/animations to an instant state change. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-normal: 0ms;
+    --dur-slow: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
