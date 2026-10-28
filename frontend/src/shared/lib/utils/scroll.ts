@@ -24,3 +24,13 @@ export function scrollToTopIfHidden(element: Element | null): void {
     element.scrollIntoView({ behavior: getScrollBehavior(), block: 'start' });
   }
 }
+
+/**
+ * Scrolls the window to the very top (breadcrumbs and the expanded header in
+ * view). No-op when already there.
+ */
+export function scrollToPageTop(): void {
+  if (window.scrollY > 0) {
+    window.scrollTo({ top: 0, behavior: getScrollBehavior() });
+  }
+}

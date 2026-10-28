@@ -6,6 +6,7 @@ import {
   type ProductSort,
   type ProductsSearchParams,
 } from '@/shared/config/routes';
+import { parsePage } from '@/shared/lib/utils';
 
 import {
   CUP_TYPES,
@@ -153,12 +154,6 @@ export function normalizePriceBounds(bounds: PriceBounds): PriceBounds {
     ...(min !== undefined && { min }),
     ...(max !== undefined && { max }),
   };
-}
-
-/** Positive integer page; anything else (missing, `0`, `2.5`, `abc`) → 1. */
-function parsePage(raw: string | undefined): number {
-  const page = Number(raw);
-  return Number.isSafeInteger(page) && page > 1 ? page : 1;
 }
 
 /** Parses untrusted search params; unknown keys/values are dropped. */
