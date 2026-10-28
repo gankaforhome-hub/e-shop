@@ -1,0 +1,60 @@
+{
+  "name": "cms",
+  "version": "0.1.0",
+  "description": "gankaforhome custom CMS (admin panel)",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "next dev --turbopack --port 3030",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "lint": "eslint .",
+    "check-types": "next typegen && tsc --pretty --noEmit",
+    "check-lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "prettier": "prettier --write .",
+    "check-format": "prettier --check .",
+    "fix": "pnpm run prettier && pnpm run lint --fix",
+    "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0",
+    "next": "16.3.8",
+    "next-intl": "^4.14.9",
+    "radix-ui": "^1.6.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@next/eslint-plugin-next": "^16.3.8",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
+    "eslint": "^9",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-boundaries": "^5.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.2.8",
+    "typescript": "^5"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=22.14.0"
+    }
+  }
+}
