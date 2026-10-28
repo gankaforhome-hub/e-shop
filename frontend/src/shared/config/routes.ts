@@ -90,6 +90,11 @@ export const dynamicRoutes = {
     orderId
       ? (`/checkout/success?orderId=${encodeURIComponent(orderId)}` as const)
       : ('/checkout/success' as const),
+  /** All collections on `page`; page 1 stays implicit (`/collections`). */
+  collectionsPage: (page: number) =>
+    page > 1
+      ? (`/collections?page=${page}` as const)
+      : ('/collections' as const),
   collection: (collectionSlug: string) =>
     `/collection/${collectionSlug}` as const,
   products: (params?: ProductsSearchParams) => {

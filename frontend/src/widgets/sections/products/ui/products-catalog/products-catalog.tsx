@@ -34,9 +34,10 @@ import { ProductGrid } from '../product-grid/product-grid';
 import { ProductGridSkeleton } from '../product-grid/product-grid-skeleton';
 
 /**
- * Scroll/focus anchor right above the catalog toolbar: page links, filter
- * changes and "Back to top" return here, so Filter, count and Sort stay
- * visible under the fixed header (`scroll-padding-top` on `<html>`).
+ * Scroll/focus anchor right above the catalog toolbar: filter changes and
+ * "Back to top" return here, so Filter, count and Sort stay visible under
+ * the fixed header (`scroll-padding-top` on `<html>`). Page links scroll to
+ * the page top instead (`CatalogFeed`).
  */
 export const CATALOG_TOP_ID = 'catalog-top';
 
@@ -149,7 +150,6 @@ export async function ProductsCatalog({
           <div className="duration-(--dur-normal) group-has-data-catalog-pending/catalog:pointer-events-none group-has-data-catalog-pending/catalog:opacity-60 motion-safe:group-has-data-catalog-pending/catalog:animate-pulse transition-opacity">
             {data.length > 0 ? (
               <CatalogFeed
-                scrollAnchorId={CATALOG_TOP_ID}
                 page={meta.page}
                 total={meta.total}
                 pageSize={meta.limit}

@@ -3,17 +3,30 @@ import { repeat } from '@/shared/lib/utils';
 import { Container } from '@/shared/ui/container';
 import { Section } from '@/shared/ui/section';
 
+import { collectionsGridClassName } from './collections-grid-layout';
+
+interface CollectionsGridSkeletonProps {
+  count: number;
+}
+
+/** Placeholder grid of `count` cards (also the next "Load more" batch). */
+export const CollectionsGridSkeleton = ({
+  count,
+}: CollectionsGridSkeletonProps) => (
+  <ul className={collectionsGridClassName}>
+    {repeat(count).map((_, i) => (
+      <li key={i}>
+        <CollectionCardSkeleton />
+      </li>
+    ))}
+  </ul>
+);
+
 export const CollectionsSectionSkeleton = () => (
   <>
     <Section>
       <Container>
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-8 xl:grid-cols-3 xl:gap-y-12">
-          {repeat(6).map((_, i) => (
-            <li key={i}>
-              <CollectionCardSkeleton />
-            </li>
-          ))}
-        </ul>
+        <CollectionsGridSkeleton count={6} />
       </Container>
     </Section>
   </>

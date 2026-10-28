@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl';
 
 import { type AppRoutes } from '@/shared/config/routes';
 import { useRouter } from '@/shared/i18n/navigation';
-import { scrollToTopIfHidden } from '@/shared/lib/utils';
+import { cn, scrollToPageTop } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
@@ -29,10 +29,12 @@ interface CatalogFeedProps {
   pageHrefs: readonly AppRoutes[];
   /** Query identity without the page; a change starts a fresh list. */
   queryKey: string;
-  /** `id` of the catalog-top anchor that page links scroll back to. */
-  scrollAnchorId: string;
   /** Grid skeleton shown below the list while the next batch loads. */
   skeleton: ReactNode;
+  /** What is counted in the progress line and named in the page nav. */
+  unit?: 'products' | 'collections';
+  /** Gap between batches; match the grid's row gap so they read as one grid. */
+  listClassName?: string;
 }
 
 type Batch = { page: number; grid: ReactNode };
@@ -44,7 +46,7 @@ type Batch = { page: number; grid: ReactNode };
  * scrolling; the page keeps its client state across query-only navigations,
  * so the new server batch is appended to the ones already shown. Any other
  * change (numbered link, previous page, filters, sort, back button) shows just
- * the requested page and brings the grid top back into view.
+ * the requested page; page links scroll back to the top of the page.
  */
 export function CatalogFeed({
   children,
@@ -53,8 +55,9 @@ export function CatalogFeed({
   pageSize,
   pageHrefs,
   queryKey,
-  scrollAnchorId,
   skeleton,
+  unit = 'products',
+  listClassName,
 }: CatalogFeedProps) {
   const t = useTranslations('common.catalog.pagination');
   const router = useRouter();
@@ -100,7 +103,8 @@ export function CatalogFeed({
     });
   };
 
-  // Page links replace the list: show its top (plain clicks only, not new tabs)
+  // Page links replace the list: back to the page top, breadcrumbs included
+  // (plain clicks only, not new tabs)
   const handleLinkClick = (event: MouseEvent<HTMLElement>) => {
     const isPlainClick =
       event.button === 0 &&
@@ -113,10 +117,24 @@ export function CatalogFeed({
       event.target instanceof Element &&
       event.target.closest('a')
     ) {
-      scrollToTopIfHidden(document.getElementById(scrollAnchorId));
+      scrollToPageTop();
     }
   };
   const previousHref = pageHrefs[firstPage - 2];
+
+  const isCollections = unit === 'collections';
+  let progressText: string;
+  if (isCollections) {
+    progressText =
+      from === 1
+        ? t('collections.progress', { shown: to, total })
+        : t('collections.progressRange', { from, to, total });
+  } else {
+    progressText =
+      from === 1
+        ? t('progress', { shown: to, total })
+        : t('progressRange', { from, to, total });
+  }
 
   return (
     <>
@@ -134,7 +152,10 @@ export function CatalogFeed({
         </div>
       )}
 
-      <div className="flex flex-col gap-4" aria-busy={isPending}>
+      <div
+        className={cn('flex flex-col gap-4', listClassName)}
+        aria-busy={isPending}
+      >
         {batches.map(batch => (
           <Fragment key={batch.page}>{batch.grid}</Fragment>
         ))}
@@ -173,9 +194,7 @@ export function CatalogFeed({
             aria-live="polite"
             className="text-xs tabular-nums sm:text-sm"
           >
-            {from === 1
-              ? t('progress', { shown: to, total })
-              : t('progressRange', { from, to, total })}
+            {progressText}
           </Text>
           <div
             aria-hidden="true"
@@ -195,7 +214,7 @@ export function CatalogFeed({
           rangeStart={firstPage}
           scroll={false}
           labels={{
-            nav: t('nav'),
+            nav: isCollections ? t('collections.nav') : t('nav'),
             previous: t('previous'),
             next: t('next'),
             page: value => t('page', { page: value }),

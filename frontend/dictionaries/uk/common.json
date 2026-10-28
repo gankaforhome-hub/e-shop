@@ -587,7 +587,12 @@
       "previous": "Попередня сторінка",
       "next": "Наступна сторінка",
       "page": "Сторінка {page}",
-      "showPrevious": "Показати попередню сторінку"
+      "showPrevious": "Показати попередню сторінку",
+      "collections": {
+        "progress": "Відображено {shown} з {total, plural, one {# колекції} other {# колекцій}}",
+        "progressRange": "Відображено {from}–{to} з {total, plural, one {# колекції} other {# колекцій}}",
+        "nav": "Сторінки колекцій"
+      }
     },
     "backToTop": "Нагору"
   },

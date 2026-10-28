@@ -587,7 +587,12 @@
       "previous": "Previous page",
       "next": "Next page",
       "page": "Page {page}",
-      "showPrevious": "Show previous page"
+      "showPrevious": "Show previous page",
+      "collections": {
+        "progress": "Showing {shown} of {total, plural, one {# collection} other {# collections}}",
+        "progressRange": "Showing {from}–{to} of {total, plural, one {# collection} other {# collections}}",
+        "nav": "Collection pages"
+      }
     },
     "backToTop": "Back to top"
   },
