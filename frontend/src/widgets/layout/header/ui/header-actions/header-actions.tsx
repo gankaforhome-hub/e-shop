@@ -1,4 +1,5 @@
 import { CartDrawer } from '@/features/cart';
+import { SearchPopover } from '@/features/product-search';
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
@@ -9,7 +10,6 @@ import { FavoritesDrawer } from '../favorites-drawer';
 
 interface HeaderActionsProps {
   label: {
-    search: string;
     account: string;
     favorites: string;
   };
@@ -22,14 +22,8 @@ const iconClassName =
 export function HeaderActions({ label, className }: HeaderActionsProps) {
   return (
     <div className={cn('flex items-center gap-4 md:gap-6', className)}>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="group max-lg:hidden"
-        aria-label={label.search}
-      >
-        <Icon name="search" size={24} className={iconClassName} />
-      </Button>
+      {/* Below lg the search lives in the mobile menu */}
+      <SearchPopover className="max-lg:hidden" />
       {/* Same destination as the mobile menu's account link */}
       <Button
         asChild

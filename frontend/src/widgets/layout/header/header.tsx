@@ -79,7 +79,6 @@ export async function Header({ lang, infoNav }: IHeaderProps) {
             <HeaderActions
               className="justify-self-end"
               label={{
-                search: common.common.aria.search,
                 account: common.common.aria.account,
                 favorites: common.common.aria.favorites,
               }}

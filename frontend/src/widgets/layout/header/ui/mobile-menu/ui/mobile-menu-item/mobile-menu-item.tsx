@@ -21,7 +21,7 @@ export function MobileMenuBlock({
         return (
           <li
             key={item.id}
-            className="border-muted last:border-brand/60 border-b last:mb-4 last:border-b last:pb-4"
+            className="border-muted last:border-brand/60 border-b last:border-b last:pb-4"
           >
             <NavItem
               variant="mobile"

@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-import { type INavItemConfig } from '@/features/navigation';
+import {
+  type INavItemConfig,
+  NavItem as NavItemLink,
+} from '@/features/navigation';
+import { InlineSearch } from '@/features/product-search';
 import { LanguageSwitcher } from '@/features/select-language';
 import { type ILanguageOption, type Locale } from '@/shared/i18n/routing';
 import { type NavItem } from '@/shared/i18n/schemas/common.schema';
@@ -48,6 +52,7 @@ interface MobileMenuProps {
 type ActiveView =
   | { type: 'main' }
   | { type: 'submenu'; item: INavItemConfig }
+  | { type: 'search' }
   | { type: 'lang' };
 
 export function MobileMenu({
@@ -60,6 +65,7 @@ export function MobileMenu({
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<ActiveView[]>([{ type: 'main' }]);
+  const tSearch = useTranslations('common.search');
 
   const currentLang = useLocale() as Locale;
   const activeLabel = language.options.find(
@@ -94,9 +100,11 @@ export function MobileMenu({
   const backTitle =
     currentView.type === 'lang'
       ? language.title
-      : currentView.type === 'submenu'
-        ? currentView.item.label
-        : label.backToMenu;
+      : currentView.type === 'search'
+        ? tSearch('title')
+        : currentView.type === 'submenu'
+          ? currentView.item.label
+          : label.backToMenu;
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
@@ -166,37 +174,48 @@ export function MobileMenu({
           {/* MAIN MENU */}
           <div
             className={cn(
-              'absolute inset-0 z-10 flex flex-col justify-between overflow-y-auto transition-transform duration-200 ease-out',
+              'absolute inset-0 z-10 flex flex-col overflow-y-auto transition-transform duration-200 ease-out',
               isSubmenuActive ? '-translate-x-full' : 'translate-x-0',
             )}
           >
-            <nav className="flex w-full flex-col">
-              <MobileMenuBlock
-                items={navigation.main}
-                setActiveSubmenu={item => pushView({ type: 'submenu', item })}
-                onClick={handleClose}
-              />
-              {/* <MobileMenuBlock
-                items={navigation.info}
-                setActiveSubmenu={item => pushView({ type: 'submenu', item })}
-                onClick={handleClose}
-              /> */}
-            </nav>
+            <div className="flex flex-1 flex-col justify-between">
+              <nav className="flex w-full flex-col">
+                <MobileMenuBlock
+                  items={navigation.main}
+                  setActiveSubmenu={item => pushView({ type: 'submenu', item })}
+                  onClick={handleClose}
+                />
+                {/* <MobileMenuBlock
+                    items={navigation.info}
+                    setActiveSubmenu={item => pushView({ type: 'submenu', item })}
+                    onClick={handleClose}
+                  /> */}
+                {/* Separate block under the main menu; opens its own view, like a submenu */}
+                <div className="border-muted border-b">
+                  <NavItemLink
+                    variant="mobile"
+                    label={tSearch('title')}
+                    hasSubmenu
+                    onClick={() => pushView({ type: 'search' })}
+                  />
+                </div>
+              </nav>
 
-            <div className="flex w-full shrink-0 flex-col space-y-4 p-4">
-              <AddressLink
-                links={contacts}
-                variant="mobileMenu"
-                onItemClick={handleClose}
-              />
-              {contacts?.length > 0 && social?.length > 0 && (
-                <div className="bg-border h-px w-full" />
-              )}
-              <SocialLinks
-                variant="mobileMenu"
-                links={social}
-                onItemClick={handleClose}
-              />
+              <div className="flex w-full shrink-0 flex-col space-y-4 p-4">
+                <AddressLink
+                  links={contacts}
+                  variant="mobileMenu"
+                  onItemClick={handleClose}
+                />
+                {contacts?.length > 0 && social?.length > 0 && (
+                  <div className="bg-border h-px w-full" />
+                )}
+                <SocialLinks
+                  variant="mobileMenu"
+                  links={social}
+                  onItemClick={handleClose}
+                />
+              </div>
             </div>
           </div>
 
@@ -207,6 +226,13 @@ export function MobileMenu({
                 activeSubmenu={currentView.item}
                 onClick={handleClose}
               />
+            </div>
+          )}
+
+          {/* SEARCH PANEL: leaving it (back / close) unmounts and clears it */}
+          {currentView.type === 'search' && (
+            <div className="animate-in slide-in-from-right absolute inset-0 z-10 flex flex-col duration-150 ease-out">
+              <InlineSearch onNavigate={handleClose} />
             </div>
           )}
 

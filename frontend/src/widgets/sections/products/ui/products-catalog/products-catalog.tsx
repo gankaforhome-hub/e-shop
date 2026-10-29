@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { type CategoryDTO } from '@/entities/category';
 import {
   getCatalogFacets,
@@ -20,8 +22,10 @@ import {
 } from '@/features/catalog-filters';
 import { getFilterGroups } from '@/features/catalog-filters/server';
 import { CatalogFeed } from '@/features/catalog-pagination';
+import { isCollectionsQuery } from '@/features/product-search';
 import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
+import { redirect } from '@/shared/i18n/navigation';
 import { type Locale } from '@/shared/i18n/routing';
 import { AppLink } from '@/shared/ui/app-link';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
@@ -68,13 +72,20 @@ export async function ProductsCatalog({
 }: ProductsCatalogProps) {
   const query = parseCatalogQuery(await searchParams);
   const { category, search, sort, filters } = query;
+  // "Collections" (any locale) is a request for the collections page
+  if (search && isCollectionsQuery(search)) {
+    redirect({ href: routes.collections, locale: lang });
+  }
   const limit = CATALOG_PAGE_SIZE;
 
   const favoriteIds = await getFavoriteIds();
   const ids = query.favoritesOnly ? [...favoriteIds] : undefined;
 
-  // The filter panel switches categories in its draft: it counts against
-  // every category and needs each category's groups up front (all cached)
+  // The search results page (`?search=`) has no filter panel or sort: it
+  // skips the facets. Otherwise the panel switches categories in its draft,
+  // so it counts against every category and needs each category's groups up
+  // front (all cached)
+  const isSearchPage = Boolean(search);
   const scopeParams = { lang, search, ...(ids && { ids }) };
   const [{ data, meta }, index, { common }, ...scopeFacets] = await Promise.all(
     [
@@ -88,12 +99,16 @@ export async function ProductsCatalog({
         sort,
         ...(ids && { ids }),
       }),
-      getCatalogIndex(scopeParams),
+      isSearchPage ? [] : getCatalogIndex(scopeParams),
       getDictionary(['common'], lang),
-      getCatalogFacets(scopeParams),
-      ...categories.map(item =>
-        getCatalogFacets({ ...scopeParams, category: item.slug }),
-      ),
+      ...(isSearchPage
+        ? []
+        : [
+            getCatalogFacets(scopeParams),
+            ...categories.map(item =>
+              getCatalogFacets({ ...scopeParams, category: item.slug }),
+            ),
+          ]),
     ],
   );
   const [allGroups, ...categoryGroups] = await Promise.all(
@@ -107,6 +122,9 @@ export async function ProductsCatalog({
   };
 
   const activeCategory = categories.find(item => item.slug === category);
+  const tSearch = isSearchPage
+    ? await getTranslations({ locale: lang, namespace: 'common.search' })
+    : undefined;
 
   return (
     <>
@@ -135,18 +153,37 @@ export async function ProductsCatalog({
         </Heading>
         {/* Lands exactly at `scroll-padding-top` (= expanded header height,
           which is the header's state after any upward scroll): flush, no gap */}
+        {/* Search results page (`?search=`): the query summary and a way
+          back to the whole catalog (a second row on mobile, beside it from sm) */}
+        {search && tSearch && (
+          <div className="flex flex-col items-start gap-1 pb-4 sm:flex-row sm:items-baseline sm:gap-4">
+            <Text as="p" size="small" aria-live="polite">
+              {tSearch('summary', { query: search, count: meta.total })}
+            </Text>
+            <Button asChild variant="link" size="small" className="px-0">
+              <AppLink href={routes.products()}>
+                {tSearch('backToCatalog')}
+              </AppLink>
+            </Button>
+          </div>
+        )}
         <div id={CATALOG_TOP_ID} tabIndex={-1} className="outline-none" />
         {/* While the toolbar's navigation is pending (it carries
           `data-catalog-pending`), the results dim and pulse softly: CSS
           only, no shared client state between toolbar and server grid */}
         <div className="group/catalog">
-          <CatalogToolbar
-            scrollAnchorId={CATALOG_TOP_ID}
-            groups={groups}
-            total={meta.total}
-            index={index}
-            categories={categories.map(({ slug, title }) => ({ slug, title }))}
-          />
+          {!isSearchPage && (
+            <CatalogToolbar
+              scrollAnchorId={CATALOG_TOP_ID}
+              groups={groups}
+              total={meta.total}
+              index={index}
+              categories={categories.map(({ slug, title }) => ({
+                slug,
+                title,
+              }))}
+            />
+          )}
           <div className="duration-(--dur-normal) group-has-data-catalog-pending/catalog:pointer-events-none group-has-data-catalog-pending/catalog:opacity-60 motion-safe:group-has-data-catalog-pending/catalog:animate-pulse transition-opacity">
             {data.length > 0 ? (
               <CatalogFeed
@@ -173,7 +210,8 @@ export async function ProductsCatalog({
                   lang={lang}
                 />
               </CatalogFeed>
-            ) : (
+            ) : isSearchPage ? null : (
+              // Search: the summary above already says nothing was found
               <div className="flex flex-col items-center gap-4 px-4 py-16 text-center">
                 <Text variant="muted" size="document">
                   {common.catalog.filters.empty}
