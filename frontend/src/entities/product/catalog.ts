@@ -33,6 +33,11 @@ export {
   isUiFilterGroup,
 } from './lib/attribute-labels';
 export {
+  parseProductSearchQuery,
+  type ProductSearchQuery,
+} from './lib/product-search';
+export { type ProductCardDTO } from './model/product-card.dto';
+export {
   type NumericAttributeFilterKey,
   PRODUCT_ATTRIBUTE_OPTIONS,
   type ProductFeatureFlag,

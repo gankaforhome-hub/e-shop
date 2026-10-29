@@ -9,11 +9,7 @@ import { type Locale } from '@/shared/i18n/routing';
 import { compareSortOrder } from '@/shared/lib/utils';
 
 import { getAttributeLabels } from './get-attribute-labels';
-import {
-  filterProductsBase,
-  getLocalizedProducts,
-  toCatalogItems,
-} from './get-products';
+import { getCatalogItems } from './get-products';
 import {
   getFeatureFlagsFor,
   getAttributeFiltersFor,
@@ -106,14 +102,13 @@ export async function getCatalogFacets(
     cacheTags.attributes,
   );
 
-  const [localized, labels, seasons, allCollections] = await Promise.all([
-    getLocalizedProducts(params.lang),
+  // Counted per card (one per colour/glaze), like the result list
+  const [items, labels, seasons, allCollections] = await Promise.all([
+    getCatalogItems(params),
     getAttributeLabels(params.lang),
     getSeasons(params.lang),
     getCollections(params.lang),
   ]);
-  // Counted per card (one per colour/glaze), like the result list
-  const items = toCatalogItems(filterProductsBase(localized, params));
   // Built once: every attribute option is counted against the same shapes
   const filterables = items.map(item => item.filterable);
   const { compare } = new Intl.Collator(params.lang);
@@ -235,11 +230,9 @@ export async function getCatalogIndex(
 ): Promise<CatalogIndexEntry[]> {
   'use cache';
   cacheLife('hours');
-  cacheTag(cacheTags.products, cacheTags.collections);
+  cacheTag(cacheTags.products, cacheTags.collections, cacheTags.seasons);
 
-  return toCatalogItems(
-    filterProductsBase(await getLocalizedProducts(params.lang), params),
-  ).map(({ product, filterable }) => {
+  return (await getCatalogItems(params)).map(({ product, filterable }) => {
     const { attributes, collectionSlug, season, variants } = filterable;
     return {
       categorySlug: product.category.slug,

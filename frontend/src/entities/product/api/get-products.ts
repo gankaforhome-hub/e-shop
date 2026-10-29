@@ -5,12 +5,12 @@ import 'server-only';
 import { createTranslator } from 'next-intl';
 
 import { getCategories } from '@/entities/category';
-import { getCollections } from '@/entities/collection';
+import { getCollections, getSeasons } from '@/entities/collection';
 import { cacheTags } from '@/shared/config/cache-tags';
 import { type ProductSort } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
-import { type Locale } from '@/shared/i18n/routing';
+import { type Locale, locales } from '@/shared/i18n/routing';
 
 import { getAttributeLabels } from './get-attribute-labels';
 import {
@@ -30,6 +30,13 @@ import {
   normalizeProduct,
   STOCK_PRIORITY,
 } from '../lib/product-mapper';
+import {
+  type CardSearchTexts,
+  matchSearchCard,
+  parseProductSearchQuery,
+  type ProductSearchHit,
+  toCardSearchTexts,
+} from '../lib/product-search';
 import { getAppearanceSlices } from '../lib/variant-options';
 import {
   MOCK_BADGE_TRANSLATIONS,
@@ -193,6 +200,8 @@ export type CatalogItem = {
   /** Colour/glaze label of the slice; absent for unsplit products. */
   label?: string;
   filterable: FilterableProduct<ProductVariantTranslation>;
+  /** Relevance for `?search=`; set only by a search (`getCatalogItems`). */
+  hit?: ProductSearchHit;
 };
 
 /** Products → cards: what the result list, its count and the facets count. */
@@ -211,22 +220,16 @@ type CatalogEntry = {
   product: LocalizedProduct;
   variant: ProductVariantTranslation | undefined;
   label?: string;
+  /** Search relevance (`?search=`): the default order puts it first. */
+  score?: number;
 };
 
-/** Category/search/ids narrowing shared by `getProducts` and facet counts. */
+/** Category/collection/ids narrowing shared by `getProducts` and facet counts. */
 export function filterProductsBase(
   products: LocalizedProduct[],
-  params: Pick<
-    GetProductsParams,
-    'search' | 'category' | 'collectionId' | 'ids'
-  >,
+  params: Pick<GetProductsParams, 'category' | 'collectionId' | 'ids'>,
 ): LocalizedProduct[] {
   let filtered = products;
-
-  const query = params.search?.trim().toLowerCase();
-  if (query) {
-    filtered = filtered.filter(p => p.title.toLowerCase().includes(query));
-  }
 
   if (params.category) {
     const categoryQuery = params.category.toLowerCase();
@@ -245,6 +248,65 @@ export function filterProductsBase(
   }
 
   return filtered;
+}
+
+/** Identifies a card across locales: same product, same colour/glaze slice. */
+const cardKey = ({ product, filterable }: CatalogItem) =>
+  `${product.id}:${filterable.variants[0]?.id ?? ''}`;
+
+/** Every card's search words in `lang` (cards built exactly as the catalog's). */
+async function getCardSearchTexts(
+  lang: Locale,
+  params: Pick<GetProductsParams, 'category' | 'collectionId' | 'ids'>,
+): Promise<Map<string, CardSearchTexts>> {
+  const [products, seasons] = await Promise.all([
+    getLocalizedProducts(lang),
+    getSeasons(lang),
+  ]);
+  const seasonLabels = new Map(seasons.map(({ slug, label }) => [slug, label]));
+  return new Map(
+    toCatalogItems(filterProductsBase(products, params)).map(item => {
+      const { season } = item.product.primaryCollection;
+      return [
+        cardKey(item),
+        toCardSearchTexts(item, season ? seasonLabels.get(season) : undefined),
+      ];
+    }),
+  );
+}
+
+/**
+ * Catalog cards in scope: category/collection/ids, then `?search=` per card
+ * (`matchSearchCard`: name, collection, category, season, colour in every
+ * locale, SKU), so the result list, its total, the facets and the header
+ * search agree.
+ */
+export async function getCatalogItems(
+  params: Pick<
+    GetProductsParams,
+    'lang' | 'search' | 'category' | 'collectionId' | 'ids'
+  >,
+): Promise<CatalogItem[]> {
+  const items = toCatalogItems(
+    filterProductsBase(await getLocalizedProducts(params.lang), params),
+  );
+  const query = parseProductSearchQuery(params.search);
+  if (!query) {
+    return items;
+  }
+
+  // Current locale first: its words decide the title-prefix bonus too
+  const textsByLocale = await Promise.all(
+    [params.lang, ...locales.filter(locale => locale !== params.lang)].map(
+      locale => getCardSearchTexts(locale, params),
+    ),
+  );
+  return items.flatMap(item => {
+    const key = cardKey(item);
+    const texts = textsByLocale.flatMap(byCard => byCard.get(key) ?? []);
+    const hit = matchSearchCard(item, query, texts);
+    return hit ? [{ ...item, hit }] : [];
+  });
 }
 
 const entryPrice = (entry: CatalogEntry) => entry.variant?.price.amount ?? 0;
@@ -274,13 +336,16 @@ function sortEntries(
       (b.product.createdAt ?? '').localeCompare(a.product.createdAt ?? ''),
   };
 
-  // Default: in stock -> low stock -> pre-order -> out of stock. An explicit
-  // order (price, newest) applies within two tiers: purchasable first, sold
-  // out last. Sorts are stable, so ties keep the catalog order.
+  // Default: search relevance (only with `?search=`), then in stock -> low
+  // stock -> pre-order -> out of stock. An explicit order (price, newest)
+  // applies within two tiers: purchasable first, sold out last. Sorts are
+  // stable, so ties keep the catalog order.
   return entries.toSorted(
     sort
       ? (a, b) => isSoldOut(a) - isSoldOut(b) || compare[sort](a, b)
-      : (a, b) => entryStockPriority(a) - entryStockPriority(b),
+      : (a, b) =>
+          (b.score ?? 0) - (a.score ?? 0) ||
+          entryStockPriority(a) - entryStockPriority(b),
   );
 }
 
@@ -293,28 +358,36 @@ export async function getProducts(
 ): Promise<PaginatedProductsDTO> {
   'use cache';
   cacheLife('hours');
-  cacheTag(cacheTags.products);
+  cacheTag(cacheTags.products, cacheTags.seasons);
 
   const { filters } = params;
-  const base = filterProductsBase(
-    await getLocalizedProducts(params.lang),
-    params,
-  );
   const active = filters && getActiveSelections(filters);
   // One card per colour/glaze; variant-level filters pick the SKU it opens
-  // with inside its slice (e.g. the 27 cm plate in yellow)
-  const entries = toCatalogItems(base).flatMap(
-    ({ product, label, filterable }): CatalogEntry[] => {
+  // with inside its slice (e.g. the 27 cm plate in yellow), and so does a
+  // searched SKU when the filters allow it
+  const entries = (await getCatalogItems(params)).flatMap(
+    ({ product, label, filterable, hit }): CatalogEntry[] => {
       const entry = (variant: ProductVariantTranslation | undefined) => ({
         product,
         variant,
         ...(label && { label }),
+        ...(hit && { score: hit.score }),
       });
+      const searched = hit?.variant;
       if (!filters) {
-        return [entry(getMainVariant(filterable.variants))];
+        return [entry(searched ?? getMainVariant(filterable.variants))];
       }
       const matching = getMatchingVariants(filterable, filters, active);
-      return matching.length > 0 ? [entry(getMainVariant(matching))] : [];
+      if (matching.length === 0) {
+        return [];
+      }
+      return [
+        entry(
+          searched && matching.includes(searched)
+            ? searched
+            : getMainVariant(matching),
+        ),
+      ];
     },
   );
 

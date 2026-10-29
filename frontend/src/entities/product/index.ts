@@ -17,6 +17,11 @@ export {
   type RecommendationGroup,
 } from './api/get-recommended-products';
 export {
+  type ProductSearchResult,
+  searchProducts,
+  type SearchProductsParams,
+} from './api/search-products';
+export {
   getMainVariant,
   getVariantGallery,
   isVariantPurchasable,
