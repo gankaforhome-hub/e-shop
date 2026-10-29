@@ -10,6 +10,7 @@ export type IconName =
   | 'alert'
   | 'menu'
   | 'favorite'
+  | 'history'
   | 'close'
   | 'arrow-up'
   | 'arrow-up-right'

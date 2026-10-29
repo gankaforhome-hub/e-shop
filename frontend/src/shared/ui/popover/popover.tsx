@@ -43,6 +43,33 @@ function PopoverContent({
   );
 }
 
+/**
+ * Dimmed backdrop for a `modal` popover (same look as the Sheet overlay).
+ * Radix Popover has no overlay part: this one stays mounted and fades via
+ * CSS from the `open` state; with `modal`, a click on it dismisses the popover.
+ */
+function PopoverOverlay({
+  open,
+  className,
+}: {
+  open: boolean;
+  className?: string;
+}) {
+  return (
+    <PopoverPrimitive.Portal forceMount>
+      <div
+        aria-hidden="true"
+        data-state={open ? 'open' : 'closed'}
+        className={cn(
+          'bg-scrim/55 duration-(--dur-normal) fixed inset-0 z-50 backdrop-blur-[2px] transition-[opacity,visibility] ease-out',
+          'data-[state=closed]:invisible data-[state=closed]:opacity-0',
+          className,
+        )}
+      />
+    </PopoverPrimitive.Portal>
+  );
+}
+
 function PopoverAnchor({
   ...props
 }: ComponentProps<typeof PopoverPrimitive.Anchor>) {
@@ -78,6 +105,7 @@ function PopoverDescription({ className, ...props }: ComponentProps<'p'>) {
 export {
   Popover,
   PopoverAnchor,
+  PopoverOverlay,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
