@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server';
 
 import { createOrder } from '@/features/checkout/server';
+import { readJsonBody } from '@/shared/lib/http';
 
 /** `POST /api/checkout` — accepts an `OrderPayload`, responds `201 { orderId }`. */
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
+  const read = await readJsonBody(request);
+  if (!read.ok) {
+    return NextResponse.json({ error: read.error }, { status: read.status });
   }
 
-  const result = await createOrder(body);
+  const result = await createOrder(read.body);
 
   if (!result.ok) {
     return NextResponse.json(

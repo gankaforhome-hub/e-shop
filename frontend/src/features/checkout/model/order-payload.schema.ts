@@ -34,7 +34,7 @@ export const orderPayloadSchema = z
     customer: z.object({
       firstName: name,
       lastName: name,
-      phone: z.string(),
+      phone: z.string().max(32),
       email: text(100).email(),
     }),
     delivery: z.object({
@@ -52,14 +52,14 @@ export const orderPayloadSchema = z
     items: z
       .array(
         z.object({
-          id: z.string().min(1),
-          productId: z.string().min(1),
-          sku: z.string(),
+          id: z.string().min(1).max(100),
+          productId: z.string().min(1).max(100),
+          sku: z.string().max(64),
           title: text(200).min(1),
           variant: text(200).optional(),
           price: z.number().nonnegative().finite(),
           quantity: z.number().int().min(1).max(MAX_LINE_QUANTITY),
-          image: z.string(),
+          image: z.string().max(2048),
         }),
       )
       .min(1)

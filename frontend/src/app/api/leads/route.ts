@@ -1,26 +1,16 @@
 import { NextResponse } from 'next/server';
 
 import { createLead } from '@/features/contact-us/server';
+import { readJsonBody } from '@/shared/lib/http';
 
 /** `POST /api/leads` — accepts a `LeadPayload`, responds `201 { ok: true }`. */
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
+  const read = await readJsonBody(request);
+  if (!read.ok) {
+    return NextResponse.json({ error: read.error }, { status: read.status });
   }
 
-  //INFO імітація помилки
-  // return NextResponse.json(
-  // {
-  //   error: 'internal_server_error',
-  //   issues: [],
-  // },
-  // { status: 500 },
-  // );
-
-  const result = await createLead(body);
+  const result = await createLead(read.body);
 
   if (!result.ok) {
     return NextResponse.json(
