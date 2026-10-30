@@ -13,6 +13,7 @@ interface ICitronelleMapSectionProps {
   addressTitle: string;
   addressText: string;
   mapImage: Media;
+  mapTitle: string;
   mapEmbedUrl: string;
 }
 
@@ -22,6 +23,7 @@ export function CitronelleMapSection({
   addressTitle = '',
   addressText = '',
   mapImage,
+  mapTitle,
   mapEmbedUrl,
 }: ICitronelleMapSectionProps) {
   return (
@@ -53,7 +55,7 @@ export function CitronelleMapSection({
             {mapEmbedUrl ? (
               <iframe
                 src={mapEmbedUrl}
-                title="Map of Citronelle restaurant location in Kyiv"
+                title={mapTitle}
                 className="absolute inset-0 h-full w-full border-0"
                 loading="lazy"
                 allowFullScreen

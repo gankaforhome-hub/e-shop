@@ -24,6 +24,8 @@ interface IScrollableContainer<T extends ElementType = 'div'> {
   indicatorType?: IndicatorType;
   gapClassName?: string;
   indicatorClassName?: string;
+  /** Accessible name of a dot (localized); `{index}` → 1-based slide number. */
+  dotLabel?: string;
 }
 
 export function ScrollableContainer<T extends ElementType = 'div'>({
@@ -34,6 +36,7 @@ export function ScrollableContainer<T extends ElementType = 'div'>({
   indicatorType = 'dots',
   gapClassName = 'gap-3 sm:gap-4 lg:gap-6',
   indicatorClassName,
+  dotLabel,
   ...props
 }: IScrollableContainer<T> &
   Omit<ComponentPropsWithRef<T>, keyof IScrollableContainer<T>>) {
@@ -192,14 +195,15 @@ export function ScrollableContainer<T extends ElementType = 'div'>({
           )}
         >
           {showDots && (
-            <div className="flex items-center justify-center gap-2">
+            // gap-3: 12px dots 24px apart meet the WCAG 2.5.8 target spacing
+            <div className="flex items-center justify-center gap-3">
               {Array.from({ length: dotsCount }).map((_, index) => (
                 <Button
                   variant="dotSecondary"
                   size="dots"
                   key={index}
                   onClick={() => scrollToDot(index)}
-                  aria-label={`Go to slide ${index + 1}`}
+                  aria-label={dotLabel?.replace('{index}', String(index + 1))}
                   data-active={activeIndex === index}
                 />
               ))}

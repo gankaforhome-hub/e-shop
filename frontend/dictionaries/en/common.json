@@ -155,7 +155,13 @@
       "favorites": "Favorites",
       "addToFavorites": "Add to favorites",
       "removeFromFavorites": "Remove from favorites",
-      "closeMenu": "Close"
+      "closeMenu": "Close",
+      "legalNav": "Legal information",
+      "wishlist": "Wishlist",
+      "accountShort": "Account",
+      "previousSlide": "Previous slide",
+      "nextSlide": "Next slide",
+      "goToSlide": "Go to slide {index}"
     },
     "errors": {
       "networkError": "Network error. Check your connection.",

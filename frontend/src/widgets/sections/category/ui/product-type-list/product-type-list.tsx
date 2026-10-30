@@ -3,16 +3,20 @@ import { ScrollableContainer } from '@/shared/ui/scrollable-container';
 
 interface ProductTypeListProps {
   categories: CategoryDTO[];
+  /** Accessible name template of the scroll dots (`{index}` → number). */
+  dotLabel: string;
   className?: string;
 }
 
 export function ProductTypeList({
   categories,
+  dotLabel,
   className,
 }: ProductTypeListProps) {
   return (
     <ScrollableContainer
       indicatorType="dots"
+      dotLabel={dotLabel}
       as="ul"
       gapClassName="gap-3 md:gap-4 lg:gap-8 xl:gap-10 2xl:gap-12"
       scrollClassName="-mx-3 -my-2 w-[calc(100%+1.5rem)] scroll-px-3 px-3 py-4"

@@ -91,7 +91,10 @@ export async function Footer({ lang, className }: IFooterNavProps) {
             />
           </div>
         </div>
-        <UnderFooter legalLinks={legalNav} />
+        <UnderFooter
+          legalLinks={legalNav}
+          navLabel={common.common.aria.legalNav}
+        />
       </Container>
     </footer>
   );

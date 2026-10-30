@@ -4,10 +4,16 @@ import { Icon } from '@/shared/ui/icon';
 
 interface IUnderFooterProps {
   legalLinks: INavItemConfig[];
+  /** Accessible name of the legal links `nav`. */
+  navLabel: string;
   className?: string;
 }
 
-export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
+export function UnderFooter({
+  legalLinks,
+  navLabel,
+  className,
+}: IUnderFooterProps) {
   return (
     <div
       className={cn(
@@ -15,7 +21,7 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
         className,
       )}
     >
-      <nav aria-label="Legal">
+      <nav aria-label={navLabel}>
         <ul className="flex flex-wrap items-center justify-center gap-3 text-center md:gap-4">
           {legalLinks.map((link, index) => (
             <li
@@ -32,7 +38,8 @@ export function UnderFooter({ legalLinks, className }: IUnderFooterProps) {
           ))}
         </ul>
       </nav>
-      <p>
+      {/* /85: 4.8:1 on the footer grey (the inherited /70 is 3.4:1) */}
+      <p className="text-foreground/85">
         <Icon name="copyright" iconPosition="left" size={10}>
           2024 - {getCurrentYear} Ganka&Home
         </Icon>

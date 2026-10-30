@@ -5,13 +5,19 @@ import { Button } from '@/shared/ui/button';
 
 import { useCarousel } from './useCarousel';
 
+interface CarouselPreviousProps extends ComponentProps<typeof Button> {
+  /** Accessible name (localized by the caller), e.g. "Previous slide". */
+  label: string;
+}
+
 export function CarouselPrevious({
   className,
   variant = 'outline',
   size = 'icon',
+  label,
   children,
   ...props
-}: ComponentProps<typeof Button>) {
+}: CarouselPreviousProps) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -30,7 +36,7 @@ export function CarouselPrevious({
       {...props}
     >
       {children}
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">{label}</span>
     </Button>
   );
 }

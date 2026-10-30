@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/shared/lib/utils';
 import { AppMedia } from '@/shared/ui/app-media';
 import {
@@ -29,6 +31,7 @@ function ProductGalleryContent({
   title,
   activeMediaId,
 }: ProductGalleryProps) {
+  const t = useTranslations('common.common.aria');
   const { api, current, scrollTo } = useCarousel();
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const isSingleMedia = media.length <= 1;
@@ -38,7 +41,7 @@ function ProductGalleryContent({
     media.findIndex(item => item.id === activeMediaId),
   );
 
-  // Реакція на зміну варіанта з сервера (зміна activeMediaId)
+  // Follow a server-side variant switch (new activeMediaId)
   useEffect(() => {
     if (!api || !activeMediaId) {
       return;
@@ -50,7 +53,7 @@ function ProductGalleryContent({
     }
   }, [api, activeMediaId, media]);
 
-  // Автоскрол активної мініатюри
+  // Keep the active thumbnail in view
   useEffect(() => {
     const activeThumb = thumbRefs.current[current];
     if (activeThumb) {
@@ -65,7 +68,7 @@ function ProductGalleryContent({
   return (
     // lg+: rail 1fr / main 5.5fr, so ~5 thumbnails fill the main image height
     <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,5.5fr)] lg:gap-6 xl:gap-8">
-      {/* Основна картинка */}
+      {/* Main image */}
       <div
         className={cn(
           'relative w-full min-w-0 lg:order-2 lg:self-start',
@@ -90,24 +93,32 @@ function ProductGalleryContent({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
+        {/* gap-3: 12px dots 24px apart meet the WCAG 2.5.8 target spacing */}
+        <div className="absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-3">
           {media.map((_, idx) => (
-            <CarouselCurrent key={idx} to={idx} />
+            <CarouselCurrent
+              key={idx}
+              to={idx}
+              aria-label={t('goToSlide', { index: idx + 1 })}
+            />
           ))}
         </div>
         {!isSingleMedia && (
           <>
-            <CarouselPrevious className="max-md:hidden">
+            <CarouselPrevious
+              className="max-md:hidden"
+              label={t('previousSlide')}
+            >
               <Icon name="chevron-left" className="size-4" />
             </CarouselPrevious>
-            <CarouselNext className="max-md:hidden">
+            <CarouselNext className="max-md:hidden" label={t('nextSlide')}>
               <Icon name="chevron-right" className="size-4" />
             </CarouselNext>
           </>
         )}
       </div>
 
-      {/* Колонки мініатюр */}
+      {/* Thumbnail rail */}
       {!isSingleMedia && (
         <div className="relative min-w-0 overflow-hidden max-lg:hidden lg:order-1 lg:self-stretch">
           <div className="absolute inset-0 flex flex-col">
@@ -136,7 +147,7 @@ function ProductGalleryContent({
                           ? 'border-brand'
                           : 'border-transparent opacity-80 hover:opacity-100',
                       )}
-                      aria-label={`Go to slide ${index + 1}`}
+                      aria-label={t('goToSlide', { index: index + 1 })}
                     >
                       <AppMedia
                         src={item.src}

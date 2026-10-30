@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
@@ -21,6 +23,8 @@ export function MobileMenuQuickActions({
   onActionClick,
   onLanguageClick,
 }: MobileMenuQuickActionsProps) {
+  const t = useTranslations('common.common.aria');
+
   return (
     <div
       className={cn(
@@ -40,18 +44,14 @@ export function MobileMenuQuickActions({
           'hover:text-foreground-emphasis duration-(--dur-normal) transition-colors',
         )}
       >
-        <AppLink
-          href={routes.wishlist}
-          onClick={onActionClick}
-          aria-label="Wishlist"
-        >
+        <AppLink href={routes.wishlist} onClick={onActionClick}>
           <Icon
             iconPosition="left"
             name="favorite"
             className="group-hover:text-brand size-4 stroke-[1.5]"
             aria-hidden="true"
           >
-            Wishlist
+            {t('wishlist')}
           </Icon>
         </AppLink>
       </Button>
@@ -67,18 +67,14 @@ export function MobileMenuQuickActions({
           'hover:text-foreground-emphasis duration-(--dur-normal) transition-colors',
         )}
       >
-        <AppLink
-          href={routes.account}
-          onClick={onActionClick}
-          aria-label="Account"
-        >
+        <AppLink href={routes.account} onClick={onActionClick}>
           <Icon
             iconPosition="left"
             name="user"
             className="group-hover:text-brand size-4 stroke-[1.5]"
             aria-hidden="true"
           >
-            Account
+            {t('accountShort')}
           </Icon>
         </AppLink>
       </Button>

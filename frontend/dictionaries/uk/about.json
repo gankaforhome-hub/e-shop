@@ -65,6 +65,7 @@
     },
     "addressTitle": "Адреса ресторану",
     "addressText": "вул. Богдана Хмельницького, 23, Київ, Україна, 01030",
+    "mapTitle": "Мапа розташування ресторану Citronelle у Києві",
     "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed",
     "coordinates": { "lat": 2, "lng": 2 }
   }

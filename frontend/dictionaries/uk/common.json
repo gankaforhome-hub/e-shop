@@ -155,7 +155,13 @@
       "favorites": "Обране",
       "addToFavorites": "Додати в обране",
       "removeFromFavorites": "Видалити з обраного",
-      "closeMenu": "Закрити"
+      "closeMenu": "Закрити",
+      "legalNav": "Юридична інформація",
+      "wishlist": "Обране",
+      "accountShort": "Акаунт",
+      "previousSlide": "Попередній слайд",
+      "nextSlide": "Наступний слайд",
+      "goToSlide": "Перейти до слайда {index}"
     },
     "errors": {
       "networkError": "Помилка мережі. Перевірте підключення до інтернету.",

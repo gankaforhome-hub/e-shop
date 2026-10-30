@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 
 import Autoplay from 'embla-carousel-autoplay';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/shared/lib/utils';
 import {
   Carousel,
@@ -26,6 +28,7 @@ export function BannerSlider({
   bannerSlides,
   ctaLabel,
 }: BannerSliderProps) {
+  const t = useTranslations('common.common.aria');
   // Embla plugins only run in the browser, so reading matchMedia here can't
   // cause a hydration mismatch; autoplay is skipped for reduced-motion users.
   const plugins = useMemo(() => {
@@ -72,9 +75,14 @@ export function BannerSlider({
           );
         })}
       </CarouselContent>
-      <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-2">
+      {/* gap-3: 12px dots 24px apart meet the WCAG 2.5.8 target spacing */}
+      <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-3">
         {bannerSlides.map((_, idx) => (
-          <CarouselCurrent key={idx} to={idx} />
+          <CarouselCurrent
+            key={idx}
+            to={idx}
+            aria-label={t('goToSlide', { index: idx + 1 })}
+          />
         ))}
       </div>
     </Carousel>

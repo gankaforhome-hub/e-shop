@@ -5,44 +5,19 @@ import { Button } from '@/shared/ui/button';
 
 import { useCarousel } from './useCarousel';
 
-// export function CarouselNext({
-//   className,
-//   variant = 'outline',
-//   size = 'icon',
-//   children,
-//   ...props
-// }: ComponentProps<typeof Button>) {
-//   const { orientation, scrollNext, canScrollNext } = useCarousel();
-
-//   return (
-//     <Button
-//       data-slot="carousel-next"
-//       variant={variant}
-//       size={size}
-//       className={cn(
-//         'absolute h-full w-full rotate-180',
-//         orientation === 'horizontal'
-//           ? 'top-1/2 -translate-y-1/2'
-//           : '-bottom-2 left-1/2 -translate-x-1/2 rotate-90',
-//         className,
-//       )}
-//       disabled={!canScrollNext}
-//       onClick={scrollNext}
-//       {...props}
-//     >
-//       {children}
-//       <span className="sr-only">Next slide</span>
-//     </Button>
-//   );
-// }
+interface CarouselNextProps extends ComponentProps<typeof Button> {
+  /** Accessible name (localized by the caller), e.g. "Next slide". */
+  label: string;
+}
 
 export function CarouselNext({
   className,
   variant = 'outline',
   size = 'icon',
+  label,
   children,
   ...props
-}: ComponentProps<typeof Button>) {
+}: CarouselNextProps) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -62,7 +37,7 @@ export function CarouselNext({
       {...props}
     >
       {children}
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">{label}</span>
     </Button>
   );
 }

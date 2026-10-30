@@ -1,4 +1,5 @@
 import { getCategories } from '@/entities/category';
+import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { type Locale } from '@/shared/i18n/routing';
 import { Container } from '@/shared/ui/container';
 import { Heading } from '@/shared/ui/heading';
@@ -15,7 +16,10 @@ export async function ProductTypeSection({
   title,
   lang,
 }: IProductTypeSectionProps) {
-  const categories = await getCategories(lang);
+  const [categories, { common }] = await Promise.all([
+    getCategories(lang),
+    getDictionary(['common'], lang),
+  ]);
   return (
     <Section className="md:pt-15 pt-10 xl:pt-12" aria-labelledby="product-type">
       <Container className="flex w-full min-w-0 justify-center">
@@ -29,7 +33,10 @@ export async function ProductTypeSection({
           {title}:
         </Heading>
         <div className="flex min-w-0 justify-center">
-          <ProductTypeList categories={categories} />
+          <ProductTypeList
+            categories={categories}
+            dotLabel={common.common.aria.goToSlide}
+          />
         </div>
       </Container>
     </Section>

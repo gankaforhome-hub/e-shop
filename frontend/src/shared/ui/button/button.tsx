@@ -34,7 +34,8 @@ export const buttonVariants = cva(
         icon: 'flex h-8 w-8 items-center justify-center rounded-none p-1',
         /** Square icon button beside the PDP CTA (`h-14 md:h-16 xl:h-18`). */
         iconBlock: 'xl:size-18 size-14 shrink-0 p-0 md:size-16',
-        dots: 'h-3 w-3 rounded-full p-0', // WCAG 44px min target
+        /** 12px dot: parents space dots 24px apart (gap-3), WCAG 2.5.8 spacing. */
+        dots: 'h-3 w-3 rounded-full p-0',
       },
     },
     defaultVariants: {
