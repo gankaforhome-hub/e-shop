@@ -122,7 +122,7 @@ function SidebarGroupLabel({ className, ...props }: ComponentProps<'div'>) {
     <div
       data-slot="sidebar-group-label"
       className={cn(
-        'flex h-8 shrink-0 items-center overflow-hidden px-2 text-xs font-semibold tracking-[0.08em] whitespace-nowrap text-sidebar-label uppercase transition-[height,opacity] duration-(--dur-normal) ease-subtle select-none sidebar-collapsed:h-0 sidebar-collapsed:opacity-0',
+        'flex h-8 shrink-0 items-center overflow-hidden px-2 text-[0.6875rem] font-semibold tracking-[0.08em] whitespace-nowrap text-sidebar-label uppercase transition-[height,opacity] duration-(--dur-normal) ease-subtle select-none sidebar-collapsed:h-0 sidebar-collapsed:opacity-0',
         className,
       )}
       {...props}

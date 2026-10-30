@@ -19,7 +19,11 @@ export const textVariants = cva('', {
       inherit: 'text-inherit',
     },
     size: {
+      /** Page-level numerals (e.g. 404): 48 → 60px. */
+      display: 'text-5xl leading-none font-semibold tracking-tight md:text-6xl',
       base: 'text-base',
+      /** Intro under a page title: 15px. */
+      lead: 'text-[0.9375rem]',
       sm: 'text-sm',
       xs: 'text-xs',
       /** Small caps label above a title. */

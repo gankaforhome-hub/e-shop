@@ -11,7 +11,7 @@ interface PageHeaderProps {
 /** The page's single `h1` with its context. */
 export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
   return (
-    <header className="flex flex-col gap-1.5">
+    <header className="flex flex-col gap-1.5 border-b border-border pb-6 md:pb-8">
       {eyebrow && (
         <Text size="eyebrow" variant="brand">
           {eyebrow}
@@ -19,7 +19,7 @@ export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
       )}
       <Heading headingLevel="h1">{title}</Heading>
       {description && (
-        <Text size="sm" variant="muted" className="max-w-2xl">
+        <Text size="lead" variant="muted" className="max-w-2xl leading-relaxed">
           {description}
         </Text>
       )}
