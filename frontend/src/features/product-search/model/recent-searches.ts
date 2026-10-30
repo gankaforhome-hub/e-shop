@@ -2,8 +2,6 @@
 
 import { useSyncExternalStore } from 'react';
 
-import { z } from 'zod';
-
 import { normalizeSearchText } from '@/shared/lib/utils';
 
 /** Queries kept, newest first. */
@@ -24,15 +22,21 @@ export type RecentSearchesSource = {
 };
 
 const STORAGE_KEY = 'ganka-recent-searches';
-const storedSchema = z.array(z.string()).max(MAX_RECENT_SEARCHES);
+
+// A plain guard instead of Zod: this store loads with the header on every
+// page, and Zod would add ~15 KB gzip to each of them
+const isStoredHistory = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every(item => typeof item === 'string');
 
 /** localStorage adapter; unavailable storage (private mode) = no history. */
 const localSource: RecentSearchesSource = {
   read: () => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      const parsed = raw ? storedSchema.safeParse(JSON.parse(raw)) : undefined;
-      return parsed?.success ? parsed.data : [];
+      const parsed: unknown = raw ? JSON.parse(raw) : undefined;
+      return isStoredHistory(parsed)
+        ? parsed.slice(0, MAX_RECENT_SEARCHES)
+        : [];
     } catch {
       return [];
     }
