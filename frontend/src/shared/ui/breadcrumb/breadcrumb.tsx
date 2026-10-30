@@ -108,24 +108,8 @@ function BreadcrumbSeparator({
   );
 }
 
-function BreadcrumbEllipsis({ className, ...props }: ComponentProps<'span'>) {
-  return (
-    <span
-      data-slot="breadcrumb-ellipsis"
-      role="presentation"
-      aria-hidden="true"
-      className={cn('flex size-8 items-center justify-center', className)}
-      {...props}
-    >
-      <Icon name="ellipsis" className="size-4" />
-      <span className="sr-only">More</span>
-    </span>
-  );
-}
-
 export {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,

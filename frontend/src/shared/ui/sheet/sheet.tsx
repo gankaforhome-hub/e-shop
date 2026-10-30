@@ -6,8 +6,6 @@ import { Dialog as SheetPrimitive } from 'radix-ui';
 
 import { cn } from '@/shared/lib/utils';
 
-import { Icon } from '../icon';
-
 function Sheet({ ...props }: ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root {...props} />;
 }
@@ -49,11 +47,9 @@ function SheetContent({
   className,
   children,
   side = 'left',
-  showCloseButton = false,
   ...props
 }: ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
-  showCloseButton?: boolean;
 }) {
   return (
     <SheetPortal>
@@ -76,12 +72,6 @@ function SheetContent({
         {...props}
       >
         {children}
-        {showCloseButton && (
-          <SheetPrimitive.Close className="rounded-xs focus:outline-hidden absolute right-4 top-4 opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none">
-            <Icon name="close" className="size-4" aria-hidden="true" />
-            <span className="sr-only">Close</span>
-          </SheetPrimitive.Close>
-        )}
       </SheetPrimitive.Content>
     </SheetPortal>
   );
