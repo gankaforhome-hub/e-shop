@@ -9,6 +9,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { buildInfoNav } from '@/features/navigation';
 import { noto, playfair } from '@/shared/config';
 import { routes } from '@/shared/config/routes';
+import { pickClientMessages } from '@/shared/i18n/client-messages';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
 import { getLocaleDirection, isValidLocale } from '@/shared/i18n/helpers';
@@ -17,6 +18,7 @@ import { locales } from '@/shared/i18n/routing';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
 import { ToasterProvider } from '@/shared/providers/toaster';
 import '@/shared/styles/global.css';
+import { LogoSprite } from '@/shared/ui/logo-sprite';
 import { Footer } from '@/widgets/layout/footer';
 import { Header } from '@/widgets/layout/header';
 
@@ -60,7 +62,8 @@ export default async function LocaleLayout({
       <body
         className={`${noto.variable} ${playfair.variable} flex min-h-screen w-full flex-col antialiased`}
       >
-        <NextIntlClientProvider>
+        <LogoSprite />
+        <NextIntlClientProvider messages={pickClientMessages(common)}>
           <ToasterProvider />
           <Header lang={lang} infoNav={infoNav} />
           <main className="flex-1">{children}</main>
