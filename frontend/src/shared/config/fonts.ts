@@ -2,7 +2,8 @@ import { Noto_Sans, Playfair_Display } from 'next/font/google';
 
 export const noto = Noto_Sans({
   variable: '--font-noto',
-  weight: ['300', '400', '500', '600', '700'],
+  // Only the weights in use (normal/medium/semibold/bold): each one is a font file
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
 });
 
