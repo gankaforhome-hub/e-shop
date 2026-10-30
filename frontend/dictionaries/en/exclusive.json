@@ -8,17 +8,10 @@
       "alt": "Ganka painting exclusive porcelain"
     }
   },
-
   "customOrder": {
     "title": "Make an Exclusive Order",
-    "description": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness.",
-    "formTitle": "Have a question? ",
-    "image": {
-      "src": "/images/exclusive/cat-plate.jpg",
-      "alt": "Exclusive cat illustration on porcelain plate"
-    }
+    "description": "You can order a consultation and create your own individual plate or collection of porcelain tableware together with the artist. Each element reflects Ganka's love for detail, her ability to transform everyday things into something special. Her works are an exquisite balance between form and color, embodying joy, tenderness, and kindness."
   },
-
   "releases": {
     "title": "Section our Exclusive works",
     "data": [

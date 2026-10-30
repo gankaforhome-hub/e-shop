@@ -33,7 +33,6 @@
       }
     ]
   },
-
   "artOfLiving": {
     "heading": "The Art of Living in Your Home",
     "description": "Each product is not only a piece of her artistic soul, but also an invitation to a world where creativity becomes part of everyday life.",
@@ -46,7 +45,6 @@
       "paragraphs": "The artist suggests drawing daily inspiration from art and bright colors. Ganka's home collections will bring a festive atmosphere and warmth to your home. \n\n Their artistic perfection adds elegance to every celebration, while the unique style highlights the special moments spent at the table with your loved ones."
     }
   },
-
   "ourStory": {
     "heading": "Our Story",
     "description": "Ganka for Home collections combine images of Ukrainian culture with fairy tale motifs that will add a cheerful mood to your home. The bright illustration elements are designed for a festive atmosphere, since Ganka for Home tableware can be used every day.",
@@ -55,7 +53,6 @@
       "alt": "Collage of illustrated plates featuring pumpkin, eggplant, pepper, and redcurrant motifs with two children"
     }
   },
-
   "citronelle": {
     "heading": "Collection Citronelle at restaurants",
     "description": "Citronelle collections can be bought at Citronelle restaurant at the respective locations.",
@@ -66,7 +63,6 @@
     "addressTitle": "Address of the restaurant",
     "addressText": "St. Bohdana Khmelnytskoho, 23, Kyiv, Ukraine, 01030",
     "mapTitle": "Map of Citronelle restaurant location in Kyiv",
-    "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed",
-    "coordinates": { "lat": 2, "lng": 2 }
+    "mapEmbedUrl": "https://maps.google.com/maps?q=Citronelle,%2050.446057,30.5115394&t=&z=12&ie=UTF8&iwloc=&output=embed"
   }
 }

@@ -5,7 +5,6 @@
     "description": "Exclusive handmade ceramic tableware and cozy decor for your home."
   },
   "brand": {
-    "name": "Ganka For Home",
     "ariaLabel": "go to home page"
   },
   "contacts": [
@@ -57,7 +56,6 @@
     },
     "aria": {
       "breadcrumbs": {
-        "showMore": "Show more",
         "ariaLabel": "Breadcrumbs"
       }
     }
@@ -113,32 +111,12 @@
     }
   },
   "action": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "back": "Back",
-    "continue": "Continue",
     "checkout": "Checkout",
-    "buyNow": "Buy Now",
-    "showMore": "Show more",
-    "loadMore": "Load more",
     "search": "Search"
   },
-  "status": {
-    "loading": "Loading...",
-    "success": "Success",
-    "error": "Error",
-    "empty": "No items found",
-    "comingSoon": "Coming soon"
-  },
   "label": {
-    "price": "Price",
     "quantity": "Quantity",
-    "total": "Total",
-    "email": "E-mail",
-    "phone": "Phone",
-    "address": "Address"
+    "total": "Total"
   },
   "placeholder": {
     "search": "Search...",
@@ -148,24 +126,17 @@
   },
   "common": {
     "aria": {
-      "notifications": "Notifications",
       "close": "Close notification",
-      "search": "Search",
       "account": "User profile",
       "favorites": "Favorites",
       "addToFavorites": "Add to favorites",
       "removeFromFavorites": "Remove from favorites",
-      "closeMenu": "Close",
       "legalNav": "Legal information",
       "wishlist": "Wishlist",
       "accountShort": "Account",
       "previousSlide": "Previous slide",
       "nextSlide": "Next slide",
       "goToSlide": "Go to slide {index}"
-    },
-    "errors": {
-      "networkError": "Network error. Check your connection.",
-      "somethingWentWrong": "Something went wrong. Please try again later."
     }
   },
   "languages": {
@@ -194,308 +165,7 @@
     "buttonAriaLabel": "Go back to the home page"
   },
   "stock": {
-    "inStock": "In stock",
-    "lowStock": "Low stock",
     "soldOut": "Sold out"
-  },
-  "old": {
-    "header": {
-      "topBar": {
-        "location": {
-          "icon": "location",
-          "title": "Locate a store",
-          "href": "/contacts",
-          "ariaLabel": "link to contact"
-        },
-        "socialLink": [
-          {
-            "icon": "facebook",
-            "title": "Facebook",
-            "href": "https://www.facebook.com",
-            "ariaLabel": "link to site facebook"
-          },
-          {
-            "icon": "instagram",
-            "title": "Instagram",
-            "href": "https://www.instagram.com/ganka_for_home/",
-            "ariaLabel": "link to site instagram"
-          }
-        ],
-        "logo": {
-          "icon": "logoFull",
-          "href": "/",
-          "ariaLabel": "ganka for home logo"
-        },
-        "navIcon": {
-          "language": {
-            "icon": "language",
-            "href": "/",
-            "title": "Language",
-            "ariaLabel": "Language switch",
-            "submenu": {
-              "subTittle": "Language",
-              "subDescription": "Wherever you are, Ganka Client Advisors will be delighted to assist you.",
-              "subNav": [
-                {
-                  "href": "tel:380635854678",
-                  "icon": "phone",
-                  "title": "38 (063) 585 46 78",
-                  "ariaLabel": ""
-                },
-                {
-                  "href": "mailto:gankaforhome@gmail.com",
-                  "icon": "email",
-                  "title": "gankaforhome@gmail.com",
-                  "ariaLabel": ""
-                }
-              ]
-            }
-          },
-          "favorite": {
-            "icon": "favorite",
-            "title": "Favorites",
-            "href": "/favorite",
-            "ariaLabel": "Open favorite button"
-          },
-          "contactUs": {
-            "icon": "contactUs",
-            "title": "Contact Us",
-            "href": "/contacts",
-            "ariaLabel": "Open contact us button",
-            "submenu": {
-              "subTittle": "Contact Us",
-              "subDescription": "Wherever you are, Ganka Client Advisors will be delighted to assist you.",
-              "subNav": [
-                {
-                  "href": "tel:380635854678",
-                  "icon": "phone",
-                  "title": "38 (063) 585 46 78",
-                  "ariaLabel": ""
-                },
-                {
-                  "href": "mailto:gankaforhome@gmail.com",
-                  "icon": "email",
-                  "title": "gankaforhome@gmail.com",
-                  "ariaLabel": ""
-                },
-                {
-                  "icon": "whatsapp",
-                  "title": "WhatsApp",
-                  "href": "https://www.whatsapp.com/ganka_for_home",
-                  "ariaLabel": "link to whatsapp @ganka_for_home"
-                },
-                {
-                  "icon": "telegram",
-                  "title": "Telegram",
-                  "href": "https://telegram.com/ganka_for_home",
-                  "ariaLabel": "link to telegram @ganka_for_home"
-                },
-                {
-                  "icon": "facebook",
-                  "title": "Facebook",
-                  "href": "https://www.facebook.com",
-                  "ariaLabel": "link to site facebook"
-                },
-                {
-                  "icon": "instagram",
-                  "title": "Instagram",
-                  "href": "https://www.instagram.com/ganka_for_home/",
-                  "ariaLabel": "link to site instagram"
-                }
-              ]
-            }
-          }
-        },
-        "basket": {
-          "icon": "cart",
-          "title": "",
-          "href": "/cart",
-          "ariaLabel": "Open cart button"
-        }
-      },
-      "navMenu": [
-        {
-          "id": "1",
-          "title": "All Collections",
-          "href": "/collections",
-          "ariaLabel": "link to all collection"
-        },
-        {
-          "id": "2",
-          "title": "Products",
-          "href": "/products",
-          "ariaLabel": "link to all products"
-        },
-        {
-          "id": "3",
-          "title": "About Us",
-          "href": "/about-us",
-          "ariaLabel": "link to about-us ganka for home"
-        },
-        {
-          "id": "4",
-          "title": "Exclusive",
-          "href": "/exclusive",
-          "ariaLabel": "link to exclusive ganka for home"
-        }
-      ]
-    },
-    "footer": {
-      "contacts": {
-        "title": "MAY WE HELP YOU?",
-        "description": "For more information, please call from 9:00 to 19:00 Kiev Time. You can also write to us at e-mail.",
-        "navContacts": [
-          {
-            "href": "tel:380635854678",
-            "icon": "phone",
-            "text": "38 (063) 585 46 78",
-            "ariaLabel": ""
-          },
-          {
-            "href": "mailto:gankaforhome@gmail.com",
-            "icon": "email",
-            "text": "gankaforhome@gmail.com",
-            "ariaLabel": ""
-          }
-        ]
-      },
-      "nav": {
-        "title": "Navigation",
-        "navMenu": [
-          {
-            "id": "1",
-            "title": "All Collections",
-            "href": "/collections",
-            "ariaLabel": "link to all collection"
-          },
-          {
-            "id": "2",
-            "title": "Products",
-            "href": "/products",
-            "ariaLabel": "link to site facebook"
-          },
-          {
-            "id": "3",
-            "title": "About Us",
-            "href": "/about-us",
-            "ariaLabel": "link to site instagram"
-          },
-          {
-            "id": "4",
-            "title": "Exclusive",
-            "href": "/exclusive",
-            "ariaLabel": "link to site instagram"
-          }
-        ]
-      },
-      "social": {
-        "title": "Follow US",
-        "socialLink": [
-          {
-            "icon": "telegram",
-            "title": "Telegram",
-            "href": "https://telegram.com/ganka_for_home",
-            "ariaLabel": "link to telegram @ganka_for_home"
-          },
-          {
-            "icon": "facebook",
-            "title": "Facebook",
-            "href": "https://www.facebook.com",
-            "ariaLabel": "link to facebook @ganka_for_home"
-          },
-          {
-            "icon": "instagram",
-            "title": "Instagram",
-            "href": "https://www.instagram.com/ganka_for_home/",
-            "ariaLabel": "link to instagram @ganka_for_home"
-          }
-        ]
-      },
-      "customerService": {
-        "title": "Info",
-        "navCustomerService": [
-          {
-            "id": "1",
-            "title": "Locate a Store",
-            "href": "/contacts",
-            "ariaLabel": "link to contacts"
-          },
-          {
-            "id": "2",
-            "title": "Delivery Information",
-            "href": "/delivery",
-            "ariaLabel": "link to delivery"
-          },
-          {
-            "id": "3",
-            "title": "Returns",
-            "href": "/returns",
-            "ariaLabel": "link to returns&refunds"
-          },
-          {
-            "id": "4",
-            "title": "Frequently Asked Questions",
-            "href": "/faq",
-            "ariaLabel": "link to faq"
-          }
-        ]
-      },
-      "payments": {
-        "title": "SECURE PAYMENTS",
-        "paymentIcons": [
-          {
-            "icon": "mastercard",
-            "ariaLabel": "icon mastercard"
-          },
-          {
-            "icon": "visa",
-            "ariaLabel": "icon visa"
-          },
-          {
-            "icon": "paypal",
-            "ariaLabel": "icon paypal"
-          },
-          {
-            "icon": "applepay",
-            "ariaLabel": "icon apple pay"
-          },
-          {
-            "icon": "googlepay",
-            "ariaLabel": "icon google pay"
-          },
-          {
-            "icon": "liqpay",
-            "ariaLabel": "icon liqpay"
-          }
-        ]
-      },
-      "underFooter": {
-        "copyright": {
-          "icon": "copyright",
-          "yearStart": "2019",
-          "TM": "Ganka&Home"
-        },
-        "logo": {
-          "icon": "logoMin",
-          "href": "/",
-          "ariaLabel": "Link with company logo"
-        },
-        "services": [
-          {
-            "id": 1,
-            "title": "Terms & Conditions",
-            "href": "/terms-conditions",
-            "ariaLabel": "link to page - Terms & Conditions"
-          },
-          {
-            "id": 2,
-            "title": "Privacy Policy",
-            "href": "/privacy-policy",
-            "ariaLabel": "link to page - Privacy Policy"
-          }
-        ]
-      }
-    }
   },
   "cart": {
     "title": "Cart",
@@ -563,7 +233,6 @@
       "title": "Filters",
       "close": "Close filters",
       "clearAll": "Clear all",
-      "apply": "Show results",
       "showProducts": "{count, plural, =0 {No matches found} other {Show (#)}}",
       "showMore": "Show more ({count})",
       "showLess": "Show less",
@@ -769,7 +438,6 @@
       "paymentUnavailable": "This payment method is unavailable for international delivery",
       "tooLong": "Value is too long",
       "commentMax": "Comment must not exceed 500 characters",
-      "cartEmpty": "Your cart is empty",
       "termsRequired": "Please accept the public offer and privacy policy"
     }
   }
