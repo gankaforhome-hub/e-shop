@@ -47,6 +47,7 @@
   --color-accent-foreground: var(--accent-foreground);
 
   --color-brand: var(--brand);
+  --color-brand-subtle: var(--brand-subtle);
   --color-logo: var(--logo);
   --color-destructive: var(--destructive);
 

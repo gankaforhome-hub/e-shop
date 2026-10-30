@@ -41,6 +41,12 @@
 
   /* Brand-coloured text and icons (eyebrows, active nav icons) */
   --brand: var(--primitive-brand-900);
+  /* Soft brand fill behind brand icons (overview tiles, empty states) */
+  --brand-subtle: color-mix(
+    in srgb,
+    var(--primitive-brand-900) 7%,
+    transparent
+  );
   /* Logo mark: storefront black (19.5:1 on card) */
   --logo: var(--primitive-neutral-900);
   --destructive: var(--primitive-red-600); /* 4.83:1 */
@@ -102,6 +108,11 @@
   --accent-foreground: var(--primitive-neutral-50);
 
   --brand: var(--primitive-brand-400); /* 5.5:1 */
+  --brand-subtle: color-mix(
+    in srgb,
+    var(--primitive-brand-400) 14%,
+    transparent
+  );
   --logo: var(--primitive-neutral-50); /* 16.9:1 on card */
   --destructive: var(--primitive-red-400); /* 7.1:1 */
 
