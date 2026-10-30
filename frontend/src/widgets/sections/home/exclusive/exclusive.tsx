@@ -9,6 +9,8 @@ interface IExclusiveSection {
   title: string;
   description: string;
   btnSeeMore: string;
+  /** Hidden continuation of the CTA for screen readers and SEO ("…about exclusive orders"). */
+  btnSeeMoreContext: string;
   images: {
     left: { src: string; alt: string };
     right: { src: string; alt: string };
@@ -20,6 +22,7 @@ export async function ExclusiveSection({
   title = '',
   description = '',
   btnSeeMore = '',
+  btnSeeMoreContext,
   images,
   className,
 }: IExclusiveSection) {
@@ -44,7 +47,10 @@ export async function ExclusiveSection({
             variant={'outline'}
             className="sm:max-w-75 mx-auto mt-8 flex md:mt-4 xl:mt-16"
           >
-            <AppLink href={routes.exclusive}>{btnSeeMore}</AppLink>
+            <AppLink href={routes.exclusive}>
+              {btnSeeMore}
+              <span className="sr-only"> {btnSeeMoreContext}</span>
+            </AppLink>
           </Button>
         }
       />

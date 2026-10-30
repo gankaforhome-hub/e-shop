@@ -52,7 +52,8 @@
           "alt": "Створення Ganka Тарілка на столі"
         }
       },
-      "btnSeeMore": "Переглянути більше"
+      "btnSeeMore": "Переглянути більше",
+      "btnSeeMoreContext": "про нову колекцію"
     },
     "exclusiveFromGanka": {
       "title": "Ексклюзиви від Ганки",
@@ -67,7 +68,8 @@
           "alt": "Ексклюзивна тарілка з кроликами"
         }
       },
-      "btnSeeMore": "Переглянути більше"
+      "btnSeeMore": "Переглянути більше",
+      "btnSeeMoreContext": "про ексклюзивні замовлення"
     },
     "stayInTouch": {
       "title": "Колекції Ganka for Home",

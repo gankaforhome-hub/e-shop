@@ -10,7 +10,7 @@
         "media": {
           "type": "image",
           "src": "/images/hero_image.webp",
-          "alt": "Весняна колекція"
+          "alt": "Spring collection"
         }
       },
       {
@@ -21,7 +21,7 @@
         "media": {
           "type": "image",
           "src": "/images/hero_image_2.webp",
-          "alt": "Зимова колекція"
+          "alt": "Winter collection"
         }
       }
     ],
@@ -52,7 +52,8 @@
           "alt": "Creating Ganka Plate on table"
         }
       },
-      "btnSeeMore": "View more"
+      "btnSeeMore": "View more",
+      "btnSeeMoreContext": "about the new collection"
     },
     "exclusiveFromGanka": {
       "title": "Exclusive from Ganka",
@@ -60,14 +61,15 @@
       "images": {
         "left": {
           "src": "/images/home/exclusive-plate-with-fruits-on-table.webp",
-          "alt": "exclusive-plate-with-fruits-on-table"
+          "alt": "Exclusive plate with fruit on a table"
         },
         "right": {
           "src": "/images/home/exclusive-plate-with-rabbits.webp",
-          "alt": "exclusive-plate-with-rabbits"
+          "alt": "Exclusive plate with rabbits"
         }
       },
-      "btnSeeMore": "See more"
+      "btnSeeMore": "See more",
+      "btnSeeMoreContext": "about exclusive orders"
     },
     "stayInTouch": {
       "title": "Ganka for Home collections",
@@ -76,11 +78,11 @@
       "images": {
         "left": {
           "src": "/images/home/stay-in-touch-japan-girls-with-snake.webp",
-          "alt": "stay-in-touch-japan-girls-with-snake"
+          "alt": "Japanese girl with a snake"
         },
         "right": {
           "src": "/images/home/stay-in-touch-berry-birds.webp",
-          "alt": "stay-in-touch-berry-birds"
+          "alt": "Birds with berries"
         }
       },
       "btnSeeMore": "All collections"
@@ -91,11 +93,11 @@
       "images": {
         "left": {
           "src": "/images/home/gift-red-package-with-plate.webp",
-          "alt": "gift-red-package-with-plate"
+          "alt": "Red gift package with a plate"
         },
         "right": {
           "src": "/images/home/gift-black-package.webp",
-          "alt": "gift-black-package"
+          "alt": "Black gift package"
         }
       }
     }

@@ -20,6 +20,8 @@ interface ICreatingGankaSection {
     right: { src: string; alt: string };
   };
   btnSeeMore: string;
+  /** Hidden continuation of the CTA for screen readers and SEO ("…about the new collection"). */
+  btnSeeMoreContext: string;
   className?: string;
 }
 
@@ -32,6 +34,7 @@ export function CreatingGankaSection({
   releaseDate = '',
   images,
   btnSeeMore = '',
+  btnSeeMoreContext,
   className,
 }: ICreatingGankaSection) {
   return (
@@ -88,6 +91,7 @@ export function CreatingGankaSection({
                   href={slug ? routes.collection(slug) : routes.collections}
                 >
                   {btnSeeMore}
+                  <span className="sr-only"> {btnSeeMoreContext}</span>
                 </AppLink>
               </Button>
             </div>
