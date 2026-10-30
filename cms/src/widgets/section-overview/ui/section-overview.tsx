@@ -11,7 +11,7 @@ export async function SectionOverview({ section }: { section: SectionKey }) {
   const navEntry = findNavItem(section);
 
   return (
-    <div className="flex flex-col gap-6 md:gap-8">
+    <div className="flex animate-in flex-col gap-8 duration-(--dur-normal) ease-subtle fade-in-0 slide-in-from-bottom-1 motion-reduce:animate-none">
       <PageHeader
         eyebrow={navEntry && t(`nav.groups.${navEntry.group}.label`)}
         title={t(`sections.${section}.title`)}

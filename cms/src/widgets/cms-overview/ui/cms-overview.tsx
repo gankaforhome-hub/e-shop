@@ -21,12 +21,12 @@ export async function CmsOverview() {
   });
 
   return (
-    <div className="flex flex-col gap-6 md:gap-8">
+    <div className="flex animate-in flex-col gap-8 duration-(--dur-normal) ease-subtle fade-in-0 slide-in-from-bottom-1 motion-reduce:animate-none">
       <PageHeader
         title={t('sections.overview.home.title')}
         description={t('sections.overview.home.description')}
       />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:gap-5 xl:grid-cols-3">
         {blocks.map(block => {
           const headingId = `block-${block.id}`;
 
@@ -38,7 +38,7 @@ export async function CmsOverview() {
               className="min-w-0"
             >
               <div className="flex items-start gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-brand">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-subtle text-brand ring-1 ring-brand/10 ring-inset">
                   <Icon name={block.icon} className="size-5" />
                 </span>
                 <div className="flex min-w-0 flex-col gap-0.5">
@@ -50,12 +50,12 @@ export async function CmsOverview() {
                   </Text>
                 </div>
               </div>
-              <ul className="-mx-2 flex flex-col">
+              <ul className="-mx-2 flex flex-col divide-y divide-border/60">
                 {block.items.map(item => (
                   <li key={item.section}>
                     <AppLink
                       href={item.href}
-                      className="group flex items-center gap-3 rounded-md px-2 py-2 text-sm text-foreground transition-colors duration-(--dur-fast) hover:bg-accent hover:text-foreground-emphasis"
+                      className="group flex items-center gap-3 rounded-md px-2 py-2.5 text-sm text-foreground transition-colors duration-(--dur-fast) hover:bg-accent hover:text-foreground-emphasis"
                     >
                       <Icon
                         name={item.icon}

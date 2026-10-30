@@ -11,8 +11,8 @@ export async function NotFoundView() {
   const t = await getTranslations('notFound');
 
   return (
-    <div className="flex min-h-[60svh] flex-col items-center justify-center gap-3 text-center">
-      <Text size="eyebrow" variant="brand">
+    <div className="flex min-h-[60svh] animate-in flex-col items-center justify-center gap-3 text-center duration-(--dur-normal) ease-subtle fade-in-0 slide-in-from-bottom-1 motion-reduce:animate-none">
+      <Text size="display" variant="brand" className="mb-2 opacity-25">
         404
       </Text>
       <Heading headingLevel="h1">{t('title')}</Heading>
