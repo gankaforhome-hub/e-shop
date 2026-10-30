@@ -17,6 +17,8 @@ const ITEM_CLASS =
   'data-[state=open]:bg-transparent p-0 py-4 sm:p-0 sm:py-4 md:p-0 md:py-5';
 // Titles 16px medium (a step bolder than the 16px body), sentence case
 const TRIGGER_PROPS = {
+  // Sections right under the product h1
+  headingLevel: 'h2',
   indicator: 'chevron',
   size: 'base',
   className:
