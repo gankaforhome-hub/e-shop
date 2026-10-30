@@ -41,19 +41,23 @@ export function buildMetadata({
     description: meta.description,
     keywords: meta.keywords,
 
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        uk: urlFor('uk'),
-        en: urlFor('en'),
-        'x-default': urlFor(defaultLocale),
+    // URL-specific fields are page-only: a layout's canonical/hreflang would be
+    // inherited by every page without its own metadata and point it at `path`
+    ...(!isLayout && {
+      alternates: {
+        canonical: canonicalUrl,
+        languages: {
+          uk: urlFor('uk'),
+          en: urlFor('en'),
+          'x-default': urlFor(defaultLocale),
+        },
       },
-    },
+    }),
 
     openGraph: {
       title: meta.openGraph?.title || meta.title,
       description: meta.openGraph?.description || meta.description,
-      url: canonicalUrl,
+      ...(!isLayout && { url: canonicalUrl }),
       siteName: 'Ganka for Home',
       locale: lang === 'uk' ? 'uk_UA' : 'en_US',
       type: 'website',
