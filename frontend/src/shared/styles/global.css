@@ -20,9 +20,10 @@
 @theme inline {
   --breakpoint-3xl: 120rem;
   --container-title: 56rem; /* 896px */
-  --font-sans: var(--font-noto);
-  --font-text: var(--font-noto);
-  --font-caption: var(--font-noto);
+  /* `--font-noto-hryvnia` covers only ₴ (see `notoHryvnia` in config/fonts.ts) */
+  --font-sans: var(--font-noto-hryvnia), var(--font-noto);
+  --font-text: var(--font-noto-hryvnia), var(--font-noto);
+  --font-caption: var(--font-noto-hryvnia), var(--font-noto);
   --font-display: var(--font-playfair);
   --color-brand: var(--primary);
 

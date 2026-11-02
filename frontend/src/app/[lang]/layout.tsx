@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 
 import { buildInfoNav } from '@/features/navigation';
-import { noto, playfair } from '@/shared/config';
+import { noto, notoHryvnia, playfair } from '@/shared/config';
 import { routes } from '@/shared/config/routes';
 import { pickClientMessages } from '@/shared/i18n/client-messages';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
@@ -60,7 +60,7 @@ export default async function LocaleLayout({
   return (
     <html lang={lang} dir={dir}>
       <body
-        className={`${noto.variable} ${playfair.variable} flex min-h-screen w-full flex-col antialiased`}
+        className={`${noto.variable} ${notoHryvnia.variable} ${playfair.variable} flex min-h-screen w-full flex-col antialiased`}
       >
         <LogoSprite />
         <NextIntlClientProvider messages={pickClientMessages(common)}>
