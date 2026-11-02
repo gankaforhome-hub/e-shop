@@ -18,7 +18,6 @@ import { locales } from '@/shared/i18n/routing';
 import { parseCommonDictionary } from '@/shared/i18n/schemas/common.schema';
 import { ToasterProvider } from '@/shared/providers/toaster';
 import '@/shared/styles/global.css';
-import { LogoSprite } from '@/shared/ui/logo-sprite';
 import { Footer } from '@/widgets/layout/footer';
 import { Header } from '@/widgets/layout/header';
 
@@ -62,7 +61,6 @@ export default async function LocaleLayout({
       <body
         className={`${noto.variable} ${notoHryvnia.variable} ${playfair.variable} flex min-h-screen w-full flex-col antialiased`}
       >
-        <LogoSprite />
         <NextIntlClientProvider messages={pickClientMessages(common)}>
           <ToasterProvider />
           <Header lang={lang} infoNav={infoNav} />

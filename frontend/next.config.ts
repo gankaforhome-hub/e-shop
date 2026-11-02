@@ -10,17 +10,31 @@ const withNextIntl = createNextIntlPlugin('./src/shared/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Pre-launch: `noindex` on every response (pages, images, PDFs) until
-  // ALLOW_INDEXING=true — overrides page-level `robots` metadata
   async headers() {
-    return isIndexingAllowed
-      ? []
-      : [
+    return [
+      // Logo sprite drawn on every page (`LOGO_SPRITE_URL`): reused for a day,
+      // then served stale while revalidating, so the logo never waits on a
+      // revalidation request (public files default to `max-age=0`)
+      {
+        source: '/images/logo-sprite.svg',
+        headers: [
           {
-            source: '/:path*',
-            headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
           },
-        ];
+        ],
+      },
+      // Pre-launch: `noindex` on every response (pages, images, PDFs) until
+      // ALLOW_INDEXING=true — overrides page-level `robots` metadata
+      ...(isIndexingAllowed
+        ? []
+        : [
+            {
+              source: '/:path*',
+              headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+            },
+          ]),
+    ];
   },
   // Enables 'use cache' / cacheLife / cacheTag and Partial Prerendering
   cacheComponents: true,
