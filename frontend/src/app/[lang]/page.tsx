@@ -20,7 +20,7 @@ import {
   RecommendedProductsSectionSkeleton,
   CollectionsTeaserSection,
 } from '@/widgets/sections/home';
-import { BannerSliderSkeleton, Hero } from '@/widgets/sections/home/hero';
+import { Hero } from '@/widgets/sections/home/hero';
 
 export async function generateMetadata({
   params,
@@ -54,12 +54,12 @@ export default async function Page({ params }: IHomePageProps) {
 
   return (
     <>
-      <Suspense fallback={<BannerSliderSkeleton />}>
-        <Hero
-          bannerSlides={home.hero.banners}
-          ctaLabel={home.hero.viewCollection}
-        />
-      </Suspense>
+      {/* No <Suspense>: Hero is sync, and a boundary would be streamed after
+          the shell and revealed ≥300 ms after first paint, delaying LCP */}
+      <Hero
+        bannerSlides={home.hero.banners}
+        ctaLabel={home.hero.viewCollection}
+      />
       <Heading headingLevel="h1" visibility="hidden">
         {home.pageTitle}
       </Heading>
