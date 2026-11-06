@@ -3,7 +3,12 @@ import { convertToSecondsUtil } from '@common/utils';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Token } from '@prisma/client';
+import {
+  E_OneTimeTokenPurpose,
+  OneTimeToken,
+  Prisma,
+  Token,
+} from '@prisma/client';
 import { createHash, randomBytes } from 'crypto';
 import { v4 } from 'uuid';
 import { IAuthUser } from '../interfaces';
@@ -16,6 +21,21 @@ const hashToken = (token: string) =>
   createHash('sha256').update(token).digest('hex');
 
 const generateToken = () => randomBytes(32).toString('base64url');
+
+//COMMENT atomic: of two concurrent requests with one token, only one gets true
+const consumeOneTimeToken = async (
+  tx: Prisma.TransactionClient,
+  { hash }: OneTimeToken,
+  now: Date,
+) => {
+  const { count } = await tx.oneTimeToken.updateMany({
+    where: { hash, consumedAt: null, expires: { gt: now } },
+    data: { consumedAt: now },
+  });
+  return count === 1;
+};
+
+export type EmailChangeResult = 'invalid' | 'pending' | 'conflict' | 'applied';
 
 @Injectable()
 export class AuthRepository {
@@ -216,6 +236,200 @@ export class AuthRepository {
         //TODO Add Logger
         this.logger.error(err);
         return null;
+      });
+  }
+
+  //COMMENT a new token replaces the earlier ones of this purpose; returns the raw value for the email
+  async createOneTimeToken(
+    userId: string,
+    purpose: E_OneTimeTokenPurpose,
+    lifetimeMs: number,
+    newEmail?: string,
+  ): Promise<string> {
+    const token = generateToken();
+    const now = Date.now();
+
+    await this.db.$transaction([
+      this.db.oneTimeToken.deleteMany({
+        where: {
+          userId,
+          OR: [{ purpose }, { expires: { lt: new Date(now) } }],
+        },
+      }),
+      this.db.oneTimeToken.create({
+        data: {
+          hash: hashToken(token),
+          purpose,
+          newEmail,
+          expires: new Date(now + lifetimeMs),
+          userId,
+        },
+      }),
+    ]);
+
+    return token;
+  }
+
+  async findOneTimeToken(
+    token: string,
+    purpose: E_OneTimeTokenPurpose,
+  ): Promise<OneTimeToken | null> {
+    return await this.db.oneTimeToken.findFirst({
+      where: {
+        hash: hashToken(token),
+        purpose,
+        consumedAt: null,
+        expires: { gt: new Date() },
+      },
+    });
+  }
+
+  async deleteEmailChangeTokens(userId: string): Promise<void> {
+    await this.db.oneTimeToken.deleteMany({
+      where: {
+        userId,
+        purpose: {
+          in: [
+            E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+            E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
+          ],
+        },
+      },
+    });
+  }
+
+  async completeEmailVerification(token: OneTimeToken): Promise<boolean> {
+    const now = new Date();
+
+    return await this.db.$transaction(async tx => {
+      if (!(await consumeOneTimeToken(tx, token, now))) {
+        return false;
+      }
+      await tx.user.update({
+        where: { id: token.userId },
+        data: { emailVerifiedAt: now },
+      });
+      return true;
+    });
+  }
+
+  /**
+   * Sets the new password and ends every session and pending one-time token.
+   * The reset proves ownership of the mailbox, so the email counts as verified. It must
+   * never touch hardware keys or staff rights: a mailbox alone can't grant those.
+   */
+  async completePasswordReset(
+    token: OneTimeToken,
+    passwordHash: string,
+  ): Promise<boolean> {
+    const now = new Date();
+    const { userId } = token;
+
+    return await this.db.$transaction(async tx => {
+      if (!(await consumeOneTimeToken(tx, token, now))) {
+        return false;
+      }
+      await tx.user.updateMany({
+        where: { id: userId, emailVerifiedAt: null },
+        data: { emailVerifiedAt: now },
+      });
+      await tx.user.update({
+        where: { id: userId },
+        data: { password: passwordHash },
+      });
+      await tx.token.deleteMany({ where: { userId } });
+      await tx.oneTimeToken.deleteMany({ where: { userId } });
+      return true;
+    });
+  }
+
+  //COMMENT ends every other session and pending one-time token of the user
+  async changePassword(
+    userId: string,
+    passwordHash: string,
+    currentSessionId: string,
+  ): Promise<void> {
+    await this.db.$transaction([
+      this.db.user.update({
+        where: { id: userId },
+        data: { password: passwordHash },
+      }),
+      this.db.token.deleteMany({
+        where: { userId, familyId: { not: currentSessionId } },
+      }),
+      this.db.oneTimeToken.deleteMany({ where: { userId } }),
+    ]);
+  }
+
+  /**
+   * Records one confirmation; the change applies once both addresses have confirmed.
+   * Serializable: two confirmations at the same moment must not both miss each other.
+   * The one that loses fails with nothing changed, so its link still works on a retry.
+   */
+  async confirmEmailChange(token: OneTimeToken): Promise<EmailChangeResult> {
+    const { userId, newEmail, purpose } = token;
+    const now = new Date();
+
+    if (!newEmail) {
+      return 'invalid';
+    }
+
+    return await this.db
+      .$transaction(
+        async tx => {
+          if (!(await consumeOneTimeToken(tx, token, now))) {
+            return 'invalid';
+          }
+
+          const other = await tx.oneTimeToken.findFirst({
+            where: {
+              userId,
+              newEmail,
+              expires: { gt: now },
+              purpose:
+                purpose === E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD
+                  ? E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW
+                  : E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+            },
+          });
+          if (!other?.consumedAt) {
+            return 'pending';
+          }
+
+          await tx.oneTimeToken.deleteMany({
+            where: {
+              userId,
+              purpose: {
+                in: [
+                  E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+                  E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
+                ],
+              },
+            },
+          });
+
+          //COMMENT the address could have been taken since the request
+          const owner = await tx.user.findUnique({
+            where: { email: newEmail },
+            select: { id: true },
+          });
+          if (owner) {
+            return 'conflict';
+          }
+
+          await tx.user.update({
+            where: { id: userId },
+            data: { email: newEmail, emailVerifiedAt: now },
+          });
+          await tx.token.deleteMany({ where: { userId } });
+          return 'applied';
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      )
+      .catch(err => {
+        //TODO Add Logger
+        this.logger.error(err);
+        return 'invalid' as const;
       });
   }
 }

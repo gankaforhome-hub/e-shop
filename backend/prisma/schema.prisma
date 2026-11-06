@@ -32,6 +32,8 @@ enum E_AuthAudience {
 enum E_OneTimeTokenPurpose {
   EMAIL_VERIFICATION
   PASSWORD_RESET
+  EMAIL_CHANGE_OLD
+  EMAIL_CHANGE_NEW
 
   @@map("one_time_token_purpose")
 }
@@ -88,6 +90,8 @@ model OneTimeToken {
   // SHA-256 of the token; the raw value is only sent to the user
   hash       String                @id
   purpose    E_OneTimeTokenPurpose
+  // The requested address, for EMAIL_CHANGE_* tokens only
+  newEmail   String?               @map("new_email") @db.VarChar()
   expires    DateTime              @db.Timestamptz()
   consumedAt DateTime?             @map("consumed_at") @db.Timestamptz()
   createdAt  DateTime              @default(now()) @map("created_at") @db.Timestamptz()
