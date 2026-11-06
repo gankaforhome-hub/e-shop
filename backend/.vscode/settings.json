@@ -1,0 +1,9 @@
+{
+  "cSpell.words": ["nestjs", "ossp", "Timestamptz"],
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  }
+  // "js/ts.tsdk.path": "node_modules/typescript/lib",
+  // "js/ts.tsdk.promptToUseWorkspaceVersion": true
+}

@@ -1,0 +1,42 @@
+# docker-compose.yml
+
+version: '3.5'
+services:
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/var/www/postgres/docker-volumes/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PG_ADMIN_DEFAULT_EMAIL: admin@admin.com
+      PG_ADMIN_DEFAULT_PASSWORD: postgres
+      PG_ADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/www/postgres/docker-volumes/pgadmin
+    ports:
+      - 5432:80
+    networks:
+      - postgres
+    restart: unless-stopped 
+    
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//! TYPES
+enum E_UserRole {
+  USER
+  ADMIN
+  MANAGER
+  CLIENT
+
+  // Add other roles as needed
+  @@map("user_role")
+}
+
+// Add other roles as needed
+
+// enum E_UserStatus {
+//   ACTIVE
+//   PENDING
+//   BANNED
+
+//   @@map("user_status")
+// }
+
+//! MODELS
+model User {
+  id        String       @id @default(uuid())
+  email     String       @unique @db.VarChar()
+  password  String?      @db.VarChar()
+  roles     E_UserRole[] @default([USER])
+  // status    E_UserStatus[] @default([ACTIVE])
+  // isActivated Boolean?    @default(false) @map("is_activated")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+  token     Token[]
+
+  @@map("users")
+}
+
+model Token {
+  token     String   @unique
+  expires   DateTime @db.Timestamptz()
+  userAgent String   @map("user_agent")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @map("user_id")
+
+  @@map("tokens")
+}
+
+// model Acount {
+// isBlocked Boolean     @default(false) @map("is_blocked")
+// id Int @id @(autoincrement()))
+// name      String?     @default("")
+// phone     String?     @default("")
+//@@map("acounts")
+
+// }
