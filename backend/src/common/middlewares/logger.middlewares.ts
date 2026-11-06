@@ -20,9 +20,11 @@ export class LoggerMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     const { method, originalUrl } = req;
+    //COMMENT the query string can hold secrets, e.g. an OAuth code
+    const [path] = originalUrl.split('?');
 
     // The built-in global Logger allows you to pass CONTEXT as the second argument!
-    this.logger.log(`[Request] ${method} ${originalUrl}`, 'HTTP');
+    this.logger.log(`[Request] ${method} ${path}`, 'HTTP');
 
     next();
   }
