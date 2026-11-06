@@ -7,9 +7,16 @@ allowBuilds:
   '@parcel/watcher': true
   '@prisma/client': false
   '@prisma/engines': true
+  '@scarf/scarf': false
   '@swc/core': true
   '@tailwindcss/oxide': true
   bcrypt: true
   prisma: true
   sharp: false
   unrs-resolver: false
+
+# @nestjs/platform-express@12 imports rxjs without declaring it, so strict pnpm fails to load it
+packageExtensions:
+  '@nestjs/platform-express@12':
+    peerDependencies:
+      rxjs: ^7.1.0

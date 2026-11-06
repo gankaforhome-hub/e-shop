@@ -1,7 +1,11 @@
+import 'dotenv/config';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
 // initialize Prisma Client
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 async function main() {
   // const post1 = await prisma.user.upsert({
   //   where: { email: 'gmaksym@bigmir.net' },

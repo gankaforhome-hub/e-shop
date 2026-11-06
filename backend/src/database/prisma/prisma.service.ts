@@ -42,7 +42,7 @@ export class PrismaService
     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const adapter = new PrismaPg(pool);
 
-    // Transfer the adapter to Prisma 6
+    // Transfer the adapter to Prisma 7
     super({ adapter });
     this.pool = pool;
   }
