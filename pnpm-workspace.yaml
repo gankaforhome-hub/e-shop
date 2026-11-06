@@ -3,8 +3,13 @@ packages:
   - 'backend'
   - 'cms'
 allowBuilds:
+  '@nestjs/core': false
   '@parcel/watcher': true
+  '@prisma/client': false
+  '@prisma/engines': true
   '@swc/core': true
   '@tailwindcss/oxide': true
+  bcrypt: true
+  prisma: true
   sharp: false
   unrs-resolver: false

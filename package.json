@@ -7,11 +7,6 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@11.9.0",
-  "workspaces": [
-    "frontend",
-    "backend",
-    "cms"
-  ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,7 +18,11 @@
     "cstart": "pnpm --filter cms run start",
     "cbuild": "pnpm --filter cms run build",
     "clint": "pnpm --filter cms lint",
+    "bdev": "pnpm --filter backend run dev",
+    "bstart": "pnpm --filter backend run start:prod",
+    "bbuild": "pnpm --filter backend run build",
     "blint": "pnpm --filter backend lint",
+    "check-types": "pnpm -r check-types",
     "prepare": "husky install",
     "commitlint": "commitlint --edit ",
     "commit": "cz",
