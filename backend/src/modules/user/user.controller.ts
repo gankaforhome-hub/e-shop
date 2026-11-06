@@ -27,7 +27,7 @@ import { UserService } from './user.service';
 
 import { CurrentUser, Roles, UUIDParam } from '@common/decorators';
 import { RolesGuard } from '@modules/auth/guards/role.guard';
-import { IJwtPayload } from '@modules/auth/interfaces';
+import { IAuthUser } from '@modules/auth/interfaces';
 import { E_UserRole, User } from '@prisma/client';
 import { UUID } from 'crypto';
 import { UserResponse } from './responses';
@@ -70,7 +70,7 @@ export class UserController {
       throw new UnauthorizedException();
     }
 
-    const user = await this.userService.findOneByIdOrEmail(id);
+    const user = await this.userService.findById(id);
 
     const responseUser = user ? new UserResponse(user) : null;
     return responseUser;
@@ -80,7 +80,7 @@ export class UserController {
   @Get(':id')
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
-    @CurrentUser() actor: IJwtPayload,
+    @CurrentUser() actor: IAuthUser,
   ): Promise<User | null> {
     const user = await this.userService.findOne(id, actor);
     const responseUser = user ? new UserResponse(user) : null;
@@ -92,7 +92,7 @@ export class UserController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @CurrentUser() actor: IJwtPayload,
+    @CurrentUser() actor: IAuthUser,
   ): Promise<User | null> {
     const user = await this.userService.update(id, updateUserDto, actor);
     const responseUser = user ? new UserResponse(user) : null;
@@ -103,7 +103,7 @@ export class UserController {
   @Delete(':id')
   remove(
     @UUIDParam('id') id: string,
-    @CurrentUser() user: IJwtPayload,
+    @CurrentUser() user: IAuthUser,
   ): Promise<{ id: string } | null> {
     return this.userService.remove(id, user);
   }

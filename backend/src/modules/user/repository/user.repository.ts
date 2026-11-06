@@ -20,7 +20,12 @@ export class UserRepository {
     );
     return this.db.user
       .create({
-        data: { email: data.email, password: hashedPassword, roles: ['USER'] },
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          name: data.name,
+          roles: ['USER'],
+        },
       })
       .catch(err => {
         //TODO Add Logger
@@ -39,6 +44,15 @@ export class UserRepository {
   }
 
   //COMMENT get user by id
+  async getUserById(id: string): Promise<User | null> {
+    return await this.db.user.findUnique({ where: { id } }).catch(err => {
+      //TODO Add Logger
+      this.logger.error(err);
+      return null;
+    });
+  }
+
+  //COMMENT get user by id or email
   async getUserByIdOrEmail(idOrEmail: string): Promise<User | null> {
     const user = await this.db.user
       .findFirst({

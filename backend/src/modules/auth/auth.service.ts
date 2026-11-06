@@ -9,7 +9,7 @@ import { UserService } from '@modules/user/user.service';
 import { Token, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRepository } from './repository/auth.repository';
-import { ITokens } from './interfaces';
+import { IJwtPayload, ITokens } from './interfaces';
 
 @Injectable()
 export class AuthService {
@@ -20,16 +20,15 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
   ) {}
 
+  private signAccessToken({ userId, familyId }: Token): string {
+    const payload: IJwtPayload = { id: userId, sid: familyId };
+    return this.jwtService.sign(payload);
+  }
+
   private async generateTokens(
     user: User,
-    userAgent: string,
+    userAgent?: string,
   ): Promise<ITokens> {
-    const accessToken = this.jwtService.sign({
-      id: user.id,
-      email: user.email,
-      roles: user.roles,
-    });
-
     const refreshToken = await this.authRepository.setRefreshToken(
       user.id,
       userAgent,
@@ -39,7 +38,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return { accessToken, refreshToken };
+    return { accessToken: this.signAccessToken(refreshToken), refreshToken };
   }
 
   //COMMENT sign up by email, password, repeat password
@@ -55,7 +54,7 @@ export class AuthService {
   }
 
   //COMMENT sign in by email, password
-  async signIn(signInDto: SignInDto, userAgent: string): Promise<ITokens> {
+  async signIn(signInDto: SignInDto, userAgent?: string): Promise<ITokens> {
     const user: User | null = await this.userService.findOneByEmail(
       signInDto.email,
     );
@@ -81,30 +80,27 @@ export class AuthService {
   //COMMENT get refresh token
   async refreshToken(
     refreshToken: string,
-    userAgent: string,
+    userAgent?: string,
   ): Promise<ITokens> {
-    //COMMENTS we delete token, if token does not return - token is absent in db
     if (!refreshToken) {
       throw new UnauthorizedException();
     }
 
-    const token = await this.authRepository.deleteRefreshToken(refreshToken);
+    //COMMENT null: the token is unknown, expired or reused
+    const token = await this.authRepository.rotateRefreshToken(
+      refreshToken,
+      userAgent,
+    );
 
     if (!token) {
       throw new UnauthorizedException();
     }
 
-    if (new Date(token.expires) < new Date()) {
-      throw new UnauthorizedException();
-    }
+    return { accessToken: this.signAccessToken(token), refreshToken: token };
+  }
 
-    const user = await this.userService.findOneByIdOrEmail(token.userId);
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    return await this.generateTokens(user, userAgent);
+  findSessionUser(sessionId: string, userId: string) {
+    return this.authRepository.findSessionUser(sessionId, userId);
   }
 
   async findToken(refreshToken: string): Promise<Token | null> {
@@ -123,6 +119,10 @@ export class AuthService {
 
   async deleteToken(refreshToken: string) {
     return await this.authRepository.deleteRefreshToken(refreshToken);
+  }
+
+  async deleteSession(sessionId: string) {
+    return await this.authRepository.deleteRefreshTokenFamily(sessionId);
   }
 
   async deleteAllTokens(userId: string) {

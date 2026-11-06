@@ -22,7 +22,7 @@ import { AuthService } from './auth.service';
 
 import { UserResponse } from '../user/responses/user.response';
 import { SignInDto, SignUpDto } from './dto';
-import { IJwtPayload, ITokens } from './interfaces';
+import { IAuthUser, ITokens } from './interfaces';
 import {
   ApiSignInBadRequestResponse,
   ApiSignInCreatedResponse,
@@ -115,6 +115,7 @@ export class AuthController {
     //COMMENT if user sign-out early
     const isExistToken = await this.authService.findToken(refreshToken);
     if (!isExistToken) {
+      await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
       res.sendStatus(HttpStatus.NO_CONTENT);
       return;
     }
@@ -129,7 +130,7 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('sign-out/all')
   async signOutAllUserAgent(
-    @CurrentUser() user: IJwtPayload,
+    @CurrentUser() user: IAuthUser,
     @Res({ passthrough: true }) res: Response,
   ) {
     await this.authService.deleteAllTokens(user.id);

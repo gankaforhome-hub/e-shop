@@ -22,6 +22,20 @@ enum E_UserRole {
   @@map("user_role")
 }
 
+enum E_AuthAudience {
+  STOREFRONT
+  CMS
+
+  @@map("auth_audience")
+}
+
+enum E_OneTimeTokenPurpose {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+
+  @@map("one_time_token_purpose")
+}
+
 // Add other roles as needed
 
 // enum E_UserStatus {
@@ -34,27 +48,54 @@ enum E_UserRole {
 
 //! MODELS
 model User {
-  id        String       @id @default(uuid())
-  email     String       @unique @db.VarChar()
-  password  String?      @db.VarChar()
-  roles     E_UserRole[] @default([USER])
+  id              String         @id @default(uuid())
+  email           String         @unique @db.VarChar()
+  password        String?        @db.VarChar()
+  name            String?        @db.VarChar(100)
+  emailVerifiedAt DateTime?      @map("email_verified_at") @db.Timestamptz()
+  roles           E_UserRole[]   @default([USER])
   // status    E_UserStatus[] @default([ACTIVE])
   // isActivated Boolean?    @default(false) @map("is_activated")
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
-  token     Token[]
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
+  token           Token[]
+  oneTimeTokens   OneTimeToken[]
 
   @@map("users")
 }
 
 model Token {
-  token     String   @unique
-  expires   DateTime @db.Timestamptz()
-  userAgent String   @map("user_agent")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @map("user_id")
+  id        String         @id @default(uuid())
+  // SHA-256 of the refresh token; the raw value lives only in the cookie
+  token     String         @unique
+  // All rotations of one sign-in share a family, revoked together on reuse
+  familyId  String         @map("family_id")
+  audience  E_AuthAudience @default(STOREFRONT)
+  aal       Int            @default(1)
+  expires   DateTime       @db.Timestamptz()
+  rotatedAt DateTime?      @map("rotated_at") @db.Timestamptz()
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  userAgent String?        @map("user_agent")
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String         @map("user_id")
 
+  @@index([userId])
+  @@index([familyId])
   @@map("tokens")
+}
+
+model OneTimeToken {
+  // SHA-256 of the token; the raw value is only sent to the user
+  hash       String                @id
+  purpose    E_OneTimeTokenPurpose
+  expires    DateTime              @db.Timestamptz()
+  consumedAt DateTime?             @map("consumed_at") @db.Timestamptz()
+  createdAt  DateTime              @default(now()) @map("created_at") @db.Timestamptz()
+  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String                @map("user_id")
+
+  @@index([userId])
+  @@map("one_time_tokens")
 }
 
 // model Acount {

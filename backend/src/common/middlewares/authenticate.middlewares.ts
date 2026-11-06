@@ -40,7 +40,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
           });
         }
 
-        await this.authService.deleteToken(existingToken.token);
+        await this.authService.deleteSession(existingToken.familyId);
 
         return res.status(HttpStatus.UNAUTHORIZED).json({
           message: 'Unauthorized',

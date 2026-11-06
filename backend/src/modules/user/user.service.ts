@@ -1,6 +1,6 @@
 import { JWT_ACCESS_TOKEN_EXP } from '@common/constants';
-import { convertToSecondsUtil } from '@common/utils';
-import { IJwtPayload } from '@modules/auth/interfaces';
+import { convertToSecondsUtil, normalizeEmail } from '@common/utils';
+import { IAuthUser } from '@modules/auth/interfaces';
 import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
@@ -25,7 +25,7 @@ export class UserService {
   ) {}
 
   //COMMENT only the account owner and ADMIN can access a user
-  private assertCanAccess(id: string, actor: IJwtPayload) {
+  private assertCanAccess(id: string, actor: IAuthUser) {
     const isAdmin = actor.roles
       ? actor.roles.includes(E_UserRole.ADMIN)
       : false;
@@ -35,7 +35,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.userRepository.createUser(createUserDto);
+    const user = await this.userRepository.createUser({
+      ...createUserDto,
+      email: normalizeEmail(createUserDto.email),
+    });
     return user;
   }
 
@@ -61,7 +64,12 @@ export class UserService {
       );
       //INFO If using cache-manager v4, provide ttl in seconds
       //INFO If using cache-manager v5, provide ttl in milliseconds
-      await this.cacheManager.set(idOrEmail, user, ttl * 1000);
+      //COMMENT the password hash never goes to the cache
+      await this.cacheManager.set(
+        idOrEmail,
+        { ...user, password: null },
+        ttl * 1000,
+      );
       return user;
     }
     this.logger.log('[Cache] Get from cash...');
@@ -69,21 +77,26 @@ export class UserService {
   }
 
   findOneByEmail(email: string) {
-    return this.userRepository.getUserByEmail(email);
+    return this.userRepository.getUserByEmail(normalizeEmail(email));
   }
 
-  findOne(id: string, actor: IJwtPayload) {
+  //COMMENT without the cache, for data that must be current
+  findById(id: string) {
+    return this.userRepository.getUserById(id);
+  }
+
+  findOne(id: string, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
     return this.findOneByIdOrEmail(id);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto, actor: IJwtPayload) {
+  async update(id: string, updateUserDto: UpdateUserDto, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
     await this.cacheManager.del(id);
     return this.userRepository.updateUser(id, updateUserDto);
   }
 
-  async remove(id: string, actor: IJwtPayload) {
+  async remove(id: string, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
     const target = await this.userRepository.getUserByIdOrEmail(id);
     await this.cacheManager.del(id);

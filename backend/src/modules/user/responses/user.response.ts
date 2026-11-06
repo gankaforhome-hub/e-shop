@@ -12,6 +12,15 @@ export class UserResponse implements User {
   @Exclude()
   password: string | null;
 
+  @ApiProperty({ description: 'The name of the user', nullable: true })
+  name: string | null;
+
+  @ApiProperty({
+    description: 'When the email was verified',
+    nullable: true,
+  })
+  emailVerifiedAt: Date | null;
+
   @ApiProperty({ description: 'The roles of the user' })
   roles: $Enums.E_UserRole[];
 

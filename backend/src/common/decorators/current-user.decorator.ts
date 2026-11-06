@@ -1,10 +1,10 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
-import { IJwtPayload } from '@modules/auth/interfaces';
+import { IAuthUser } from '@modules/auth/interfaces';
 export const CurrentUser = createParamDecorator(
   (
-    key: keyof IJwtPayload,
+    key: keyof IAuthUser,
     ctx: ExecutionContext,
-  ): IJwtPayload | Partial<IJwtPayload> => {
+  ): IAuthUser | Partial<IAuthUser> => {
     const request = ctx.switchToHttp().getRequest();
     return key ? request.user[key] : request.user;
   },
