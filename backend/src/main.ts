@@ -1,18 +1,31 @@
 import { setupSwagger } from '@config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 // import { logger } from 'src/middlewares';
 const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  //COMMENT client IP behind a reverse proxy, rate limiting relies on it
+  app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS ?? 0));
+
+  //COMMENT security headers
+  app.use(helmet());
 
   //COMMENTS Validation pipe for income data
   //whitelist: true - not adding any fields does not match DTO
+  //forbidNonWhitelisted: true - such fields are rejected instead of dropped
   app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, stopAtFirstError: true }),
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      stopAtFirstError: true,
+    }),
   );
 
   //COMMENTS Custom Prisma client exception filter
@@ -24,6 +37,10 @@ async function bootstrap() {
 
   //COMMENT set cors request
   // app.enableCors();
+  //COMMENT any origin during development; production stays closed until the allow-list is added
+  if (process.env.NODE_ENV !== 'production') {
+    app.enableCors({ origin: true, credentials: true });
+  }
 
   //COMMENT set cookies
   app.use(cookieParser());
