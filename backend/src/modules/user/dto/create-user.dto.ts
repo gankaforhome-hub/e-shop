@@ -6,7 +6,10 @@ import {
   // IsEnum,
   // IsPhoneNumber,
   IsNotEmpty,
+  IsOptional,
+  IsString,
   Length,
+  MaxLength,
   MinLength,
 } from 'class-validator';
 export class CreateUserDto {
@@ -35,6 +38,9 @@ export class CreateUserDto {
   })
   readonly password: string;
 
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
   @ApiPropertyOptional({
     type: String,
     example: 'Maksym',
