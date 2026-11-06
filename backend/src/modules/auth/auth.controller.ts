@@ -1,27 +1,34 @@
 import {
   BadRequestException,
   Body,
-  ClassSerializerInterceptor,
   Controller,
+  HttpCode,
   HttpStatus,
   Post,
   Res,
   UnauthorizedException,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { User } from '@prisma/client';
 import { Response } from 'express';
 
 import { REFRESH_TOKEN } from '@common/constants';
 import { Cookie, CurrentUser, SkipAuth, UserAgent } from '@common/decorators';
 import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
 import { CookieService } from '../cookie/cookie.service';
+import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
-import { UserResponse } from '../user/responses/user.response';
-import { SignInDto, SignUpDto } from './dto';
+import {
+  ChangeEmailDto,
+  ChangePasswordDto,
+  ConfirmEmailChangeDto,
+  EmailDto,
+  ResetPasswordDto,
+  SignInDto,
+  SignUpDto,
+  VerifyEmailDto,
+} from './dto';
 import { IAuthUser, ITokens } from './interfaces';
 import {
   ApiSignInBadRequestResponse,
@@ -31,34 +38,129 @@ import {
   ApiSignOutOkResponse,
   ApiSignOutOperation,
   ApiSignOutUnauthorizedResponse,
+  ApiSignUpAcceptedResponse,
   ApiSignUpBadRequestResponse,
-  ApiSignUpConflictResponse,
-  ApiSignUpCreatedResponse,
   ApiSignUpOperation,
+  MessageResponse,
 } from './responses';
+
+//COMMENT the same for existing and unknown emails, so it does not reveal which accounts exist
+const CHECK_EMAIL_MESSAGE = 'Check your email for the next step';
 
 @ApiTags('⛔ auth service')
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly accountService: AccountService,
     private readonly cookiesService: CookieService,
   ) {}
 
   @SkipAuth()
   @Throttle(STRICT_THROTTLE)
-  @UseInterceptors(ClassSerializerInterceptor)
+  @HttpCode(HttpStatus.ACCEPTED)
   @Post('sign-up')
   @ApiSignUpOperation()
-  @ApiSignUpCreatedResponse()
+  @ApiSignUpAcceptedResponse()
   @ApiSignUpBadRequestResponse()
-  @ApiSignUpConflictResponse()
-  async signUp(@Body() signUpDto: SignUpDto): Promise<User> {
-    const user = await this.authService.signUp(signUpDto);
-    if (!user) {
-      throw new BadRequestException('Unable to sign up');
-    }
-    return new UserResponse(user);
+  async signUp(@Body() signUpDto: SignUpDto): Promise<MessageResponse> {
+    await this.accountService.signUp(signUpDto);
+    return { message: CHECK_EMAIL_MESSAGE };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.ACCEPTED)
+  @Post('resend-verification')
+  @ApiOperation({ summary: 'send the email verification link again' })
+  async resendVerification(@Body() dto: EmailDto): Promise<MessageResponse> {
+    await this.accountService.resendVerification(dto);
+    return { message: CHECK_EMAIL_MESSAGE };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('verify-email')
+  @ApiOperation({ summary: 'confirm the email with the token from the link' })
+  async verifyEmail(@Body() dto: VerifyEmailDto): Promise<MessageResponse> {
+    await this.accountService.verifyEmail(dto);
+    return { message: 'Email confirmed' };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.ACCEPTED)
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'send a password reset link' })
+  async forgotPassword(@Body() dto: EmailDto): Promise<MessageResponse> {
+    await this.accountService.forgotPassword(dto);
+    return { message: CHECK_EMAIL_MESSAGE };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  @ApiOperation({
+    summary: 'set a new password with the token from the link',
+    description: 'Ends every session of the user.',
+  })
+  async resetPassword(@Body() dto: ResetPasswordDto): Promise<MessageResponse> {
+    await this.accountService.resetPassword(dto);
+    return { message: 'Password changed, sign in again' };
+  }
+
+  @ApiBearerAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('change-password')
+  @ApiOperation({
+    summary: 'change the password',
+    description: 'Ends every other session of the user.',
+  })
+  async changePassword(
+    @CurrentUser() user: IAuthUser,
+    @Body() dto: ChangePasswordDto,
+  ): Promise<MessageResponse> {
+    await this.accountService.changePassword(user, dto);
+    return { message: 'Password changed' };
+  }
+
+  @ApiBearerAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.ACCEPTED)
+  @Post('change-email')
+  @ApiOperation({
+    summary: 'request an email change',
+    description:
+      'The change applies once both the old and the new address confirm it.',
+  })
+  async changeEmail(
+    @CurrentUser() user: IAuthUser,
+    @Body() dto: ChangeEmailDto,
+  ): Promise<MessageResponse> {
+    await this.accountService.changeEmail(user, dto);
+    return { message: CHECK_EMAIL_MESSAGE };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('confirm-email-change')
+  @ApiOperation({
+    summary: 'confirm an email change with the token from the link',
+    description: 'Ends every session of the user once the change applies.',
+  })
+  async confirmEmailChange(
+    @Body() dto: ConfirmEmailChangeDto,
+  ): Promise<MessageResponse> {
+    const isChanged = await this.accountService.confirmEmailChange(dto);
+    return {
+      message: isChanged
+        ? 'Email changed, sign in again'
+        : 'Confirmed, now confirm the other address too',
+    };
   }
 
   @SkipAuth()

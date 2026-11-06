@@ -1,31 +1,14 @@
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
-import { $Enums } from '@prisma/client';
-import {
-  ApiBadRequestResponse,
-  ApiConflictResponse,
-  ApiCreatedResponse,
-} from '@nestjs/swagger';
-
-export class SignUpResponse {
-  @ApiProperty({
-    description: "User's id",
-    example: '41aeb541-3812-4320-8139-58899a66face',
-  })
-  id: string;
-
-  @ApiProperty({ description: "User's email", example: 'test@test.com' })
-  email: string;
-
-  @ApiProperty({ description: "User's roles", example: '["USER"]' })
-  roles: $Enums.E_UserRole[];
-}
+import { ApiOperation } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { MessageResponse } from './message.response';
 
 export const ApiSignUpOperation = () => ApiOperation({ summary: '🎭 sign-up' });
 
-export const ApiSignUpCreatedResponse = () =>
-  ApiCreatedResponse({
-    description: 'Successful operation',
-    type: SignUpResponse,
+export const ApiSignUpAcceptedResponse = () =>
+  ApiAcceptedResponse({
+    description:
+      'The same response whether or not the email already has an account, so it does not reveal which accounts exist. The next step is in the email.',
+    type: MessageResponse,
   });
 
 export const ApiSignUpBadRequestResponse = () =>
@@ -35,7 +18,6 @@ export const ApiSignUpBadRequestResponse = () =>
       'application/json': {
         example: {
           errors: [
-            'Unable to sign up',
             'Field "email" is required',
             'Invalid email format. Please enter a valid email address',
             'Field "password" is required',
@@ -48,20 +30,6 @@ export const ApiSignUpBadRequestResponse = () =>
           ],
           error: 'Bad Request',
           statusCode: 400,
-        },
-      },
-    },
-  });
-
-export const ApiSignUpConflictResponse = () =>
-  ApiConflictResponse({
-    description: 'Provided email already exists',
-    content: {
-      'application/json': {
-        example: {
-          message: 'User with this email is already registered',
-          error: 'Conflict',
-          statusCode: 409,
         },
       },
     },

@@ -85,6 +85,10 @@ export class UserService {
     return this.userRepository.getUserById(id);
   }
 
+  async clearCache(id: string) {
+    await this.cacheManager.del(id);
+  }
+
   findOne(id: string, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
     return this.findOneByIdOrEmail(id);

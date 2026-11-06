@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
+import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 
@@ -10,6 +11,7 @@ import { jwtModuleAsyncOptions } from '@config';
 
 import { UserModule } from '@modules/user/user.module';
 import { CookieModule } from '@modules/cookie/cookie.module';
+import { MailModule } from '@modules/mail/mail.module';
 import { DatabaseModule } from '@database/database.module';
 
 import { AuthRepository } from './repository/auth.repository';
@@ -18,12 +20,19 @@ import { GUARDS } from './guards';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, ...STRATEGIES, ...GUARDS],
+  providers: [
+    AuthService,
+    AccountService,
+    AuthRepository,
+    ...STRATEGIES,
+    ...GUARDS,
+  ],
   imports: [
     ConfigModule,
     DatabaseModule,
     PassportModule,
     CookieModule,
+    MailModule,
     JwtModule.registerAsync(jwtModuleAsyncOptions()),
     UserModule,
   ],

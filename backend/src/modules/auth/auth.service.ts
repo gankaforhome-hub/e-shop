@@ -1,9 +1,5 @@
-import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { SignInDto, SignUpDto } from './dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { SignInDto } from './dto';
 import { PasswordService } from '@modules/password/password.service';
 import { UserService } from '@modules/user/user.service';
 import { Token, User } from '@prisma/client';
@@ -39,18 +35,6 @@ export class AuthService {
     }
 
     return { accessToken: this.signAccessToken(refreshToken), refreshToken };
-  }
-
-  //COMMENT sign up by email, password, repeat password
-  async signUp(signUpDto: SignUpDto) {
-    const user: User | null = await this.userService.findOneByEmail(
-      signUpDto.email,
-    );
-
-    if (user) {
-      throw new ConflictException('User with this email is already registered');
-    }
-    return this.userService.create(signUpDto);
   }
 
   //COMMENT sign in by email, password

@@ -1,2 +1,7 @@
 export * from './sign-up-auth.dto';
 export * from './sign-in-auth.dto';
+export * from './email-auth.dto';
+export * from './verify-email-auth.dto';
+export * from './reset-password-auth.dto';
+export * from './change-password-auth.dto';
+export * from './change-email-auth.dto';
