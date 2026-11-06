@@ -35,13 +35,13 @@ export const ApiSignUpBadRequestResponse = () =>
       'application/json': {
         example: {
           errors: [
-            'Unable to sign up with data ${JSON.stringify(signUpDto)}',
+            'Unable to sign up',
             'Field "email" is required',
             'Invalid email format. Please enter a valid email address',
             'Field "password" is required',
             'password must be a string',
-            'Password is too short. Minimal length is $constraint1 characters, but actual is $value',
-            'Password is too long. Max length is $constraint1 characters, but actual is $value',
+            'Password is too short. Minimal length is $constraint1 characters',
+            'Password is too long. Max length is 72 bytes',
             'repeatPassword must be a string',
             'Field "passwordRepeat" is required',
             'Passwords do not match',

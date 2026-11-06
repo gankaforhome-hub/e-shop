@@ -11,6 +11,6 @@ import { UserService } from './user.service';
   imports: [DatabaseModule, CacheModule.register()],
   controllers: [UserController],
   providers: [UserRepository, UserService, PasswordService, Logger],
-  exports: [UserService],
+  exports: [UserService, PasswordService],
 })
 export class UserModule {}

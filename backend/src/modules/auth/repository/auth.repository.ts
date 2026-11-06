@@ -5,7 +5,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Token } from '@prisma/client';
 import { v4 } from 'uuid';
-import { IJwtPayload } from '../interfaces';
 
 @Injectable()
 export class AuthRepository {
@@ -96,11 +95,15 @@ export class AuthRepository {
   }
 
   async deleteAllRefreshTokens(
-    user: IJwtPayload,
+    userId: string,
   ): Promise<{ count: number } | null> {
+    //COMMENT Prisma skips undefined filters: without an id this would delete every session
+    if (!userId) {
+      return null;
+    }
     return await this.db.token
       .deleteMany({
-        where: { userId: user?.id },
+        where: { userId },
       })
       .catch(err => {
         //TODO Add Logger

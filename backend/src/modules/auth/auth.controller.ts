@@ -3,14 +3,13 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,
   HttpStatus,
   Post,
   Res,
   UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { Response } from 'express';
 
@@ -37,7 +36,6 @@ import {
 } from './responses';
 
 @ApiTags('⛔ auth service')
-@SkipAuth()
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -45,6 +43,7 @@ export class AuthController {
     private readonly cookiesService: CookieService,
   ) {}
 
+  @SkipAuth()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('sign-up')
   @ApiSignUpOperation()
@@ -54,13 +53,12 @@ export class AuthController {
   async signUp(@Body() signUpDto: SignUpDto): Promise<User> {
     const user = await this.authService.signUp(signUpDto);
     if (!user) {
-      throw new BadRequestException(
-        `Unable to sign up with data ${JSON.stringify(signUpDto)}`,
-      );
+      throw new BadRequestException('Unable to sign up');
     }
     return new UserResponse(user);
   }
 
+  @SkipAuth()
   @Post('sign-in')
   @ApiSignInOperation()
   @ApiSignInCreatedResponse()
@@ -73,9 +71,7 @@ export class AuthController {
   ) {
     const tokens = await this.authService.signIn(signInDto, userAgent);
     if (!tokens) {
-      throw new BadRequestException(
-        `Unable to sign in with data ${JSON.stringify(signInDto)}`,
-      );
+      throw new BadRequestException('Unable to sign in');
     }
     const {
       accessToken,
@@ -94,7 +90,8 @@ export class AuthController {
     });
   }
 
-  @Get('sign-out')
+  @SkipAuth()
+  @Post('sign-out')
   @ApiSignOutOperation()
   @ApiSignOutOkResponse()
   @ApiSignOutUnauthorizedResponse()
@@ -125,21 +122,19 @@ export class AuthController {
     res.sendStatus(HttpStatus.NO_CONTENT);
   }
 
-  @Get('sign-out/all')
+  @ApiBearerAuth()
+  @Post('sign-out/all')
   async signOutAllUserAgent(
-    @Cookie(REFRESH_TOKEN) refreshToken: string,
     @CurrentUser() user: IJwtPayload,
     @Res({ passthrough: true }) res: Response,
   ) {
-    if (!refreshToken) {
-      res.sendStatus(HttpStatus.OK);
-    }
-    await this.authService.deleteAllTokens(user);
-    await this.cookiesService.removeFromCookies(refreshToken, res);
+    await this.authService.deleteAllTokens(user.id);
+    await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
     res.sendStatus(HttpStatus.OK);
   }
 
-  @Get('refresh')
+  @SkipAuth()
+  @Post('refresh')
   @ApiOperation({ summary: '🔃 refresh token' })
   async refreshToken(
     @Cookie(REFRESH_TOKEN) refreshToken: string,
@@ -174,7 +169,7 @@ export class AuthController {
       res,
     );
     res.status(HttpStatus.CREATED).json({
-      'access-token': accessToken,
+      accessToken,
     });
   }
 }

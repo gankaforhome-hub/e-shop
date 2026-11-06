@@ -4,17 +4,18 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { SignInDto, SignUpDto } from './dto';
+import { PasswordService } from '@modules/password/password.service';
 import { UserService } from '@modules/user/user.service';
-import { compareSync } from 'bcrypt';
 import { Token, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRepository } from './repository/auth.repository';
-import { IJwtPayload, ITokens } from './interfaces';
+import { ITokens } from './interfaces';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
+    private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
     private readonly authRepository: AuthRepository,
   ) {}
@@ -23,13 +24,11 @@ export class AuthService {
     user: User,
     userAgent: string,
   ): Promise<ITokens> {
-    const accessToken =
-      'Bearer ' +
-      this.jwtService.sign({
-        id: user.id,
-        email: user.email,
-        roles: user.roles,
-      });
+    const accessToken = this.jwtService.sign({
+      id: user.id,
+      email: user.email,
+      roles: user.roles,
+    });
 
     const refreshToken = await this.authRepository.setRefreshToken(
       user.id,
@@ -45,7 +44,7 @@ export class AuthService {
 
   //COMMENT sign up by email, password, repeat password
   async signUp(signUpDto: SignUpDto) {
-    const user: User | null = await this.userService.findOneByIdOrEmail(
+    const user: User | null = await this.userService.findOneByEmail(
       signUpDto.email,
     );
 
@@ -57,16 +56,16 @@ export class AuthService {
 
   //COMMENT sign in by email, password
   async signIn(signInDto: SignInDto, userAgent: string): Promise<ITokens> {
-    const user: User | null = await this.userService.findOneByIdOrEmail(
+    const user: User | null = await this.userService.findOneByEmail(
       signInDto.email,
-      true,
     );
 
-    if (!user) {
-      throw new UnauthorizedException('Email or password are invalid');
-    }
+    const isPasswordValid = await this.passwordService.isPasswordValid(
+      signInDto.password,
+      user?.password,
+    );
 
-    if (user.password && !compareSync(signInDto.password, user.password)) {
+    if (!user || !isPasswordValid) {
       throw new UnauthorizedException('Email or password are invalid');
     }
     const tokens: ITokens = await this.generateTokens(user, userAgent);
@@ -126,7 +125,7 @@ export class AuthService {
     return await this.authRepository.deleteRefreshToken(refreshToken);
   }
 
-  async deleteAllTokens(user: IJwtPayload) {
-    return await this.authRepository.deleteAllRefreshTokens(user);
+  async deleteAllTokens(userId: string) {
+    return await this.authRepository.deleteAllRefreshTokens(userId);
   }
 }
