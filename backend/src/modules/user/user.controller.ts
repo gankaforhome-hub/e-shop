@@ -25,7 +25,7 @@ import {
 import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
 import { UserService } from './user.service';
 
-import { CurrentUser, Roles, SkipAuth, UUIDParam } from '@common/decorators';
+import { CurrentUser, Roles, UUIDParam } from '@common/decorators';
 import { RolesGuard } from '@modules/auth/guards/role.guard';
 import { IJwtPayload } from '@modules/auth/interfaces';
 import { E_UserRole, User } from '@prisma/client';
@@ -39,8 +39,9 @@ import { UserResponse } from './responses';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @SkipAuth()
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(RolesGuard)
+  @Roles(E_UserRole.ADMIN)
   @Post()
   @ApiOperation({ summary: '🎭 create user' })
   @ApiBody({ type: CreateUserDto })
@@ -51,7 +52,10 @@ export class UserController {
     return responseUser;
   }
 
+  //COMMENT endpoint only for admin
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(RolesGuard)
+  @Roles(E_UserRole.ADMIN)
   @Get()
   async findAll(): Promise<User[] | []> {
     const user = await this.userService.findAll();
@@ -59,10 +63,7 @@ export class UserController {
     return responseUsers;
   }
 
-  //COMMENT endpoint only for admin
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(RolesGuard)
-  @Roles(E_UserRole.ADMIN)
   @Get('me')
   async getMe(@CurrentUser('id') id: UUID) {
     if (!id) {
@@ -77,8 +78,11 @@ export class UserController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User | null> {
-    const user = await this.userService.findOneByIdOrEmail(id);
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser() actor: IJwtPayload,
+  ): Promise<User | null> {
+    const user = await this.userService.findOne(id, actor);
     const responseUser = user ? new UserResponse(user) : null;
     return responseUser;
   }
@@ -88,8 +92,9 @@ export class UserController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @CurrentUser() actor: IJwtPayload,
   ): Promise<User | null> {
-    const user = await this.userService.update(id, updateUserDto);
+    const user = await this.userService.update(id, updateUserDto, actor);
     const responseUser = user ? new UserResponse(user) : null;
     return responseUser;
   }

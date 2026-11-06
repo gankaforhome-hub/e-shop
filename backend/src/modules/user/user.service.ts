@@ -24,6 +24,16 @@ export class UserService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
+  //COMMENT only the account owner and ADMIN can access a user
+  private assertCanAccess(id: string, actor: IJwtPayload) {
+    const isAdmin = actor.roles
+      ? actor.roles.includes(E_UserRole.ADMIN)
+      : false;
+    if (id !== actor.id && !isAdmin) {
+      throw new ForbiddenException();
+    }
+  }
+
   async create(createUserDto: CreateUserDto) {
     const user = await this.userRepository.createUser(createUserDto);
     return user;
@@ -62,20 +72,24 @@ export class UserService {
     return this.userRepository.getUserByEmail(email);
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  findOne(id: string, actor: IJwtPayload) {
+    this.assertCanAccess(id, actor);
+    return this.findOneByIdOrEmail(id);
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto, actor: IJwtPayload) {
+    this.assertCanAccess(id, actor);
+    await this.cacheManager.del(id);
     return this.userRepository.updateUser(id, updateUserDto);
   }
 
-  async remove(id: string, user: IJwtPayload) {
-    //COMMENT delete only own user and with status user role ADMIN
-    const isAdmin = user.roles ? user.roles.includes(E_UserRole.ADMIN) : false;
-    if (id !== user.id && !isAdmin) {
-      throw new ForbiddenException();
+  async remove(id: string, actor: IJwtPayload) {
+    this.assertCanAccess(id, actor);
+    const target = await this.userRepository.getUserByIdOrEmail(id);
+    await this.cacheManager.del(id);
+    if (target) {
+      await this.cacheManager.del(target.email);
     }
-    await Promise.all([
-      await this.cacheManager.del(id),
-      await this.cacheManager.del(user.email),
-    ]);
     return this.userRepository.deleteUser(id);
   }
 }
