@@ -10,11 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { User } from '@prisma/client';
 import { Response } from 'express';
 
 import { REFRESH_TOKEN } from '@common/constants';
 import { Cookie, CurrentUser, SkipAuth, UserAgent } from '@common/decorators';
+import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
 import { CookieService } from '../cookie/cookie.service';
 import { AuthService } from './auth.service';
 
@@ -44,6 +46,7 @@ export class AuthController {
   ) {}
 
   @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('sign-up')
   @ApiSignUpOperation()
@@ -59,6 +62,7 @@ export class AuthController {
   }
 
   @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
   @Post('sign-in')
   @ApiSignInOperation()
   @ApiSignInCreatedResponse()
@@ -134,6 +138,7 @@ export class AuthController {
   }
 
   @SkipAuth()
+  @Throttle(REFRESH_THROTTLE)
   @Post('refresh')
   @ApiOperation({ summary: '🔃 refresh token' })
   async refreshToken(

@@ -1,6 +1,8 @@
 import { LoggerMiddleware } from '@common/middlewares';
+import { throttlers, validateEnv } from '@config';
 import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { DatabaseModule } from '@database/database.module';
 import { AuthModule } from '@modules/auth/auth.module';
@@ -12,7 +14,8 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
+    ThrottlerModule.forRoot(throttlers),
     ServerModule,
     CookieModule,
     DatabaseModule,
@@ -21,6 +24,11 @@ import { APP_GUARD } from '@nestjs/core';
   ],
   providers: [
     Logger,
+    //COMMENT first, so requests with guessed tokens count against the limit too
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
