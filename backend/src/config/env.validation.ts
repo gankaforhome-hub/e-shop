@@ -4,8 +4,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
   Matches,
   MinLength,
+  ValidateIf,
   validateSync,
 } from 'class-validator';
 
@@ -32,6 +34,14 @@ class EnvironmentVariables {
   @IsOptional()
   @Matches(/^\d+$/)
   TRUST_PROXY_HOPS?: string;
+
+  //COMMENT links in emails; falls back to the local frontend outside production
+  @ValidateIf(
+    (env: EnvironmentVariables) =>
+      env.NODE_ENV === 'production' || env.FRONTEND_URL !== undefined,
+  )
+  @IsUrl({ require_tld: false })
+  FRONTEND_URL?: string;
 }
 
 //COMMENT fails on startup; the messages name the variable and never contain its value

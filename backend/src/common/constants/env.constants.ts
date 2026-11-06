@@ -8,3 +8,5 @@ export const JWT_REFRESH_TOKEN_SECRET = 'JWT_REFRESH_TOKEN_SECRET';
 export const DATABASE_URL = 'DATABASE_URL';
 
 export const NODE_ENV = 'NODE_ENV';
+
+export const FRONTEND_URL = 'FRONTEND_URL';
