@@ -24,14 +24,12 @@ export const ApiSignUpOperation = () => ApiOperation({ summary: '🎭 sign-up' }
 
 export const ApiSignUpCreatedResponse = () =>
   ApiCreatedResponse({
-    status: 201,
     description: 'Successful operation',
     type: SignUpResponse,
   });
 
 export const ApiSignUpBadRequestResponse = () =>
   ApiBadRequestResponse({
-    status: 400,
     description: 'Bad request (invalid request body)',
     content: {
       'application/json': {
@@ -57,7 +55,6 @@ export const ApiSignUpBadRequestResponse = () =>
 
 export const ApiSignUpConflictResponse = () =>
   ApiConflictResponse({
-    status: 409,
     description: 'Provided email already exists',
     content: {
       'application/json': {

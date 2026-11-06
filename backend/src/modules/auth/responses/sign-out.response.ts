@@ -12,13 +12,11 @@ export const ApiSignOutOperation = () =>
 
 export const ApiSignOutOkResponse = () =>
   ApiNoContentResponse({
-    status: 204,
     description: 'Successful operation',
   });
 
 export const ApiSignOutUnauthorizedResponse = () =>
   ApiUnauthorizedResponse({
-    status: 401,
     description: 'Refresh token is absent',
     content: {
       'application/json': {

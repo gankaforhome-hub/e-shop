@@ -19,7 +19,6 @@ export const ApiSignInOperation = () => ApiOperation({ summary: '📩 sign-in' }
 
 export const ApiSignInCreatedResponse = () =>
   ApiCreatedResponse({
-    status: 201,
     description:
       'Successfully authenticated. The refresh token is returned in a cookie named `REFRESH_TOKEN`. This cookie will be include in subsequent requests where need authorized user',
     type: SignInResponse,
@@ -27,7 +26,6 @@ export const ApiSignInCreatedResponse = () =>
 
 export const ApiSignInBadRequestResponse = () =>
   ApiBadRequestResponse({
-    status: 400,
     description: 'Bad request',
     content: {
       'application/json': {
@@ -50,7 +48,6 @@ export const ApiSignInBadRequestResponse = () =>
 
 export const ApiSignInUnauthorizedResponse = () =>
   ApiUnauthorizedResponse({
-    status: 401,
     description: "Email doesn't exist / Password is wrong",
     content: {
       'application/json': {
