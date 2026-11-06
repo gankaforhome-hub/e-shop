@@ -15,7 +15,9 @@ export class UserRepository {
 
   //COMMENT createUser
   async createUser(data: CreateUserDto): Promise<User | null> {
-    const hashedPassword = this.passwordService.getHashPassword(data.password);
+    const hashedPassword = await this.passwordService.getHashPassword(
+      data.password,
+    );
     return this.db.user
       .create({
         data: { email: data.email, password: hashedPassword, roles: ['USER'] },

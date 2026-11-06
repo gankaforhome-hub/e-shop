@@ -1,10 +1,10 @@
 import { IsPasswordsMatchingConstraint } from '@common/decorators';
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsByteLength,
   IsEmail,
   IsNotEmpty,
   IsString,
-  MaxLength,
   MinLength,
   Validate,
 } from 'class-validator';
@@ -20,13 +20,12 @@ export class SignUpDto {
   @ApiProperty({ example: 'test@test.com' })
   email: string;
 
-  @MinLength(6, {
-    message:
-      'Password is too short. Minimal length is $constraint1 characters, but actual is $value',
+  @MinLength(8, {
+    message: 'Password is too short. Minimal length is $constraint1 characters',
   })
-  @MaxLength(15, {
-    message:
-      'Password is too long. Max length is $constraint1 characters, but actual is $value',
+  //COMMENT bcrypt only uses the first 72 bytes
+  @IsByteLength(0, 72, {
+    message: 'Password is too long. Max length is 72 bytes',
   })
   @IsString({ message: 'password must be a string' })
   @IsNotEmpty({ message: 'Field "password" is required' })

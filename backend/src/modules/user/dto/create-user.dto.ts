@@ -1,12 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 // import { E_UserRole } from '@prisma/client';
 import {
+  IsByteLength,
   IsEmail,
   // IsEnum,
   // IsPhoneNumber,
   IsNotEmpty,
   Length,
-  MaxLength,
   MinLength,
 } from 'class-validator';
 export class CreateUserDto {
@@ -25,8 +25,9 @@ export class CreateUserDto {
   //     'Password is too short. Minimal length is $constraint1 characters, but actual is $value',
   // })
   @IsNotEmpty()
-  @MinLength(6)
-  @MaxLength(15)
+  @MinLength(8)
+  //COMMENT bcrypt only uses the first 72 bytes
+  @IsByteLength(0, 72)
   @ApiProperty({
     type: String,
     example: 'password',
