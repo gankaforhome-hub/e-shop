@@ -20,6 +20,7 @@ export interface IStaffAccess {
 export interface IAuthUser {
   id: string;
   email: string;
+  name: string | null;
   sid: string;
   aud: E_AuthAudience;
   aal: number;

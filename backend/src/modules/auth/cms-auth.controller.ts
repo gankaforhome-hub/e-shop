@@ -12,6 +12,7 @@ import { WebAuthnService } from '@modules/staff/webauthn.service';
 import {
   Body,
   Controller,
+  Get,
   Headers,
   HttpCode,
   HttpStatus,
@@ -43,6 +44,7 @@ import {
 import { CheckOrigin, OriginGuard } from './guards/origin.guard';
 import { IAuthUser, ITokens } from './interfaces';
 import { SignInResponse } from './responses';
+import { CmsProfileResponse } from './responses/cms-profile.response';
 
 class CredentialResponse {
   credentialId: string;
@@ -134,6 +136,24 @@ export class CmsAuthController {
       res,
       CMS_AUTH_COOKIE_PATH,
     );
+  }
+
+  @Get('me')
+  @ApiOperation({
+    summary: 'profile and role of the signed-in staff member',
+    description:
+      'Identifies the session only. Routes that change data have their own guards.',
+  })
+  me(@CurrentUser() user: IAuthUser): CmsProfileResponse {
+    if (!user.staff || user.staff.revokedAt) {
+      throw new UnauthorizedException();
+    }
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.staff.role,
+    };
   }
 
   @Throttle(STRICT_THROTTLE)

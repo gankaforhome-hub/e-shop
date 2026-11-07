@@ -195,6 +195,7 @@ export class AuthRepository {
           select: {
             id: true,
             email: true,
+            name: true,
             staffAccount: {
               select: { role: true, approvedAt: true, revokedAt: true },
             },
@@ -209,6 +210,7 @@ export class AuthRepository {
     return {
       id: user.id,
       email: user.email,
+      name: user.name,
       aud: audience,
       aal,
       credentialId,
