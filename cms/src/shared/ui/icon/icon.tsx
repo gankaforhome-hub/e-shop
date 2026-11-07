@@ -16,6 +16,7 @@ import {
   LayoutGrid,
   LayoutTemplate,
   Library,
+  LogOut,
   Megaphone,
   Menu,
   Moon,
@@ -73,6 +74,7 @@ export const ICON_MAP = {
   settings: Settings,
   account: CircleUserRound,
   section: SquareStack,
+  'sign-out': LogOut,
 
   // Interface
   menu: Menu,

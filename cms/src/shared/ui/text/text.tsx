@@ -16,6 +16,8 @@ export const textVariants = cva('', {
       muted: 'text-muted-foreground',
       /** Brand accent: eyebrows, status highlights. */
       brand: 'text-brand',
+      /** Validation and request errors. */
+      destructive: 'text-destructive',
       inherit: 'text-inherit',
     },
     size: {
