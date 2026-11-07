@@ -10,7 +10,7 @@ export class CookieService {
   constructor(private readonly configService: ConfigService) {}
 
   //COMMENT a cookie is only cleared when these options match the ones it was set with
-  private get options(): CookieOptions {
+  private getOptions(path: string): CookieOptions {
     return {
       //COMMENT cookies: not available through the remote control on the client
       httpOnly: true,
@@ -19,20 +19,24 @@ export class CookieService {
       //COMMENT cookies: secure http for development or https protocol for production
       secure: this.configService.get(NODE_ENV, 'development') === 'production',
       //COMMENT cookies: accesses path for cookies
-      path: AUTH_COOKIE_PATH,
+      path,
     };
   }
 
   async setToCookies(cookie: ICookie, res: Response) {
     res.cookie(cookie.name, cookie.value, {
-      ...this.options,
+      ...this.getOptions(cookie.path ?? AUTH_COOKIE_PATH),
       //COMMENT cookies: expires cookie
       expires: new Date(cookie.expires),
     });
   }
 
-  async removeFromCookies(key: string, res: Response) {
-    res.clearCookie(key, this.options);
+  async removeFromCookies(
+    key: string,
+    res: Response,
+    path: string = AUTH_COOKIE_PATH,
+  ) {
+    res.clearCookie(key, this.getOptions(path));
   }
 
   getCookies(key: string, res: Response) {
