@@ -1,15 +1,34 @@
 import { cache } from 'react';
 
+import { cookies } from 'next/headers';
+
 import 'server-only';
 
-import { mockCurrentUser } from '../mock/current-user';
+import { getLocale } from 'next-intl/server';
+
+import { getProfileRequest } from '@/shared/api/auth-api';
+import { routes } from '@/shared/config';
+import { redirect } from '@/shared/i18n/navigation';
+import { ACCESS_TOKEN_COOKIE } from '@/shared/lib/session/session-cookies';
+
+import { mapStaffRole } from '../lib/map-staff-role';
 import { type CmsUser } from '../model/types';
 
 /**
- * DAL read of the signed-in user, deduplicated per request. Returns the mock
- * for now; once it reads the session cookie, its callers must sit inside
- * `<Suspense>` (Next.js guide "Authentication with Cache Components").
+ * DAL read of the signed-in user, deduplicated per request. The API verifies the token,
+ * so a forged or revoked cookie that got past `proxy.ts` ends up on the sign-in page.
+ * It reads cookies, so its callers need `<Suspense>` or a blocking route (`instant = false`).
  */
-export const getCurrentUser = cache(
-  async (): Promise<CmsUser> => mockCurrentUser,
-);
+export const getCurrentUser = cache(async (): Promise<CmsUser> => {
+  const store = await cookies();
+  const accessToken = store.get(ACCESS_TOKEN_COOKIE)?.value;
+  const result = accessToken ? await getProfileRequest(accessToken) : null;
+
+  if (!result?.ok) {
+    return redirect({ href: routes.auth.login, locale: await getLocale() });
+  }
+
+  const { id, email, name, role } = result.data;
+
+  return { id, email, name: name ?? email, role: mapStaffRole(role) };
+});

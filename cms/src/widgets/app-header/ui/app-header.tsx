@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { UserCard } from '@/entities/user';
 import { getCurrentUser } from '@/entities/user/server';
 import { AccountMenu } from '@/features/account-menu';
+import { signOutAction, SignOutButton } from '@/features/auth';
 import { getNavBlocks, NavGroups, SYSTEM_NAV } from '@/features/navigation';
 import { LanguageMenu, LanguageSegmented } from '@/features/select-language';
 import { ThemeSegmented, ThemeToggle } from '@/features/select-theme';
@@ -63,6 +64,7 @@ export async function AppHeader() {
               </Text>
               <LanguageSegmented />
             </div>
+            <SignOutButton label={t('account.signOut')} />
           </div>
         }
       >
@@ -88,7 +90,7 @@ export async function AppHeader() {
         <ThemeToggle />
         <LanguageMenu />
         <Separator orientation="vertical" className="mx-1.5 h-5" />
-        <AccountMenu user={user} />
+        <AccountMenu user={user} onSignOut={signOutAction} />
       </div>
     </header>
   );

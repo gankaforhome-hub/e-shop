@@ -3,6 +3,50 @@
     "title": "Ganka CMS",
     "description": "Content management system of Ganka for Home."
   },
+  "auth": {
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "passwordRepeat": "Repeat the password"
+    },
+    "signIn": {
+      "title": "Sign in to the CMS",
+      "description": "Enter your email and password.",
+      "submit": "Sign in",
+      "noAccount": "No account yet?",
+      "toSignUp": "Create one"
+    },
+    "signUp": {
+      "title": "Create an account",
+      "description": "Access to the CMS is granted by an administrator once your email is confirmed.",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "toSignIn": "Sign in",
+      "successTitle": "Check your email",
+      "successText": "Open the link from the email to finish. If this address already has an account, the email says so.",
+      "devHint": "Development: there is no mail provider yet, so the email is printed in the console of pnpm bdev. Open the link from it."
+    },
+    "verifyEmail": {
+      "title": "Confirm your email",
+      "description": "Enter the password of your account to finish.",
+      "submit": "Confirm",
+      "successTitle": "Email confirmed",
+      "successText": "You can sign in once an administrator grants you access to the CMS.",
+      "toSignIn": "Go to sign in"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "invalidEmail": "Enter a valid email address.",
+      "passwordTooShort": "The password must have at least 8 characters.",
+      "passwordTooLong": "This password is too long.",
+      "passwordsMismatch": "The passwords do not match.",
+      "invalidCredentials": "Wrong email or password, or this account has no access to the CMS.",
+      "invalidToken": "This link is invalid or has expired.",
+      "wrongPassword": "Wrong password.",
+      "tooManyRequests": "Too many attempts. Wait a minute and try again.",
+      "serverError": "Something went wrong. Try again later."
+    }
+  },
   "brand": {
     "name": "Ganka for Home",
     "product": "CMS",
@@ -143,6 +187,7 @@
   },
   "account": {
     "menu": "Account menu",
+    "signOut": "Sign out",
     "profile": "Profile",
     "settings": "Settings",
     "roles": {

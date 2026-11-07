@@ -18,8 +18,14 @@ import {
 import { Icon } from '@/shared/ui/icon';
 import { Text } from '@/shared/ui/text';
 
+interface AccountMenuProps {
+  user: CmsUser;
+  /** A Server Action from the composing widget: features don't import each other. */
+  onSignOut: () => Promise<void>;
+}
+
 /** Desktop header badge: avatar trigger, identity and account links. */
-export function AccountMenu({ user }: { user: CmsUser }) {
+export function AccountMenu({ user, onSignOut }: AccountMenuProps) {
   const t = useTranslations('account');
 
   return (
@@ -56,6 +62,11 @@ export function AccountMenu({ user }: { user: CmsUser }) {
             </AppLink>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => void onSignOut()}>
+          <Icon name="sign-out" />
+          {t('signOut')}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

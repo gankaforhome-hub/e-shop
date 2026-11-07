@@ -9,6 +9,11 @@ export type HashHref = `#${string}`;
 
 export const routes = {
   home: '/',
+  auth: {
+    login: '/login',
+    register: '/register',
+    verifyEmail: '/verify-email',
+  },
   marketing: {
     dashboard: '/marketing/dashboard',
     analytics: '/marketing/analytics',

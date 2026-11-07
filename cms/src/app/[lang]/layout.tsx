@@ -11,11 +11,7 @@ import { isValidLocale } from '@/shared/i18n/is-valid-locale';
 import { locales } from '@/shared/i18n/routing';
 import '@/shared/styles/global.css';
 import { PreferencesScript } from '@/shared/ui/preferences-script';
-import { SidebarInset, SidebarLayout } from '@/shared/ui/sidebar';
-import { SkipLink } from '@/shared/ui/skip-link';
 import { TooltipProvider } from '@/shared/ui/tooltip';
-import { AppHeader } from '@/widgets/app-header';
-import { AppSidebar } from '@/widgets/app-sidebar';
 
 export function generateStaticParams() {
   return locales.map(lang => ({ lang }));
@@ -43,29 +39,12 @@ export default async function CmsLayout({
     notFound();
   }
 
-  const t = await getTranslations('nav');
-
   return (
     <html lang={lang} className={noto.variable} suppressHydrationWarning>
       <body>
         <PreferencesScript />
         <NextIntlClientProvider>
-          <TooltipProvider>
-            <SkipLink href="#main-content" label={t('skipToContent')} />
-            <SidebarLayout>
-              <AppSidebar />
-              <SidebarInset>
-                <AppHeader />
-                <main
-                  id="main-content"
-                  tabIndex={-1}
-                  className="flex-1 px-4 py-6 outline-none md:px-8 md:py-8"
-                >
-                  <div className="mx-auto w-full max-w-7xl">{children}</div>
-                </main>
-              </SidebarInset>
-            </SidebarLayout>
-          </TooltipProvider>
+          <TooltipProvider>{children}</TooltipProvider>
         </NextIntlClientProvider>
       </body>
     </html>
