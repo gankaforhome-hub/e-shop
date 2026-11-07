@@ -36,8 +36,8 @@ phase, we follow a two-phased backend execution strategy:
 - **Product Presentation**: Fully responsive UI displaying product details,
   dynamic galleries, stock availability, pricing, and localized content.
 - **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
-  v4, Shadcn, Radix UI, Framer Motion, next-intl, Zod, and React Hook Form,
-  Supabase, next-auth.
+  v4, Shadcn, Radix UI, Framer Motion, next-intl, Zod, and React Hook Form.
+  Authentication lives in the backend API.
 
 ---
 
@@ -52,8 +52,8 @@ Role-Based Access Control (RBAC) divided into 3 core functional domains:
      publishing.
 2. **Catalog & E-commerce Logic Block (`catalog/`)**:
    - Handles product creation/editing, inventory management, collections,
-     categories, and attributes, product listing, filtering, and sorting (Direct
-     DB access in Phase 1).
+     categories, and attributes, product listing, filtering, and sorting (through
+     the backend API, never direct database access).
 3. **Admin Dashboard & Operations Block (`operations/`)**:
    - Site usage analytics, dashboard and metrics order processing, general
      system management, and operation metrics, order management, data tables,
