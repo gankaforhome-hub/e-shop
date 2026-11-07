@@ -40,6 +40,7 @@
     "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:reset": "prisma migrate reset",
     "admin:bootstrap-root": "ts-node prisma/bootstrap-root.ts",
+    "admin:grant-staff": "ts-node prisma/grant-staff.ts",
     "docker:up": "docker-compose -f ./docker/postgres/docker-compose.yml up -d",
     "docker:down": "docker-compose -f ./docker/postgres/docker-compose.yml down"
   },
