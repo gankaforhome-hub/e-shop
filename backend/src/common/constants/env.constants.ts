@@ -10,3 +10,13 @@ export const DATABASE_URL = 'DATABASE_URL';
 export const NODE_ENV = 'NODE_ENV';
 
 export const FRONTEND_URL = 'FRONTEND_URL';
+
+export const CMS_ORIGINS = 'CMS_ORIGINS';
+export const STOREFRONT_ORIGINS = 'STOREFRONT_ORIGINS';
+
+export const ROOT_USER_IDS = 'ROOT_USER_IDS';
+export const ROOT_CREDENTIAL_IDS = 'ROOT_CREDENTIAL_IDS';
+
+export const WEBAUTHN_RP_ID = 'WEBAUTHN_RP_ID';
+export const WEBAUTHN_RP_NAME = 'WEBAUTHN_RP_NAME';
+export const WEBAUTHN_ORIGINS = 'WEBAUTHN_ORIGINS';

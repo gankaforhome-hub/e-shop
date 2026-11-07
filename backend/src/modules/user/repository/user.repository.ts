@@ -24,7 +24,6 @@ export class UserRepository {
           email: data.email,
           password: hashedPassword,
           name: data.name,
-          roles: ['USER'],
         },
       })
       .catch(err => {

@@ -7,13 +7,26 @@ import {
   Post,
   Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 
-import { REFRESH_TOKEN } from '@common/constants';
-import { Cookie, CurrentUser, SkipAuth, UserAgent } from '@common/decorators';
+import { E_AuthAudience } from '@prisma/client';
+
+import {
+  CMS_AUTH_COOKIE_PATH,
+  CMS_REFRESH_TOKEN,
+  REFRESH_TOKEN,
+} from '@common/constants';
+import {
+  AnyAudience,
+  Cookie,
+  CurrentUser,
+  SkipAuth,
+  UserAgent,
+} from '@common/decorators';
 import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
 import { CookieService } from '../cookie/cookie.service';
 import { AccountService } from './account.service';
@@ -29,6 +42,7 @@ import {
   SignUpDto,
   VerifyEmailDto,
 } from './dto';
+import { CheckOrigin, OriginGuard } from './guards/origin.guard';
 import { IAuthUser, ITokens } from './interfaces';
 import {
   ApiSignInBadRequestResponse,
@@ -112,6 +126,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @AnyAudience()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.OK)
   @Post('change-password')
@@ -128,6 +143,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @AnyAudience()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('change-email')
@@ -165,6 +181,8 @@ export class AuthController {
 
   @SkipAuth()
   @Throttle(STRICT_THROTTLE)
+  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @UseGuards(OriginGuard)
   @Post('sign-in')
   @ApiSignInOperation()
   @ApiSignInCreatedResponse()
@@ -197,6 +215,8 @@ export class AuthController {
   }
 
   @SkipAuth()
+  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @UseGuards(OriginGuard)
   @Post('sign-out')
   @ApiSignOutOperation()
   @ApiSignOutOkResponse()
@@ -230,6 +250,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @AnyAudience()
   @Post('sign-out/all')
   async signOutAllUserAgent(
     @CurrentUser() user: IAuthUser,
@@ -237,11 +258,18 @@ export class AuthController {
   ) {
     await this.authService.deleteAllTokens(user.id);
     await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
+    await this.cookiesService.removeFromCookies(
+      CMS_REFRESH_TOKEN,
+      res,
+      CMS_AUTH_COOKIE_PATH,
+    );
     res.sendStatus(HttpStatus.OK);
   }
 
   @SkipAuth()
   @Throttle(REFRESH_THROTTLE)
+  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @UseGuards(OriginGuard)
   @Post('refresh')
   @ApiOperation({ summary: '🔃 refresh token' })
   async refreshToken(

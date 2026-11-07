@@ -25,14 +25,15 @@ import {
 import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
 import { UserService } from './user.service';
 
-import { CurrentUser, Roles, UUIDParam } from '@common/decorators';
-import { RolesGuard } from '@modules/auth/guards/role.guard';
+import { AnyAudience, CurrentUser, UUIDParam } from '@common/decorators';
 import { IAuthUser } from '@modules/auth/interfaces';
-import { E_UserRole, User } from '@prisma/client';
+import { StaffGuard, StaffRoles } from '@modules/staff/guards/staff.guard';
+import { E_StaffRole, User } from '@prisma/client';
 import { UUID } from 'crypto';
 import { UserResponse } from './responses';
 
 @ApiTags('🙎‍♂️ user service')
+@AnyAudience()
 @Controller('user')
 //decorator for prisma client error handler
 // @UseFilters(PrismaClientExceptionFilter)
@@ -40,8 +41,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(RolesGuard)
-  @Roles(E_UserRole.ADMIN)
+  @UseGuards(StaffGuard)
+  @StaffRoles(E_StaffRole.ADMIN)
   @Post()
   @ApiOperation({ summary: '🎭 create user' })
   @ApiBody({ type: CreateUserDto })
@@ -54,8 +55,8 @@ export class UserController {
 
   //COMMENT endpoint only for admin
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(RolesGuard)
-  @Roles(E_UserRole.ADMIN)
+  @UseGuards(StaffGuard)
+  @StaffRoles(E_StaffRole.ADMIN)
   @Get()
   async findAll(): Promise<User[] | []> {
     const user = await this.userService.findAll();

@@ -5,6 +5,7 @@ import { UserService } from '@modules/user/user.service';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -163,6 +164,13 @@ export class AccountService {
     actor: IAuthUser,
     { newEmail, password }: ChangeEmailDto,
   ): Promise<void> {
+    //COMMENT a staff email must not be movable to a mailbox an attacker controls
+    if (actor.staff && !actor.staff.revokedAt) {
+      throw new ForbiddenException(
+        'Staff emails can only be changed by a root admin',
+      );
+    }
+
     await this.assertPassword(actor.id, password);
 
     const email = normalizeEmail(newEmail);

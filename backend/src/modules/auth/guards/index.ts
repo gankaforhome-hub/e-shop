@@ -1,4 +1,4 @@
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { RolesGuard } from './role.guard';
+import { OriginGuard } from './origin.guard';
 
-export const GUARDS = [JwtAuthGuard, RolesGuard];
+export const GUARDS = [JwtAuthGuard, OriginGuard];

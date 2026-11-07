@@ -1,0 +1,223 @@
+import { CMS_AUTH_COOKIE_PATH, CMS_REFRESH_TOKEN } from '@common/constants';
+import {
+  Audiences,
+  Cookie,
+  CurrentUser,
+  SkipAuth,
+  UserAgent,
+} from '@common/decorators';
+import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
+import { FRESH_ASSERTION_HEADER } from '@modules/staff/staff.constants';
+import { WebAuthnService } from '@modules/staff/webauthn.service';
+import {
+  Body,
+  Controller,
+  Headers,
+  HttpCode,
+  HttpStatus,
+  Ip,
+  Post,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
+import { E_AuthAudience } from '@prisma/client';
+import {
+  AuthenticationResponseJSON,
+  PublicKeyCredentialCreationOptionsJSON,
+  PublicKeyCredentialRequestOptionsJSON,
+  RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+import { Response } from 'express';
+import { CookieService } from '../cookie/cookie.service';
+import { AuthService } from './auth.service';
+import {
+  AssertionOptionsDto,
+  RegistrationOptionsDto,
+  SignInDto,
+  VerifyRegistrationDto,
+  WebAuthnResponseDto,
+} from './dto';
+import { CheckOrigin, OriginGuard } from './guards/origin.guard';
+import { IAuthUser, ITokens } from './interfaces';
+import { SignInResponse } from './responses';
+
+class CredentialResponse {
+  credentialId: string;
+}
+
+@ApiTags('🛡️ cms auth')
+@ApiBearerAuth()
+@Audiences(E_AuthAudience.CMS)
+@Controller('auth/cms')
+export class CmsAuthController {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly webAuthnService: WebAuthnService,
+    private readonly cookieService: CookieService,
+  ) {}
+
+  private async setRefreshCookie({ refreshToken }: ITokens, res: Response) {
+    await this.cookieService.setToCookies(
+      {
+        name: CMS_REFRESH_TOKEN,
+        value: refreshToken.token,
+        expires: refreshToken.expires,
+        path: CMS_AUTH_COOKIE_PATH,
+      },
+      res,
+    );
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @CheckOrigin(E_AuthAudience.CMS)
+  @UseGuards(OriginGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('sign-in')
+  @ApiOperation({
+    summary: 'first step of a staff sign-in: email and password',
+    description:
+      'The session can do nothing in the CMS until a hardware key confirms it.',
+  })
+  async signIn(
+    @Body() signInDto: SignInDto,
+    @UserAgent() userAgent: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<SignInResponse> {
+    const tokens = await this.authService.signInCms(signInDto, userAgent);
+    await this.setRefreshCookie(tokens, res);
+    return { accessToken: tokens.accessToken };
+  }
+
+  @SkipAuth()
+  @Throttle(REFRESH_THROTTLE)
+  @CheckOrigin(E_AuthAudience.CMS)
+  @UseGuards(OriginGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  @ApiOperation({ summary: 'refresh a staff session' })
+  async refresh(
+    @Cookie(CMS_REFRESH_TOKEN) refreshToken: string,
+    @UserAgent() userAgent: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<SignInResponse> {
+    if (!refreshToken) {
+      throw new UnauthorizedException();
+    }
+    const tokens = await this.authService.refreshToken(
+      refreshToken,
+      userAgent,
+      E_AuthAudience.CMS,
+    );
+    await this.setRefreshCookie(tokens, res);
+    return { accessToken: tokens.accessToken };
+  }
+
+  @SkipAuth()
+  @CheckOrigin(E_AuthAudience.CMS)
+  @UseGuards(OriginGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('sign-out')
+  @ApiOperation({ summary: 'end a staff session' })
+  async signOut(
+    @Cookie(CMS_REFRESH_TOKEN) refreshToken: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    if (refreshToken) {
+      await this.authService.deleteToken(refreshToken);
+    }
+    await this.cookieService.removeFromCookies(
+      CMS_REFRESH_TOKEN,
+      res,
+      CMS_AUTH_COOKIE_PATH,
+    );
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('webauthn/options')
+  @ApiOperation({ summary: 'second step of a staff sign-in: key challenge' })
+  loginOptions(
+    @CurrentUser() user: IAuthUser,
+  ): Promise<PublicKeyCredentialRequestOptionsJSON> {
+    return this.webAuthnService.createLoginOptions(user);
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('webauthn/verify')
+  @ApiOperation({
+    summary: 'raise the session to aal 2 with a key signature',
+    description: 'Returns a new access token; the previous one stops working.',
+  })
+  async verifyLogin(
+    @CurrentUser() user: IAuthUser,
+    @Body() { response }: WebAuthnResponseDto,
+    @Ip() ip: string,
+  ): Promise<SignInResponse> {
+    const credentialId = await this.webAuthnService.verifyLogin(
+      user,
+      response as unknown as AuthenticationResponseJSON, // checked by the WebAuthn library
+      ip,
+    );
+    const accessToken = await this.authService.elevateSession(
+      user,
+      credentialId,
+    );
+    return { accessToken };
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('webauthn/assertion-options')
+  @ApiOperation({
+    summary: 'key challenge for one sensitive action on one target',
+    description: `Sign it and send the result, as base64url JSON, in the ${FRESH_ASSERTION_HEADER} header of that action. For webauthn.add_key the target is your own id.`,
+  })
+  assertionOptions(
+    @CurrentUser() user: IAuthUser,
+    @Body() { action, targetId }: AssertionOptionsDto,
+  ): Promise<PublicKeyCredentialRequestOptionsJSON> {
+    return this.webAuthnService.createAssertionOptions(user, action, targetId);
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('webauthn/register/options')
+  @ApiOperation({
+    summary: 'challenge for registering a key',
+    description:
+      'Needs an enrollment code, or an aal 2 session for adding another key.',
+  })
+  registrationOptions(
+    @CurrentUser() user: IAuthUser,
+    @Body() { enrollmentCode }: RegistrationOptionsDto,
+  ): Promise<PublicKeyCredentialCreationOptionsJSON> {
+    return this.webAuthnService.createRegistrationOptions(user, enrollmentCode);
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @Post('webauthn/register/verify')
+  @ApiOperation({
+    summary: 'register a key',
+    description: `Without an enrollment code, the ${FRESH_ASSERTION_HEADER} header must confirm the webauthn.add_key action. A root admin adds the returned id to ROOT_CREDENTIAL_IDS.`,
+  })
+  async verifyRegistration(
+    @CurrentUser() user: IAuthUser,
+    @Body() { response, enrollmentCode }: VerifyRegistrationDto,
+    @Headers(FRESH_ASSERTION_HEADER) freshAssertion: string | undefined,
+    @Ip() ip: string,
+  ): Promise<CredentialResponse> {
+    const credentialId = await this.webAuthnService.verifyRegistration(
+      user,
+      response as unknown as RegistrationResponseJSON, // checked by the WebAuthn library
+      enrollmentCode,
+      freshAssertion,
+      ip,
+    );
+    return { credentialId };
+  }
+}

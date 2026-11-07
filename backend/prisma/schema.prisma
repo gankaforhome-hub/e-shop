@@ -12,16 +12,6 @@ datasource db {
 }
 
 //! TYPES
-enum E_UserRole {
-  USER
-  ADMIN
-  MANAGER
-  CLIENT
-
-  // Add other roles as needed
-  @@map("user_role")
-}
-
 enum E_AuthAudience {
   STOREFRONT
   CMS
@@ -34,8 +24,27 @@ enum E_OneTimeTokenPurpose {
   PASSWORD_RESET
   EMAIL_CHANGE_OLD
   EMAIL_CHANGE_NEW
+  STAFF_ENROLLMENT
 
   @@map("one_time_token_purpose")
+}
+
+enum E_StaffRole {
+  ROOT
+  ADMIN
+  CONTENT_EDITOR
+  CATALOG_MANAGER
+  ORDER_MANAGER
+
+  @@map("staff_role")
+}
+
+enum E_WebAuthnChallengePurpose {
+  REGISTRATION
+  LOGIN
+  ASSERTION
+
+  @@map("webauthn_challenge_purpose")
 }
 
 // Add other roles as needed
@@ -50,36 +59,40 @@ enum E_OneTimeTokenPurpose {
 
 //! MODELS
 model User {
-  id              String         @id @default(uuid())
-  email           String         @unique @db.VarChar()
-  password        String?        @db.VarChar()
-  name            String?        @db.VarChar(100)
-  emailVerifiedAt DateTime?      @map("email_verified_at") @db.Timestamptz()
-  roles           E_UserRole[]   @default([USER])
+  id                  String               @id @default(uuid())
+  email               String               @unique @db.VarChar()
+  password            String?              @db.VarChar()
+  name                String?              @db.VarChar(100)
+  emailVerifiedAt     DateTime?            @map("email_verified_at") @db.Timestamptz()
   // status    E_UserStatus[] @default([ACTIVE])
   // isActivated Boolean?    @default(false) @map("is_activated")
-  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
-  token           Token[]
-  oneTimeTokens   OneTimeToken[]
+  createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt           DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
+  token               Token[]
+  oneTimeTokens       OneTimeToken[]
+  staffAccount        StaffAccount?
+  webAuthnCredentials WebAuthnCredential[]
+  webAuthnChallenges  WebAuthnChallenge[]
 
   @@map("users")
 }
 
 model Token {
-  id        String         @id @default(uuid())
+  id           String         @id @default(uuid())
   // SHA-256 of the refresh token; the raw value lives only in the cookie
-  token     String         @unique
+  token        String         @unique
   // All rotations of one sign-in share a family, revoked together on reuse
-  familyId  String         @map("family_id")
-  audience  E_AuthAudience @default(STOREFRONT)
-  aal       Int            @default(1)
-  expires   DateTime       @db.Timestamptz()
-  rotatedAt DateTime?      @map("rotated_at") @db.Timestamptz()
-  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz()
-  userAgent String?        @map("user_agent")
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String         @map("user_id")
+  familyId     String         @map("family_id")
+  audience     E_AuthAudience @default(STOREFRONT)
+  aal          Int            @default(1)
+  // The key that raised this session to aal 2
+  credentialId String?        @map("credential_id")
+  expires      DateTime       @db.Timestamptz()
+  rotatedAt    DateTime?      @map("rotated_at") @db.Timestamptz()
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  userAgent    String?        @map("user_agent")
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String         @map("user_id")
 
   @@index([userId])
   @@index([familyId])
@@ -100,6 +113,69 @@ model OneTimeToken {
 
   @@index([userId])
   @@map("one_time_tokens")
+}
+
+// No row means a customer. Only the CLI can create a ROOT row, no HTTP route can
+model StaffAccount {
+  userId       String      @id @map("user_id")
+  role         E_StaffRole
+  approvedAt   DateTime?   @map("approved_at") @db.Timestamptz()
+  // No foreign key: AuditLog keeps the history even if that user is gone
+  approvedById String?     @map("approved_by_id")
+  revokedAt    DateTime?   @map("revoked_at") @db.Timestamptz()
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("staff_accounts")
+}
+
+model WebAuthnCredential {
+  // base64url credential id
+  id         String    @id
+  publicKey  Bytes     @map("public_key")
+  counter    BigInt
+  deviceType String    @map("device_type") @db.VarChar(32)
+  backedUp   Boolean   @map("backed_up")
+  transports String[]
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz()
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String    @map("user_id")
+
+  @@index([userId])
+  @@map("webauthn_credentials")
+}
+
+model WebAuthnChallenge {
+  id        String                     @id @default(uuid())
+  challenge String
+  purpose   E_WebAuthnChallengePurpose
+  // For ASSERTION: the one action and target this confirmation may be spent on
+  action    String?
+  expires   DateTime                   @db.Timestamptz()
+  createdAt DateTime                   @default(now()) @map("created_at") @db.Timestamptz()
+  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String                     @map("user_id")
+
+  @@index([userId])
+  @@map("webauthn_challenges")
+}
+
+// Append only. Plain ids instead of foreign keys, so the history outlives the users
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?  @map("actor_id")
+  action    String
+  targetId  String?  @map("target_id")
+  ip        String?
+  meta      Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  @@index([actorId])
+  @@index([targetId])
+  @@index([createdAt])
+  @@map("audit_logs")
 }
 
 // model Acount {

@@ -1,6 +1,8 @@
 import { JWT_ACCESS_TOKEN_EXP } from '@common/constants';
 import { convertToSecondsUtil, normalizeEmail } from '@common/utils';
 import { IAuthUser } from '@modules/auth/interfaces';
+import { StaffRepository } from '@modules/staff/repository/staff.repository';
+import { StaffAccessService } from '@modules/staff/staff-access.service';
 import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
@@ -11,7 +13,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { E_UserRole, User } from '@prisma/client';
+import { E_StaffRole, User } from '@prisma/client';
 import { Cache } from 'cache-manager';
 import { UserRepository } from './repository/user.repository';
 
@@ -22,13 +24,13 @@ export class UserService {
     private readonly configService: ConfigService,
     private readonly logger: Logger,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly staffAccess: StaffAccessService,
+    private readonly staffRepository: StaffRepository,
   ) {}
 
-  //COMMENT only the account owner and ADMIN can access a user
+  //COMMENT only the account owner and an active ADMIN can access a user
   private assertCanAccess(id: string, actor: IAuthUser) {
-    const isAdmin = actor.roles
-      ? actor.roles.includes(E_UserRole.ADMIN)
-      : false;
+    const isAdmin = this.staffAccess.hasRole(actor, [E_StaffRole.ADMIN]);
     if (id !== actor.id && !isAdmin) {
       throw new ForbiddenException();
     }
@@ -102,6 +104,14 @@ export class UserService {
 
   async remove(id: string, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
+
+    //COMMENT a stolen mailbox gives a customer session, which must not be able to delete
+    //a staff or root account. Access is revoked first, and a root can't be revoked at all
+    const staff = await this.staffRepository.findStaffAccount(id);
+    if (staff && !staff.revokedAt) {
+      throw new ForbiddenException('Staff accounts can not be deleted');
+    }
+
     const target = await this.userRepository.getUserByIdOrEmail(id);
     await this.cacheManager.del(id);
     if (target) {

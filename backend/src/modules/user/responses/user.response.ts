@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { $Enums, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
 export class UserResponse implements User {
@@ -20,9 +20,6 @@ export class UserResponse implements User {
     nullable: true,
   })
   emailVerifiedAt: Date | null;
-
-  @ApiProperty({ description: 'The roles of the user' })
-  roles: $Enums.E_UserRole[];
 
   @Exclude()
   createdAt: Date;

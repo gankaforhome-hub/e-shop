@@ -5,3 +5,4 @@ export * from './verify-email-auth.dto';
 export * from './reset-password-auth.dto';
 export * from './change-password-auth.dto';
 export * from './change-email-auth.dto';
+export * from './cms-webauthn-auth.dto';

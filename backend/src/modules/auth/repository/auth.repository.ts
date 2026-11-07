@@ -1,26 +1,20 @@
 import { JWT_REFRESH_TOKEN_EXP } from '@common/constants';
-import { convertToSecondsUtil } from '@common/utils';
+import { convertToSecondsUtil, generateToken, hashToken } from '@common/utils';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  E_AuthAudience,
   E_OneTimeTokenPurpose,
   OneTimeToken,
   Prisma,
   Token,
 } from '@prisma/client';
-import { createHash, randomBytes } from 'crypto';
 import { v4 } from 'uuid';
 import { IAuthUser } from '../interfaces';
 
 //COMMENT several tabs can refresh at once with the same token
 const REFRESH_REUSE_GRACE_MS = 10_000;
-
-//COMMENT refresh tokens are long and random, so a plain SHA-256 is enough to make a DB leak useless
-const hashToken = (token: string) =>
-  createHash('sha256').update(token).digest('hex');
-
-const generateToken = () => randomBytes(32).toString('base64url');
 
 //COMMENT atomic: of two concurrent requests with one token, only one gets true
 const consumeOneTimeToken = async (
@@ -57,6 +51,7 @@ export class AuthRepository {
   async setRefreshToken(
     userId: string,
     userAgent?: string,
+    audience: E_AuthAudience = E_AuthAudience.STOREFRONT,
   ): Promise<Token | null> {
     const token = generateToken();
 
@@ -69,6 +64,7 @@ export class AuthRepository {
           data: {
             token: hashToken(token),
             familyId: v4(),
+            audience,
             expires: this.getRefreshTokenExpires(),
             userId,
             userAgent,
@@ -89,12 +85,14 @@ export class AuthRepository {
    */
   async rotateRefreshToken(
     refreshToken: string,
-    userAgent?: string,
+    userAgent: string | undefined,
+    audience: E_AuthAudience,
   ): Promise<Token | null> {
     const current = await this.findRefreshToken(refreshToken);
     const now = new Date();
 
-    if (!current || current.expires <= now) {
+    //COMMENT a token only works on the refresh route of its own app
+    if (!current || current.audience !== audience || current.expires <= now) {
       return null;
     }
 
@@ -126,6 +124,7 @@ export class AuthRepository {
             familyId: current.familyId,
             audience: current.audience,
             aal: current.aal,
+            credentialId: current.credentialId,
             expires: this.getRefreshTokenExpires(),
             userId: current.userId,
             userAgent,
@@ -188,9 +187,41 @@ export class AuthRepository {
         rotatedAt: null,
         expires: { gt: new Date() },
       },
-      select: { user: { select: { id: true, email: true, roles: true } } },
+      select: {
+        audience: true,
+        aal: true,
+        credentialId: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            staffAccount: {
+              select: { role: true, approvedAt: true, revokedAt: true },
+            },
+          },
+        },
+      },
     });
-    return session?.user ?? null;
+    if (!session) {
+      return null;
+    }
+    const { user, audience, aal, credentialId } = session;
+    return {
+      id: user.id,
+      email: user.email,
+      aud: audience,
+      aal,
+      credentialId,
+      staff: user.staffAccount,
+    };
+  }
+
+  //COMMENT every row of the family, so a token rotated earlier can't bring the old level back
+  async elevateSession(familyId: string, credentialId: string): Promise<void> {
+    await this.db.token.updateMany({
+      where: { familyId },
+      data: { aal: 2, credentialId },
+    });
   }
 
   //COMMENT ends the whole session the token belongs to
