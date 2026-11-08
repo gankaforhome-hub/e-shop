@@ -4,16 +4,9 @@ export {
   getCollectionsPage,
   type PaginatedCollectionsDTO,
 } from './api/get-collections-page';
+export { getHeroBanners } from './api/get-hero-banners';
 export { getSeasons } from './api/get-seasons';
-export {
-  type Collection,
-  type CollectionDTO,
-  type CollectionTranslation,
-} from './model/types';
-export {
-  type Season,
-  type SeasonDTO,
-  type SeasonSlug,
-  type SeasonTranslation,
-} from './model/season';
+export { type HeroBannerDTO } from './lib/map-collection';
+export { type Collection, type CollectionDTO } from './model/types';
+export { type Season, type SeasonDTO, type SeasonSlug } from './model/season';
 export * from './ui';

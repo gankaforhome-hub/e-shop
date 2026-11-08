@@ -189,7 +189,6 @@ export function normalizeProduct(
       title: '',
     },
     primaryCollection: collectionRelation ?? {
-      id: product.primaryCollectionId,
       slug: '',
       title: '',
     },
@@ -277,7 +276,6 @@ export function mapProductToCard(
       title: product.category.title,
     },
     primaryCollection: {
-      id: product.primaryCollection.id,
       slug: product.primaryCollection.slug,
       title: product.primaryCollection.title,
     },

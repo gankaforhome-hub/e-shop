@@ -62,7 +62,7 @@ export type GetProductsParams = {
   page?: number;
   search?: string;
   category?: string;
-  collectionId?: string;
+  collectionSlug?: string;
   /** Restrict results to these product ids (e.g. the user's favorites). */
   ids?: readonly string[];
   /** Validated catalog filters (`parseCatalogQuery`). */
@@ -133,11 +133,10 @@ export async function getLocalizedProducts(
       { id: c.id, slug: c.slug, title: c.title },
     ]),
   );
-  const collectionsById = new Map(
+  const collectionsBySlug = new Map(
     collections.map((c): [string, ProductCollectionRef] => [
-      c.id,
+      c.slug,
       {
-        id: c.id,
         slug: c.slug,
         title: c.title,
         ...(c.season && { season: c.season }),
@@ -167,7 +166,7 @@ export async function getLocalizedProducts(
       product,
       pickTranslation(translationsById.get(product.id) ?? [], lang),
       categoriesById.get(product.categoryId),
-      collectionsById.get(product.primaryCollectionId),
+      collectionsBySlug.get(product.primaryCollectionSlug),
       product.badges.flatMap(id => badgesById.get(id) ?? []),
       lang,
       describeAttribute,
@@ -227,7 +226,7 @@ type CatalogEntry = {
 /** Category/collection/ids narrowing shared by `getProducts` and facet counts. */
 export function filterProductsBase(
   products: LocalizedProduct[],
-  params: Pick<GetProductsParams, 'category' | 'collectionId' | 'ids'>,
+  params: Pick<GetProductsParams, 'category' | 'collectionSlug' | 'ids'>,
 ): LocalizedProduct[] {
   let filtered = products;
 
@@ -236,9 +235,9 @@ export function filterProductsBase(
     filtered = filtered.filter(p => p.category.slug === categoryQuery);
   }
 
-  if (params.collectionId) {
+  if (params.collectionSlug) {
     filtered = filtered.filter(
-      p => p.primaryCollectionId === params.collectionId,
+      p => p.primaryCollectionSlug === params.collectionSlug,
     );
   }
 
@@ -257,7 +256,7 @@ const cardKey = ({ product, filterable }: CatalogItem) =>
 /** Every card's search words in `lang` (cards built exactly as the catalog's). */
 async function getCardSearchTexts(
   lang: Locale,
-  params: Pick<GetProductsParams, 'category' | 'collectionId' | 'ids'>,
+  params: Pick<GetProductsParams, 'category' | 'collectionSlug' | 'ids'>,
 ): Promise<Map<string, CardSearchTexts>> {
   const [products, seasons] = await Promise.all([
     getLocalizedProducts(lang),
@@ -284,7 +283,7 @@ async function getCardSearchTexts(
 export async function getCatalogItems(
   params: Pick<
     GetProductsParams,
-    'lang' | 'search' | 'category' | 'collectionId' | 'ids'
+    'lang' | 'search' | 'category' | 'collectionSlug' | 'ids'
   >,
 ): Promise<CatalogItem[]> {
   const items = toCatalogItems(

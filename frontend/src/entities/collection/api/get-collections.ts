@@ -2,62 +2,44 @@ import { cacheLife, cacheTag } from 'next/cache';
 
 import 'server-only';
 
+import { backendGet } from '@/shared/api/backend';
 import { cacheTags } from '@/shared/config/cache-tags';
-import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
-import { compareSortOrder } from '@/shared/lib/utils';
 
+import { mapCollection } from '../lib/map-collection';
 import {
-  mockCollectionCategories,
-  mockCollections,
-  mockCollectionSeo,
-  mockCollectionTranslations,
-} from '../mock/collections';
+  collectionListResponseSchema,
+  collectionResponseSchema,
+} from '../model/api-types';
 import { type CollectionDTO } from '../model/types';
 
 /**
- * Returns all collections flattened for `lang` (falls back to the default
- * locale), in CMS `sortOrder`. `categoryIds` resolves the M:N
- * `collection_categories` join.
+ * Active collections flattened for `lang` (the API falls back to `uk`), in
+ * CMS `sortOrder`. Collections without a cover are skipped with a warning.
+ * API failures throw: cached pages keep being served, new renders fail.
  */
 export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
   'use cache';
   cacheLife('hours');
   cacheTag(cacheTags.collections);
 
-  const translationsById = groupTranslationsBy(
-    mockCollectionTranslations,
-    t => t.collectionId,
-  );
-  const seoById = groupTranslationsBy(mockCollectionSeo, s => s.collectionId);
-  // Join rows grouped once instead of scanned per collection
-  const categoriesById = groupTranslationsBy(
-    mockCollectionCategories,
-    cc => cc.collectionId,
-  );
+  const result = await backendGet('collections', { searchParams: { lang } });
+  if (!result.ok) {
+    throw new Error(`GET /collections failed with ${result.status}`);
+  }
 
-  return mockCollections.toSorted(compareSortOrder).map(collection => {
-    const translation = pickTranslation(
-      translationsById.get(collection.id) ?? [],
-      lang,
-    );
-    const seo = pickTranslation(seoById.get(collection.id) ?? [], lang);
-    return {
-      ...collection,
-      title: translation?.title ?? '',
-      shortDescription: translation?.shortDescription ?? '',
-      description: translation?.description ?? '',
-      categoryIds: (categoriesById.get(collection.id) ?? []).map(
-        cc => cc.categoryId,
-      ),
-      seo: {
-        title: seo?.title ?? '',
-        description: seo?.description ?? '',
-      },
-    };
+  return collectionListResponseSchema.parse(result.data).flatMap(response => {
+    const collection = mapCollection(response);
+    if (!collection) {
+      // eslint-disable-next-line no-console -- server-side data-quality trail
+      console.warn(`[collections] "${response.slug}" has no cover, skipped`);
+      return [];
+    }
+    return [collection];
   });
 }
 
+/** One active collection, or `null` when unknown, inactive or without a cover. */
 export async function getCollectionBySlug(
   slug: string,
   lang: Locale,
@@ -66,6 +48,15 @@ export async function getCollectionBySlug(
   cacheLife('hours');
   cacheTag(cacheTags.collections, cacheTags.collection(slug));
 
-  const collections = await getCollections(lang);
-  return collections.find(collection => collection.slug === slug) ?? null;
+  const result = await backendGet(`collections/${encodeURIComponent(slug)}`, {
+    searchParams: { lang },
+  });
+  if (!result.ok) {
+    if (result.status === 404) {
+      return null;
+    }
+    throw new Error(`GET /collections/${slug} failed with ${result.status}`);
+  }
+
+  return mapCollection(collectionResponseSchema.parse(result.data));
 }

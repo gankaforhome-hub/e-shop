@@ -1,4 +1,3 @@
-import { type Locale } from '@/shared/i18n/routing';
 import { type EntityMeta, type Media, type SeoFields } from '@/shared/types';
 
 import { type SeasonSlug } from './season';
@@ -12,34 +11,18 @@ export type Collection = EntityMeta & {
   skuPrefix?: string;
   /** Optional season slug (`seasons.slug`), inherited by the collection's products. */
   season?: SeasonSlug;
+  /** Wide 16:9 image for the home hero. */
+  banner?: Media;
+  /** Shown in the home hero (always has a `banner`). */
+  inBanner?: boolean;
 };
 
-/** Translation row (one per collection × locale). */
-export type CollectionTranslation = {
-  collectionId: string;
-  languageCode: Locale;
-  title: string;
-  shortDescription: string;
-  description: string;
-};
-
-/** M:N relation between collections and categories. */
-export type CollectionCategory = {
-  collectionId: string;
-  categoryId: string;
-};
-
-/** Localized SEO row. */
-export type CollectionSeo = SeoFields & {
-  collectionId: string;
-  languageCode: Locale;
-};
-
-/** Collection resolved for one locale. */
+/** Collection resolved for one locale (`GET /collections?lang=`). */
 export type CollectionDTO = Collection & {
   title: string;
   shortDescription: string;
   description: string;
-  categoryIds: string[];
   seo: SeoFields;
+  /** Line above the title on the hero slide. */
+  bannerSubtitle?: string;
 };

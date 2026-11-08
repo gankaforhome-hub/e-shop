@@ -13,7 +13,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-01-14T10:00:00.000Z',
     badges: ['pre_order'],
     categoryId: 'cat-1',
-    primaryCollectionId: 'col-13',
+    primaryCollectionSlug: 'konyushina',
     featuredMediaId: 'med-1-1',
     attributes: {
       glazeType: 'glossy',
@@ -119,7 +119,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-01-23T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-3',
-    primaryCollectionId: 'col-1',
+    primaryCollectionSlug: 'agro',
     featuredMediaId: 'med-2-1',
     attributes: {
       glazeType: 'matte',
@@ -158,7 +158,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-02-01T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-4',
-    primaryCollectionId: 'col-12',
+    primaryCollectionSlug: 'royal-garden',
     featuredMediaId: 'med-3-1',
     attributes: {
       material: 'ceramic',
@@ -212,7 +212,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-02-10T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-5',
-    primaryCollectionId: 'col-4',
+    primaryCollectionSlug: 'botanica',
     featuredMediaId: 'med-4-1',
     attributes: {
       material: 'soy_wax',
@@ -259,7 +259,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-02-19T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-6',
-    primaryCollectionId: 'col-12',
+    primaryCollectionSlug: 'royal-garden',
     featuredMediaId: 'med-5-1',
     attributes: {
       material: 'glass',
@@ -305,7 +305,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-02-28T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-2',
-    primaryCollectionId: 'col-2',
+    primaryCollectionSlug: 'easter',
     featuredMediaId: 'med-6-1',
     attributes: {
       material: 'porcelain',
@@ -349,7 +349,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-03-09T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-1',
-    primaryCollectionId: 'col-13',
+    primaryCollectionSlug: 'konyushina',
     featuredMediaId: 'med-7-1',
     attributes: {
       glazeType: 'matte',
@@ -390,7 +390,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-03-18T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-3',
-    primaryCollectionId: 'col-14',
+    primaryCollectionSlug: 'winter',
     featuredMediaId: 'med-8-1',
     attributes: {
       material: 'porcelain',
@@ -436,7 +436,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-03-27T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-4',
-    primaryCollectionId: 'col-10',
+    primaryCollectionSlug: 'vintage-bloom',
     featuredMediaId: 'med-9-1',
     attributes: {
       material: 'porcelain',
@@ -475,7 +475,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-04-05T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-5',
-    primaryCollectionId: 'col-6',
+    primaryCollectionSlug: 'solaris',
     featuredMediaId: 'med-10-1',
     attributes: {
       material: 'soy_wax',
@@ -511,7 +511,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-04-14T10:00:00.000Z',
     badges: ['most_popular'],
     categoryId: 'cat-6',
-    primaryCollectionId: 'col-12',
+    primaryCollectionSlug: 'royal-garden',
     featuredMediaId: 'med-11-1',
     attributes: {
       material: 'glass',
@@ -547,7 +547,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-04-23T10:00:00.000Z',
     badges: ['pre_order'],
     categoryId: 'cat-2',
-    primaryCollectionId: 'col-9',
+    primaryCollectionSlug: 'lumiere',
     featuredMediaId: 'med-12-1',
     attributes: {
       material: 'ceramic',
@@ -592,7 +592,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-05-02T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-1',
-    primaryCollectionId: 'col-3',
+    primaryCollectionSlug: 'ptahy',
     featuredMediaId: 'med-13-1',
     attributes: {
       material: 'porcelain',
@@ -632,7 +632,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-05-11T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-3',
-    primaryCollectionId: 'col-14',
+    primaryCollectionSlug: 'winter',
     featuredMediaId: 'med-14-1',
     attributes: {
       material: 'porcelain',
@@ -668,7 +668,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-05-20T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-4',
-    primaryCollectionId: 'col-7',
+    primaryCollectionSlug: 'aura',
     featuredMediaId: 'med-15-1',
     attributes: {
       material: 'porcelain',
@@ -707,7 +707,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-05-29T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-5',
-    primaryCollectionId: 'col-1',
+    primaryCollectionSlug: 'agro',
     featuredMediaId: 'med-16-1',
     attributes: {
       material: 'soy_wax',
@@ -744,7 +744,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-06-07T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-6',
-    primaryCollectionId: 'col-7',
+    primaryCollectionSlug: 'aura',
     featuredMediaId: 'med-17-1',
     attributes: {
       material: 'glass',
@@ -780,7 +780,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-06-16T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-2',
-    primaryCollectionId: 'col-6',
+    primaryCollectionSlug: 'solaris',
     featuredMediaId: 'med-18-1',
     attributes: {
       material: 'porcelain',
@@ -823,7 +823,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-06-25T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-1',
-    primaryCollectionId: 'col-13',
+    primaryCollectionSlug: 'konyushina',
     featuredMediaId: 'med-19-1',
     attributes: {
       material: 'porcelain',
@@ -863,7 +863,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-07-04T10:00:00.000Z',
     badges: ['pre_order'],
     categoryId: 'cat-3',
-    primaryCollectionId: 'col-9',
+    primaryCollectionSlug: 'lumiere',
     featuredMediaId: 'med-20-1',
     attributes: {
       material: 'glass',
@@ -900,7 +900,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-07-13T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-4',
-    primaryCollectionId: 'col-7',
+    primaryCollectionSlug: 'aura',
     featuredMediaId: 'med-21-1',
     attributes: {
       material: 'porcelain',
@@ -938,7 +938,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-07-22T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-5',
-    primaryCollectionId: 'col-8',
+    primaryCollectionSlug: 'terra',
     featuredMediaId: 'med-22-1',
     attributes: {
       material: 'soy_wax',
@@ -974,7 +974,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-07-31T10:00:00.000Z',
     badges: ['new'],
     categoryId: 'cat-6',
-    primaryCollectionId: 'col-12',
+    primaryCollectionSlug: 'royal-garden',
     featuredMediaId: 'med-23-1',
     attributes: {
       material: 'glass',
@@ -1011,7 +1011,7 @@ export const MOCK_PRODUCTS: Product[] = [
     createdAt: '2026-08-09T10:00:00.000Z',
     badges: [],
     categoryId: 'cat-2',
-    primaryCollectionId: 'col-2',
+    primaryCollectionSlug: 'easter',
     featuredMediaId: 'med-24-1',
     attributes: {
       material: 'ceramic',

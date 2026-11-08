@@ -91,7 +91,7 @@ export default async function CollectionPage({ params }: PageProps) {
 
           <Suspense fallback={<ProductGridSkeleton count={4} />}>
             <ProductGridLoader
-              query={{ lang, collectionId: collection.id }}
+              query={{ lang, collectionSlug: collection.slug }}
               limit={12}
             />
           </Suspense>

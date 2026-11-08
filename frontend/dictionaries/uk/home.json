@@ -1,30 +1,6 @@
 {
   "pageTitle": "Ganka for home",
   "hero": {
-    "banners": [
-      {
-        "id": "1",
-        "title": "Konyushina",
-        "subTitle": "нова колекція",
-        "slug": "konyushina",
-        "media": {
-          "type": "image",
-          "src": "/images/hero_image.webp",
-          "alt": "Весняна колекція"
-        }
-      },
-      {
-        "id": "2",
-        "title": "Winter",
-        "subTitle": "популярна колекція",
-        "slug": "winter",
-        "media": {
-          "type": "image",
-          "src": "/images/hero_image_2.webp",
-          "alt": "Зимова колекція"
-        }
-      }
-    ],
     "viewCollection": "Переглянути колекцію"
   },
   "sections": {

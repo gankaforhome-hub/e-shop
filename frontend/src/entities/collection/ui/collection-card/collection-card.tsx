@@ -25,6 +25,7 @@ export function CollectionCard({
           src={collection.media.src}
           alt={collection.media.alt || collection.title}
           fill
+          objectPosition={collection.media.objectPosition}
           className="duration-(--dur-slow) ease-subtle object-contain transition-transform hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />

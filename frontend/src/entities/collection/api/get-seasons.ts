@@ -2,34 +2,29 @@ import { cacheLife, cacheTag } from 'next/cache';
 
 import 'server-only';
 
+import { backendGet } from '@/shared/api/backend';
 import { cacheTags } from '@/shared/config/cache-tags';
-import { groupTranslationsBy, pickTranslation } from '@/shared/i18n/helpers';
 import { type Locale } from '@/shared/i18n/routing';
-import { compareSortOrder } from '@/shared/lib/utils';
 
-import { mockSeasons, mockSeasonTranslations } from '../mock/seasons';
+import { mapSeason } from '../lib/map-collection';
+import { seasonListResponseSchema } from '../model/api-types';
 import { type SeasonDTO } from '../model/season';
 
 /**
- * Every season resolved for `lang` (requested → default locale → slug), in
- * `sortOrder`. Mirrors `seasons` joined with `season_translations`.
+ * Every season resolved for `lang` (requested → `uk` → slug), in
+ * `sortOrder` (`GET /collections/seasons`).
  */
 export async function getSeasons(lang: Locale): Promise<SeasonDTO[]> {
   'use cache';
   cacheLife('days');
   cacheTag(cacheTags.seasons);
 
-  const translationsBySlug = groupTranslationsBy(
-    mockSeasonTranslations,
-    row => row.seasonSlug,
-  );
+  const result = await backendGet('collections/seasons', {
+    searchParams: { lang },
+  });
+  if (!result.ok) {
+    throw new Error(`GET /collections/seasons failed with ${result.status}`);
+  }
 
-  return mockSeasons
-    .map(season => ({
-      ...season,
-      label:
-        pickTranslation(translationsBySlug.get(season.slug) ?? [], lang)
-          ?.label ?? season.slug,
-    }))
-    .toSorted(compareSortOrder);
+  return seasonListResponseSchema.parse(result.data).map(mapSeason);
 }

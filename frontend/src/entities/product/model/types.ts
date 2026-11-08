@@ -81,7 +81,8 @@ export type Product = EntityMeta & {
   slug: string;
   badges: ProductBadgeStatus[];
   categoryId: string;
-  primaryCollectionId: string;
+  /** Collection slug (the storefront joins collections by slug, never by id). */
+  primaryCollectionSlug: string;
   featuredMediaId: string;
   media: ProductMedia[];
   /** Attributes shared by every variant; keys are translated in the UI. */
@@ -172,7 +173,6 @@ export type ProductCategoryRef = {
 };
 
 export type ProductCollectionRef = {
-  id: string;
   slug: string;
   title: string;
   /** The collection's season slug; the product inherits it (`product.primaryCollection.season`). */

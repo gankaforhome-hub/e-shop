@@ -14,7 +14,8 @@ export function getMainNavConfig(
       href: routes.collections,
     },
     ...collections.map(col => ({
-      id: col.id,
+      // Slug, not the API uuid: the storefront identifies collections by slug
+      id: `collection-${col.slug}`,
       label: col.title,
       href: routes.collection(col.slug),
     })),

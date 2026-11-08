@@ -34,7 +34,6 @@ export type ProductCardDTO = {
     title: string;
   };
   primaryCollection: {
-    id: string;
     slug: string;
     title: string;
   };

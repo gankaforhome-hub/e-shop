@@ -4,6 +4,7 @@ import { type Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
+import { getHeroBanners } from '@/entities/collection';
 import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
@@ -50,16 +51,19 @@ export default async function Page({ params }: IHomePageProps) {
     notFound();
   }
 
-  const { home } = await getDictionary(['home'], lang);
+  const [{ home }, heroBanners] = await Promise.all([
+    getDictionary(['home'], lang),
+    getHeroBanners(lang),
+  ]);
 
   return (
     <>
-      {/* No <Suspense>: Hero is sync, and a boundary would be streamed after
-          the shell and revealed ≥300 ms after first paint, delaying LCP */}
-      <Hero
-        bannerSlides={home.hero.banners}
-        ctaLabel={home.hero.viewCollection}
-      />
+      {/* No <Suspense>: the slides come from a cached read that is part of the
+          static shell, and a boundary would be streamed after the shell and
+          revealed ≥300 ms after first paint, delaying LCP */}
+      {heroBanners.length > 0 && (
+        <Hero bannerSlides={heroBanners} ctaLabel={home.hero.viewCollection} />
+      )}
       <Heading headingLevel="h1" visibility="hidden">
         {home.pageTitle}
       </Heading>

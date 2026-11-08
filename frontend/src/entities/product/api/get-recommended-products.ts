@@ -37,7 +37,7 @@ const getRelevance = (
   candidate: LocalizedProduct,
   source: LocalizedProduct,
 ) => {
-  if (candidate.primaryCollectionId === source.primaryCollectionId) {
+  if (candidate.primaryCollectionSlug === source.primaryCollectionSlug) {
     return 0;
   }
   return candidate.category.id === source.category.id ? 1 : 2;
