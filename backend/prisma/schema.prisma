@@ -47,6 +47,13 @@ enum E_WebAuthnChallengePurpose {
   @@map("webauthn_challenge_purpose")
 }
 
+enum E_Locale {
+  uk
+  en
+
+  @@map("locale")
+}
+
 // Add other roles as needed
 
 // enum E_UserStatus {
@@ -176,6 +183,103 @@ model AuditLog {
   @@index([targetId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+//! CATALOG
+// Slug is the key: the frontend filters by it (?season=). CHECK on the format lives in the migration
+model Season {
+  slug         String              @id @db.VarChar(50)
+  sortOrder    Int                 @default(0) @map("sort_order")
+  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime            @updatedAt @map("updated_at") @db.Timestamptz()
+  translations SeasonTranslation[]
+  collections  Collection[]
+
+  @@map("seasons")
+}
+
+model SeasonTranslation {
+  seasonSlug   String   @map("season_slug") @db.VarChar(50)
+  languageCode E_Locale @map("language_code")
+  label        String   @db.VarChar(50)
+  season       Season   @relation(fields: [seasonSlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([seasonSlug, languageCode])
+  @@map("season_translations")
+}
+
+// Kebab-case slug CHECK lives in the migration. New rows stay hidden until isActive is set
+model Collection {
+  id              String                  @id @default(uuid())
+  slug            String                  @unique @db.VarChar(100)
+  sortOrder       Int                     @default(0) @map("sort_order")
+  isActive        Boolean                 @default(false) @map("is_active")
+  skuPrefix       String?                 @unique @map("sku_prefix") @db.VarChar(8)
+  seasonSlug      String?                 @map("season_slug") @db.VarChar(50)
+  // Media in use can't be deleted (Restrict), the API answers 409
+  // Card image, close to square
+  coverImageId    String?                 @map("cover_image_id")
+  // Wide 16:9 image for the home hero and banners
+  bannerImageId   String?                 @map("banner_image_id")
+  // Shown in the home hero. CHECK in the migration: only with a banner image
+  inBanner        Boolean                 @default(false) @map("in_banner")
+  // Hero order, set in the CMS; ties (all 0 by default) fall back to sortOrder
+  bannerSortOrder Int                     @default(0) @map("banner_sort_order")
+  createdAt       DateTime                @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime                @updatedAt @map("updated_at") @db.Timestamptz()
+  season          Season?                 @relation(fields: [seasonSlug], references: [slug], onDelete: SetNull, onUpdate: Cascade)
+  coverImage      Media?                  @relation("CollectionCover", fields: [coverImageId], references: [id], onDelete: Restrict)
+  bannerImage     Media?                  @relation("CollectionBanner", fields: [bannerImageId], references: [id], onDelete: Restrict)
+  translations    CollectionTranslation[]
+
+  @@index([isActive, sortOrder])
+  @@map("collections")
+}
+
+// SEO is 1:1 per language, so it sits here; the API falls back to title / shortDescription
+model CollectionTranslation {
+  collectionId     String     @map("collection_id")
+  languageCode     E_Locale   @map("language_code")
+  title            String     @db.VarChar(150)
+  shortDescription String     @map("short_description") @db.Text
+  description      String     @db.Text
+  metaTitle        String?    @map("meta_title") @db.VarChar(120)
+  metaDescription  String?    @map("meta_description") @db.VarChar(320)
+  // Line above the title on the hero slide, e.g. "нова колекція"
+  bannerSubtitle   String?    @map("banner_subtitle") @db.VarChar(80)
+  collection       Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@id([collectionId, languageCode])
+  @@map("collection_translations")
+}
+
+// One uploaded image, stored as WebP variants under media/<checksum>/<width>.webp
+model Media {
+  id           String       @id @default(uuid())
+  // SHA-256 of the original file, so a repeated upload reuses the row
+  checksum     String       @unique @db.VarChar(64)
+  // width, height and sizeBytes describe the largest variant
+  width        Int
+  height       Int
+  sizeBytes    Int          @map("size_bytes")
+  // [{ width, height, size, key }]
+  variants     Json
+  blurDataUrl  String?      @map("blur_data_url")
+  alt          String?      @db.VarChar(250)
+  originalName String?      @map("original_name") @db.VarChar(255)
+  // Focal point for CSS object-position, 0..1 (CHECK in the migration)
+  focalX       Float        @default(0.5) @map("focal_x")
+  focalY       Float        @default(0.5) @map("focal_y")
+  // { x, y, width, height } as 0..1 fractions of the original; the DTO checks the shape
+  cropData     Json?        @map("crop_data")
+  // No foreign key, as in AuditLog
+  uploadedById String?      @map("uploaded_by_id")
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+  coverFor     Collection[] @relation("CollectionCover")
+  bannerFor    Collection[] @relation("CollectionBanner")
+
+  @@map("media")
 }
 
 // model Acount {
