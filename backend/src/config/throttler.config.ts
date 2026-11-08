@@ -26,3 +26,5 @@ export const throttlers: ThrottlerOptions[] = [
 
 export const STRICT_THROTTLE = { default: { limit: 5, ttl: minutes(1) } };
 export const REFRESH_THROTTLE = { default: { limit: 30, ttl: minutes(1) } };
+//COMMENT each upload decodes a full image and writes up to five files
+export const UPLOAD_THROTTLE = { default: { limit: 20, ttl: minutes(1) } };

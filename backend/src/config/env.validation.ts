@@ -42,6 +42,17 @@ class EnvironmentVariables {
   )
   @IsUrl({ require_tld: false })
   FRONTEND_URL?: string;
+
+  //COMMENT media storage: the project URL, not the S3 endpoint
+  @IsUrl({ require_tld: false })
+  SUPABASE_URL: string;
+
+  @IsString()
+  @IsNotEmpty()
+  SUPABASE_SECRET_KEY: string;
+
+  @Matches(/^[a-z0-9-]+$/)
+  MEDIA_BUCKET: string;
 }
 
 //COMMENT fails on startup; the messages name the variable and never contain its value
