@@ -1,5 +1,7 @@
 import { isPrismaError } from '@common/utils';
 import { MediaService } from '@modules/media/media.service';
+import { storefrontTags } from '@modules/revalidation/revalidation.constants';
+import { RevalidationService } from '@modules/revalidation/revalidation.service';
 import {
   BadRequestException,
   ConflictException,
@@ -51,6 +53,7 @@ export class AdminCollectionService {
   constructor(
     private readonly repository: AdminCollectionRepository,
     private readonly mediaService: MediaService,
+    private readonly revalidation: RevalidationService,
   ) {}
 
   async findAll(): Promise<AdminCollectionResponse[]> {
@@ -80,6 +83,7 @@ export class AdminCollectionService {
         meta: { slug: core.slug },
       })
       .catch(error => this.rethrow(error));
+    this.notifyStorefront(core.slug);
     return this.findOne(id);
   }
 
@@ -120,6 +124,8 @@ export class AdminCollectionService {
         },
       })
       .catch(error => this.rethrow(error));
+    //COMMENT both slugs: the old page must drop out and the new one must appear
+    this.notifyStorefront(current.slug, core.slug);
     return this.findOne(id);
   }
 
@@ -142,6 +148,7 @@ export class AdminCollectionService {
         })),
       },
     });
+    this.notifyStorefront();
   }
 
   //COMMENT translations go by cascade; media stays in the library
@@ -156,6 +163,16 @@ export class AdminCollectionService {
         meta: { slug },
       })
       .catch(error => this.rethrow(error));
+    this.notifyStorefront(slug);
+  }
+
+  private notifyStorefront(...slugs: (string | null | undefined)[]) {
+    this.revalidation.notify([
+      storefrontTags.collections,
+      ...slugs
+        .filter((slug): slug is string => !!slug)
+        .map(storefrontTags.collection),
+    ]);
   }
 
   private async getOrThrow(id: string): Promise<AdminCollection> {

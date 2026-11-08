@@ -4,6 +4,7 @@ import {
   SUPABASE_URL,
 } from '@common/constants';
 import { DatabaseModule } from '@database/database.module';
+import { RevalidationModule } from '@modules/revalidation/revalidation.module';
 import { StaffModule } from '@modules/staff/staff.module';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -15,7 +16,7 @@ import { createSupabaseMediaStorage } from './storage/supabase-media.storage';
 
 @Module({
   //COMMENT StaffModule provides StaffAccessService for StaffGuard
-  imports: [DatabaseModule, StaffModule],
+  imports: [DatabaseModule, StaffModule, RevalidationModule],
   controllers: [MediaController],
   providers: [
     MediaRepository,

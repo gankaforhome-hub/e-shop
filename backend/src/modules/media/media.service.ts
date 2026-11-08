@@ -8,6 +8,8 @@ import {
   NotFoundException,
   UnsupportedMediaTypeException,
 } from '@nestjs/common';
+import { storefrontTags } from '@modules/revalidation/revalidation.constants';
+import { RevalidationService } from '@modules/revalidation/revalidation.service';
 import { Media, Prisma } from '@prisma/client';
 import { UpdateMediaDto } from './dto';
 import {
@@ -46,6 +48,7 @@ export class MediaService {
   constructor(
     private readonly mediaRepository: MediaRepository,
     @Inject(MEDIA_STORAGE) private readonly storage: IMediaStorage,
+    private readonly revalidation: RevalidationService,
   ) {}
 
   /**
@@ -154,6 +157,8 @@ export class MediaService {
       },
       { actorId, ip, action: 'media.update', targetId: id },
     );
+    //COMMENT alt and focal point show on every collection that uses the image
+    this.revalidation.notify([storefrontTags.collections]);
     return this.toResponse(media);
   }
 
@@ -176,6 +181,8 @@ export class MediaService {
       }
       throw error;
     }
+
+    this.revalidation.notify([storefrontTags.collections]);
 
     await this.storage
       .remove(this.storedVariants(media).map(v => v.key))

@@ -53,16 +53,36 @@ class EnvironmentVariables {
 
   @Matches(/^[a-z0-9-]+$/)
   MEDIA_BUCKET: string;
+
+  //COMMENT development only, removed by the staff key prompt K.4; see validateEnv for production
+  @IsOptional()
+  @IsIn(['true', 'false'])
+  STAFF_KEY_REQUIRED?: string;
+
+  //COMMENT storefront revalidation after CMS changes; empty or unset means skipped
+  @ValidateIf((env: EnvironmentVariables) => !!env.FRONTEND_REVALIDATE_URL)
+  @IsUrl({ require_tld: false })
+  FRONTEND_REVALIDATE_URL?: string;
+
+  @IsOptional()
+  @IsString()
+  REVALIDATE_SECRET?: string;
 }
 
 //COMMENT fails on startup; the messages name the variable and never contain its value
 export const validateEnv = (config: Record<string, unknown>) => {
-  const errors = validateSync(plainToInstance(EnvironmentVariables, config));
+  const env = plainToInstance(EnvironmentVariables, config);
+  const errors = validateSync(env);
+  const messages = errors.flatMap(({ constraints }) =>
+    Object.values(constraints ?? {}),
+  );
 
-  if (errors.length > 0) {
-    const messages = errors.flatMap(({ constraints }) =>
-      Object.values(constraints ?? {}),
-    );
+  //COMMENT password-only staff sessions must never reach production
+  if (env.NODE_ENV === 'production' && env.STAFF_KEY_REQUIRED === 'false') {
+    messages.push('STAFF_KEY_REQUIRED must not be "false" in production');
+  }
+
+  if (messages.length > 0) {
     throw new Error(
       `Invalid environment variables:\n- ${messages.join('\n- ')}`,
     );
