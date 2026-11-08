@@ -164,6 +164,14 @@
     "buttonText": "Back home",
     "buttonAriaLabel": "Go back to the home page"
   },
+  "serverError": {
+    "textError": "Error 500",
+    "pageTitle": "Something went wrong",
+    "description": "The service is temporarily unavailable. It is not your fault, and we are already working on it. Please try again in a few minutes.",
+    "retryLabel": "Try again",
+    "buttonText": "Back home",
+    "buttonAriaLabel": "Go back to the home page"
+  },
   "stock": {
     "soldOut": "Sold out"
   },
