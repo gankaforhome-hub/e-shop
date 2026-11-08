@@ -52,6 +52,7 @@ export function ImageTextPanel({
           src={image.src || ''}
           alt={image.alt || ''}
           fill
+          objectPosition={image.objectPosition}
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
           className={cn('object-cover object-center', imageClassName)}

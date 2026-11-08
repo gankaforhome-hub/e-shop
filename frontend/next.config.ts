@@ -51,6 +51,16 @@ const nextConfig: NextConfig = {
     // are re-generated far less often. Replace a changed image under a new
     // file name (CMS uploads get unique URLs anyway)
     minimumCacheTTL: 2678400,
+    // Public Supabase Storage bucket (CMS uploads), host from env
+    remotePatterns: process.env.MEDIA_PUBLIC_HOST
+      ? [
+          {
+            protocol: 'https',
+            hostname: process.env.MEDIA_PUBLIC_HOST,
+            pathname: '/storage/v1/object/public/**',
+          },
+        ]
+      : [],
   },
   allowedDevOrigins: [
     'localhost:3000',

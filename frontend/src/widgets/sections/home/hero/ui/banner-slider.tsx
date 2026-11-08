@@ -66,6 +66,7 @@ export function BannerSlider({
                 loading={isFirstSlide ? 'eager' : 'lazy'}
                 fetchPriority={isFirstSlide ? 'high' : 'auto'}
                 src={slide.media.src}
+                objectPosition={slide.media.objectPosition}
                 alt={slide.media.alt ?? slide.title}
                 poster={slide.media.poster ?? ''}
                 index={index}

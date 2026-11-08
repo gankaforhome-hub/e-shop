@@ -29,6 +29,8 @@ export interface AppMediaProps extends Omit<
   controls?: boolean;
   placeholder?: ImageProps['placeholder'];
   blurDataURL?: string | undefined;
+  /** CSS `object-position` (focal point); applied only when set */
+  objectPosition?: string | undefined;
 }
 
 export function AppMedia({
@@ -45,6 +47,7 @@ export function AppMedia({
   controls = false,
   placeholder = 'blur',
   blurDataURL,
+  objectPosition,
   ...restProps
 }: AppMediaProps) {
   const isVideo = isVideoUrl(src);
@@ -81,6 +84,9 @@ export function AppMedia({
       className: baseClass,
       ...(!fill && width && height ? { width, height } : {}),
       ...restProps,
+      ...(objectPosition
+        ? { style: { ...restProps.style, objectPosition } }
+        : {}),
     };
 
     mediaContent = isEager ? (
