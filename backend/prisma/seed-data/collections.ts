@@ -1,8 +1,8 @@
 import { type E_Locale } from '@prisma/client';
 
-// A copy (not an import) of frontend/src/entities/collection/mock/{seasons,collections}.ts.
-// Mock ids (col-*) are dropped: rows are matched by slug. Collection ↔ category links wait
-// for the category module. The mocks have no skuPrefix yet.
+// Demo seasons and collections, moved here from the former storefront mocks (the storefront now
+// reads them from the API). Mock ids (col-*) are dropped: rows are matched by slug. Collection ↔
+// category links wait for the category module. The mocks had no skuPrefix.
 
 export interface ISeedSeason {
   slug: string;
