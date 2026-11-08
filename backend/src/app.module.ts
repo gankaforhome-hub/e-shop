@@ -7,7 +7,9 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { DatabaseModule } from '@database/database.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { CollectionModule } from '@modules/collection/collection.module';
 import { CookieModule } from '@modules/cookie/cookie.module';
+import { MediaModule } from '@modules/media/media.module';
 import { ServerModule } from '@modules/server/server.module';
 import { UserModule } from '@modules/user/user.module';
 import { APP_GUARD } from '@nestjs/core';
@@ -21,6 +23,8 @@ import { APP_GUARD } from '@nestjs/core';
     DatabaseModule,
     UserModule,
     AuthModule,
+    MediaModule,
+    CollectionModule,
   ],
   providers: [
     Logger,
