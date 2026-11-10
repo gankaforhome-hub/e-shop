@@ -1,4 +1,3 @@
-import { routes } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link';
 import { AppMedia, type AppMediaProps } from '@/shared/ui/app-media';
@@ -8,21 +7,19 @@ import { Heading } from '@/shared/ui/heading';
 import { Overlay } from '@/shared/ui/overlay';
 import { Text } from '@/shared/ui/text';
 
+import { type TBannerSlide } from '../model/types';
+
 interface BannerSlideProps extends AppMediaProps {
-  bannerSlide: {
-    title: string;
-    subTitle: string;
-    slug: string;
-    blurDataURL?: string;
-  };
+  bannerSlide: Pick<
+    TBannerSlide,
+    'title' | 'subTitle' | 'href' | 'ctaLabel' | 'blurDataURL'
+  >;
   index: number;
-  ctaLabel: string;
 }
 
 export function BannerSlide({
-  bannerSlide: { title, subTitle, slug, blurDataURL },
+  bannerSlide: { title, subTitle, href, ctaLabel, blurDataURL },
   index,
-  ctaLabel,
   ...props
 }: BannerSlideProps) {
   const { isInitialize, current } = useCarousel();
@@ -68,7 +65,7 @@ export function BannerSlide({
         </Heading>
 
         <Button asChild variant="default" className="mt-6 capitalize shadow-lg">
-          <AppLink href={routes.collection(slug)}>{ctaLabel}</AppLink>
+          <AppLink href={href}>{ctaLabel}</AppLink>
         </Button>
       </div>
     </div>

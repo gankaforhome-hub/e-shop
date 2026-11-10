@@ -143,3 +143,16 @@ export type RouteValue = (typeof staticRoutes)[keyof typeof staticRoutes];
 export function createRoute(path: string): AppRoutes {
   return path as AppRoutes;
 }
+
+/**
+ * An internal path typed in the CMS (banner links): not one of the known routes, so it only
+ * exists after `isCmsPath` checked it.
+ */
+export type CmsPath = `/${string}` & { readonly __brand: 'CmsPath' };
+
+// "/" and then anything but a second slash ("//host" is another site) or whitespace
+const CMS_PATH = /^\/(?!\/)\S*$/;
+
+/** `/products`, `/info/delivery`; not `//host` or anything with spaces. */
+export const isCmsPath = (value: string): value is CmsPath =>
+  CMS_PATH.test(value);

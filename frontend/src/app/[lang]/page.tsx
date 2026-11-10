@@ -4,7 +4,7 @@ import { type Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
-import { getHeroBanners } from '@/entities/collection';
+import { getHeroBanners } from '@/entities/banner';
 import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { getMetadata, type IGetMetadataProps } from '@/shared/i18n/get-metada';
@@ -60,10 +60,17 @@ export default async function Page({ params }: IHomePageProps) {
     <>
       {/* No <Suspense>: the slides come from a cached read that is part of the
           static shell, and a boundary would be streamed after the shell and
-          revealed ≥300 ms after first paint, delaying LCP */}
-      {heroBanners.length > 0 && (
-        <Hero bannerSlides={heroBanners} ctaLabel={home.hero.viewCollection} />
-      )}
+          revealed ≥300 ms after first paint, delaying LCP. No slides → the
+          hero's static fallback slide */}
+      <Hero
+        banners={heroBanners}
+        ctaLabels={{
+          collection: home.hero.viewCollection,
+          url: home.hero.learnMore,
+        }}
+        fallback={home.hero.fallback}
+      />
+
       <Heading headingLevel="h1" visibility="hidden">
         {home.pageTitle}
       </Heading>

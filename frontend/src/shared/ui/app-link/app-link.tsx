@@ -2,7 +2,11 @@ import { type ComponentPropsWithoutRef, type ReactNode, type Ref } from 'react';
 
 import { cva } from 'class-variance-authority';
 
-import { type AppRoutes, type ExternalHref } from '@/shared/config';
+import {
+  type AppRoutes,
+  type CmsPath,
+  type ExternalHref,
+} from '@/shared/config';
 import { Link } from '@/shared/i18n/navigation';
 import { cn } from '@/shared/lib/utils';
 
@@ -18,7 +22,8 @@ export const appLinkVariants = cva(
 
 export type AppLinkProps = Omit<AnchorProps, 'href'> &
   I18nLinkProps & {
-    href: AppRoutes | ExternalHref;
+    /** A known route, an external link or a CMS path checked by `isCmsPath`. */
+    href: AppRoutes | ExternalHref | CmsPath;
     children: ReactNode;
     ref?: Ref<HTMLAnchorElement>;
   };

@@ -1,7 +1,14 @@
 {
   "pageTitle": "Ganka for home",
   "hero": {
-    "viewCollection": "View collection"
+    "viewCollection": "View collection",
+    "learnMore": "Learn more",
+    "fallback": {
+      "title": "Ganka for Home",
+      "subtitle": "handmade porcelain",
+      "ctaLabel": "Go to catalog",
+      "alt": "Ganka for Home porcelain on a table"
+    }
   },
   "sections": {
     "productTypes": {

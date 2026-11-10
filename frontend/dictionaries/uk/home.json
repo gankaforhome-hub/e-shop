@@ -1,7 +1,14 @@
 {
   "pageTitle": "Ganka for home",
   "hero": {
-    "viewCollection": "Переглянути колекцію"
+    "viewCollection": "Переглянути колекцію",
+    "learnMore": "Детальніше",
+    "fallback": {
+      "title": "Ganka for Home",
+      "subtitle": "порцеляна ручної роботи",
+      "ctaLabel": "До каталогу",
+      "alt": "Порцеляна Ganka for Home на столі"
+    }
   },
   "sections": {
     "productTypes": {

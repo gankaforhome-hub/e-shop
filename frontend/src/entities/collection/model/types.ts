@@ -11,10 +11,6 @@ export type Collection = EntityMeta & {
   skuPrefix?: string;
   /** Optional season slug (`seasons.slug`), inherited by the collection's products. */
   season?: SeasonSlug;
-  /** Wide 16:9 image for the home hero. */
-  banner?: Media;
-  /** Shown in the home hero (always has a `banner`). */
-  inBanner?: boolean;
 };
 
 /** Collection resolved for one locale (`GET /collections?lang=`). */
@@ -23,6 +19,4 @@ export type CollectionDTO = Collection & {
   shortDescription: string;
   description: string;
   seo: SeoFields;
-  /** Line above the title on the hero slide. */
-  bannerSubtitle?: string;
 };

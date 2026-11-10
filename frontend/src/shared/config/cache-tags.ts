@@ -11,6 +11,8 @@ export const cacheTags = {
   collection: (slug: string) => `collection-${slug}`,
   /** Season entities and their translations. */
   seasons: 'seasons',
+  /** Home hero slides (`GET /banners`). */
+  banners: 'banners',
   /** Attribute names / value labels (`attribute_*_translations`). */
   attributes: 'attributes',
   infoPages: 'info-pages',
@@ -22,6 +24,7 @@ const STATIC_TAGS: ReadonlySet<string> = new Set([
   cacheTags.categories,
   cacheTags.collections,
   cacheTags.seasons,
+  cacheTags.banners,
   cacheTags.attributes,
   cacheTags.infoPages,
 ]);

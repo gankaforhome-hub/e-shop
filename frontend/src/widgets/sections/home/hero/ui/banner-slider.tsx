@@ -19,26 +19,23 @@ import { BannerSlide } from './banner-slide';
 
 interface BannerSliderProps {
   bannerSlides: TBannerSlide[];
-  ctaLabel: string;
   className?: string;
 }
 
-export function BannerSlider({
-  className,
-  bannerSlides,
-  ctaLabel,
-}: BannerSliderProps) {
+export function BannerSlider({ className, bannerSlides }: BannerSliderProps) {
   const t = useTranslations('common.common.aria');
+  // One slide: nowhere to go, so no autoplay and no dots
+  const hasMultipleSlides = bannerSlides.length > 1;
   // Embla plugins only run in the browser, so reading matchMedia here can't
   // cause a hydration mismatch; autoplay is skipped for reduced-motion users.
   const plugins = useMemo(() => {
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    return prefersReducedMotion
+    return prefersReducedMotion || !hasMultipleSlides
       ? []
       : [Autoplay({ delay: 4000, stopOnInteraction: false })];
-  }, []);
+  }, [hasMultipleSlides]);
 
   return (
     <Carousel
@@ -58,7 +55,7 @@ export function BannerSlider({
           const isFirstSlide = index === 0;
           return (
             <CarouselItem
-              key={`Slide-${slide.slug}`}
+              key={`Slide-${slide.id ?? slide.href}`}
               className="relative h-full min-h-0 w-full shrink-0 basis-full overflow-hidden"
             >
               <BannerSlide
@@ -70,22 +67,23 @@ export function BannerSlider({
                 alt={slide.media.alt ?? slide.title}
                 poster={slide.media.poster ?? ''}
                 index={index}
-                ctaLabel={ctaLabel}
               />
             </CarouselItem>
           );
         })}
       </CarouselContent>
       {/* gap-3: 12px dots 24px apart meet the WCAG 2.5.8 target spacing */}
-      <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-3">
-        {bannerSlides.map((_, idx) => (
-          <CarouselCurrent
-            key={idx}
-            to={idx}
-            aria-label={t('goToSlide', { index: idx + 1 })}
-          />
-        ))}
-      </div>
+      {hasMultipleSlides && (
+        <div className="absolute bottom-12 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-3">
+          {bannerSlides.map((_, idx) => (
+            <CarouselCurrent
+              key={idx}
+              to={idx}
+              aria-label={t('goToSlide', { index: idx + 1 })}
+            />
+          ))}
+        </div>
+      )}
     </Carousel>
   );
 }

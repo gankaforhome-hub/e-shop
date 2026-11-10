@@ -1,3 +1,5 @@
+import { routes } from '@/shared/config/routes';
+
 import { type TBannerSlide } from '../model/types';
 
 export const bannerSlides: TBannerSlide[] = [
@@ -5,7 +7,8 @@ export const bannerSlides: TBannerSlide[] = [
     id: '1',
     title: 'Agro',
     subTitle: 'new collection',
-    slug: `agro`,
+    href: routes.collection('agro'),
+    ctaLabel: 'View collection',
     media: {
       src: '/images/hero_image.webp',
       alt: 'Весняна колекція',
@@ -15,7 +18,8 @@ export const bannerSlides: TBannerSlide[] = [
     id: '2',
     title: 'Ptahy',
     subTitle: 'popular collection',
-    slug: `ptahy`,
+    href: routes.collection('ptahy'),
+    ctaLabel: 'View collection',
     media: {
       src: '/images/hero_image_2.webp',
       alt: 'Зимова колекція',

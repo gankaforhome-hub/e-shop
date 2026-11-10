@@ -3,6 +3,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 import 'server-only';
 
 import { backendGet } from '@/shared/api/backend';
+import { failOnBuild, logBackendFallback } from '@/shared/api/backend-fallback';
 import { cacheTags } from '@/shared/config/cache-tags';
 import { type Locale } from '@/shared/i18n/routing';
 
@@ -16,9 +17,10 @@ import { type CollectionDTO } from '../model/types';
 /**
  * Active collections flattened for `lang` (the API falls back to `uk`), in
  * CMS `sortOrder`. Collections without a cover are skipped with a warning.
- * API failures throw: cached pages keep being served, new renders fail.
+ * Strict: API failures throw (a stale entry keeps being served meanwhile).
+ * For build-time lists (`generateStaticParams`); pages use `getCollections`.
  */
-export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
+export async function loadCollections(lang: Locale): Promise<CollectionDTO[]> {
   'use cache';
   cacheLife('hours');
   cacheTag(cacheTags.collections);
@@ -39,7 +41,30 @@ export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
   });
 }
 
-/** One active collection, or `null` when unknown, inactive or without a cover. */
+/**
+ * `loadCollections` that never fails the page: with the API down it returns
+ * `[]` (menus and lists show their empty state) and retries within a minute.
+ */
+export async function getCollections(lang: Locale): Promise<CollectionDTO[]> {
+  'use cache';
+  cacheTag(cacheTags.collections);
+
+  try {
+    const collections = await loadCollections(lang);
+    cacheLife('hours');
+    return collections;
+  } catch (error) {
+    failOnBuild(error);
+    logBackendFallback('collections', error);
+    cacheLife('minutes');
+    return [];
+  }
+}
+
+/**
+ * One active collection, or `null` when unknown, inactive or without a cover.
+ * API failures throw: the page shows the 500 page (a 404 would deindex it).
+ */
 export async function getCollectionBySlug(
   slug: string,
   lang: Locale,
