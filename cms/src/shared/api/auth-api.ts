@@ -1,11 +1,11 @@
-import { getApiUrl, getCmsOrigin } from '@/shared/config/env';
 import { type SessionTokens } from '@/shared/lib/session/session-cookies';
+
+import { fetchApi, NETWORK_ERROR_STATUS } from './fetch-api';
 
 //INFO Server side only (Server Actions, proxy, DAL). The browser never calls the API,
 //INFO so the tokens stay out of page scripts and no CORS is needed.
 
 const API_REFRESH_COOKIE = 'CMS_REFRESH_TOKEN';
-const NETWORK_ERROR_STATUS = 503;
 
 export type ApiFailure = { ok: false; status: number };
 export type ApiResult<T> = { ok: true; data: T } | ApiFailure;
@@ -23,25 +23,26 @@ async function request<T>(
   path: string,
   { method = 'POST', body, accessToken, refreshToken }: RequestOptions = {},
 ): Promise<RawResult<T>> {
+  const response = await fetchApi(path, {
+    method,
+    headers: {
+      ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      ...(refreshToken
+        ? { Cookie: `${API_REFRESH_COOKIE}=${refreshToken}` }
+        : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  if (!response) {
+    return { ok: false, status: NETWORK_ERROR_STATUS };
+  }
+  if (!response.ok) {
+    return { ok: false, status: response.status };
+  }
+
   try {
-    const response = await fetch(`${getApiUrl()}${path}`, {
-      method,
-      cache: 'no-store',
-      headers: {
-        Origin: getCmsOrigin(),
-        ...(body ? { 'Content-Type': 'application/json' } : {}),
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-        ...(refreshToken
-          ? { Cookie: `${API_REFRESH_COOKIE}=${refreshToken}` }
-          : {}),
-      },
-      body: body ? JSON.stringify(body) : undefined,
-    });
-
-    if (!response.ok) {
-      return { ok: false, status: response.status };
-    }
-
     return {
       ok: true,
       // The contract of each endpoint is owned by the backend

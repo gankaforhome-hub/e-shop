@@ -23,12 +23,17 @@ export const routes = {
   },
   catalog: {
     collections: '/catalog/collections',
+    newCollection: '/catalog/collections/new',
+    collection: (id: string) => `/catalog/collections/${id}` as const,
+    seasons: '/catalog/seasons',
     categories: '/catalog/categories',
     products: '/catalog/products',
     attributes: '/catalog/attributes',
   },
   content: {
     banners: '/content/banners',
+    newBanner: '/content/banners/new',
+    banner: (id: string) => `/content/banners/${id}` as const,
     pages: '/content/pages',
     blog: '/content/blog',
     forms: '/content/forms',

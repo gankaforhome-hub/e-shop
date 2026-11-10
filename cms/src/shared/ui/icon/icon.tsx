@@ -1,13 +1,17 @@
 import { type ComponentType, type SVGProps } from 'react';
 
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
+  CalendarRange,
   ChartLine,
   Check,
   CircleUserRound,
   FileChartColumn,
   Files,
+  GripVertical,
   FolderTree,
   GalleryHorizontalEnd,
   Inbox,
@@ -24,12 +28,15 @@ import {
   Package,
   PanelLeftClose,
   PanelLeftOpen,
+  Pencil,
+  Plus,
   Settings,
   ShoppingBag,
   SquareStack,
   Store,
   Sun,
   Tags,
+  Trash2,
   Warehouse,
   X,
   type LucideProps,
@@ -61,6 +68,7 @@ export const ICON_MAP = {
   products: Package,
   inventory: Warehouse,
   collections: Library,
+  seasons: CalendarRange,
   categories: FolderTree,
   attributes: Tags,
 
@@ -87,6 +95,12 @@ export const ICON_MAP = {
   check: Check,
   'arrow-left': ArrowLeft,
   'arrow-right': ArrowRight,
+  'arrow-up': ArrowUp,
+  'arrow-down': ArrowDown,
+  add: Plus,
+  delete: Trash2,
+  edit: Pencil,
+  'drag-handle': GripVertical,
 } satisfies Record<string, IconComponent>;
 
 export type IconName = keyof typeof ICON_MAP;

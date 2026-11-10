@@ -12,12 +12,22 @@ export const buttonVariants = cva(
       variant: {
         default:
           'bg-primary text-primary-foreground shadow-xs hover:bg-primary-hover',
+        /** Irreversible actions (delete), mostly inside a confirmation dialog. */
+        destructive:
+          'bg-destructive text-primary-foreground shadow-xs hover:bg-destructive/90',
+        /** Quiet entry to a destructive action (opens its confirmation). */
+        ghostDestructive:
+          'text-destructive hover:bg-destructive/10 data-[state=open]:bg-destructive/10',
+        /** Secondary inline action in the brand accent (e.g. "Create a season"). */
+        link: 'text-brand underline-offset-4 hover:underline',
         ghost:
           'hover:bg-accent hover:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
       },
       size: {
         default: 'h-9 px-4',
         icon: 'size-9',
+        /** No box: sits in a line of text or under a field. */
+        inline: 'h-auto px-0 py-1',
       },
     },
     defaultVariants: {

@@ -88,6 +88,11 @@ export const NAV_BLOCKS = [
         icon: 'collections',
       },
       {
+        section: 'catalog.seasons',
+        href: routes.catalog.seasons,
+        icon: 'seasons',
+      },
+      {
         section: 'catalog.categories',
         href: routes.catalog.categories,
         icon: 'categories',

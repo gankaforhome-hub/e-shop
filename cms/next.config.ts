@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
   logging: {
     browserToTerminal: true,
   },
+  // Image uploads go through Server Actions: the default 1 MB would reject most photos
+  // (the client compresses first, the API itself accepts up to 10 MB)
+  experimental: {
+    serverActions: { bodySizeLimit: '10mb' },
+  },
   // The default bottom-left spot covers the sidebar footer (Settings, Profile)
   devIndicators: {
     position: 'bottom-right',

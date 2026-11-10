@@ -130,6 +130,10 @@
       "attributes": {
         "title": "Attributes",
         "description": "Product attributes and catalog filter values."
+      },
+      "seasons": {
+        "title": "Seasons",
+        "description": "Seasons of collections: the season filter of the catalog."
       }
     },
     "content": {
@@ -201,5 +205,338 @@
     "title": "Page not found",
     "description": "The page you are looking for does not exist or has been moved.",
     "back": "Back to overview"
+  },
+  "media": {
+    "field": {
+      "empty": "No image",
+      "upload": "Upload",
+      "replace": "Replace",
+      "remove": "Remove",
+      "uploading": "Uploading…",
+      "saving": "Saving…",
+      "previewLabel": "How it will be cropped",
+      "aspectHint": "Recommended ratio {ratio}.",
+      "focalPoint": "Focal point",
+      "focalHint": "Click the image to choose the part that stays in view when it is cropped.",
+      "alt": "Alternative text",
+      "altHint": "Describes the image for screen readers and search engines."
+    },
+    "errors": {
+      "tooLarge": "The file is too large. The limit is 10 MB.",
+      "unsupportedType": "This file type is not supported. Use JPEG, PNG, WebP or AVIF.",
+      "invalidFile": "The file could not be read. Choose another image.",
+      "forbidden": "You do not have access to upload images.",
+      "tooManyRequests": "Too many uploads. Wait a minute and try again.",
+      "serverError": "Something went wrong. Try again later."
+    }
+  },
+  "collections": {
+    "new": "New collection",
+    "back": "All collections",
+    "newTitle": "New collection",
+    "newDescription": "Fill in the Ukrainian texts at least. A new collection stays hidden from the storefront until you make it visible.",
+    "editTitle": "Collection",
+    "editDescription": "Slug {slug} · SKU prefix {sku}. Changes reach the storefront right after saving; images are saved as soon as they are uploaded.",
+    "empty": {
+      "title": "No collections yet",
+      "description": "Create the first collection with the button above."
+    },
+    "forbidden": {
+      "title": "No access to collections",
+      "description": "Collections are edited by catalog managers and administrators."
+    },
+    "table": {
+      "preview": "Cover",
+      "title": "Title",
+      "slug": "Slug",
+      "status": "Status",
+      "season": "Season",
+      "banner": "Hero",
+      "order": "Order",
+      "active": "Visible",
+      "hidden": "Hidden",
+      "sku": "SKU",
+      "actions": "Actions",
+      "inBanners": "{count, plural, one {# banner} other {# banners}}"
+    },
+    "form": {
+      "main": "Main",
+      "slug": "Slug",
+      "slugHint": "Part of the address: lowercase Latin letters, digits and hyphens.",
+      "skuPrefix": "SKU prefix",
+      "skuPrefixHint": "Assigned automatically in creation order and never changes. The first part of product codes.",
+      "season": "Season",
+      "noSeason": "No season",
+      "sortOrder": "Order",
+      "sortOrderHint": "Smaller numbers come first in lists.",
+      "isActive": "Visible on the storefront",
+      "isActiveHint": "Hidden collections are kept here but not shown to customers.",
+      "texts": "Texts",
+      "language": "Language of the texts",
+      "locales": {
+        "uk": "Ukrainian",
+        "en": "English"
+      },
+      "ukHint": "Required. Also shown in English when there is no English text.",
+      "enHint": "Optional: fill in title, short and full description, or leave all empty.",
+      "title": "Title",
+      "shortDescription": "Short description",
+      "shortDescriptionHint": "Under the title on the collection page.",
+      "description": "Description",
+      "descriptionHint": "A blank line starts a new paragraph.",
+      "metaTitle": "Meta title",
+      "metaTitleHint": "For search engines. The title is used when empty.",
+      "metaDescription": "Meta description",
+      "metaDescriptionHint": "For search engines. The short description is used when empty.",
+      "images": "Images",
+      "cover": "Cover",
+      "hero": "Home hero",
+      "save": "Save",
+      "create": "Create collection",
+      "saving": "Saving…",
+      "saved": "Saved.",
+      "skuPrefixNewHint": "Assigned on save: the next free number from 001 to 999.",
+      "skuPrefixAuto": "auto",
+      "createSeason": "Create a season",
+      "inBanners": "{count, plural, =0 {No home hero banner links to this collection.} one {# home hero banner links to this collection.} other {# home hero banners link to this collection.}}",
+      "toBanners": "Go to Banners"
+    },
+    "delete": {
+      "button": "Delete collection",
+      "title": "Delete “{title}”?",
+      "description": "The collection and its texts are deleted for good. Its images stay in the media library.",
+      "confirm": "Delete",
+      "cancel": "Cancel",
+      "deleting": "Deleting…"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "tooLong": "This text is too long.",
+      "invalidSlug": "Use lowercase Latin letters, digits and single hyphens between them.",
+      "invalidNumber": "Enter a whole number from 0.",
+      "translationIncomplete": "Fill in this field or leave the whole language empty.",
+      "slugTaken": "Another collection already uses this slug.",
+      "seasonNotFound": "This season no longer exists. Choose another one.",
+      "mediaNotFound": "One of the images was deleted from the library. Upload it again.",
+      "forbidden": "You do not have access to change collections.",
+      "notFound": "This collection no longer exists.",
+      "tooManyRequests": "Too many requests. Wait a minute and try again.",
+      "serverError": "Something went wrong. Try again later.",
+      "skuPrefixExhausted": "All SKU prefixes from 001 to 999 are used. A new collection can’t get one.",
+      "usedInBanners": "Banners link to this collection. Change or delete them on the Banners page first."
+    },
+    "editEyebrow": "Editing a collection",
+    "editPageTitle": "Editing: {title}",
+    "board": {
+      "sortLabel": "Order",
+      "sort": {
+        "custom": "Saved order",
+        "alpha": "A–Z",
+        "newest": "Newest"
+      },
+      "visibilityLabel": "Visibility",
+      "visibility": {
+        "all": "All",
+        "visible": "Visible",
+        "hidden": "Hidden"
+      },
+      "bannerLabel": "Home hero",
+      "banner": {
+        "all": "All",
+        "in": "In hero",
+        "out": "Not in hero"
+      },
+      "hintDrag": "Drag rows by the handle to change the order, then save.",
+      "hintFiltered": "Clear the filters to change the order by dragging.",
+      "hintSorted": "This sorting is only a view. “Use as order” turns it into the order to save.",
+      "useAsOrder": "Use as order",
+      "noMatches": {
+        "title": "Nothing matches the filters",
+        "description": "Choose “All” in the filters to see every collection."
+      },
+      "dragColumn": "Reorder",
+      "dragHandle": "Move “{title}”",
+      "edit": "Edit",
+      "editAria": "Edit the collection “{title}”",
+      "saveBarLabel": "Unsaved order",
+      "unsaved": "The order has changed but is not saved yet.",
+      "discard": "Discard",
+      "save": "Save order",
+      "saving": "Saving…",
+      "errors": {
+        "stale": "The list changed meanwhile (a collection was added or deleted). Reload the page and try again.",
+        "forbidden": "You do not have access to change the order.",
+        "tooManyRequests": "Too many requests. Wait a minute and try again.",
+        "serverError": "Something went wrong. Try again later."
+      },
+      "a11y": {
+        "instructions": "To pick up a collection, press Space or Enter. Move it with the arrow keys, press Space or Enter again to drop it, or Escape to cancel.",
+        "picked": "Picked up “{title}”.",
+        "over": "“{title}” moved to position {position}.",
+        "dropped": "“{title}” dropped at position {position}.",
+        "cancelled": "Moving “{title}” was cancelled."
+      }
+    }
+  },
+  "seasons": {
+    "new": "New season",
+    "edit": "Edit the season “{title}”",
+    "empty": {
+      "title": "No seasons yet",
+      "description": "Create the first season with the button above."
+    },
+    "forbidden": {
+      "title": "No access to seasons",
+      "description": "Seasons are edited by catalog managers and administrators."
+    },
+    "table": {
+      "labelUk": "Name (Ukrainian)",
+      "labelEn": "Name (English)",
+      "slug": "Slug",
+      "collections": "Collections",
+      "order": "Order",
+      "actions": "Actions"
+    },
+    "dialog": {
+      "newTitle": "New season",
+      "editTitle": "Edit the season",
+      "description": "The name shows in the catalog season filter. Collections pick their season in the collection editor.",
+      "close": "Close",
+      "cancel": "Cancel",
+      "save": "Save",
+      "create": "Create season",
+      "saving": "Saving…"
+    },
+    "form": {
+      "labelUk": "Name in Ukrainian",
+      "labelEn": "Name in English",
+      "labelEnHint": "Optional: without it the Ukrainian name is shown.",
+      "slug": "Slug",
+      "slugHint": "The filter value in the address: lowercase Latin words joined by - or _ (new_year). It can’t be changed later.",
+      "slugFixed": "Collections and links use it, so it can’t be changed.",
+      "sortOrder": "Order in the filter"
+    },
+    "delete": {
+      "button": "Delete the season “{title}”",
+      "title": "Delete the season “{title}”?",
+      "description": "The season and its names are deleted for good.",
+      "confirm": "Delete",
+      "inUseHint": "Used by {count, plural, one {# collection} other {# collections}}: choose another season for them first."
+    },
+    "errors": {
+      "required": "This field is required.",
+      "tooLong": "This text is too long.",
+      "invalidSlug": "Use lowercase Latin letters and digits, words joined by - or _.",
+      "invalidNumber": "Enter a whole number from 0.",
+      "slugTaken": "Another season already uses this slug.",
+      "inUse": "Collections still use this season: choose another season for them first.",
+      "forbidden": "You do not have access to change seasons.",
+      "notFound": "This season no longer exists.",
+      "tooManyRequests": "Too many requests. Wait a minute and try again.",
+      "serverError": "Something went wrong. Try again later."
+    }
+  },
+  "banners": {
+    "description": "The slides of the home hero, in the order customers see them. A slide links to a collection or to any page (a promotion, the blog) and can be shown only between two dates.",
+    "new": "New banner",
+    "back": "All banners",
+    "newTitle": "New banner",
+    "newDescription": "A new banner goes last in the hero and stays hidden until you switch it on.",
+    "editTitle": "Banner",
+    "editEyebrow": "Editing a banner",
+    "editPageTitle": "Editing: {title}",
+    "position": "Slide {position}",
+    "moveUp": "Move “{title}” up",
+    "moveDown": "Move “{title}” down",
+    "moved": "“{title}” is now slide {position} of {total}.",
+    "edit": "Edit",
+    "editAria": "Edit the banner “{title}”",
+    "linkToCollection": "Collection: {title}",
+    "linkToUrl": "Link: {url}",
+    "collectionHidden": "The collection is hidden, so the slide is not shown",
+    "status": {
+      "live": "Shown on the storefront",
+      "hidden": "Hidden",
+      "scheduled": "Scheduled",
+      "expired": "Finished"
+    },
+    "schedule": {
+      "range": "{from} – {to}",
+      "from": "from {from}",
+      "to": "until {to}"
+    },
+    "empty": {
+      "title": "No banners yet",
+      "description": "Create the first slide of the home hero with the button above."
+    },
+    "forbidden": {
+      "title": "No access to banners",
+      "description": "Banners are edited by content editors, catalog managers and administrators."
+    },
+    "form": {
+      "link": "Where it leads",
+      "linkType": "Link type",
+      "linkTypes": {
+        "COLLECTION": "Collection",
+        "URL": "Link"
+      },
+      "collection": "Collection",
+      "collectionHint": "Without its own title the slide shows the collection name.",
+      "chooseCollection": "Choose a collection",
+      "hiddenCollection": "hidden",
+      "url": "Link",
+      "urlHint": "A page of the site (/products, /info/delivery) or a full https:// address.",
+      "texts": "Texts",
+      "language": "Language of the texts",
+      "locales": {
+        "uk": "Ukrainian",
+        "en": "English"
+      },
+      "textsHintCollection": "All optional: empty fields take the collection name and the default button text.",
+      "textsHintUrl": "The Ukrainian title is required; English falls back to Ukrainian.",
+      "title": "Title",
+      "titleFromCollection": "From the collection: {title}",
+      "subtitle": "Subtitle",
+      "subtitleHint": "The small line above the title.",
+      "ctaLabel": "Button text",
+      "ctaLabelHint": "Empty: the default text is used.",
+      "ctaDefaultCollection": "View collection",
+      "ctaDefaultUrl": "Learn more",
+      "image": "Image",
+      "imageLabel": "Banner image",
+      "display": "Display",
+      "isActive": "Show on the storefront",
+      "isActiveHint": "A hidden banner keeps its place in the order.",
+      "startsAt": "Show from",
+      "endsAt": "Show until",
+      "scheduleHint": "Optional, Kyiv time ({zone}). Without dates there are no limits. The storefront picks changes up within a few minutes.",
+      "save": "Save",
+      "create": "Create banner",
+      "saving": "Saving…",
+      "saved": "Saved."
+    },
+    "delete": {
+      "button": "Delete banner",
+      "title": "Delete this banner?",
+      "description": "The slide is removed from the hero for good. Its image stays in the media library.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "tooLong": "This text is too long.",
+      "invalidUrl": "Enter a page of the site starting with / or a full https:// address.",
+      "collectionRequired": "Choose a collection.",
+      "titleRequired": "A link banner needs a Ukrainian title.",
+      "imageRequired": "Upload a banner image.",
+      "invalidSchedule": "The end must be after the start.",
+      "mediaNotFound": "The image was deleted from the library. Upload it again.",
+      "collectionNotFound": "This collection no longer exists. Choose another one.",
+      "forbidden": "You do not have access to change banners.",
+      "notFound": "This banner no longer exists.",
+      "tooManyRequests": "Too many requests. Wait a minute and try again.",
+      "serverError": "Something went wrong. Try again later.",
+      "stale": "The banners changed meanwhile. Reload the page and try again."
+    }
   }
 }
