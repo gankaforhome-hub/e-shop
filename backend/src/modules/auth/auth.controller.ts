@@ -125,6 +125,21 @@ export class AuthController {
     return { message: 'Password changed, sign in again' };
   }
 
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('accept-invite')
+  @ApiOperation({
+    summary:
+      'accept a CMS invitation: set the password with the token from the link',
+    description:
+      'Also confirms the email. Ends every session of the user. An existing password is replaced.',
+  })
+  async acceptInvite(@Body() dto: ResetPasswordDto): Promise<MessageResponse> {
+    await this.accountService.acceptStaffInvite(dto);
+    return { message: 'Password set, sign in to the CMS' };
+  }
+
   @ApiBearerAuth()
   @AnyAudience()
   @Throttle(STRICT_THROTTLE)

@@ -244,6 +244,109 @@ export class StaffRepository {
     ]);
   }
 
+  //COMMENT every staff member, newest first; the password hash never leaves this method
+  async listTeam() {
+    const accounts = await this.db.staffAccount.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+            password: true,
+            emailVerifiedAt: true,
+            _count: { select: { webAuthnCredentials: true } },
+          },
+        },
+      },
+    });
+
+    return accounts.map(({ user, ...account }) => ({
+      ...account,
+      email: user.email,
+      name: user.name,
+      hasPassword: user.password !== null,
+      emailVerified: user.emailVerifiedAt !== null,
+      hasKey: user._count.webAuthnCredentials > 0,
+    }));
+  }
+
+  findUserByEmailWithStaff(email: string) {
+    return this.db.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        password: true,
+        emailVerifiedAt: true,
+        staffAccount: true,
+      },
+    });
+  }
+
+  /**
+   * Creates the user when the address is new, gives the role approved by the inviter and
+   * returns a one-time link token. Accepting it sets the password and confirms the email.
+   */
+  async invite(
+    email: string,
+    role: E_StaffRole,
+    lifetimeMs: number,
+    audit: Omit<IAuditEntry, 'targetId'> & { actorId: string },
+  ): Promise<{ userId: string; token: string }> {
+    const token = generateToken();
+    const now = new Date();
+
+    const userId = await this.db.$transaction(async tx => {
+      const { id } = await tx.user.upsert({
+        where: { email },
+        create: { email },
+        update: {},
+        select: { id: true },
+      });
+      const approval = { approvedAt: now, approvedById: audit.actorId };
+      await tx.staffAccount.upsert({
+        where: { userId: id },
+        create: { userId: id, role, ...approval },
+        update: { role, revokedAt: null, ...approval },
+      });
+      await tx.oneTimeToken.deleteMany({
+        where: {
+          userId: id,
+          purpose: {
+            in: [
+              E_OneTimeTokenPurpose.STAFF_INVITE,
+              E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+              E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
+            ],
+          },
+        },
+      });
+      await tx.oneTimeToken.create({
+        data: {
+          hash: hashToken(token),
+          userId: id,
+          purpose: E_OneTimeTokenPurpose.STAFF_INVITE,
+          expires: new Date(now.getTime() + lifetimeMs),
+        },
+      });
+      await tx.auditLog.create({ data: { ...audit, targetId: id } });
+      return id;
+    });
+
+    return { userId, token };
+  }
+
+  async changeRole(
+    userId: string,
+    role: E_StaffRole,
+    audit: IAuditEntry,
+  ): Promise<void> {
+    await this.db.$transaction([
+      this.db.staffAccount.update({ where: { userId }, data: { role } }),
+      this.db.auditLog.create({ data: audit }),
+    ]);
+  }
+
   //COMMENT access ends at once: every session and pending enrollment of the user goes too
   async revoke(userId: string, audit: IAuditEntry): Promise<void> {
     await this.db.$transaction([
@@ -253,7 +356,15 @@ export class StaffRepository {
       }),
       this.db.token.deleteMany({ where: { userId } }),
       this.db.oneTimeToken.deleteMany({
-        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT },
+        where: {
+          userId,
+          purpose: {
+            in: [
+              E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
+              E_OneTimeTokenPurpose.STAFF_INVITE,
+            ],
+          },
+        },
       }),
       this.db.auditLog.create({ data: audit }),
     ]);

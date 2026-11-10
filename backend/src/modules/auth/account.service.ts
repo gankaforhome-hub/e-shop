@@ -142,6 +142,32 @@ export class AccountService {
     this.mailService.sendPasswordChanged(user.email);
   }
 
+  //COMMENT the same as a password reset: the link proves the mailbox, so it also confirms the email
+  async acceptStaffInvite({
+    token,
+    password,
+  }: ResetPasswordDto): Promise<void> {
+    const oneTimeToken = await this.authRepository.findOneTimeToken(
+      token,
+      E_OneTimeTokenPurpose.STAFF_INVITE,
+    );
+    const user =
+      oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
+
+    if (!oneTimeToken || !user) {
+      throw new BadRequestException(INVALID_TOKEN_MESSAGE);
+    }
+
+    const isCompleted = await this.authRepository.completePasswordReset(
+      oneTimeToken,
+      await this.passwordService.getHashPassword(password),
+    );
+    if (!isCompleted) {
+      throw new BadRequestException(INVALID_TOKEN_MESSAGE);
+    }
+    await this.userService.clearCache(user.id);
+  }
+
   async changePassword(
     actor: IAuthUser,
     { currentPassword, newPassword }: ChangePasswordDto,

@@ -37,6 +37,14 @@ export class MailService {
     });
   }
 
+  sendStaffInvite(to: string, token: string): void {
+    this.send({
+      to,
+      subject: 'You are invited to Ganka CMS',
+      text: `You were given access to the Ganka for Home admin panel. Open this link to set your password:\n${this.buildLink('/accept-invite', token)}\n\nThe link is valid for 7 days. If you did not expect it, ignore this message.`,
+    });
+  }
+
   sendAccountExists(to: string): void {
     this.send({
       to,

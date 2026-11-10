@@ -25,6 +25,7 @@ enum E_OneTimeTokenPurpose {
   EMAIL_CHANGE_OLD
   EMAIL_CHANGE_NEW
   STAFF_ENROLLMENT
+  STAFF_INVITE
 
   @@map("one_time_token_purpose")
 }
