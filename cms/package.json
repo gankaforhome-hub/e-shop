@@ -18,6 +18,9 @@
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
