@@ -6,6 +6,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { DatabaseModule } from '@database/database.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { BannerModule } from '@modules/banner/banner.module';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { CollectionModule } from '@modules/collection/collection.module';
 import { CookieModule } from '@modules/cookie/cookie.module';
@@ -25,6 +26,7 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     MediaModule,
     CollectionModule,
+    BannerModule,
   ],
   providers: [
     Logger,

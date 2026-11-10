@@ -210,27 +210,24 @@ model SeasonTranslation {
 
 // Kebab-case slug CHECK lives in the migration. New rows stay hidden until isActive is set
 model Collection {
-  id              String                  @id @default(uuid())
-  slug            String                  @unique @db.VarChar(100)
-  sortOrder       Int                     @default(0) @map("sort_order")
-  isActive        Boolean                 @default(false) @map("is_active")
-  skuPrefix       String?                 @unique @map("sku_prefix") @db.VarChar(8)
-  seasonSlug      String?                 @map("season_slug") @db.VarChar(50)
+  id           String                  @id @default(uuid())
+  slug         String                  @unique @db.VarChar(100)
+  sortOrder    Int                     @default(0) @map("sort_order")
+  isActive     Boolean                 @default(false) @map("is_active")
+  // Three digits in creation order (001, 002, …) from a sequence that never reuses a number.
+  // CHECK (three digits) and the sequence live in the migrations
+  skuPrefix    String                  @unique @default(dbgenerated("lpad((nextval('collection_sku_prefix_seq'::regclass))::text, 3, '0'::text)")) @map("sku_prefix") @db.VarChar(3)
+  seasonSlug   String?                 @map("season_slug") @db.VarChar(50)
   // Media in use can't be deleted (Restrict), the API answers 409
   // Card image, close to square
-  coverImageId    String?                 @map("cover_image_id")
-  // Wide 16:9 image for the home hero and banners
-  bannerImageId   String?                 @map("banner_image_id")
-  // Shown in the home hero. CHECK in the migration: only with a banner image
-  inBanner        Boolean                 @default(false) @map("in_banner")
-  // Hero order, set in the CMS; ties (all 0 by default) fall back to sortOrder
-  bannerSortOrder Int                     @default(0) @map("banner_sort_order")
-  createdAt       DateTime                @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt       DateTime                @updatedAt @map("updated_at") @db.Timestamptz()
-  season          Season?                 @relation(fields: [seasonSlug], references: [slug], onDelete: SetNull, onUpdate: Cascade)
-  coverImage      Media?                  @relation("CollectionCover", fields: [coverImageId], references: [id], onDelete: Restrict)
-  bannerImage     Media?                  @relation("CollectionBanner", fields: [bannerImageId], references: [id], onDelete: Restrict)
-  translations    CollectionTranslation[]
+  coverImageId String?                 @map("cover_image_id")
+  createdAt    DateTime                @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime                @updatedAt @map("updated_at") @db.Timestamptz()
+  season       Season?                 @relation(fields: [seasonSlug], references: [slug], onDelete: SetNull, onUpdate: Cascade)
+  coverImage   Media?                  @relation("CollectionCover", fields: [coverImageId], references: [id], onDelete: Restrict)
+  translations CollectionTranslation[]
+  // Home hero slides that link here; a linked collection can't be deleted (Restrict)
+  banners      Banner[]
 
   @@index([isActive, sortOrder])
   @@map("collections")
@@ -245,12 +242,62 @@ model CollectionTranslation {
   description      String     @db.Text
   metaTitle        String?    @map("meta_title") @db.VarChar(120)
   metaDescription  String?    @map("meta_description") @db.VarChar(320)
-  // Line above the title on the hero slide, e.g. "нова колекція"
-  bannerSubtitle   String?    @map("banner_subtitle") @db.VarChar(80)
   collection       Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 
   @@id([collectionId, languageCode])
   @@map("collection_translations")
+}
+
+// Where a home hero slide leads
+enum E_BannerLinkType {
+  COLLECTION
+  URL
+
+  @@map("banner_link_type")
+}
+
+// A home hero slide, independent of collections: own image, texts, link, order and optional
+// schedule. CHECKs in the migration: the link matches linkType, endsAt > startsAt, url shape
+model Banner {
+  id           String              @id @default(uuid())
+  linkType     E_BannerLinkType    @map("link_type")
+  // COLLECTION: the collection; its title is the fallback when the slide has none
+  collectionId String?             @map("collection_id")
+  // URL: an internal path (/products) or an https:// link
+  url          String?             @db.VarChar(500)
+  // Wide 16:9 image; media in use can't be deleted (Restrict)
+  imageId      String              @map("image_id")
+  isActive     Boolean             @default(false) @map("is_active")
+  // Hero order, ascending; a new slide goes last
+  sortOrder    Int                 @default(0) @map("sort_order")
+  // Optional schedule: no date, no limit
+  startsAt     DateTime?           @map("starts_at") @db.Timestamptz()
+  endsAt       DateTime?           @map("ends_at") @db.Timestamptz()
+  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime            @updatedAt @map("updated_at") @db.Timestamptz()
+  collection   Collection?         @relation(fields: [collectionId], references: [id], onDelete: Restrict)
+  image        Media               @relation(fields: [imageId], references: [id], onDelete: Restrict)
+  translations BannerTranslation[]
+
+  @@index([isActive, sortOrder])
+  @@index([collectionId])
+  @@map("banners")
+}
+
+// Texts of a slide per language; every field optional (fallbacks in the API)
+model BannerTranslation {
+  bannerId     String   @map("banner_id")
+  languageCode E_Locale @map("language_code")
+  // Empty for a collection slide: the collection title is used
+  title        String?  @db.VarChar(150)
+  // Line above the title, e.g. "нова колекція"
+  subtitle     String?  @db.VarChar(80)
+  // Button text; empty: the storefront's default for the link type
+  ctaLabel     String?  @map("cta_label") @db.VarChar(40)
+  banner       Banner   @relation(fields: [bannerId], references: [id], onDelete: Cascade)
+
+  @@id([bannerId, languageCode])
+  @@map("banner_translations")
 }
 
 // One uploaded image, stored as WebP variants under media/<checksum>/<width>.webp
@@ -277,7 +324,7 @@ model Media {
   createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt    DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
   coverFor     Collection[] @relation("CollectionCover")
-  bannerFor    Collection[] @relation("CollectionBanner")
+  bannerFor    Banner[]
 
   @@map("media")
 }

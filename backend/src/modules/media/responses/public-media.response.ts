@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class MediaVariantResponse {
+export class PublicMediaVariantResponse {
   @ApiProperty({ description: 'Variant width, px' })
   width: number;
 
@@ -11,7 +11,8 @@ export class MediaVariantResponse {
   src: string;
 }
 
-export class CollectionMediaResponse {
+// Storefront shape of an image (collections, banners): no storage keys or upload data
+export class PublicMediaResponse {
   @ApiProperty({ description: 'Media id' })
   id: string;
 
@@ -19,7 +20,8 @@ export class CollectionMediaResponse {
   src: string;
 
   @ApiProperty({
-    description: 'Alternative text; the localized collection title if unset',
+    description:
+      'Alternative text; the localized title of what it shows if unset',
   })
   alt: string;
 
@@ -56,7 +58,7 @@ export class CollectionMediaResponse {
 
   @ApiProperty({
     description: 'All variants, narrowest first',
-    type: [MediaVariantResponse],
+    type: [PublicMediaVariantResponse],
   })
-  variants: MediaVariantResponse[];
+  variants: PublicMediaVariantResponse[];
 }

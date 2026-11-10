@@ -7,7 +7,7 @@ const ADMIN_INCLUDE = {
   // Enum order: uk first
   translations: { orderBy: { languageCode: 'asc' } },
   coverImage: true,
-  bannerImage: true,
+  _count: { select: { banners: true } },
 } satisfies Prisma.CollectionInclude;
 
 export type AdminCollection = Prisma.CollectionGetPayload<{
@@ -60,21 +60,15 @@ export class AdminCollectionRepository {
     return (await this.db.season.count({ where: { slug } })) > 0;
   }
 
-  async findConflict(
-    { slug, skuPrefix }: { slug?: string; skuPrefix?: string | null },
-    exceptId?: string,
-  ): Promise<'slug' | 'skuPrefix' | null> {
-    const or: Prisma.CollectionWhereInput[] = [];
-    if (slug) or.push({ slug });
-    if (skuPrefix) or.push({ skuPrefix });
-    if (or.length === 0) return null;
-
-    const taken = await this.db.collection.findFirst({
-      where: { OR: or, ...(exceptId && { id: { not: exceptId } }) },
-      select: { slug: true, skuPrefix: true },
+  async slugTaken(slug: string, exceptId?: string): Promise<boolean> {
+    const count = await this.db.collection.count({
+      where: { slug, ...(exceptId && { id: { not: exceptId } }) },
     });
-    if (!taken) return null;
-    return slug && taken.slug === slug ? 'slug' : 'skuPrefix';
+    return count > 0;
+  }
+
+  countAll(): Promise<number> {
+    return this.db.collection.count();
   }
 
   async countByIds(ids: string[]): Promise<number> {
@@ -118,13 +112,14 @@ export class AdminCollectionRepository {
     });
   }
 
-  async setBannerOrder(
-    items: { id: string; bannerSortOrder: number }[],
-    audit: IAuditEntry,
-  ): Promise<void> {
+  // sortOrder = position in the list, 1-based
+  async setOrder(ids: string[], audit: IAuditEntry): Promise<void> {
     await this.db.$transaction([
-      ...items.map(({ id, bannerSortOrder }) =>
-        this.db.collection.update({ where: { id }, data: { bannerSortOrder } }),
+      ...ids.map((id, index) =>
+        this.db.collection.update({
+          where: { id },
+          data: { sortOrder: index + 1 },
+        }),
       ),
       this.db.auditLog.create({ data: audit }),
     ]);

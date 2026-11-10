@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-// Prefixed: collection responses already have a MediaVariantResponse schema
+// Prefixed: the storefront shape is PublicMediaVariantResponse
 export class AdminMediaVariantResponse {
   @ApiProperty({ description: 'Variant width, px' })
   width: number;

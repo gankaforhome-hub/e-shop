@@ -9,7 +9,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  BannerOrderDto,
+  CollectionOrderDto,
   CollectionTranslationDto,
   CreateCollectionDto,
   UpdateCollectionDto,
@@ -33,18 +33,12 @@ const NOT_NULLABLE = [
   'slug',
   'sortOrder',
   'isActive',
-  'inBanner',
-  'bannerSortOrder',
 ] as const satisfies (keyof CollectionCoreDto)[];
-
-const BANNER_REQUIRED =
-  'A collection can be in the hero only with a banner image: set bannerImageId or turn inBanner off';
 
 // A translation replaces the row as a whole, so omitted optional fields are cleared
 const toTranslationData = (t: CollectionTranslationDto): TranslationData => ({
   metaTitle: null,
   metaDescription: null,
-  bannerSubtitle: null,
   ...t,
 });
 
@@ -70,9 +64,6 @@ export class AdminCollectionService {
     { actorId, ip }: ICollectionActor,
   ): Promise<AdminCollectionResponse> {
     await this.assertReferences(core);
-    if (core.inBanner && !core.bannerImageId) {
-      throw new BadRequestException(BANNER_REQUIRED);
-    }
     await this.assertUnique(core);
 
     const id = await this.repository
@@ -100,16 +91,6 @@ export class AdminCollectionService {
     }
     await this.assertReferences(core);
 
-    //COMMENT the state after this PATCH, so both turning inBanner on and removing the
-    //banner image are caught before the database CHECK
-    const inBanner = core.inBanner ?? current.inBanner;
-    const bannerImageId =
-      core.bannerImageId !== undefined
-        ? core.bannerImageId
-        : current.bannerImageId;
-    if (inBanner && !bannerImageId) {
-      throw new BadRequestException(BANNER_REQUIRED);
-    }
     await this.assertUnique(core, id);
 
     await this.repository
@@ -129,31 +110,39 @@ export class AdminCollectionService {
     return this.findOne(id);
   }
 
-  async setBannerOrder(
-    { items }: BannerOrderDto,
+  //COMMENT the whole list in its new order: a stale list (someone added or removed a
+  //COMMENT collection meanwhile) is refused instead of leaving gaps
+  async setOrder(
+    { ids }: CollectionOrderDto,
     { actorId, ip }: ICollectionActor,
   ): Promise<void> {
-    const ids = items.map(item => item.id);
-    if ((await this.repository.countByIds(ids)) !== ids.length) {
-      throw new BadRequestException('items contain an unknown collection id');
+    const total = await this.repository.countAll();
+    if (
+      ids.length !== total ||
+      (await this.repository.countByIds(ids)) !== total
+    ) {
+      throw new BadRequestException(
+        'ids must list every collection exactly once',
+      );
     }
-    await this.repository.setBannerOrder(items, {
+    await this.repository.setOrder(ids, {
       actorId,
       ip,
-      action: 'collection.banner_order',
-      meta: {
-        items: items.map(({ id, bannerSortOrder }) => ({
-          id,
-          bannerSortOrder,
-        })),
-      },
+      action: 'collection.reorder',
+      meta: { ids },
     });
     this.notifyStorefront();
   }
 
   //COMMENT translations go by cascade; media stays in the library
   async remove(id: string, { actorId, ip }: ICollectionActor): Promise<void> {
-    const { slug } = await this.getOrThrow(id);
+    const { slug, _count } = await this.getOrThrow(id);
+    //COMMENT a hero slide would lose its link: the banner is changed or removed first
+    if (_count.banners > 0) {
+      throw new ConflictException(
+        `The collection is used by ${_count.banners} banner(s)`,
+      );
+    }
     await this.repository
       .delete(id, {
         actorId,
@@ -166,9 +155,11 @@ export class AdminCollectionService {
     this.notifyStorefront(slug);
   }
 
+  // Banners take their fallback title and visibility from the collection
   private notifyStorefront(...slugs: (string | null | undefined)[]) {
     this.revalidation.notify([
       storefrontTags.collections,
+      storefrontTags.banners,
       ...slugs
         .filter((slug): slug is string => !!slug)
         .map(storefrontTags.collection),
@@ -184,19 +175,12 @@ export class AdminCollectionService {
   // Unknown media or season is a client error (400), not a missing route (404)
   private async assertReferences({
     coverImageId,
-    bannerImageId,
     seasonSlug,
   }: CollectionCoreDto) {
-    const mediaIds = [coverImageId, bannerImageId].filter(
-      (id): id is string => !!id,
-    );
-    if (mediaIds.length > 0) {
-      const existing = await this.repository.existingMediaIds(mediaIds);
-      if (coverImageId && !existing.has(coverImageId)) {
+    if (coverImageId) {
+      const existing = await this.repository.existingMediaIds([coverImageId]);
+      if (!existing.has(coverImageId)) {
         throw new BadRequestException('coverImageId: media not found');
-      }
-      if (bannerImageId && !existing.has(bannerImageId)) {
-        throw new BadRequestException('bannerImageId: media not found');
       }
     }
     if (seasonSlug && !(await this.repository.seasonExists(seasonSlug))) {
@@ -204,21 +188,25 @@ export class AdminCollectionService {
     }
   }
 
-  private async assertUnique(
-    { slug, skuPrefix }: CollectionCoreDto,
-    exceptId?: string,
-  ) {
-    const taken = await this.repository.findConflict(
-      { slug: slug ?? undefined, skuPrefix },
-      exceptId,
-    );
-    if (taken) throw new ConflictException(`${taken} is already taken`);
+  private async assertUnique({ slug }: CollectionCoreDto, exceptId?: string) {
+    if (slug && (await this.repository.slugTaken(slug, exceptId))) {
+      throw new ConflictException('slug is already taken');
+    }
   }
 
   //COMMENT the same checks lost a race with another request
   private rethrow(error: unknown): never {
     if (isPrismaError(error, 'P2002')) {
-      throw new ConflictException('slug or skuPrefix is already taken');
+      throw new ConflictException('slug is already taken');
+    }
+    //COMMENT the SKU prefix sequence stops at 999 (three digits)
+    if (
+      error instanceof Error &&
+      error.message.includes('collection_sku_prefix_seq')
+    ) {
+      throw new ConflictException(
+        'No free collection SKU prefix: 001-999 are all used',
+      );
     }
     if (isPrismaError(error, 'P2003')) {
       throw new BadRequestException('A referenced media or season is gone');
@@ -237,14 +225,10 @@ export class AdminCollectionService {
       isActive: collection.isActive,
       skuPrefix: collection.skuPrefix,
       seasonSlug: collection.seasonSlug,
-      inBanner: collection.inBanner,
-      bannerSortOrder: collection.bannerSortOrder,
       coverImage:
         collection.coverImage &&
         this.mediaService.toResponse(collection.coverImage),
-      bannerImage:
-        collection.bannerImage &&
-        this.mediaService.toResponse(collection.bannerImage),
+      bannerCount: collection._count.banners,
       translations: collection.translations.map(t => ({
         languageCode: t.languageCode,
         title: t.title,
@@ -252,7 +236,6 @@ export class AdminCollectionService {
         description: t.description,
         metaTitle: t.metaTitle,
         metaDescription: t.metaDescription,
-        bannerSubtitle: t.bannerSubtitle,
       })),
       createdAt: collection.createdAt,
       updatedAt: collection.updatedAt,

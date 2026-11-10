@@ -10,7 +10,6 @@ const withTranslations = (locales: E_Locale[]) =>
       include: { translations: { where: { languageCode: { in: locales } } } },
     },
     coverImage: true,
-    bannerImage: true,
   }) satisfies Prisma.CollectionInclude;
 
 export type CollectionWithRelations = Prisma.CollectionGetPayload<{
@@ -29,19 +28,6 @@ export class CollectionRepository {
     return this.db.collection.findMany({
       where: { isActive: true },
       orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
-      include: withTranslations(locales),
-    });
-  }
-
-  //COMMENT the banner image is guaranteed by a CHECK on in_banner
-  findInBanner(locales: E_Locale[]): Promise<CollectionWithRelations[]> {
-    return this.db.collection.findMany({
-      where: { isActive: true, inBanner: true },
-      orderBy: [
-        { bannerSortOrder: 'asc' },
-        { sortOrder: 'asc' },
-        { slug: 'asc' },
-      ],
       include: withTranslations(locales),
     });
   }

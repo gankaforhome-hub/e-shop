@@ -2,4 +2,6 @@
 export const storefrontTags = {
   collections: 'collections',
   collection: (slug: string) => `collection-${slug}`,
+  seasons: 'seasons',
+  banners: 'banners',
 } as const;

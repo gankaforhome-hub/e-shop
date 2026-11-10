@@ -57,15 +57,4 @@ export class CollectionTranslationDto {
   @IsString()
   @MaxLength(320)
   metaDescription?: string | null;
-
-  @ApiPropertyOptional({
-    description: 'Line above the title on the hero slide',
-    type: String,
-    nullable: true,
-    maxLength: 80,
-  })
-  @IsOptional()
-  @IsString()
-  @MaxLength(80)
-  bannerSubtitle?: string | null;
 }

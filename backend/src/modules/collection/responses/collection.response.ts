@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CollectionMediaResponse } from './collection-media.response';
+import { PublicMediaResponse } from '@modules/media/responses';
 import { CollectionSeasonResponse } from './season.response';
 
 export class CollectionSeoResponse {
@@ -26,11 +26,11 @@ export class CollectionResponse {
   sortOrder: number;
 
   @ApiProperty({
-    description: 'Collection segment of generated SKUs',
-    type: String,
-    nullable: true,
+    description:
+      'Collection segment of generated SKUs: three digits in creation order',
+    example: '007',
   })
-  skuPrefix: string | null;
+  skuPrefix: string;
 
   @ApiProperty({
     description: 'Season the collection belongs to',
@@ -56,34 +56,8 @@ export class CollectionResponse {
 
   @ApiProperty({
     description: 'Cover image for cards, close to square',
-    type: CollectionMediaResponse,
+    type: PublicMediaResponse,
     nullable: true,
   })
-  media: CollectionMediaResponse | null;
-
-  @ApiProperty({
-    description: 'Wide 16:9 image for the home hero and banners',
-    type: CollectionMediaResponse,
-    nullable: true,
-  })
-  banner: CollectionMediaResponse | null;
-
-  @ApiProperty({
-    description:
-      'Shown in the home hero (GET /collections/banners); always has a banner image',
-  })
-  inBanner: boolean;
-
-  @ApiProperty({
-    description: 'Position in the hero, ascending; ties follow sortOrder',
-  })
-  bannerSortOrder: number;
-
-  @ApiProperty({
-    description: 'Localized line above the title on the hero slide',
-    type: String,
-    nullable: true,
-    example: 'нова колекція',
-  })
-  bannerSubtitle: string | null;
+  media: PublicMediaResponse | null;
 }

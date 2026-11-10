@@ -32,6 +32,7 @@ import {
   CropDataResponse,
   MediaListResponse,
   MediaResponse,
+  PublicMediaResponse,
 } from './responses';
 
 const WEBP = 'image/webp';
@@ -202,6 +203,30 @@ export class MediaService {
   //COMMENT Prisma types Json loosely; only the media pipeline writes this column
   private storedVariants(media: Media) {
     return media.variants as unknown as IStoredMediaVariant[];
+  }
+
+  //COMMENT the storefront shape (collections, banners); alt falls back to what the image shows
+  toPublicResponse(media: Media, fallbackAlt: string): PublicMediaResponse {
+    const variants = this.storedVariants(media).map(
+      ({ width, height, key }) => ({
+        width,
+        height,
+        src: this.storage.publicUrl(key),
+      }),
+    );
+
+    return {
+      id: media.id,
+      src: variants[variants.length - 1].src,
+      alt: media.alt ?? fallbackAlt,
+      width: media.width,
+      height: media.height,
+      blurDataUrl: media.blurDataUrl,
+      focalX: media.focalX,
+      focalY: media.focalY,
+      objectPosition: toObjectPosition(media.focalX, media.focalY),
+      variants,
+    };
   }
 
   //COMMENT public: the CMS collection responses embed media in the same shape

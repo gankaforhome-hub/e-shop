@@ -2,16 +2,17 @@ import 'dotenv/config';
 import { readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { E_Locale, PrismaClient } from '@prisma/client';
+import { E_BannerLinkType, E_Locale, PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { mediaKey } from '../src/modules/media/lib/media.util';
 import { processImage } from '../src/modules/media/lib/process-image';
 import { createSupabaseMediaStorage } from '../src/modules/media/storage/supabase-media.storage';
+import { SEED_BANNERS } from './seed-data/banners';
 import { SEED_COLLECTIONS, SEED_SEASONS } from './seed-data/collections';
 import { SEED_USERS } from './seed-data/users';
 
 /**
- * Development data: seasons, collections with their covers, and test accounts.
+ * Development data: seasons, collections with their covers, home hero banners and test accounts.
  * Idempotent: rows are matched by slug / checksum / email, nothing missing from
  * seed-data is deleted. Seasons and collections are reset to the seed values;
  * media keeps its alt and focal point, existing accounts are left as they are.
@@ -32,7 +33,7 @@ function requireEnv(name: string) {
   return value;
 }
 
-// Uploads every variant of each cover and returns Media ids by file path
+// Uploads every variant of each cover and banner image and returns Media ids by file path
 async function seedMedia() {
   const storage = createSupabaseMediaStorage({
     url: requireEnv('SUPABASE_URL'),
@@ -40,11 +41,10 @@ async function seedMedia() {
     bucket: requireEnv('MEDIA_BUCKET'),
   });
   const files = [
-    ...new Set(
-      SEED_COLLECTIONS.flatMap(c =>
-        c.bannerImage ? [c.coverImage, c.bannerImage] : [c.coverImage],
-      ),
-    ),
+    ...new Set([
+      ...SEED_COLLECTIONS.map(c => c.coverImage),
+      ...SEED_BANNERS.map(b => b.image),
+    ]),
   ];
   const mediaIdByFile = new Map<string, string>();
   let uploadedFiles = 0;
@@ -110,11 +110,6 @@ async function seedCollections(mediaIdByFile: Map<string, string>) {
       isActive: true,
       seasonSlug: collection.seasonSlug,
       coverImageId: mediaIdByFile.get(collection.coverImage),
-      bannerImageId: collection.bannerImage
-        ? mediaIdByFile.get(collection.bannerImage)
-        : null,
-      inBanner: collection.inBanner ?? false,
-      bannerSortOrder: collection.bannerSortOrder ?? 0,
     };
     const { id: collectionId } = await prisma.collection.upsert({
       where: { slug: collection.slug },
@@ -122,14 +117,52 @@ async function seedCollections(mediaIdByFile: Map<string, string>) {
       update: data,
     });
     for (const languageCode of LOCALES) {
-      const translation = {
-        bannerSubtitle: null,
-        ...collection.translations[languageCode],
-      };
+      const translation = collection.translations[languageCode];
       await prisma.collectionTranslation.upsert({
         where: { collectionId_languageCode: { collectionId, languageCode } },
         create: { collectionId, languageCode, ...translation },
         update: translation,
+      });
+    }
+  }
+}
+
+// A banner is matched by its collection and image (it has no slug); the seed values win
+async function seedBanners(mediaIdByFile: Map<string, string>) {
+  for (const [index, banner] of SEED_BANNERS.entries()) {
+    const collection = await prisma.collection.findUnique({
+      where: { slug: banner.collectionSlug },
+      select: { id: true },
+    });
+    const imageId = mediaIdByFile.get(banner.image);
+    if (!collection || !imageId) {
+      throw new Error(
+        `Seed banner ${banner.collectionSlug}: collection or image missing`,
+      );
+    }
+
+    const data = {
+      linkType: E_BannerLinkType.COLLECTION,
+      collectionId: collection.id,
+      url: null,
+      imageId,
+      isActive: true,
+      sortOrder: index + 1,
+    };
+    const existing = await prisma.banner.findFirst({
+      where: { collectionId: collection.id, imageId },
+      select: { id: true },
+    });
+    const { id: bannerId } = existing
+      ? await prisma.banner.update({ where: { id: existing.id }, data })
+      : await prisma.banner.create({ data });
+
+    for (const languageCode of LOCALES) {
+      const texts = { subtitle: banner.subtitles[languageCode] };
+      await prisma.bannerTranslation.upsert({
+        where: { bannerId_languageCode: { bannerId, languageCode } },
+        create: { bannerId, languageCode, ...texts },
+        update: texts,
       });
     }
   }
@@ -172,19 +205,23 @@ async function main() {
   const { mediaIdByFile, uploadedFiles } = await seedMedia();
   await seedSeasons();
   await seedCollections(mediaIdByFile);
+  await seedBanners(mediaIdByFile);
   const users = await seedUsers();
 
-  const [seasons, collections, translations, media] = await Promise.all([
-    prisma.season.count(),
-    prisma.collection.count(),
-    prisma.collectionTranslation.count(),
-    prisma.media.count(),
-  ]);
+  const [seasons, collections, translations, banners, media] =
+    await Promise.all([
+      prisma.season.count(),
+      prisma.collection.count(),
+      prisma.collectionTranslation.count(),
+      prisma.banner.count(),
+      prisma.media.count(),
+    ]);
   console.log(`
 Seed finished.
   Seasons                  ${seasons}
   Collections              ${collections}
   Collection translations  ${translations}
+  Banners                  ${banners}
   Media                    ${media}
   Files uploaded           ${uploadedFiles}
   Dev accounts             ${users}

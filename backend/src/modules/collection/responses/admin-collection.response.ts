@@ -28,13 +28,6 @@ export class AdminCollectionTranslationResponse {
     nullable: true,
   })
   metaDescription: string | null;
-
-  @ApiProperty({
-    description: 'Line above the title on the hero slide',
-    type: String,
-    nullable: true,
-  })
-  bannerSubtitle: string | null;
 }
 
 // Everything the CMS edits, inactive collections included; texts in every language
@@ -52,20 +45,14 @@ export class AdminCollectionResponse {
   isActive: boolean;
 
   @ApiProperty({
-    description: 'Collection segment of generated SKUs',
-    type: String,
-    nullable: true,
+    description:
+      'Collection segment of generated SKUs: three digits in creation order',
+    example: '007',
   })
-  skuPrefix: string | null;
+  skuPrefix: string;
 
   @ApiProperty({ description: 'Season slug', type: String, nullable: true })
   seasonSlug: string | null;
-
-  @ApiProperty({ description: 'Shown in the home hero' })
-  inBanner: boolean;
-
-  @ApiProperty({ description: 'Position in the hero, ascending' })
-  bannerSortOrder: number;
 
   @ApiProperty({
     description: 'Card image',
@@ -75,11 +62,10 @@ export class AdminCollectionResponse {
   coverImage: MediaResponse | null;
 
   @ApiProperty({
-    description: 'Wide 16:9 image',
-    type: MediaResponse,
-    nullable: true,
+    description:
+      'Home hero banners that link to the collection; it can be deleted only at 0',
   })
-  bannerImage: MediaResponse | null;
+  bannerCount: number;
 
   @ApiProperty({
     description: 'Texts in every language, uk first',

@@ -27,7 +27,7 @@ import {
 import { E_AuthAudience, E_StaffRole } from '@prisma/client';
 import { AdminCollectionService } from './admin-collection.service';
 import {
-  BannerOrderDto,
+  CollectionOrderDto,
   CreateCollectionDto,
   UpdateCollectionDto,
 } from './dto';
@@ -64,10 +64,11 @@ export class AdminCollectionController {
   @ApiOperation({ summary: 'Create a collection' })
   @ApiCreatedResponse({ type: AdminCollectionResponse })
   @ApiBadRequestResponse({
-    description:
-      'Invalid body, unknown media or season, inBanner without a banner',
+    description: 'Invalid body, unknown media or season',
   })
-  @ApiConflictResponse({ description: 'slug or skuPrefix is already taken' })
+  @ApiConflictResponse({
+    description: 'slug is already taken, or no SKU prefix is left (001-999)',
+  })
   create(
     @Body() dto: CreateCollectionDto,
     @CurrentUser('id') actorId: string,
@@ -76,22 +77,24 @@ export class AdminCollectionController {
     return this.service.create(dto, { actorId, ip });
   }
 
-  //COMMENT declared before :id, so "banner-order" is not parsed as an id
-  @Patch('banner-order')
+  //COMMENT declared before :id, so "order" is not parsed as an id
+  @Patch('order')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: 'Reorder hero slides',
+    summary: 'Reorder collections',
     description:
-      'Sets bannerSortOrder of the listed collections in one transaction',
+      'Every collection id in the new order; sortOrder becomes the 1-based position',
   })
   @ApiNoContentResponse({ description: 'Saved' })
-  @ApiBadRequestResponse({ description: 'Invalid body or unknown id' })
-  setBannerOrder(
-    @Body() dto: BannerOrderDto,
+  @ApiBadRequestResponse({
+    description: 'The list misses, repeats or adds a collection',
+  })
+  setOrder(
+    @Body() dto: CollectionOrderDto,
     @CurrentUser('id') actorId: string,
     @Ip() ip: string,
   ): Promise<void> {
-    return this.service.setBannerOrder(dto, { actorId, ip });
+    return this.service.setOrder(dto, { actorId, ip });
   }
 
   @Patch(':id')
@@ -102,11 +105,12 @@ export class AdminCollectionController {
   })
   @ApiOkResponse({ type: AdminCollectionResponse })
   @ApiBadRequestResponse({
-    description:
-      'Invalid body, unknown media or season, inBanner without a banner',
+    description: 'Invalid body, unknown media or season',
   })
   @ApiNotFoundResponse({ description: 'Unknown collection' })
-  @ApiConflictResponse({ description: 'slug or skuPrefix is already taken' })
+  @ApiConflictResponse({
+    description: 'slug is already taken, or no SKU prefix is left (001-999)',
+  })
   update(
     @UUIDParam('id') id: string,
     @Body() dto: UpdateCollectionDto,
@@ -125,6 +129,7 @@ export class AdminCollectionController {
   })
   @ApiNoContentResponse({ description: 'Deleted' })
   @ApiNotFoundResponse({ description: 'Unknown collection' })
+  @ApiConflictResponse({ description: 'Banners still link to the collection' })
   remove(
     @UUIDParam('id') id: string,
     @CurrentUser('id') actorId: string,

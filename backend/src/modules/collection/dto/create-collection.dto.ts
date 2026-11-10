@@ -22,12 +22,11 @@ import {
 import { CollectionTranslationDto } from './collection-translation.dto';
 
 export const COLLECTION_SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const SKU_PREFIX_PATTERN = /^[A-Z0-9]{1,8}$/;
 const LOCALE_COUNT = Object.values(E_Locale).length;
 
 // The fallback language must always have a text
 @ValidatorConstraint({ name: 'HasUkTranslation', async: false })
-class HasUkTranslationConstraint implements ValidatorConstraintInterface {
+export class HasUkTranslationConstraint implements ValidatorConstraintInterface {
   validate(translations: unknown) {
     return (
       Array.isArray(translations) &&
@@ -42,6 +41,7 @@ class HasUkTranslationConstraint implements ValidatorConstraintInterface {
   }
 }
 
+//COMMENT no skuPrefix: the database assigns it (three digits in creation order) and it never changes
 export class CreateCollectionDto {
   @ApiProperty({
     description: 'URL slug, kebab-case',
@@ -71,18 +71,6 @@ export class CreateCollectionDto {
   isActive?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Collection segment of generated SKUs: A-Z, 0-9, up to 8',
-    type: String,
-    nullable: true,
-    example: 'AGRO',
-  })
-  @IsOptional()
-  @Matches(SKU_PREFIX_PATTERN, {
-    message: 'skuPrefix must be 1-8 characters A-Z or 0-9',
-  })
-  skuPrefix?: string | null;
-
-  @ApiPropertyOptional({
     description: 'Season slug; null removes the season',
     type: String,
     nullable: true,
@@ -101,35 +89,6 @@ export class CreateCollectionDto {
   @IsOptional()
   @IsUUID()
   coverImageId?: string | null;
-
-  @ApiPropertyOptional({
-    description:
-      'Wide 16:9 image (media id); null removes it, not allowed while inBanner',
-    type: String,
-    format: 'uuid',
-    nullable: true,
-  })
-  @IsOptional()
-  @IsUUID()
-  bannerImageId?: string | null;
-
-  @ApiPropertyOptional({
-    description: 'Show in the home hero; needs a banner image',
-    default: false,
-  })
-  @IsOptional()
-  @IsBoolean()
-  inBanner?: boolean;
-
-  @ApiPropertyOptional({
-    description: 'Position in the hero, ascending; ties follow sortOrder',
-    default: 0,
-    minimum: 0,
-  })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  bannerSortOrder?: number;
 
   @ApiProperty({
     description: 'Texts per language, one per languageCode, uk required',

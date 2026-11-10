@@ -25,18 +25,7 @@ export class CollectionController {
     return this.collectionService.findAll(lang ?? E_Locale.uk);
   }
 
-  //COMMENT banners and seasons are declared before :slug, so they are not read as slugs
-  @Get('banners')
-  @ApiOperation({
-    summary: 'Home hero slides',
-    description:
-      'Active collections with inBanner, ordered by bannerSortOrder, then sortOrder',
-  })
-  @ApiOkResponse({ type: [CollectionResponse] })
-  findBanners(@Query() { lang }: CollectionQueryDto) {
-    return this.collectionService.findBanners(lang ?? E_Locale.uk);
-  }
-
+  //COMMENT seasons is declared before :slug, so it is not read as a slug
   @Get('seasons')
   @ApiOperation({ summary: 'Seasons for the catalog filter' })
   @ApiOkResponse({ type: [SeasonResponse] })

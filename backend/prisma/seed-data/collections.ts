@@ -16,8 +16,6 @@ export interface ISeedCollectionTranslation {
   description: string;
   metaTitle: string;
   metaDescription: string;
-  // Hero slide line, from home.json subTitle
-  bannerSubtitle?: string;
 }
 
 export interface ISeedCollection {
@@ -26,11 +24,6 @@ export interface ISeedCollection {
   // Relative to frontend/public. Several collections share a file, so one Media row each;
   // the mock alts ("Agro Collection") are left out: the API falls back to the localized title
   coverImage: string;
-  // Wide 16:9 image, from the home hero slides (dictionaries/*/home.json)
-  bannerImage?: string;
-  // Hero slide, in the home.json order; needs bannerImage (CHECK)
-  inBanner?: boolean;
-  bannerSortOrder?: number;
   translations: Record<E_Locale, ISeedCollectionTranslation>;
 }
 
@@ -350,13 +343,9 @@ export const SEED_COLLECTIONS: ISeedCollection[] = [
     slug: 'konyushina',
     seasonSlug: 'spring',
     coverImage: 'images/hero_image.webp',
-    bannerImage: 'images/hero_image.webp',
-    inBanner: true,
-    bannerSortOrder: 1,
     translations: {
       en: {
         title: 'Konyushina',
-        bannerSubtitle: 'new collection',
         shortDescription:
           'A new collection inspired by meadow clover — delicate botanical motifs for everyday serving.',
         description: `Konyushina (clover) celebrates the quiet beauty of Ukrainian meadows. Soft greens and hand-painted leaves bring a fresh, natural mood to the table.\n\nEach piece is made at our workshop in Ukraine and is designed for both everyday meals and festive gatherings.`,
@@ -365,7 +354,6 @@ export const SEED_COLLECTIONS: ISeedCollection[] = [
       },
       uk: {
         title: 'Конюшина',
-        bannerSubtitle: 'нова колекція',
         shortDescription:
           'Нова колекція, натхненна лучною конюшиною, — ніжні ботанічні мотиви для щоденної сервіровки.',
         description: `Конюшина оспівує тиху красу українських луків. М’які зелені відтінки та розписане вручну листя створюють свіжий, природний настрій за столом.\n\nКожен виріб виготовлено в нашій майстерні в Україні — для щоденних трапез і святкових зустрічей.`,
@@ -379,13 +367,9 @@ export const SEED_COLLECTIONS: ISeedCollection[] = [
     slug: 'winter',
     seasonSlug: 'winter',
     coverImage: 'images/hero_image_2.webp',
-    bannerImage: 'images/hero_image_2.webp',
-    inBanner: true,
-    bannerSortOrder: 2,
     translations: {
       en: {
         title: 'Winter',
-        bannerSubtitle: 'popular collection',
         shortDescription:
           'A popular collection for cosy winter evenings — warm tones and tea-time essentials.',
         description: `Winter gathers everything for slow, warm evenings: teapots, cups and sets in calm, frosty tones.\n\nMade by hand in Ukraine to keep the warmth of home at every tea table.`,
@@ -395,7 +379,6 @@ export const SEED_COLLECTIONS: ISeedCollection[] = [
       },
       uk: {
         title: 'Зима',
-        bannerSubtitle: 'популярна колекція',
         shortDescription:
           'Популярна колекція для затишних зимових вечорів — теплі відтінки та все для чаювання.',
         description: `«Зима» об’єднує все для неспішних теплих вечорів: чайники, чашки та набори у спокійних морозних відтінках.\n\nВиготовлено вручну в Україні, щоб зберігати тепло дому за кожним чайним столом.`,
