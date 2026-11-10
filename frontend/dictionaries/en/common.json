@@ -165,9 +165,11 @@
     "buttonAriaLabel": "Go back to the home page"
   },
   "serverError": {
-    "textError": "Error 500",
-    "pageTitle": "Something went wrong",
-    "description": "The service is temporarily unavailable. It is not your fault, and we are already working on it. Please try again in a few minutes.",
+    "imageSrc": "/images/server-error.webp",
+    "imageAlt": "Snail with error number 503",
+    "textError": "Error 503",
+    "pageTitle": "Service temporarily unavailable",
+    "description": "We are already working on it. Please try again or come back in a few minutes.",
     "retryLabel": "Try again",
     "buttonText": "Back home",
     "buttonAriaLabel": "Go back to the home page"
