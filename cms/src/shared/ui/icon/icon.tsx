@@ -37,6 +37,9 @@ import {
   Sun,
   Tags,
   Trash2,
+  UserPlus,
+  Users,
+  UserX,
   Warehouse,
   X,
   type LucideProps,
@@ -81,6 +84,9 @@ export const ICON_MAP = {
   // System
   settings: Settings,
   account: CircleUserRound,
+  team: Users,
+  invite: UserPlus,
+  revoke: UserX,
   section: SquareStack,
   'sign-out': LogOut,
 
