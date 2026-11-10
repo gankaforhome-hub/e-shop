@@ -67,6 +67,17 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   REVALIDATE_SECRET?: string;
+
+  //COMMENT mail provider; empty or unset means console output (refused in production)
+  @IsOptional()
+  @IsString()
+  RESEND_API_KEY?: string;
+
+  //COMMENT sender, e.g. "Ganka for Home <noreply@example.com>"; the domain must be verified in Resend
+  @ValidateIf((env: EnvironmentVariables) => !!env.RESEND_API_KEY)
+  @IsString()
+  @IsNotEmpty()
+  MAIL_FROM?: string;
 }
 
 //COMMENT fails on startup; the messages name the variable and never contain its value

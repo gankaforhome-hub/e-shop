@@ -63,3 +63,7 @@ services:
         sync: false
       - key: REVALIDATE_SECRET
         sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false
