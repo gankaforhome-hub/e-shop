@@ -1,0 +1,65 @@
+# Render Blueprint for the backend API (https://render.com/docs/blueprint-spec).
+# Secrets (sync: false) are asked once when the Blueprint is created, then edited in the dashboard.
+services:
+  - type: web
+    name: gankaforhome-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    # Deploy only after the GitHub CI checks of the commit are green.
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - backend/**
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+    # --prod=false: the Nest CLI and Prisma are devDependencies and NODE_ENV=production would skip them.
+    buildCommand: pnpm install --frozen-lockfile --prod=false && pnpm bbuild
+    # bstart runs `prisma migrate deploy` first (preDeployCommand is paid plans only).
+    startCommand: pnpm bstart
+    healthCheckPath: /api/server/live
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVER_PORT
+        value: 10000
+      # Render's load balancer sits in front of the API.
+      - key: TRUST_PROXY_HOPS
+        value: 1
+      - key: JWT_ACCESS_TOKEN_EXP
+        value: 15m
+      - key: JWT_REFRESH_TOKEN_EXP
+        value: 1M
+      - key: WEBAUTHN_RP_NAME
+        value: Ganka CMS
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: MEDIA_BUCKET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: CMS_ORIGINS
+        sync: false
+      - key: STOREFRONT_ORIGINS
+        sync: false
+      - key: WEBAUTHN_RP_ID
+        sync: false
+      - key: WEBAUTHN_ORIGINS
+        sync: false
+      - key: ROOT_USER_IDS
+        sync: false
+      - key: ROOT_CREDENTIAL_IDS
+        sync: false
+      - key: FRONTEND_REVALIDATE_URL
+        sync: false
+      - key: REVALIDATE_SECRET
+        sync: false
