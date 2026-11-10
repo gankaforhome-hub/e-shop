@@ -34,6 +34,14 @@
       "successText": "You can sign in once an administrator grants you access to the CMS.",
       "toSignIn": "Go to sign in"
     },
+    "acceptInvite": {
+      "title": "Accept the invitation",
+      "description": "Set a password for your CMS account.",
+      "submit": "Save the password",
+      "successTitle": "Password saved",
+      "successText": "Sign in to the CMS with your email and the new password.",
+      "toSignIn": "Go to sign in"
+    },
     "errors": {
       "required": "This field is required.",
       "invalidEmail": "Enter a valid email address.",
@@ -537,6 +545,73 @@
       "tooManyRequests": "Too many requests. Wait a minute and try again.",
       "serverError": "Something went wrong. Try again later.",
       "stale": "The banners changed meanwhile. Reload the page and try again."
+    }
+  },
+  "team": {
+    "title": "Team",
+    "description": "Who has access to the CMS and with which role.",
+    "invite": {
+      "button": "Invite",
+      "title": "Invite to the CMS",
+      "description": "We will email a link to set the password. The person works with the chosen role once the invitation is accepted.",
+      "email": "Email",
+      "role": "Role",
+      "submit": "Send the invitation",
+      "sending": "Sending…",
+      "cancel": "Cancel",
+      "close": "Close",
+      "sent": "The invitation is sent to {email}."
+    },
+    "table": {
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "key": "Key",
+      "actions": "Actions"
+    },
+    "roles": {
+      "ROOT": "Root",
+      "ADMIN": "Administrator",
+      "CONTENT_EDITOR": "Content editor",
+      "CATALOG_MANAGER": "Catalog manager",
+      "ORDER_MANAGER": "Order manager"
+    },
+    "status": {
+      "invited": "Invited",
+      "pending": "Awaiting approval",
+      "active": "Active",
+      "revoked": "Revoked"
+    },
+    "key": {
+      "yes": "Registered",
+      "no": "None"
+    },
+    "changeRole": "Role of {email}",
+    "reinvite": "Invite {email} again",
+    "revoke": {
+      "button": "Revoke the access of {email}",
+      "title": "Revoke the access of {email}?",
+      "description": "Every session ends at once and the invitation link stops working. You can invite the person again later.",
+      "confirm": "Revoke",
+      "cancel": "Cancel"
+    },
+    "empty": {
+      "title": "No team members yet",
+      "description": "Invite the first one."
+    },
+    "forbidden": {
+      "title": "For administrators only",
+      "description": "Ask an administrator to manage the team."
+    },
+    "errors": {
+      "required": "Fill in this field.",
+      "invalidEmail": "Enter a valid email.",
+      "alreadyStaff": "This person already has access.",
+      "forbidden": "You can't assign this role or manage this account.",
+      "notFound": "This member is gone. Reload the page.",
+      "revoked": "The access is revoked. Invite the person again.",
+      "tooManyRequests": "Too many attempts. Try again in a minute.",
+      "serverError": "Something went wrong. Try again later."
     }
   }
 }

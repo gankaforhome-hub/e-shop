@@ -127,6 +127,14 @@ export async function verifyEmailRequest(input: {
   return request<void>('/auth/verify-email', { body: input });
 }
 
+/** Sets the password of an invited staff member; the link also confirms the email. */
+export async function acceptInviteRequest(input: {
+  token: string;
+  password: string;
+}): Promise<ApiResult<void>> {
+  return request<void>('/auth/accept-invite', { body: input });
+}
+
 export type StaffRole =
   'ROOT' | 'ADMIN' | 'CONTENT_EDITOR' | 'CATALOG_MANAGER' | 'ORDER_MANAGER';
 

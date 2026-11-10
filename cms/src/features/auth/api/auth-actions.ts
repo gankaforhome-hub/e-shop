@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { getLocale } from 'next-intl/server';
 
 import {
+  acceptInviteRequest,
   signInRequest,
   signOutRequest,
   signUpRequest,
@@ -19,9 +20,11 @@ import {
 } from '@/shared/lib/session/session-cookies';
 
 import {
+  acceptInviteSchema,
   signInSchema,
   signUpSchema,
   verifyEmailSchema,
+  type AcceptInviteValues,
   type AuthErrorKey,
   type SignInValues,
   type SignUpValues,
@@ -86,6 +89,22 @@ export async function verifyEmailAction(
   return result.ok
     ? { ok: true }
     : toFailure(result.status, { 400: 'invalidToken', 401: 'wrongPassword' });
+}
+
+export async function acceptInviteAction(
+  values: AcceptInviteValues,
+): Promise<AuthActionResult> {
+  const input = acceptInviteSchema.safeParse(values);
+  if (!input.success) {
+    return { ok: false, error: 'invalidToken' };
+  }
+
+  const { token, password } = input.data;
+  const result = await acceptInviteRequest({ token, password });
+
+  return result.ok
+    ? { ok: true }
+    : toFailure(result.status, { 400: 'invalidToken' });
 }
 
 export async function signOutAction(): Promise<void> {

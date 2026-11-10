@@ -13,6 +13,7 @@ export const routes = {
     login: '/login',
     register: '/register',
     verifyEmail: '/verify-email',
+    acceptInvite: '/accept-invite',
   },
   marketing: {
     dashboard: '/marketing/dashboard',

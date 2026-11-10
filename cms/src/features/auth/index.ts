@@ -1,3 +1,4 @@
+export { AcceptInviteForm } from './ui/accept-invite-form';
 export { signOutAction } from './api/auth-actions';
 export { SignInForm } from './ui/sign-in-form';
 export { SignOutButton } from './ui/sign-out-button';
