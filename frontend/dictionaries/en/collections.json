@@ -4,5 +4,10 @@
   },
   "collectionProducts": {
     "sectionTitle": "Collection products"
+  },
+  "emptyState": {
+    "title": "Collections are coming soon",
+    "description": "We are preparing new collections. Meanwhile, browse the catalog.",
+    "cta": "Go to catalog"
   }
 }

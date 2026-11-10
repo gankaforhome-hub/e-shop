@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheTag } from 'next/cache';
 
 import 'server-only';
 
@@ -94,7 +94,8 @@ export async function getCatalogFacets(
   params: GetCatalogFacetsParams,
 ): Promise<CatalogFacetGroup[]> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(
     cacheTags.products,
     cacheTags.collections,
@@ -229,7 +230,8 @@ export async function getCatalogIndex(
   params: GetCatalogFacetsParams,
 ): Promise<CatalogIndexEntry[]> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(cacheTags.products, cacheTags.collections, cacheTags.seasons);
 
   return (await getCatalogItems(params)).map(({ product, filterable }) => {

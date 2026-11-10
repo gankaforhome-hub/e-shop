@@ -26,7 +26,9 @@ export function getMainNavConfig(
       id: 'collections',
       label: dict.collections,
       href: routes.collections,
-      children: collectionChildren,
+      // No collections (none yet, or the API is down): a plain link to
+      // `/collections` instead of a dropdown / submenu with one entry
+      ...(collections.length > 0 && { children: collectionChildren }),
     },
     {
       id: 'allProducts',

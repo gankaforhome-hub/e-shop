@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheTag } from 'next/cache';
 
 import 'server-only';
 
@@ -35,7 +35,8 @@ export async function getCollectionsPage({
   limit: requestedLimit = COLLECTIONS_PAGE_SIZE,
 }: GetCollectionsPageParams): Promise<PaginatedCollectionsDTO> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from `getCollections`, so its outage fallback
+  // (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(cacheTags.collections);
 
   const collections = await getCollections(lang);

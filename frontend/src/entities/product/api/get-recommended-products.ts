@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheTag } from 'next/cache';
 
 import 'server-only';
 
@@ -73,7 +73,8 @@ export async function getRecommendedProducts({
   limit = 4,
 }: GetRecommendedProductsParams): Promise<ProductCardDTO[]> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(cacheTags.products);
 
   const products = await getLocalizedProducts(lang);

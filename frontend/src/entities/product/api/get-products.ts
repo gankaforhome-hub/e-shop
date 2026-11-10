@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheTag } from 'next/cache';
 
 import 'server-only';
 
@@ -91,7 +91,8 @@ export async function getLocalizedProducts(
   lang: Locale,
 ): Promise<LocalizedProduct[]> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(
     cacheTags.products,
     cacheTags.categories,
@@ -356,7 +357,8 @@ export async function getProducts(
   params: GetProductsParams,
 ): Promise<PaginatedProductsDTO> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
   cacheTag(cacheTags.products, cacheTags.seasons);
 
   const { filters } = params;
@@ -421,7 +423,8 @@ export async function getProductBySlug(
   lang: Locale,
 ): Promise<LocalizedProduct | null> {
   'use cache';
-  cacheLife('hours');
+  // No cacheLife: inherits from the backend reads (≤ default 15 min), so an
+  // outage fallback (1 min) isn't pinned here for hours. See AGENTS.md §11.
 
   const products = await getLocalizedProducts(lang);
   const product = products.find(p => p.slug === productSlug) ?? null;

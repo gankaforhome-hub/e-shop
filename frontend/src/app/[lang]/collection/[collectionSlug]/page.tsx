@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { notFound } from 'next/navigation';
 
-import { getCollectionBySlug, getCollections } from '@/entities/collection';
+import { getCollectionBySlug, loadCollections } from '@/entities/collection';
 import { routes } from '@/shared/config/routes';
 import { getDictionary } from '@/shared/i18n/get-dictionary';
 import { isValidLocale } from '@/shared/i18n/helpers';
@@ -26,9 +26,10 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  // Strict read: a build without the API fails instead of shipping no pages
   const perLocale = await Promise.all(
     locales.map(async lang =>
-      (await getCollections(lang)).map(collection => ({
+      (await loadCollections(lang)).map(collection => ({
         lang,
         collectionSlug: collection.slug,
       })),
