@@ -38,7 +38,7 @@ export default [
 
   // 2. Спрощений конфіг для JS файлів налаштувань (postcss.config.js тощо)
   {
-    files: ['*.js', '*.mjs', '*.cjs'],
+    files: ['*.js', '*.mjs', '*.cjs', 'scripts/*.mjs'],
     plugins: {
       'unused-imports': unusedImports,
     },
