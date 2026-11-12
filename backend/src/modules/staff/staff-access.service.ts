@@ -2,12 +2,13 @@ import {
   ROOT_CREDENTIAL_IDS,
   ROOT_ENROLLMENT_CODE,
   ROOT_USER_IDS,
+  AuthAudience,
 } from '@common/constants';
 import { parseEnvList } from '@common/utils';
 import { IAuthUser } from '@modules/auth/interfaces';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { E_AuthAudience, E_StaffRole } from '@prisma/client';
+import { E_StaffRole } from '@prisma/client';
 import { timingSafeEqual } from 'crypto';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class StaffAccessService {
    */
   isActive({ aud, aal, hasKey, staff }: IAuthUser): boolean {
     return (
-      aud === E_AuthAudience.CMS &&
+      aud === AuthAudience.CMS &&
       !!staff &&
       !staff.revokedAt &&
       (!hasKey || aal >= 2)

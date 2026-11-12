@@ -26,17 +26,19 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { E_AuthAudience, E_StaffRole } from '@prisma/client';
+import { E_StaffRole } from '@prisma/client';
 import { AdminSeasonService } from './admin-season.service';
 import { CreateSeasonDto, UpdateSeasonDto } from './dto';
 import { AdminSeasonResponse } from './responses';
+import { AuthAudience } from '@common/constants';
 
 @ApiTags('🏺 seasons (CMS)')
 @ApiBearerAuth()
 @ApiForbiddenResponse({
-  description: 'Not an active staff member (a member with a key must confirm the session with it)',
+  description:
+    'Not an active staff member (a member with a key must confirm the session with it)',
 })
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @UseGuards(StaffGuard)
 @StaffRoles(E_StaffRole.CATALOG_MANAGER)
 @Controller('admin/seasons')

@@ -5,7 +5,6 @@ import {
   STOREFRONT_ORIGINS,
 } from '@common/constants';
 import { parseEnvList } from '@common/utils';
-import { UserService } from '@modules/user/user.service';
 import {
   BadRequestException,
   Injectable,
@@ -50,7 +49,6 @@ export class GoogleAuthService {
     private readonly configService: ConfigService,
     private readonly authRepository: AuthRepository,
     private readonly authService: AuthService,
-    private readonly userService: UserService,
   ) {}
 
   private getCredentials(): { clientId: string; clientSecret: string } {
@@ -159,8 +157,7 @@ export class GoogleAuthService {
       firstName,
       lastName,
     });
-    await this.userService.clearCache(user.id);
 
-    return this.authService.signInVerifiedUser(user, userAgent);
+    return this.authService.signInVerifiedCustomer(user.id, userAgent);
   }
 }

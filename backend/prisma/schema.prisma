@@ -12,22 +12,46 @@ datasource db {
 }
 
 //! TYPES
-enum E_AuthAudience {
-  STOREFRONT
-  CMS
+enum E_StaffTokenPurpose {
+  INVITE
+  PASSWORD_RESET
 
-  @@map("auth_audience")
+  @@map("staff_token_purpose")
 }
 
-enum E_OneTimeTokenPurpose {
+enum E_CustomerTokenPurpose {
   EMAIL_VERIFICATION
   PASSWORD_RESET
   EMAIL_CHANGE_OLD
   EMAIL_CHANGE_NEW
-  STAFF_ENROLLMENT
-  STAFF_INVITE
 
-  @@map("one_time_token_purpose")
+  @@map("customer_token_purpose")
+}
+
+enum E_IdentityProvider {
+  GOOGLE
+
+  @@map("identity_provider")
+}
+
+enum E_ConsentType {
+  TERMS
+  PRIVACY
+  MARKETING_EMAIL
+  MARKETING_SMS
+
+  @@map("consent_type")
+}
+
+enum E_ConsentSource {
+  SIGN_UP
+  GOOGLE
+  ACCOUNT
+  CHECKOUT
+  UNSUBSCRIBE_LINK
+  MIGRATION
+
+  @@map("consent_source")
 }
 
 enum E_StaffRole {
@@ -55,100 +79,64 @@ enum E_Locale {
   @@map("locale")
 }
 
-// Add other roles as needed
-
-// enum E_UserStatus {
-//   ACTIVE
-//   PENDING
-//   BANNED
-
-//   @@map("user_status")
-// }
 
 //! MODELS
-model User {
+// ─── Staff (CMS) ────────────────────────────────────────────────────────────
+// Separate from customers: own sessions and tokens, no shared rows. Only the CLI creates ROOT.
+model StaffUser {
   id                  String               @id @default(uuid())
   email               String               @unique @db.VarChar()
+  // null until the invitation is accepted
   password            String?              @db.VarChar()
   name                String?              @db.VarChar(100)
+  role                E_StaffRole
   emailVerifiedAt     DateTime?            @map("email_verified_at") @db.Timestamptz()
-  // E.164 (+380…); optional at sign-up, login by phone (OTP) comes later
-  phone               String?              @unique @db.VarChar(20)
-  phoneVerifiedAt     DateTime?            @map("phone_verified_at") @db.Timestamptz()
-  // Google account id ("sub"), for the planned Google sign-in
-  googleSub           String?              @unique @map("google_sub") @db.VarChar(255)
-  // Customer profile; `name` stays for staff in the CMS
-  firstName           String?              @map("first_name") @db.VarChar(100)
-  lastName            String?              @map("last_name") @db.VarChar(100)
-  // Proof of the accepted terms and privacy policy (TERMS_VERSION at that moment)
-  termsAcceptedAt     DateTime?            @map("terms_accepted_at") @db.Timestamptz()
-  termsVersion        String?              @map("terms_version") @db.VarChar(32)
-  // Separate opt-in for news and offers; null = no consent
-  marketingConsentAt  DateTime?            @map("marketing_consent_at") @db.Timestamptz()
-  // status    E_UserStatus[] @default([ACTIVE])
-  // isActivated Boolean?    @default(false) @map("is_activated")
+  revokedAt           DateTime?            @map("revoked_at") @db.Timestamptz()
+  // No foreign key: AuditLog keeps the history even if that user is gone
+  invitedById         String?              @map("invited_by_id")
   createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt           DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
-  token               Token[]
-  oneTimeTokens       OneTimeToken[]
-  staffAccount        StaffAccount?
+  sessions            StaffSession[]
+  tokens              StaffToken[]
   webAuthnCredentials WebAuthnCredential[]
   webAuthnChallenges  WebAuthnChallenge[]
 
-  @@map("users")
+  @@map("staff_users")
 }
 
-model Token {
-  id           String         @id @default(uuid())
+model StaffSession {
+  id           String    @id @default(uuid())
   // SHA-256 of the refresh token; the raw value lives only in the cookie
-  token        String         @unique
+  token        String    @unique
   // All rotations of one sign-in share a family, revoked together on reuse
-  familyId     String         @map("family_id")
-  audience     E_AuthAudience @default(STOREFRONT)
-  aal          Int            @default(1)
+  familyId     String    @map("family_id")
+  aal          Int       @default(1)
   // The key that raised this session to aal 2
-  credentialId String?        @map("credential_id")
-  expires      DateTime       @db.Timestamptz()
-  rotatedAt    DateTime?      @map("rotated_at") @db.Timestamptz()
-  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz()
-  userAgent    String?        @map("user_agent")
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String         @map("user_id")
+  credentialId String?   @map("credential_id")
+  expires      DateTime  @db.Timestamptz()
+  rotatedAt    DateTime? @map("rotated_at") @db.Timestamptz()
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  userAgent    String?   @map("user_agent")
+  user         StaffUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String    @map("staff_user_id")
 
   @@index([userId])
   @@index([familyId])
-  @@map("tokens")
+  @@map("staff_sessions")
 }
 
-model OneTimeToken {
-  // SHA-256 of the token; the raw value is only sent to the user
+model StaffToken {
+  // SHA-256 of the token; the raw value is only sent by mail or printed by the CLI
   hash       String                @id
-  purpose    E_OneTimeTokenPurpose
-  // The requested address, for EMAIL_CHANGE_* tokens only
-  newEmail   String?               @map("new_email") @db.VarChar()
+  purpose    E_StaffTokenPurpose
   expires    DateTime              @db.Timestamptz()
   consumedAt DateTime?             @map("consumed_at") @db.Timestamptz()
   createdAt  DateTime              @default(now()) @map("created_at") @db.Timestamptz()
-  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String                @map("user_id")
+  user       StaffUser             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String                @map("staff_user_id")
 
   @@index([userId])
-  @@map("one_time_tokens")
-}
-
-// No row means a customer. Only the CLI can create a ROOT row, no HTTP route can
-model StaffAccount {
-  userId       String      @id @map("user_id")
-  role         E_StaffRole
-  approvedAt   DateTime?   @map("approved_at") @db.Timestamptz()
-  // No foreign key: AuditLog keeps the history even if that user is gone
-  approvedById String?     @map("approved_by_id")
-  revokedAt    DateTime?   @map("revoked_at") @db.Timestamptz()
-  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt    DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("staff_accounts")
+  @@map("staff_tokens")
 }
 
 model WebAuthnCredential {
@@ -161,8 +149,8 @@ model WebAuthnCredential {
   transports String[]
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
   lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz()
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String    @map("user_id")
+  user       StaffUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String    @map("staff_user_id")
 
   @@index([userId])
   @@map("webauthn_credentials")
@@ -176,11 +164,111 @@ model WebAuthnChallenge {
   action    String?
   expires   DateTime                   @db.Timestamptz()
   createdAt DateTime                   @default(now()) @map("created_at") @db.Timestamptz()
-  user      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String                     @map("user_id")
+  user      StaffUser                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String                     @map("staff_user_id")
 
   @@index([userId])
   @@map("webauthn_challenges")
+}
+
+// ─── Customers (storefront) ─────────────────────────────────────────────────
+model Customer {
+  id              String             @id @default(uuid())
+  email           String             @unique @db.VarChar()
+  // null for accounts that only sign in with Google
+  password        String?            @db.VarChar()
+  firstName       String?            @map("first_name") @db.VarChar(100)
+  lastName        String?            @map("last_name") @db.VarChar(100)
+  // E.164 (+380…); optional, phone login (OTP) comes later
+  phone           String?            @unique @db.VarChar(20)
+  emailVerifiedAt DateTime?          @map("email_verified_at") @db.Timestamptz()
+  phoneVerifiedAt DateTime?          @map("phone_verified_at") @db.Timestamptz()
+  locale          E_Locale           @default(uk)
+  // Cached current state; the proof is the customer_consents journal
+  marketingEmail  Boolean            @default(false) @map("marketing_email")
+  marketingSms    Boolean            @default(false) @map("marketing_sms")
+  anonymizedAt    DateTime?          @map("anonymized_at") @db.Timestamptz()
+  createdAt       DateTime           @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime           @updatedAt @map("updated_at") @db.Timestamptz()
+  sessions        CustomerSession[]
+  tokens          CustomerToken[]
+  identities      CustomerIdentity[]
+  consents        CustomerConsent[]
+
+  @@map("customers")
+}
+
+// Sign-in with an external provider; one row per linked account
+model CustomerIdentity {
+  id             String               @id @default(uuid())
+  provider       E_IdentityProvider
+  // The provider's stable user id (Google "sub")
+  providerUserId String               @map("provider_user_id") @db.VarChar(255)
+  // The provider's email at link time
+  email          String               @db.VarChar()
+  createdAt      DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  lastUsedAt     DateTime?            @map("last_used_at") @db.Timestamptz()
+  customer       Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId     String               @map("customer_id")
+
+  @@unique([provider, providerUserId])
+  @@index([customerId])
+  @@map("customer_identities")
+}
+
+model CustomerSession {
+  id           String    @id @default(uuid())
+  // SHA-256 of the refresh token; the raw value lives only in the cookie
+  token        String    @unique
+  familyId     String    @map("family_id")
+  // Always 1 for customers; kept so session code is shared with staff
+  aal          Int       @default(1)
+  credentialId String?   @map("credential_id")
+  expires      DateTime  @db.Timestamptz()
+  rotatedAt    DateTime? @map("rotated_at") @db.Timestamptz()
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  userAgent    String?   @map("user_agent")
+  user         Customer  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String    @map("customer_id")
+
+  @@index([userId])
+  @@index([familyId])
+  @@map("customer_sessions")
+}
+
+model CustomerToken {
+  // SHA-256 of the token; the raw value is only sent to the customer
+  hash       String                 @id
+  purpose    E_CustomerTokenPurpose
+  // The requested address, for EMAIL_CHANGE_* tokens only
+  newEmail   String?                @map("new_email") @db.VarChar()
+  expires    DateTime               @db.Timestamptz()
+  consumedAt DateTime?              @map("consumed_at") @db.Timestamptz()
+  createdAt  DateTime               @default(now()) @map("created_at") @db.Timestamptz()
+  user       Customer               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String                 @map("customer_id")
+
+  @@index([userId])
+  @@map("customer_tokens")
+}
+
+// Append only: the legal proof of what was accepted or withdrawn, and when
+model CustomerConsent {
+  id         String            @id @default(uuid())
+  type       E_ConsentType
+  // true: granted, false: withdrawn
+  granted    Boolean
+  // Text version (TERMS_VERSION) for TERMS / PRIVACY
+  version    String?           @db.VarChar(32)
+  source     E_ConsentSource
+  ip         String?           @db.VarChar(64)
+  userAgent  String?           @map("user_agent")
+  createdAt  DateTime          @default(now()) @map("created_at") @db.Timestamptz()
+  customer   Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId String            @map("customer_id")
+
+  @@index([customerId, type, createdAt])
+  @@map("customer_consents")
 }
 
 // Append only. Plain ids instead of foreign keys, so the history outlives the users

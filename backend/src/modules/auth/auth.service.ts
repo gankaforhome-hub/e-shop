@@ -2,30 +2,40 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SignInDto } from './dto';
 import { PasswordService } from '@modules/password/password.service';
 import { StaffRepository } from '@modules/staff/repository/staff.repository';
-import { UserService } from '@modules/user/user.service';
-import { E_AuthAudience, Token, User } from '@prisma/client';
+import { CustomerService } from '@modules/customer/customer.service';
+import { normalizeEmail } from '@common/utils';
 import { JwtService } from '@nestjs/jwt';
-import { AuthRepository } from './repository/auth.repository';
+import {
+  AuthRepository,
+  type SessionToken,
+} from './repository/auth.repository';
 import { IAuthUser, IJwtPayload, ITokens } from './interfaces';
+import { AuthAudience } from '@common/constants';
 
 const INVALID_CREDENTIALS_MESSAGE = 'Email or password are invalid';
 
+/**
+ * Sessions of both apps. Customers and staff are separate accounts in separate tables: a
+ * storefront sign-in never finds a staff member and a CMS sign-in never finds a customer.
+ */
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    private readonly customerService: CustomerService,
     private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
     private readonly authRepository: AuthRepository,
     private readonly staffRepository: StaffRepository,
   ) {}
 
-  private signAccessToken({
-    userId,
-    familyId,
-    audience,
-    aal,
-  }: Pick<Token, 'userId' | 'familyId' | 'audience' | 'aal'>): string {
+  private signAccessToken(
+    {
+      userId,
+      familyId,
+      aal,
+    }: Pick<SessionToken, 'userId' | 'familyId' | 'aal'>,
+    audience: AuthAudience,
+  ): string {
     const payload: IJwtPayload = {
       id: userId,
       sid: familyId,
@@ -36,12 +46,12 @@ export class AuthService {
   }
 
   private async generateTokens(
-    user: User,
+    userId: string,
     userAgent: string | undefined,
-    audience: E_AuthAudience,
+    audience: AuthAudience,
   ): Promise<ITokens> {
     const refreshToken = await this.authRepository.setRefreshToken(
-      user.id,
+      userId,
       userAgent,
       audience,
     );
@@ -50,84 +60,75 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return { accessToken: this.signAccessToken(refreshToken), refreshToken };
+    return {
+      accessToken: this.signAccessToken(refreshToken, audience),
+      refreshToken,
+    };
   }
 
-  private async validateCredentials({
-    email,
-    password,
-  }: SignInDto): Promise<User> {
-    const user: User | null = await this.userService.findOneByEmail(email);
-
+  //COMMENT the hash is always compared (a dummy one for unknown emails), so timing reveals nothing
+  private async checkPassword<T extends { password: string | null }>(
+    account: T | null,
+    password: string,
+  ): Promise<T> {
     const isPasswordValid = await this.passwordService.isPasswordValid(
       password,
-      user?.password,
+      account?.password,
     );
-
-    if (!user || !isPasswordValid) {
+    if (!account || !isPasswordValid) {
       throw new UnauthorizedException(INVALID_CREDENTIALS_MESSAGE);
     }
-    return user;
+    return account;
   }
 
-  //COMMENT a storefront session for a user found another way (Google), no password involved
-  signInVerifiedUser(user: User, userAgent?: string): Promise<ITokens> {
-    return this.generateTokens(user, userAgent, E_AuthAudience.STOREFRONT);
+  //COMMENT a storefront session for a customer found another way (Google), no password involved
+  signInVerifiedCustomer(customerId: string, userAgent?: string) {
+    return this.generateTokens(customerId, userAgent, AuthAudience.STOREFRONT);
   }
 
-  //COMMENT sign in by email, password
-  async signIn(signInDto: SignInDto, userAgent?: string): Promise<ITokens> {
-    const user = await this.validateCredentials(signInDto);
-    const tokens: ITokens = await this.generateTokens(
-      user,
-      userAgent,
-      E_AuthAudience.STOREFRONT,
+  //COMMENT storefront: customers only
+  async signIn({ email, password }: SignInDto, userAgent?: string) {
+    const customer = await this.checkPassword(
+      await this.customerService.findByEmail(email),
+      password,
+    );
+    return this.generateTokens(customer.id, userAgent, AuthAudience.STOREFRONT);
+  }
+
+  //COMMENT the same answer as for wrong credentials, so it does not reveal who is staff
+  async signInCms({ email, password }: SignInDto, userAgent?: string) {
+    const staff = await this.checkPassword(
+      await this.staffRepository.findStaffUserByEmail(normalizeEmail(email)),
+      password,
     );
 
-    return tokens;
-  }
-
-  //COMMENT the same answer as for wrong credentials, so it does not reveal who is staff.
-  //A pending member may sign in: registering the first key needs a session
-  async signInCms(signInDto: SignInDto, userAgent?: string): Promise<ITokens> {
-    const user = await this.validateCredentials(signInDto);
-    const staff = await this.staffRepository.findStaffAccount(user.id);
-
-    if (!user.emailVerifiedAt || !staff || staff.revokedAt) {
+    if (!staff.emailVerifiedAt || staff.revokedAt) {
       throw new UnauthorizedException(INVALID_CREDENTIALS_MESSAGE);
     }
 
-    return this.generateTokens(user, userAgent, E_AuthAudience.CMS);
+    return this.generateTokens(staff.id, userAgent, AuthAudience.CMS);
   }
 
   //COMMENT the key has signed: the session moves to aal 2 and gets a matching access token
   async elevateSession(user: IAuthUser, credentialId: string): Promise<string> {
     await this.authRepository.elevateSession(user.sid, credentialId);
 
-    return this.signAccessToken({
-      userId: user.id,
-      familyId: user.sid,
-      audience: user.aud,
-      aal: 2,
-    });
+    return this.signAccessToken(
+      { userId: user.id, familyId: user.sid, aal: 2 },
+      AuthAudience.CMS,
+    );
   }
 
-  //COMMENT sign in by email, password
-  async signOut(refreshToken: string): Promise<Token | null> {
-    return await this.authRepository.deleteRefreshToken(refreshToken);
-  }
-
-  //COMMENT get refresh token
   async refreshToken(
     refreshToken: string,
-    userAgent?: string,
-    audience: E_AuthAudience = E_AuthAudience.STOREFRONT,
+    userAgent: string | undefined,
+    audience: AuthAudience,
   ): Promise<ITokens> {
     if (!refreshToken) {
       throw new UnauthorizedException();
     }
 
-    //COMMENT null: the token is unknown, expired, reused or from the other app
+    //COMMENT null: the token is unknown, expired, reused or from the other app's table
     const token = await this.authRepository.rotateRefreshToken(
       refreshToken,
       userAgent,
@@ -138,36 +139,39 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return { accessToken: this.signAccessToken(token), refreshToken: token };
+    return {
+      accessToken: this.signAccessToken(token, audience),
+      refreshToken: token,
+    };
   }
 
-  findSessionUser(sessionId: string, userId: string) {
-    return this.authRepository.findSessionUser(sessionId, userId);
+  findSessionUser(sessionId: string, userId: string, audience: AuthAudience) {
+    return this.authRepository.findSessionUser(sessionId, userId, audience);
   }
 
-  async findToken(refreshToken: string): Promise<Token | null> {
-    return await this.authRepository.findRefreshToken(refreshToken);
+  findToken(refreshToken: string, audience: AuthAudience) {
+    return this.authRepository.findRefreshToken(refreshToken, audience);
   }
 
-  async findSessionByUserIdAndUserAgent(
-    userId: string,
-    userAgent: string,
-  ): Promise<Token | null> {
-    return await this.authRepository.findSessionByUserIdAndUserAgent(
+  findSessionByUserIdAndUserAgent(userId: string, userAgent: string) {
+    return this.authRepository.findSessionByUserIdAndUserAgent(
       userId,
       userAgent,
     );
   }
 
-  async deleteToken(refreshToken: string) {
-    return await this.authRepository.deleteRefreshToken(refreshToken);
+  deleteToken(refreshToken: string, audience: AuthAudience) {
+    return this.authRepository.deleteRefreshToken(refreshToken, audience);
   }
 
-  async deleteSession(sessionId: string) {
-    return await this.authRepository.deleteRefreshTokenFamily(sessionId);
+  deleteSession(
+    sessionId: string,
+    audience: AuthAudience = AuthAudience.STOREFRONT,
+  ) {
+    return this.authRepository.deleteRefreshTokenFamily(sessionId, audience);
   }
 
-  async deleteAllTokens(userId: string) {
-    return await this.authRepository.deleteAllRefreshTokens(userId);
+  deleteAllTokens(userId: string, audience: AuthAudience) {
+    return this.authRepository.deleteAllRefreshTokens(userId, audience);
   }
 }

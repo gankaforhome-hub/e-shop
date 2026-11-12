@@ -8,8 +8,8 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { AUDIENCES_KEY } from '@common/decorators/audiences.decorator';
 import { isSkipAuth } from '@common/decorators/skip-auth.decorator';
-import { E_AuthAudience } from '@prisma/client';
 import { IAuthUser } from '../interfaces';
+import { AuthAudience } from '@common/constants';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
@@ -27,10 +27,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
 
     //COMMENT a route that says nothing accepts storefront sessions only, so a new
     //route can't open itself to the other audience by accident
-    const audiences = this.reflector.getAllAndOverride<E_AuthAudience[]>(
+    const audiences = this.reflector.getAllAndOverride<AuthAudience[]>(
       AUDIENCES_KEY,
       [ctx.getHandler(), ctx.getClass()],
-    ) ?? [E_AuthAudience.STOREFRONT];
+    ) ?? [AuthAudience.STOREFRONT];
     const { user } = ctx.switchToHttp().getRequest<{ user: IAuthUser }>();
 
     if (!audiences.includes(user.aud)) {

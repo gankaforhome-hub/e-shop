@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { AuthService } from '@modules/auth/auth.service';
 import * as jwt from 'jsonwebtoken';
 import { IJwtPayload } from '@modules/auth/interfaces';
-import { Token } from '@prisma/client';
+import { type SessionToken } from '@modules/auth/repository/auth.repository';
 
 @Injectable()
 export class AuthenticateMiddleware implements NestMiddleware {
@@ -31,7 +31,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
           (await this.authService.findSessionByUserIdAndUserAgent(
             isValidToken.id,
             userAgent,
-          )) as Token;
+          )) as SessionToken;
 
         if (!existingToken) {
           return res.status(HttpStatus.UNAUTHORIZED).json({

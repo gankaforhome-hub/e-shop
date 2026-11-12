@@ -1,4 +1,9 @@
-import { CMS_ORIGINS, NODE_ENV, STOREFRONT_ORIGINS } from '@common/constants';
+import {
+  CMS_ORIGINS,
+  NODE_ENV,
+  STOREFRONT_ORIGINS,
+  AuthAudience,
+} from '@common/constants';
 import { parseEnvList } from '@common/utils';
 import {
   CanActivate,
@@ -10,18 +15,17 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { E_AuthAudience } from '@prisma/client';
 import { Request } from 'express';
 
 const CHECK_ORIGIN_KEY = 'checkOrigin';
 
-const ORIGINS_ENV: Record<E_AuthAudience, string> = {
-  [E_AuthAudience.CMS]: CMS_ORIGINS,
-  [E_AuthAudience.STOREFRONT]: STOREFRONT_ORIGINS,
+const ORIGINS_ENV: Record<AuthAudience, string> = {
+  [AuthAudience.CMS]: CMS_ORIGINS,
+  [AuthAudience.STOREFRONT]: STOREFRONT_ORIGINS,
 };
 
 //COMMENT decorator: which app may use this cookie route
-export const CheckOrigin = (audience: E_AuthAudience) =>
+export const CheckOrigin = (audience: AuthAudience) =>
   SetMetadata(CHECK_ORIGIN_KEY, audience);
 
 /**
@@ -31,7 +35,7 @@ export const CheckOrigin = (audience: E_AuthAudience) =>
 @Injectable()
 export class OriginGuard implements CanActivate {
   private readonly logger = new Logger(OriginGuard.name);
-  private readonly warned = new Set<E_AuthAudience>();
+  private readonly warned = new Set<AuthAudience>();
 
   constructor(
     private readonly reflector: Reflector,
@@ -39,7 +43,7 @@ export class OriginGuard implements CanActivate {
   ) {}
 
   canActivate(ctx: ExecutionContext): boolean {
-    const audience = this.reflector.get<E_AuthAudience>(
+    const audience = this.reflector.get<AuthAudience>(
       CHECK_ORIGIN_KEY,
       ctx.getHandler(),
     );

@@ -1,4 +1,8 @@
-import { CMS_AUTH_COOKIE_PATH, CMS_REFRESH_TOKEN } from '@common/constants';
+import {
+  CMS_AUTH_COOKIE_PATH,
+  CMS_REFRESH_TOKEN,
+  AuthAudience,
+} from '@common/constants';
 import {
   Audiences,
   Cookie,
@@ -8,11 +12,13 @@ import {
 } from '@common/decorators';
 import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
 import { StaffAccessService } from '@modules/staff/staff-access.service';
+import { StaffAccountService } from '@modules/staff/staff-account.service';
 import { FRESH_ASSERTION_HEADER } from '@modules/staff/staff.constants';
 import { WebAuthnService } from '@modules/staff/webauthn.service';
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
   Headers,
   HttpCode,
@@ -25,7 +31,6 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { E_AuthAudience } from '@prisma/client';
 import {
   AuthenticationResponseJSON,
   PublicKeyCredentialCreationOptionsJSON,
@@ -37,14 +42,21 @@ import { CookieService } from '../cookie/cookie.service';
 import { AuthService } from './auth.service';
 import {
   AssertionOptionsDto,
+  ChangePasswordDto,
+  EmailDto,
   RegistrationOptionsDto,
+  ResetPasswordDto,
   SignInDto,
   VerifyRegistrationDto,
   WebAuthnResponseDto,
 } from './dto';
 import { CheckOrigin, OriginGuard } from './guards/origin.guard';
 import { IAuthUser, ITokens } from './interfaces';
-import { SignInResponse } from './responses';
+import {
+  AcceptInviteResponse,
+  MessageResponse,
+  SignInResponse,
+} from './responses';
 import { CmsProfileResponse } from './responses/cms-profile.response';
 
 class CredentialResponse {
@@ -53,13 +65,14 @@ class CredentialResponse {
 
 @ApiTags('🛡️ cms auth')
 @ApiBearerAuth()
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @Controller('auth/cms')
 export class CmsAuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly webAuthnService: WebAuthnService,
     private readonly staffAccess: StaffAccessService,
+    private readonly staffAccount: StaffAccountService,
     private readonly cookieService: CookieService,
   ) {}
 
@@ -77,7 +90,7 @@ export class CmsAuthController {
 
   @SkipAuth()
   @Throttle(STRICT_THROTTLE)
-  @CheckOrigin(E_AuthAudience.CMS)
+  @CheckOrigin(AuthAudience.CMS)
   @UseGuards(OriginGuard)
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
@@ -98,7 +111,7 @@ export class CmsAuthController {
 
   @SkipAuth()
   @Throttle(REFRESH_THROTTLE)
-  @CheckOrigin(E_AuthAudience.CMS)
+  @CheckOrigin(AuthAudience.CMS)
   @UseGuards(OriginGuard)
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
@@ -114,14 +127,14 @@ export class CmsAuthController {
     const tokens = await this.authService.refreshToken(
       refreshToken,
       userAgent,
-      E_AuthAudience.CMS,
+      AuthAudience.CMS,
     );
     await this.setRefreshCookie(tokens, res);
     return { accessToken: tokens.accessToken };
   }
 
   @SkipAuth()
-  @CheckOrigin(E_AuthAudience.CMS)
+  @CheckOrigin(AuthAudience.CMS)
   @UseGuards(OriginGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('sign-out')
@@ -131,13 +144,76 @@ export class CmsAuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<void> {
     if (refreshToken) {
-      await this.authService.deleteToken(refreshToken);
+      await this.authService.deleteToken(refreshToken, AuthAudience.CMS);
     }
     await this.cookieService.removeFromCookies(
       CMS_REFRESH_TOKEN,
       res,
       CMS_AUTH_COOKIE_PATH,
     );
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('accept-invite')
+  @ApiOperation({
+    summary:
+      'accept a CMS invitation: set the password with the token from the link',
+    description:
+      'Also confirms the email and ends every session. Returns the email, so the CMS signs the person in right away.',
+  })
+  async acceptInvite(
+    @Body() { token, password }: ResetPasswordDto,
+  ): Promise<AcceptInviteResponse> {
+    return { email: await this.staffAccount.acceptInvite(token, password) };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.ACCEPTED)
+  @Post('forgot-password')
+  @ApiOperation({
+    summary: 'send a staff password reset link (opens the CMS)',
+    description: 'The same answer for unknown and revoked addresses.',
+  })
+  async forgotPassword(@Body() { email }: EmailDto): Promise<MessageResponse> {
+    await this.staffAccount.forgotPassword(email);
+    return { message: 'Check your email for the next step' };
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  @ApiOperation({
+    summary: 'set a new staff password with the token from the link',
+    description: 'Ends every session; keys and the role stay.',
+  })
+  async resetPassword(
+    @Body() { token, password }: ResetPasswordDto,
+  ): Promise<MessageResponse> {
+    await this.staffAccount.resetPassword(token, password);
+    return { message: 'Password changed, sign in again' };
+  }
+
+  @Throttle(STRICT_THROTTLE)
+  @HttpCode(HttpStatus.OK)
+  @Post('change-password')
+  @ApiOperation({
+    summary: 'change the own staff password',
+    description:
+      'Needs a usable CMS session (key-confirmed when the account has a key). Ends every other session.',
+  })
+  async changePassword(
+    @CurrentUser() user: IAuthUser,
+    @Body() { currentPassword, newPassword }: ChangePasswordDto,
+  ): Promise<MessageResponse> {
+    if (!this.staffAccess.isActive(user)) {
+      throw new ForbiddenException();
+    }
+    await this.staffAccount.changePassword(user, currentPassword, newPassword);
+    return { message: 'Password changed' };
   }
 
   @Get('me')

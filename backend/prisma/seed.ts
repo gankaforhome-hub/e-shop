@@ -2,8 +2,15 @@ import 'dotenv/config';
 import { readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { E_BannerLinkType, E_Locale, PrismaClient } from '@prisma/client';
+import {
+  E_BannerLinkType,
+  E_ConsentSource,
+  E_ConsentType,
+  E_Locale,
+  PrismaClient,
+} from '@prisma/client';
 import { hash } from 'bcrypt';
+import { TERMS_VERSION } from '../src/common/constants/terms.constants';
 import { mediaKey } from '../src/modules/media/lib/media.util';
 import { processImage } from '../src/modules/media/lib/process-image';
 import { createSupabaseMediaStorage } from '../src/modules/media/storage/supabase-media.storage';
@@ -184,18 +191,40 @@ async function seedUsers(): Promise<number | string> {
 
   for (const { email, name, role } of SEED_USERS) {
     //COMMENT update: {} keeps a changed password, name or role on later runs
-    const { id: userId } = await prisma.user.upsert({
-      where: { email },
-      create: { email, name, password: passwordHash, emailVerifiedAt: now },
-      update: {},
-    });
     if (role) {
-      await prisma.staffAccount.upsert({
-        where: { userId },
-        create: { userId, role, approvedAt: now },
+      await prisma.staffUser.upsert({
+        where: { email },
+        create: {
+          email,
+          name,
+          role,
+          password: passwordHash,
+          emailVerifiedAt: now,
+        },
         update: {},
       });
+      continue;
     }
+    const [firstName = name, ...rest] = name.split(' ');
+    await prisma.customer.upsert({
+      where: { email },
+      create: {
+        email,
+        firstName,
+        lastName: rest.join(' ') || null,
+        password: passwordHash,
+        emailVerifiedAt: now,
+        consents: {
+          create: [E_ConsentType.TERMS, E_ConsentType.PRIVACY].map(type => ({
+            type,
+            granted: true,
+            version: TERMS_VERSION,
+            source: E_ConsentSource.SIGN_UP,
+          })),
+        },
+      },
+      update: {},
+    });
   }
 
   return SEED_USERS.length;

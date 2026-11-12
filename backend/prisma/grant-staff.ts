@@ -1,16 +1,21 @@
 import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { E_StaffRole, PrismaClient } from '@prisma/client';
+import { E_StaffRole, E_StaffTokenPurpose, PrismaClient } from '@prisma/client';
+import { isEmail } from 'class-validator';
 import { normalizeEmail } from '../src/common/utils/normalize-email.util';
+import { generateToken, hashToken } from '../src/common/utils/token.util';
 
 /**
- * Gives a registered user (verified email) a CMS role, with access at once. Running this takes
- * access to the server; normally an ADMIN or root invites people in Settings → Team instead.
+ * Creates (or re-roles) a staff account from the server and prints its set-password link, like
+ * a team invitation without the email. Normally an ADMIN or root invites people in
+ * Settings → Team instead. Staff accounts are separate from customers: a customer with the same
+ * email is not touched. ROOT is only created by admin:bootstrap-root.
  */
 
 const GRANTABLE_ROLES = Object.values(E_StaffRole).filter(
   role => role !== E_StaffRole.ROOT,
 );
+const INVITE_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -22,7 +27,7 @@ const isGrantableRole = (role: string): role is E_StaffRole =>
 async function main() {
   const [rawEmail, role] = process.argv.slice(2).filter(arg => arg !== '--');
 
-  if (!rawEmail || !role || !isGrantableRole(role)) {
+  if (!rawEmail || !isEmail(rawEmail) || !role || !isGrantableRole(role)) {
     console.error(
       `Usage: pnpm --filter backend admin:grant-staff <email> <${GRANTABLE_ROLES.join('|')}>`,
     );
@@ -30,44 +35,60 @@ async function main() {
     return;
   }
 
-  const email = normalizeEmail(rawEmail);
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { staffAccount: true },
-  });
+  const cmsUrl = process.env.CMS_URL;
+  if (!cmsUrl) {
+    console.error('CMS_URL is not set: it is the CMS address the link opens');
+    process.exitCode = 1;
+    return;
+  }
 
-  if (!user) {
-    console.error(`${email} has no account. Register it first.`);
-    process.exitCode = 1;
-    return;
-  }
-  if (!user.emailVerifiedAt) {
-    console.error(`${email} is not verified yet. Confirm the email first.`);
-    process.exitCode = 1;
-    return;
-  }
-  if (user.staffAccount?.role === E_StaffRole.ROOT) {
+  const email = normalizeEmail(rawEmail);
+  const existing = await prisma.staffUser.findUnique({ where: { email } });
+  if (existing?.role === E_StaffRole.ROOT) {
     console.error(`${email} is a root admin, this command does not change it.`);
     process.exitCode = 1;
     return;
   }
 
-  await prisma.$transaction([
-    prisma.staffAccount.upsert({
-      where: { userId: user.id },
-      create: { userId: user.id, role },
+  const token = generateToken();
+  const staff = await prisma.$transaction(async tx => {
+    const user = await tx.staffUser.upsert({
+      where: { email },
+      create: { email, role },
       update: { role, revokedAt: null },
-    }),
-    prisma.auditLog.create({
-      data: {
-        action: 'staff.cli_grant',
-        targetId: user.id,
-        meta: { role },
-      },
-    }),
-  ]);
+    });
+    await tx.staffToken.deleteMany({
+      where: { userId: user.id, purpose: E_StaffTokenPurpose.INVITE },
+    });
+    //COMMENT an account that already has a password just gets the role; no link needed
+    if (!user.password) {
+      await tx.staffToken.create({
+        data: {
+          hash: hashToken(token),
+          userId: user.id,
+          purpose: E_StaffTokenPurpose.INVITE,
+          expires: new Date(Date.now() + INVITE_LIFETIME_MS),
+        },
+      });
+    }
+    await tx.auditLog.create({
+      data: { action: 'staff.cli_grant', targetId: user.id, meta: { role } },
+    });
+    return user;
+  });
 
-  console.log(`${email} can now sign in to the CMS as ${role}.`);
+  if (staff.password) {
+    console.log(`${email} can sign in to the CMS as ${role}.`);
+    return;
+  }
+  const link = `${new URL('/accept-invite', cmsUrl).href}#token=${token}`;
+  console.log(`
+${email} is a ${role} now. The link is shown only once (7 days, one use):
+
+  ${link}
+
+Opening it and setting the password signs the person in to the CMS.
+`);
 }
 
 main()

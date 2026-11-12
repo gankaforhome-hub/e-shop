@@ -2,11 +2,12 @@ import { generateToken, hashToken } from '@common/utils';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import {
-  E_OneTimeTokenPurpose,
   E_StaffRole,
+  E_StaffTokenPurpose,
   E_WebAuthnChallengePurpose,
   Prisma,
-  StaffAccount,
+  StaffToken,
+  StaffUser,
   WebAuthnCredential,
 } from '@prisma/client';
 
@@ -31,15 +32,13 @@ export class StaffRepository {
 
   constructor(private readonly db: PrismaService) {}
 
-  findStaffAccount(userId: string): Promise<StaffAccount | null> {
-    return this.db.staffAccount.findUnique({ where: { userId } });
+  findStaffUser(id: string): Promise<StaffUser | null> {
+    return this.db.staffUser.findUnique({ where: { id } });
   }
 
-  findUserWithStaff(userId: string) {
-    return this.db.user.findUnique({
-      where: { id: userId },
-      select: { emailVerifiedAt: true, staffAccount: true },
-    });
+  //COMMENT the caller normalizes the email
+  findStaffUserByEmail(email: string): Promise<StaffUser | null> {
+    return this.db.staffUser.findUnique({ where: { email } });
   }
 
   findCredentials(userId: string): Promise<WebAuthnCredential[]> {
@@ -136,28 +135,16 @@ export class StaffRepository {
     await this.db.auditLog.create({ data: entry });
   }
 
-  //COMMENT a pending email change must not survive a new grant
+  //COMMENT a root grant for an existing staff account: the role, and access back if revoked
   async grant(
     userId: string,
     role: E_StaffRole,
     audit: IAuditEntry,
   ): Promise<void> {
     await this.db.$transaction([
-      this.db.staffAccount.upsert({
-        where: { userId },
-        create: { userId, role },
-        update: { role, revokedAt: null },
-      }),
-      this.db.oneTimeToken.deleteMany({
-        where: {
-          userId,
-          purpose: {
-            in: [
-              E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
-              E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
-            ],
-          },
-        },
+      this.db.staffUser.update({
+        where: { id: userId },
+        data: { role, revokedAt: null },
       }),
       this.db.auditLog.create({ data: audit }),
     ]);
@@ -165,23 +152,16 @@ export class StaffRepository {
 
   //COMMENT every staff member, newest first; the password hash never leaves this method
   async listTeam() {
-    const accounts = await this.db.staffAccount.findMany({
+    const users = await this.db.staffUser.findMany({
       orderBy: { createdAt: 'desc' },
-      include: {
-        user: {
-          select: {
-            email: true,
-            name: true,
-            password: true,
-            emailVerifiedAt: true,
-            _count: { select: { webAuthnCredentials: true } },
-          },
-        },
-      },
+      include: { _count: { select: { webAuthnCredentials: true } } },
     });
 
-    return accounts.map(({ user, ...account }) => ({
-      ...account,
+    return users.map(user => ({
+      userId: user.id,
+      role: user.role,
+      revokedAt: user.revokedAt,
+      createdAt: user.createdAt,
       email: user.email,
       name: user.name,
       hasPassword: user.password !== null,
@@ -190,21 +170,9 @@ export class StaffRepository {
     }));
   }
 
-  findUserByEmailWithStaff(email: string) {
-    return this.db.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        password: true,
-        emailVerifiedAt: true,
-        staffAccount: true,
-      },
-    });
-  }
-
   /**
-   * Creates the user when the address is new, gives the role and returns a one-time link token.
-   * Accepting it sets the password and confirms the email; the access works at once.
+   * Creates the staff account when the address is new, gives the role and returns a one-time
+   * link token. Accepting it sets the password and confirms the email; the access works at once.
    */
   async invite(
     email: string,
@@ -216,34 +184,20 @@ export class StaffRepository {
     const now = new Date();
 
     const userId = await this.db.$transaction(async tx => {
-      const { id } = await tx.user.upsert({
+      const { id } = await tx.staffUser.upsert({
         where: { email },
-        create: { email },
-        update: {},
+        create: { email, role, invitedById: audit.actorId },
+        update: { role, revokedAt: null },
         select: { id: true },
       });
-      await tx.staffAccount.upsert({
-        where: { userId: id },
-        create: { userId: id, role },
-        update: { role, revokedAt: null },
+      await tx.staffToken.deleteMany({
+        where: { userId: id, purpose: E_StaffTokenPurpose.INVITE },
       });
-      await tx.oneTimeToken.deleteMany({
-        where: {
-          userId: id,
-          purpose: {
-            in: [
-              E_OneTimeTokenPurpose.STAFF_INVITE,
-              E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
-              E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
-            ],
-          },
-        },
-      });
-      await tx.oneTimeToken.create({
+      await tx.staffToken.create({
         data: {
           hash: hashToken(token),
           userId: id,
-          purpose: E_OneTimeTokenPurpose.STAFF_INVITE,
+          purpose: E_StaffTokenPurpose.INVITE,
           expires: new Date(now.getTime() + lifetimeMs),
         },
       });
@@ -260,7 +214,7 @@ export class StaffRepository {
     audit: IAuditEntry,
   ): Promise<void> {
     await this.db.$transaction([
-      this.db.staffAccount.update({ where: { userId }, data: { role } }),
+      this.db.staffUser.update({ where: { id: userId }, data: { role } }),
       this.db.auditLog.create({ data: audit }),
     ]);
   }
@@ -270,23 +224,117 @@ export class StaffRepository {
     await this.db.$transaction([
       this.db.webAuthnCredential.deleteMany({ where: { userId } }),
       this.db.webAuthnChallenge.deleteMany({ where: { userId } }),
-      this.db.token.deleteMany({ where: { userId } }),
+      this.db.staffSession.deleteMany({ where: { userId } }),
       this.db.auditLog.create({ data: audit }),
     ]);
   }
 
-  //COMMENT access ends at once: every session and the pending invitation of the user go too
+  //COMMENT access ends at once: every session and the pending links of the user go too
   async revoke(userId: string, audit: IAuditEntry): Promise<void> {
     await this.db.$transaction([
-      this.db.staffAccount.update({
-        where: { userId },
+      this.db.staffUser.update({
+        where: { id: userId },
         data: { revokedAt: new Date() },
       }),
-      this.db.token.deleteMany({ where: { userId } }),
-      this.db.oneTimeToken.deleteMany({
-        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_INVITE },
-      }),
+      this.db.staffSession.deleteMany({ where: { userId } }),
+      this.db.staffToken.deleteMany({ where: { userId } }),
       this.db.auditLog.create({ data: audit }),
+    ]);
+  }
+
+  // ─── Staff one-time links (invitation, password reset) ───────────────────
+
+  //COMMENT a new link replaces the earlier ones of this purpose; returns the raw value for the email
+  async createToken(
+    userId: string,
+    purpose: E_StaffTokenPurpose,
+    lifetimeMs: number,
+  ): Promise<string> {
+    const token = generateToken();
+    const now = Date.now();
+
+    await this.db.$transaction([
+      this.db.staffToken.deleteMany({
+        where: {
+          userId,
+          OR: [{ purpose }, { expires: { lt: new Date(now) } }],
+        },
+      }),
+      this.db.staffToken.create({
+        data: {
+          hash: hashToken(token),
+          purpose,
+          expires: new Date(now + lifetimeMs),
+          userId,
+        },
+      }),
+    ]);
+
+    return token;
+  }
+
+  findToken(
+    token: string,
+    purpose: E_StaffTokenPurpose,
+  ): Promise<StaffToken | null> {
+    return this.db.staffToken.findFirst({
+      where: {
+        hash: hashToken(token),
+        purpose,
+        consumedAt: null,
+        expires: { gt: new Date() },
+      },
+    });
+  }
+
+  /**
+   * Accepting an invitation or a reset: spends the link, sets the password, confirms the email
+   * (the link proves the mailbox) and ends every session and pending link. Never touches keys
+   * or the role: a mailbox alone can't grant those. False when the link was already spent.
+   */
+  async setPasswordWithToken(
+    { hash, userId }: StaffToken,
+    passwordHash: string,
+  ): Promise<boolean> {
+    const now = new Date();
+
+    return this.db.$transaction(async tx => {
+      const { count } = await tx.staffToken.updateMany({
+        where: { hash, consumedAt: null, expires: { gt: now } },
+        data: { consumedAt: now },
+      });
+      if (count !== 1) {
+        return false;
+      }
+      await tx.staffUser.updateMany({
+        where: { id: userId, emailVerifiedAt: null },
+        data: { emailVerifiedAt: now },
+      });
+      await tx.staffUser.update({
+        where: { id: userId },
+        data: { password: passwordHash },
+      });
+      await tx.staffSession.deleteMany({ where: { userId } });
+      await tx.staffToken.deleteMany({ where: { userId } });
+      return true;
+    });
+  }
+
+  //COMMENT ends every other session and pending link of the staff member
+  async changePassword(
+    userId: string,
+    passwordHash: string,
+    currentSessionId: string,
+  ): Promise<void> {
+    await this.db.$transaction([
+      this.db.staffUser.update({
+        where: { id: userId },
+        data: { password: passwordHash },
+      }),
+      this.db.staffSession.deleteMany({
+        where: { userId, familyId: { not: currentSessionId } },
+      }),
+      this.db.staffToken.deleteMany({ where: { userId } }),
     ]);
   }
 }

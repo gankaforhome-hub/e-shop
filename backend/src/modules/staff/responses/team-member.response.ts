@@ -1,10 +1,6 @@
 import { E_StaffRole } from '@prisma/client';
 
-export const TEAM_MEMBER_STATUSES = [
-  'invited',
-  'active',
-  'revoked',
-] as const;
+export const TEAM_MEMBER_STATUSES = ['invited', 'active', 'revoked'] as const;
 
 export type TeamMemberStatus = (typeof TEAM_MEMBER_STATUSES)[number];
 

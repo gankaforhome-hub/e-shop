@@ -26,11 +26,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { E_AuthAudience, E_StaffRole } from '@prisma/client';
+import { E_StaffRole } from '@prisma/client';
 import { ChangeStaffRoleDto, InviteStaffDto } from './dto/team.dto';
 import { StaffGuard, StaffRoles } from './guards/staff.guard';
 import { TeamMemberResponse } from './responses/team-member.response';
 import { TeamService } from './team.service';
+import { AuthAudience } from '@common/constants';
 
 @ApiTags('👥 team (CMS)')
 @ApiBearerAuth()
@@ -38,7 +39,7 @@ import { TeamService } from './team.service';
   description:
     'Not an ADMIN, or the target is an ADMIN / ROOT / yourself (only a root manages an ADMIN)',
 })
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @UseGuards(StaffGuard)
 @StaffRoles(E_StaffRole.ADMIN)
 @Controller('admin/team')

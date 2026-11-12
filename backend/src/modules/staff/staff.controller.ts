@@ -1,13 +1,6 @@
 import { Audiences, CurrentUser, UUIDParam } from '@common/decorators';
 import { MessageResponse } from '@modules/auth/responses/message.response';
-import {
-  Body,
-  Controller,
-  Delete,
-  Ip,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Ip, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiHeader,
@@ -15,7 +8,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { E_AuthAudience } from '@prisma/client';
 import { STRICT_THROTTLE } from '@config';
 import { GrantStaffRoleDto } from './dto/grant-staff-role.dto';
 import {
@@ -25,6 +17,7 @@ import {
 import { RootGuard } from './guards/root.guard';
 import { FRESH_ASSERTION_HEADER } from './staff.constants';
 import { StaffService } from './staff.service';
+import { AuthAudience } from '@common/constants';
 
 @ApiTags('🛡️ staff management (root)')
 @ApiBearerAuth()
@@ -34,7 +27,7 @@ import { StaffService } from './staff.service';
   description:
     'Base64url JSON of the key signature, requested from POST /auth/cms/webauthn/assertion-options for this action and target.',
 })
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @UseGuards(RootGuard, FreshAssertionGuard)
 @Throttle(STRICT_THROTTLE)
 @Controller('admin/staff')

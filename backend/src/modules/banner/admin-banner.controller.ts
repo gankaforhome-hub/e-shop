@@ -23,7 +23,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { E_AuthAudience, E_StaffRole } from '@prisma/client';
+import { E_StaffRole } from '@prisma/client';
 import { AdminBannerService } from './admin-banner.service';
 import {
   BannerOrderDto,
@@ -34,13 +34,15 @@ import {
   AdminBannerResponse,
   BannerLinkTargetResponse,
 } from './responses/banner.response';
+import { AuthAudience } from '@common/constants';
 
 @ApiTags('🖼️ banners (CMS)')
 @ApiBearerAuth()
 @ApiForbiddenResponse({
-  description: 'Not an active staff member (a member with a key must confirm the session with it)',
+  description:
+    'Not an active staff member (a member with a key must confirm the session with it)',
 })
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @UseGuards(StaffGuard)
 @StaffRoles(E_StaffRole.CONTENT_EDITOR, E_StaffRole.CATALOG_MANAGER)
 @Controller('admin/banners')

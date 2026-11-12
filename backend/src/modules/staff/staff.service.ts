@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { E_StaffRole, StaffAccount } from '@prisma/client';
+import { E_StaffRole, StaffUser } from '@prisma/client';
 import { StaffRepository } from './repository/staff.repository';
 
 export interface IStaffActionContext {
@@ -17,8 +17,8 @@ export interface IStaffActionContext {
 export class StaffService {
   constructor(private readonly staffRepository: StaffRepository) {}
 
-  private async getManageableAccount(userId: string): Promise<StaffAccount> {
-    const account = await this.staffRepository.findStaffAccount(userId);
+  private async getManageableAccount(userId: string): Promise<StaffUser> {
+    const account = await this.staffRepository.findStaffUser(userId);
     if (!account) {
       throw new NotFoundException();
     }
@@ -33,11 +33,11 @@ export class StaffService {
     role: E_StaffRole,
     { actorId, ip }: IStaffActionContext,
   ): Promise<void> {
-    const user = await this.staffRepository.findUserWithStaff(userId);
+    const user = await this.staffRepository.findStaffUser(userId);
     if (!user) {
       throw new NotFoundException();
     }
-    if (user.staffAccount?.role === E_StaffRole.ROOT) {
+    if (user.role === E_StaffRole.ROOT) {
       throw new ForbiddenException();
     }
     if (!user.emailVerifiedAt) {

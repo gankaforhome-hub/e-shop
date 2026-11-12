@@ -1,10 +1,6 @@
 import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
-import {
-  E_OneTimeTokenPurpose,
-  E_StaffRole,
-  PrismaClient,
-} from '@prisma/client';
+import { E_StaffRole, E_StaffTokenPurpose, PrismaClient } from '@prisma/client';
 import { isEmail } from 'class-validator';
 import { randomBytes } from 'crypto';
 import { normalizeEmail } from '../src/common/utils/normalize-email.util';
@@ -48,13 +44,13 @@ async function main() {
   }
 
   const email = normalizeEmail(rawEmail);
-  const existing = await prisma.user.findUnique({ where: { email } });
+  const existing = await prisma.staffUser.findUnique({ where: { email } });
 
-  //COMMENT anyone could have registered this address first, so an existing account
-  //is never promoted as it is: its password may belong to a stranger
+  //COMMENT staff accounts are separate from customers; an existing staff account is only taken
+  //over on purpose, because its password and keys are cleared
   if (existing && !isReset) {
     console.error(
-      `${email} already has an account. To take it over and clear its password, sessions and keys, add ${RESET_FLAG}.`,
+      `${email} already has a staff account. To make it root and clear its password, sessions and keys, add ${RESET_FLAG}.`,
     );
     process.exitCode = 1;
     return;
@@ -63,27 +59,27 @@ async function main() {
   const token = generateToken();
 
   const user = await prisma.$transaction(async tx => {
-    const { id: userId } = await tx.user.upsert({
+    const { id: userId } = await tx.staffUser.upsert({
       where: { email },
-      create: { email },
-      update: { password: null, emailVerifiedAt: null },
+      create: { email, role: E_StaffRole.ROOT },
+      update: {
+        role: E_StaffRole.ROOT,
+        password: null,
+        emailVerifiedAt: null,
+        revokedAt: null,
+      },
     });
 
-    await tx.token.deleteMany({ where: { userId } });
-    await tx.oneTimeToken.deleteMany({ where: { userId } });
+    await tx.staffSession.deleteMany({ where: { userId } });
+    await tx.staffToken.deleteMany({ where: { userId } });
     await tx.webAuthnCredential.deleteMany({ where: { userId } });
     await tx.webAuthnChallenge.deleteMany({ where: { userId } });
 
-    await tx.staffAccount.upsert({
-      where: { userId },
-      create: { userId, role: E_StaffRole.ROOT },
-      update: { role: E_StaffRole.ROOT, revokedAt: null },
-    });
-    await tx.oneTimeToken.create({
+    await tx.staffToken.create({
       data: {
         hash: hashToken(token),
         userId,
-        purpose: E_OneTimeTokenPurpose.STAFF_INVITE,
+        purpose: E_StaffTokenPurpose.INVITE,
         expires: new Date(Date.now() + INVITE_LIFETIME_MS),
       },
     });

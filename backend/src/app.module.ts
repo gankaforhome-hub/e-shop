@@ -12,7 +12,7 @@ import { CollectionModule } from '@modules/collection/collection.module';
 import { CookieModule } from '@modules/cookie/cookie.module';
 import { MediaModule } from '@modules/media/media.module';
 import { ServerModule } from '@modules/server/server.module';
-import { UserModule } from '@modules/user/user.module';
+import { CustomerModule } from '@modules/customer/customer.module';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
@@ -22,7 +22,7 @@ import { APP_GUARD } from '@nestjs/core';
     ServerModule,
     CookieModule,
     DatabaseModule,
-    UserModule,
+    CustomerModule,
     AuthModule,
     MediaModule,
     CollectionModule,

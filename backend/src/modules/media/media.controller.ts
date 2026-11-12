@@ -38,7 +38,7 @@ import {
   ApiUnsupportedMediaTypeResponse,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { E_AuthAudience, E_StaffRole } from '@prisma/client';
+import { E_StaffRole } from '@prisma/client';
 import { type Response } from 'express';
 import type {} from 'multer'; // Express.Multer.File
 import { UpdateMediaDto, UploadMediaDto } from './dto';
@@ -50,13 +50,15 @@ import {
 } from './media.constants';
 import { MediaService } from './media.service';
 import { MediaListResponse, MediaResponse } from './responses';
+import { AuthAudience } from '@common/constants';
 
 @ApiTags('🖼️ media library (CMS)')
 @ApiBearerAuth()
 @ApiForbiddenResponse({
-  description: 'Not an active staff member (a member with a key must confirm the session with it)',
+  description:
+    'Not an active staff member (a member with a key must confirm the session with it)',
 })
-@Audiences(E_AuthAudience.CMS)
+@Audiences(AuthAudience.CMS)
 @UseGuards(StaffGuard)
 @StaffRoles(E_StaffRole.CATALOG_MANAGER, E_StaffRole.CONTENT_EDITOR)
 @Controller('admin/media')

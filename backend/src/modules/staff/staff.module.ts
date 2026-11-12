@@ -1,8 +1,10 @@
 import { DatabaseModule } from '@database/database.module';
 import { MailModule } from '@modules/mail/mail.module';
+import { PasswordService } from '@modules/password/password.service';
 import { Module } from '@nestjs/common';
 import { StaffRepository } from './repository/staff.repository';
 import { StaffAccessService } from './staff-access.service';
+import { StaffAccountService } from './staff-account.service';
 import { StaffController } from './staff.controller';
 import { StaffService } from './staff.service';
 import { TeamController } from './team.controller';
@@ -16,10 +18,17 @@ import { WebAuthnService } from './webauthn.service';
   providers: [
     StaffRepository,
     StaffAccessService,
+    StaffAccountService,
     StaffService,
+    PasswordService,
     TeamService,
     WebAuthnService,
   ],
-  exports: [StaffRepository, StaffAccessService, WebAuthnService],
+  exports: [
+    StaffRepository,
+    StaffAccessService,
+    StaffAccountService,
+    WebAuthnService,
+  ],
 })
 export class StaffModule {}

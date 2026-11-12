@@ -8,7 +8,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { E_StaffRole, StaffAccount } from '@prisma/client';
+import { E_StaffRole, StaffUser } from '@prisma/client';
 import { StaffRepository } from './repository/staff.repository';
 import {
   TeamMemberResponse,
@@ -41,16 +41,16 @@ export class TeamService {
 
   private canManage(
     actor: IAuthUser,
-    { userId, role }: Pick<StaffAccount, 'userId' | 'role'>,
+    { id, role }: Pick<StaffUser, 'id' | 'role'>,
   ): boolean {
-    return userId !== actor.id && this.canAssign(actor, role);
+    return id !== actor.id && this.canAssign(actor, role);
   }
 
   private async getManageableAccount(
     actor: IAuthUser,
     userId: string,
-  ): Promise<StaffAccount> {
-    const account = await this.staffRepository.findStaffAccount(userId);
+  ): Promise<StaffUser> {
+    const account = await this.staffRepository.findStaffUser(userId);
     if (!account) {
       throw new NotFoundException();
     }
@@ -78,7 +78,10 @@ export class TeamService {
         role: member.role,
         status,
         hasKey: member.hasKey,
-        manageable: this.canManage(actor, member),
+        manageable: this.canManage(actor, {
+          id: member.userId,
+          role: member.role,
+        }),
         createdAt: member.createdAt,
       };
     });
@@ -96,8 +99,7 @@ export class TeamService {
     }
 
     const email = normalizeEmail(rawEmail);
-    const existing = await this.staffRepository.findUserByEmailWithStaff(email);
-    const account = existing?.staffAccount;
+    const account = await this.staffRepository.findStaffUserByEmail(email);
 
     if (account) {
       if (!this.canManage(actor, account)) {
@@ -105,8 +107,8 @@ export class TeamService {
       }
       const isActive =
         !account.revokedAt &&
-        existing.password !== null &&
-        existing.emailVerifiedAt !== null;
+        account.password !== null &&
+        account.emailVerifiedAt !== null;
       if (isActive) {
         throw new ConflictException('Already a staff member');
       }

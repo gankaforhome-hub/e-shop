@@ -14,12 +14,11 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 
-import { E_AuthAudience } from '@prisma/client';
-
 import {
   CMS_AUTH_COOKIE_PATH,
   CMS_REFRESH_TOKEN,
   REFRESH_TOKEN,
+  AuthAudience,
 } from '@common/constants';
 import {
   AnyAudience,
@@ -48,7 +47,6 @@ import {
 import { CheckOrigin, OriginGuard } from './guards/origin.guard';
 import { IAuthUser, ITokens } from './interfaces';
 import {
-  AcceptInviteResponse,
   ApiSignInBadRequestResponse,
   ApiSignInCreatedResponse,
   ApiSignInOperation,
@@ -86,8 +84,9 @@ export class AuthController {
   async signUp(
     @Body() signUpDto: SignUpDto,
     @Ip() ip: string,
+    @UserAgent() userAgent: string,
   ): Promise<MessageResponse> {
-    await this.accountService.signUp(signUpDto, ip);
+    await this.accountService.signUp(signUpDto, { ip, userAgent });
     return { message: CHECK_EMAIL_MESSAGE };
   }
 
@@ -149,25 +148,7 @@ export class AuthController {
     return { message: 'Password changed, sign in again' };
   }
 
-  @SkipAuth()
-  @Throttle(STRICT_THROTTLE)
-  @HttpCode(HttpStatus.OK)
-  @Post('accept-invite')
-  @ApiOperation({
-    summary:
-      'accept a CMS invitation: set the password with the token from the link',
-    description:
-      'Also confirms the email. Ends every session of the user. An existing password is replaced. Returns the email, so the CMS signs the person in right away.',
-  })
-  async acceptInvite(
-    @Body() dto: ResetPasswordDto,
-  ): Promise<AcceptInviteResponse> {
-    const email = await this.accountService.acceptStaffInvite(dto);
-    return { email };
-  }
-
   @ApiBearerAuth()
-  @AnyAudience()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.OK)
   @Post('change-password')
@@ -184,7 +165,6 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
-  @AnyAudience()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('change-email')
@@ -222,7 +202,7 @@ export class AuthController {
 
   @SkipAuth()
   @Throttle(STRICT_THROTTLE)
-  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @CheckOrigin(AuthAudience.STOREFRONT)
   @UseGuards(OriginGuard)
   @Post('sign-in')
   @ApiSignInOperation()
@@ -257,7 +237,7 @@ export class AuthController {
 
   @SkipAuth()
   @Throttle(STRICT_THROTTLE)
-  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @CheckOrigin(AuthAudience.STOREFRONT)
   @UseGuards(OriginGuard)
   @HttpCode(HttpStatus.OK)
   @Post('google')
@@ -283,7 +263,7 @@ export class AuthController {
   }
 
   @SkipAuth()
-  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @CheckOrigin(AuthAudience.STOREFRONT)
   @UseGuards(OriginGuard)
   @Post('sign-out')
   @ApiSignOutOperation()
@@ -303,14 +283,17 @@ export class AuthController {
     }
 
     //COMMENT if user sign-out early
-    const isExistToken = await this.authService.findToken(refreshToken);
+    const isExistToken = await this.authService.findToken(
+      refreshToken,
+      AuthAudience.STOREFRONT,
+    );
     if (!isExistToken) {
       await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
       res.sendStatus(HttpStatus.NO_CONTENT);
       return;
     }
 
-    await this.authService.deleteToken(refreshToken);
+    await this.authService.deleteToken(refreshToken, AuthAudience.STOREFRONT);
 
     await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
 
@@ -324,7 +307,8 @@ export class AuthController {
     @CurrentUser() user: IAuthUser,
     @Res({ passthrough: true }) res: Response,
   ) {
-    await this.authService.deleteAllTokens(user.id);
+    //COMMENT ends every session of this account in its own app only
+    await this.authService.deleteAllTokens(user.id, user.aud);
     await this.cookiesService.removeFromCookies(REFRESH_TOKEN, res);
     await this.cookiesService.removeFromCookies(
       CMS_REFRESH_TOKEN,
@@ -336,7 +320,7 @@ export class AuthController {
 
   @SkipAuth()
   @Throttle(REFRESH_THROTTLE)
-  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @CheckOrigin(AuthAudience.STOREFRONT)
   @UseGuards(OriginGuard)
   @Post('refresh')
   @ApiOperation({ summary: '🔃 refresh token' })
@@ -353,6 +337,7 @@ export class AuthController {
     const tokens: ITokens = await this.authService.refreshToken(
       refreshToken,
       userAgent,
+      AuthAudience.STOREFRONT,
     );
 
     if (!tokens) {

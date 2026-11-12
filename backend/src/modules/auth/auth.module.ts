@@ -12,7 +12,7 @@ import { CmsAuthController } from './cms-auth.controller';
 
 import { jwtModuleAsyncOptions } from '@config';
 
-import { UserModule } from '@modules/user/user.module';
+import { CustomerModule } from '@modules/customer/customer.module';
 import { CookieModule } from '@modules/cookie/cookie.module';
 import { MailModule } from '@modules/mail/mail.module';
 import { StaffModule } from '@modules/staff/staff.module';
@@ -41,7 +41,7 @@ import { GUARDS } from './guards';
     MailModule,
     StaffModule,
     JwtModule.registerAsync(jwtModuleAsyncOptions()),
-    UserModule,
+    CustomerModule,
   ],
   exports: [AuthService],
 })

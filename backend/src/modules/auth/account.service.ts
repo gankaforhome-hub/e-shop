@@ -1,17 +1,18 @@
-import { TERMS_VERSION } from '@common/constants';
 import { normalizeEmail } from '@common/utils';
+import { CustomerService } from '@modules/customer/customer.service';
 import { MailService } from '@modules/mail/mail.service';
 import { PasswordService } from '@modules/password/password.service';
-import { StaffRepository } from '@modules/staff/repository/staff.repository';
-import { UserService } from '@modules/user/user.service';
 import {
   BadRequestException,
   ConflictException,
-  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { E_OneTimeTokenPurpose, User } from '@prisma/client';
+import {
+  Customer,
+  E_ConsentSource,
+  E_CustomerTokenPurpose,
+} from '@prisma/client';
 import {
   ChangeEmailDto,
   ChangePasswordDto,
@@ -32,21 +33,23 @@ const EMAIL_CHANGE_LIFETIME_MS = 60 * MINUTE_MS;
 
 const INVALID_TOKEN_MESSAGE = 'Invalid or expired token';
 
+export type RequestContext = { ip?: string; userAgent?: string };
+
+/** Storefront customer accounts. Staff accounts have their own flows (`StaffAccountService`). */
 @Injectable()
 export class AccountService {
   constructor(
-    private readonly userService: UserService,
+    private readonly customerService: CustomerService,
     private readonly passwordService: PasswordService,
     private readonly authRepository: AuthRepository,
     private readonly mailService: MailService,
-    private readonly staffRepository: StaffRepository,
     private readonly turnstile: TurnstileService,
   ) {}
 
-  private async sendEmailVerification({ id, email }: User): Promise<void> {
+  private async sendEmailVerification({ id, email }: Customer): Promise<void> {
     const token = await this.authRepository.createOneTimeToken(
       id,
-      E_OneTimeTokenPurpose.EMAIL_VERIFICATION,
+      E_CustomerTokenPurpose.EMAIL_VERIFICATION,
       EMAIL_VERIFICATION_LIFETIME_MS,
     );
     this.mailService.sendEmailVerification(email, token);
@@ -55,6 +58,8 @@ export class AccountService {
   /**
    * The caller gets the same answer either way, so sign-up reveals neither existing emails nor
    * taken phones. A new account works at once; the welcome mail only asks to confirm the email.
+   * The DTO only passes with acceptTerms === true; the consent journal records it with the
+   * version, the request's ip and user agent.
    */
   async signUp(
     {
@@ -66,44 +71,44 @@ export class AccountService {
       marketingConsent,
       turnstileToken,
     }: SignUpDto,
-    ip?: string,
+    { ip, userAgent }: RequestContext,
   ): Promise<void> {
     await this.turnstile.assertHuman(turnstileToken, ip);
 
-    const existing = await this.userService.findOneByEmail(email);
-    const isPhoneTaken = !!phone && (await this.userService.isPhoneTaken(phone));
+    const existing = await this.customerService.findByEmail(email);
+    const isPhoneTaken =
+      !!phone && (await this.customerService.isPhoneTaken(phone));
 
+    const passwordHash = await this.passwordService.getHashPassword(password);
+    //COMMENT the hash above is computed either way, so the timing does not reveal it
     if (existing || isPhoneTaken) {
-      //COMMENT the same work as a real sign-up, so the timing does not reveal it either
-      await this.passwordService.getHashPassword(password);
       if (existing) {
         this.mailService.sendAccountExists(existing.email);
       }
       return;
     }
 
-    //COMMENT the DTO only passes with acceptTerms === true; the version proves what was accepted
-    const now = new Date();
-    const user = await this.userService.create({
-      email,
-      password,
-      phone,
-      firstName,
-      lastName,
-      termsAcceptedAt: now,
-      termsVersion: TERMS_VERSION,
-      marketingConsentAt: marketingConsent ? now : null,
-    });
-    if (user) {
-      await this.sendEmailVerification(user);
+    const customer = await this.customerService.create(
+      {
+        email,
+        passwordHash,
+        firstName,
+        lastName,
+        phone,
+        marketingEmail: marketingConsent === true,
+      },
+      { source: E_ConsentSource.SIGN_UP, ip, userAgent },
+    );
+    if (customer) {
+      await this.sendEmailVerification(customer);
     }
   }
 
   //COMMENT only to the signed-in customer's own address, so nobody can mail links to strangers
   async resendVerification(actor: IAuthUser): Promise<void> {
-    const user = await this.userService.findById(actor.id);
-    if (user && !user.emailVerifiedAt) {
-      await this.sendEmailVerification(user);
+    const customer = await this.customerService.findById(actor.id);
+    if (customer && !customer.emailVerifiedAt) {
+      await this.sendEmailVerification(customer);
     }
   }
 
@@ -113,15 +118,16 @@ export class AccountService {
    * confirms nothing. The real owner takes the address back with a password reset, which proves
    * the mailbox, marks it verified and ends every session.
    */
-  async verifyEmail(actor: IAuthUser, { token }: VerifyEmailDto): Promise<void> {
+  async verifyEmail(
+    actor: IAuthUser,
+    { token }: VerifyEmailDto,
+  ): Promise<void> {
     const oneTimeToken = await this.authRepository.findOneTimeToken(
       token,
-      E_OneTimeTokenPurpose.EMAIL_VERIFICATION,
+      E_CustomerTokenPurpose.EMAIL_VERIFICATION,
     );
-    const user =
-      oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
 
-    if (!oneTimeToken || !user || user.id !== actor.id) {
+    if (!oneTimeToken || oneTimeToken.userId !== actor.id) {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
 
@@ -130,43 +136,37 @@ export class AccountService {
     if (!isCompleted) {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
-    await this.userService.clearCache(user.id);
   }
 
-  //COMMENT a staff member gets the CMS reset page, a customer the storefront one
   async forgotPassword(
     { email, turnstileToken }: EmailDto,
     ip?: string,
   ): Promise<void> {
     await this.turnstile.assertHuman(turnstileToken, ip);
 
-    const user = await this.userService.findOneByEmail(email);
-    if (!user) {
+    const customer = await this.customerService.findByEmail(email);
+    if (!customer) {
       return;
     }
 
     const token = await this.authRepository.createOneTimeToken(
-      user.id,
-      E_OneTimeTokenPurpose.PASSWORD_RESET,
+      customer.id,
+      E_CustomerTokenPurpose.PASSWORD_RESET,
       PASSWORD_RESET_LIFETIME_MS,
     );
-    const staff = await this.staffRepository.findStaffAccount(user.id);
-    this.mailService.sendPasswordReset(
-      user.email,
-      token,
-      staff && !staff.revokedAt ? 'cms' : 'storefront',
-    );
+    this.mailService.sendPasswordReset(customer.email, token, 'storefront');
   }
 
   async resetPassword({ token, password }: ResetPasswordDto): Promise<void> {
     const oneTimeToken = await this.authRepository.findOneTimeToken(
       token,
-      E_OneTimeTokenPurpose.PASSWORD_RESET,
+      E_CustomerTokenPurpose.PASSWORD_RESET,
     );
-    const user =
-      oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
+    const customer =
+      oneTimeToken &&
+      (await this.customerService.findById(oneTimeToken.userId));
 
-    if (!oneTimeToken || !user) {
+    if (!oneTimeToken || !customer) {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
 
@@ -178,38 +178,7 @@ export class AccountService {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
 
-    await this.userService.clearCache(user.id);
-    this.mailService.sendPasswordChanged(user.email);
-  }
-
-  /**
-   * The same as a password reset: the link proves the mailbox, so it also confirms the email.
-   * Returns the email, so the CMS can sign the person in with the new password at once.
-   */
-  async acceptStaffInvite({
-    token,
-    password,
-  }: ResetPasswordDto): Promise<string> {
-    const oneTimeToken = await this.authRepository.findOneTimeToken(
-      token,
-      E_OneTimeTokenPurpose.STAFF_INVITE,
-    );
-    const user =
-      oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
-
-    if (!oneTimeToken || !user) {
-      throw new BadRequestException(INVALID_TOKEN_MESSAGE);
-    }
-
-    const isCompleted = await this.authRepository.completePasswordReset(
-      oneTimeToken,
-      await this.passwordService.getHashPassword(password),
-    );
-    if (!isCompleted) {
-      throw new BadRequestException(INVALID_TOKEN_MESSAGE);
-    }
-    await this.userService.clearCache(user.id);
-    return user.email;
+    this.mailService.sendPasswordChanged(customer.email);
   }
 
   async changePassword(
@@ -234,13 +203,6 @@ export class AccountService {
     actor: IAuthUser,
     { newEmail, password }: ChangeEmailDto,
   ): Promise<void> {
-    //COMMENT a staff email must not be movable to a mailbox an attacker controls
-    if (actor.staff && !actor.staff.revokedAt) {
-      throw new ForbiddenException(
-        'Staff emails can only be changed by a root admin',
-      );
-    }
-
     await this.assertPassword(actor.id, password);
 
     const email = normalizeEmail(newEmail);
@@ -252,20 +214,20 @@ export class AccountService {
 
     const oldAddressToken = await this.authRepository.createOneTimeToken(
       actor.id,
-      E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+      E_CustomerTokenPurpose.EMAIL_CHANGE_OLD,
       EMAIL_CHANGE_LIFETIME_MS,
       email,
     );
     this.mailService.sendEmailChangeConfirmation(actor.email, oldAddressToken);
 
-    if (await this.userService.findOneByEmail(email)) {
+    if (await this.customerService.findByEmail(email)) {
       this.mailService.sendEmailChangeRefused(email);
       return;
     }
 
     const newAddressToken = await this.authRepository.createOneTimeToken(
       actor.id,
-      E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
+      E_CustomerTokenPurpose.EMAIL_CHANGE_NEW,
       EMAIL_CHANGE_LIFETIME_MS,
       email,
     );
@@ -277,16 +239,17 @@ export class AccountService {
     const oneTimeToken =
       (await this.authRepository.findOneTimeToken(
         token,
-        E_OneTimeTokenPurpose.EMAIL_CHANGE_OLD,
+        E_CustomerTokenPurpose.EMAIL_CHANGE_OLD,
       )) ??
       (await this.authRepository.findOneTimeToken(
         token,
-        E_OneTimeTokenPurpose.EMAIL_CHANGE_NEW,
+        E_CustomerTokenPurpose.EMAIL_CHANGE_NEW,
       ));
-    const user =
-      oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
+    const customer =
+      oneTimeToken &&
+      (await this.customerService.findById(oneTimeToken.userId));
 
-    if (!oneTimeToken?.newEmail || !user) {
+    if (!oneTimeToken?.newEmail || !customer) {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
 
@@ -296,8 +259,10 @@ export class AccountService {
       case 'pending':
         return false;
       case 'applied':
-        await this.userService.clearCache(user.id);
-        this.mailService.sendEmailChanged(user.email, oneTimeToken.newEmail);
+        this.mailService.sendEmailChanged(
+          customer.email,
+          oneTimeToken.newEmail,
+        );
         return true;
       case 'conflict':
         throw new ConflictException('Unable to change the email');
@@ -306,11 +271,11 @@ export class AccountService {
     }
   }
 
-  private async assertPassword(userId: string, password: string) {
-    const user = await this.userService.findById(userId);
+  private async assertPassword(customerId: string, password: string) {
+    const customer = await this.customerService.findById(customerId);
     const isPasswordValid = await this.passwordService.isPasswordValid(
       password,
-      user?.password,
+      customer?.password,
     );
     if (!isPasswordValid) {
       throw new UnauthorizedException('Password is invalid');

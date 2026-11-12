@@ -5,11 +5,11 @@ import { hash } from 'bcrypt';
 import { SEED_USERS } from './seed-data/users';
 
 /**
- * Development only: brings the accounts back to the seed state. Every user not listed in
- * `seed-data/users.ts` (root included) is deleted with its sessions, tokens and keys; the seed
- * accounts get `SEED_USER_PASSWORD`, a verified email, their seed role and no keys.
- * The audit log is cleared. Content (collections, banners, media, seasons) stays.
- * Without `--confirm` it only prints what it would do.
+ * Development only: brings the accounts back to the seed state. Every staff account and
+ * customer not listed in `seed-data/users.ts` (root included) is deleted with its sessions,
+ * links and keys; the seed accounts get `SEED_USER_PASSWORD`, a verified email, their seed
+ * role and no keys. The audit log is cleared. Content (collections, banners, media, seasons)
+ * stays. Without `--confirm` it only prints what it would do.
  */
 
 const BCRYPT_ROUNDS = 12;
@@ -34,25 +34,39 @@ async function main() {
     return;
   }
 
-  const seedEmails = SEED_USERS.map(({ email }) => email);
-  const extraUsers = await prisma.user.findMany({
-    where: { email: { notIn: seedEmails } },
-    select: { id: true, email: true, staffAccount: { select: { role: true } } },
+  const seedStaff = SEED_USERS.filter(({ role }) => role);
+  const seedCustomers = SEED_USERS.filter(({ role }) => !role);
+  const extraStaff = await prisma.staffUser.findMany({
+    where: { email: { notIn: seedStaff.map(({ email }) => email) } },
+    select: { id: true, email: true, role: true },
+  });
+  const extraCustomers = await prisma.customer.findMany({
+    where: { email: { notIn: seedCustomers.map(({ email }) => email) } },
+    select: { id: true, email: true },
   });
   const counts = {
-    tokens: await prisma.token.count(),
-    oneTimeTokens: await prisma.oneTimeToken.count(),
+    sessions:
+      (await prisma.staffSession.count()) +
+      (await prisma.customerSession.count()),
+    links:
+      (await prisma.staffToken.count()) + (await prisma.customerToken.count()),
     keys: await prisma.webAuthnCredential.count(),
     auditLog: await prisma.auditLog.count(),
   };
 
-  console.log(`Users to delete (${extraUsers.length}):`);
-  for (const { email, staffAccount } of extraUsers) {
-    console.log(`  ${email}${staffAccount ? ` (${staffAccount.role})` : ''}`);
+  console.log(`Staff accounts to delete (${extraStaff.length}):`);
+  for (const { email, role } of extraStaff) {
+    console.log(`  ${email} (${role})`);
   }
-  console.log(`Seed accounts to reset: ${seedEmails.join(', ')}`);
+  console.log(`Customers to delete (${extraCustomers.length}):`);
+  for (const { email } of extraCustomers) {
+    console.log(`  ${email}`);
+  }
   console.log(
-    `Also removed: ${counts.tokens} sessions, ${counts.oneTimeTokens} one-time tokens, ${counts.keys} keys, ${counts.auditLog} audit entries.`,
+    `Seed accounts to reset: ${SEED_USERS.map(({ email }) => email).join(', ')}`,
+  );
+  console.log(
+    `Also removed: ${counts.sessions} sessions, ${counts.links} one-time links, ${counts.keys} keys, ${counts.auditLog} audit entries.`,
   );
 
   if (!process.argv.includes(CONFIRM_FLAG)) {
@@ -62,47 +76,53 @@ async function main() {
 
   const passwordHash = await hash(password, BCRYPT_ROUNDS);
   const now = new Date();
-  const extraIds = extraUsers.map(({ id }) => id);
+  const extraStaffIds = extraStaff.map(({ id }) => id);
 
   await prisma.$transaction(async tx => {
-    await tx.token.deleteMany();
-    await tx.oneTimeToken.deleteMany();
+    await tx.staffSession.deleteMany();
+    await tx.customerSession.deleteMany();
+    await tx.staffToken.deleteMany();
+    await tx.customerToken.deleteMany();
     await tx.webAuthnCredential.deleteMany();
     await tx.webAuthnChallenge.deleteMany();
     await tx.auditLog.deleteMany();
     //COMMENT no foreign key on media.uploaded_by_id, so it is cleared by hand
     await tx.media.updateMany({
-      where: { uploadedById: { in: extraIds } },
+      where: { uploadedById: { in: extraStaffIds } },
       data: { uploadedById: null },
     });
-    await tx.user.deleteMany({ where: { id: { in: extraIds } } });
+    await tx.staffUser.deleteMany({ where: { id: { in: extraStaffIds } } });
+    await tx.customer.deleteMany({
+      where: { id: { in: extraCustomers.map(({ id }) => id) } },
+    });
 
-    for (const { email, name, role } of SEED_USERS) {
-      const { id: userId } = await tx.user.upsert({
-        where: { email },
-        create: { email, name, password: passwordHash, emailVerifiedAt: now },
-        update: { name, password: passwordHash, emailVerifiedAt: now },
-      });
-      if (role) {
-        const account = {
-          role,
-          approvedAt: now,
-          approvedById: null,
-          revokedAt: null,
-        };
-        await tx.staffAccount.upsert({
-          where: { userId },
-          create: { userId, ...account },
-          update: account,
-        });
-      } else {
-        await tx.staffAccount.deleteMany({ where: { userId } });
+    for (const { email, name, role } of seedStaff) {
+      if (!role) {
+        continue;
       }
+      const account = {
+        name,
+        role,
+        password: passwordHash,
+        emailVerifiedAt: now,
+        revokedAt: null,
+      };
+      await tx.staffUser.upsert({
+        where: { email },
+        create: { email, ...account },
+        update: account,
+      });
+    }
+    for (const { email } of seedCustomers) {
+      await tx.customer.updateMany({
+        where: { email },
+        data: { password: passwordHash, emailVerifiedAt: now },
+      });
     }
   });
 
   console.log(
-    '\nDone. Clear ROOT_USER_IDS and ROOT_CREDENTIAL_IDS in backend/.env: their root is gone.',
+    '\nDone. Clear ROOT_USER_IDS and ROOT_CREDENTIAL_IDS in backend/.env: their root is gone. Run prisma:seed to recreate a missing seed customer.',
   );
 }
 
