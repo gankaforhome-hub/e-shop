@@ -37,27 +37,33 @@ function getAccessTokenMaxAge(accessToken: string): number {
   }
 }
 
+const getCookieOptions = () =>
+  ({
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isSecureCookies(),
+    path: '/',
+  }) as const;
+
+/** Alone when the session only gets a new access token (confirmed with a key). */
+export function getAccessTokenCookie(accessToken: string) {
+  return {
+    ...getCookieOptions(),
+    name: ACCESS_TOKEN_COOKIE,
+    value: accessToken,
+    maxAge: getAccessTokenMaxAge(accessToken),
+  };
+}
+
 export function getSessionCookies({
   accessToken,
   refreshToken,
   refreshExpires,
 }: SessionTokens) {
-  const options = {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: isSecureCookies(),
-    path: '/',
-  } as const;
-
   return [
+    getAccessTokenCookie(accessToken),
     {
-      ...options,
-      name: ACCESS_TOKEN_COOKIE,
-      value: accessToken,
-      maxAge: getAccessTokenMaxAge(accessToken),
-    },
-    {
-      ...options,
+      ...getCookieOptions(),
       name: REFRESH_TOKEN_COOKIE,
       value: refreshToken,
       expires: refreshExpires,

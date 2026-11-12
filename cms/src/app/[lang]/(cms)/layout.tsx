@@ -1,7 +1,10 @@
 import { type ReactNode } from 'react';
 
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
+import { getCurrentUser } from '@/entities/user/server';
+import { routes } from '@/shared/config';
+import { redirect } from '@/shared/i18n/navigation';
 import { SidebarInset, SidebarLayout } from '@/shared/ui/sidebar';
 import { SkipLink } from '@/shared/ui/skip-link';
 import { AppHeader } from '@/widgets/app-header';
@@ -15,7 +18,14 @@ export default async function CmsShellLayout({
 }: {
   children: ReactNode;
 }) {
-  const t = await getTranslations('nav');
+  const [t, { keyStep }] = await Promise.all([
+    getTranslations('nav'),
+    getCurrentUser(),
+  ]);
+  // No key, an unconfirmed session or no approval yet: the key step comes first
+  if (keyStep) {
+    return redirect({ href: routes.securityKey, locale: await getLocale() });
+  }
 
   return (
     <>

@@ -15,6 +15,8 @@ export const routes = {
     verifyEmail: '/verify-email',
     acceptInvite: '/accept-invite',
   },
+  // Needs a session, so it stays out of the public `auth` paths
+  securityKey: '/security-key',
   marketing: {
     dashboard: '/marketing/dashboard',
     analytics: '/marketing/analytics',

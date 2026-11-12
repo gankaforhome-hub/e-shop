@@ -17,10 +17,14 @@ export type ApiRequestFailure = {
 };
 export type ApiRequestResult<T> = { ok: true; data: T } | ApiRequestFailure;
 
-type ApiRequestOptions =
+type ApiRequestOptions = (
   | { method?: 'GET' | 'DELETE' }
   | { method: 'POST' | 'PATCH'; json?: unknown; formData?: never }
-  | { method: 'POST'; formData: FormData; json?: never };
+  | { method: 'POST'; formData: FormData; json?: never }
+) & {
+  /** Extra request headers, e.g. a fresh key signature */
+  headers?: Record<string, string>;
+};
 
 /** Nest answers errors as `{ message: string | string[] }`. */
 function readErrorMessage(body: unknown): string | undefined {
@@ -52,6 +56,7 @@ export async function apiRequest<T>(
   const response = await fetchApi(path, {
     method,
     headers: {
+      ...options.headers,
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...(json === undefined ? {} : { 'Content-Type': 'application/json' }),
     },

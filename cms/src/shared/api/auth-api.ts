@@ -143,6 +143,14 @@ export type CmsProfile = {
   email: string;
   name: string | null;
   role: StaffRole;
+  /** At least one key is registered */
+  hasKey: boolean;
+  /** The session was confirmed with a key */
+  keyConfirmed: boolean;
+  /** An ADMIN or root approved the access */
+  approved: boolean;
+  /** A key-confirmed root listed in the API env: may assign ADMIN */
+  isRoot: boolean;
 };
 
 export async function getProfileRequest(

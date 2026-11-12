@@ -12,7 +12,7 @@ import { redirect } from '@/shared/i18n/navigation';
 import { ACCESS_TOKEN_COOKIE } from '@/shared/lib/session/session-cookies';
 
 import { mapStaffRole } from '../lib/map-staff-role';
-import { type CmsUser } from '../model/types';
+import { type CmsUser, type KeyStep } from '../model/types';
 
 /**
  * DAL read of the signed-in user, deduplicated per request. The API verifies the token,
@@ -28,7 +28,24 @@ export const getCurrentUser = cache(async (): Promise<CmsUser> => {
     return redirect({ href: routes.auth.login, locale: await getLocale() });
   }
 
-  const { id, email, name, role } = result.data;
+  const { id, email, name, role, hasKey, keyConfirmed, approved, isRoot } =
+    result.data;
+  let keyStep: KeyStep | null = null;
+  if (!hasKey) {
+    keyStep = 'add';
+  } else if (!keyConfirmed) {
+    keyStep = 'confirm';
+  } else if (!approved) {
+    keyStep = 'approval';
+  }
 
-  return { id, email, name: name ?? email, role: mapStaffRole(role) };
+  return {
+    id,
+    email,
+    name: name ?? email,
+    role: mapStaffRole(role),
+    keyStep,
+    enrollmentCodeRequired: role === 'ROOT',
+    isRoot,
+  };
 });

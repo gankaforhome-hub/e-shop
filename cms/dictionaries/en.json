@@ -52,7 +52,45 @@
       "invalidToken": "This link is invalid or has expired.",
       "wrongPassword": "Wrong password.",
       "tooManyRequests": "Too many attempts. Wait a minute and try again.",
-      "serverError": "Something went wrong. Try again later."
+      "serverError": "Something went wrong. Try again later.",
+      "keyCancelled": "The confirmation was cancelled or timed out. Try again.",
+      "keyFailed": "The key could not be verified. Try again or use another device.",
+      "keyUnsupported": "This browser does not support sign-in keys. Open the CMS in Chrome, Edge or Safari.",
+      "enrollmentCodeInvalid": "The code is invalid, used or expired."
+    },
+    "securityKey": {
+      "add": {
+        "title": "Add a sign-in key",
+        "description": "The CMS confirms sign-ins with your device: Windows Hello, Touch ID, a phone via QR code or a USB key. You add it once.",
+        "button": "Add a key"
+      },
+      "confirm": {
+        "title": "Confirm your sign-in",
+        "description": "Confirm the sign-in with the device you added as a key.",
+        "button": "Confirm with key"
+      },
+      "approval": {
+        "title": "Waiting for approval",
+        "description": "Your key is added. Access starts once an administrator approves it.",
+        "button": "Check again"
+      },
+      "busy": "Waiting for the device…",
+      "signOut": "Sign out",
+      "code": {
+        "label": "Enrollment code",
+        "hint": "The code printed by admin:bootstrap-root. It works once, for 15 minutes."
+      }
+    },
+    "keyId": {
+      "added": "Key added.",
+      "label": "Key id",
+      "rootHint": "Add this id to ROOT_CREDENTIAL_IDS on the server and restart the API. Root rights start with that key.",
+      "continue": "Continue"
+    },
+    "spareKey": {
+      "title": "Sign-in keys",
+      "description": "Add a spare key in case this device is lost or breaks. First confirm with a key you already have, then register the new device.",
+      "button": "Add a spare key"
     }
   },
   "brand": {
@@ -553,7 +591,7 @@
     "invite": {
       "button": "Invite",
       "title": "Invite to the CMS",
-      "description": "We will email a link to set the password. The person works with the chosen role once the invitation is accepted.",
+      "description": "We will email a link to set the password. Then the person adds a sign-in key and you approve the access.",
       "email": "Email",
       "role": "Role",
       "submit": "Send the invitation",
@@ -580,7 +618,8 @@
       "invited": "Invited",
       "pending": "Awaiting approval",
       "active": "Active",
-      "revoked": "Revoked"
+      "revoked": "Revoked",
+      "awaitingKey": "Waiting for a key"
     },
     "key": {
       "yes": "Registered",
@@ -611,7 +650,18 @@
       "notFound": "This member is gone. Reload the page.",
       "revoked": "The access is revoked. Invite the person again.",
       "tooManyRequests": "Too many attempts. Try again in a minute.",
-      "serverError": "Something went wrong. Try again later."
+      "serverError": "Something went wrong. Try again later.",
+      "noKey": "The person has not added a key yet."
+    },
+    "approve": "Approve access for {email}",
+    "approved": "Access for {email} approved.",
+    "resetKeys": {
+      "button": "Reset keys of {email}",
+      "title": "Reset the keys of {email}?",
+      "description": "For a lost or stolen device. Every key and session is removed: the person adds a new key on the next sign-in, and you approve the access again.",
+      "confirm": "Reset",
+      "cancel": "Cancel",
+      "done": "Keys of {email} reset."
     }
   }
 }
