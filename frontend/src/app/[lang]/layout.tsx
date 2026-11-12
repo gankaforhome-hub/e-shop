@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 
 import { NextIntlClientProvider } from 'next-intl';
 
+import { CookieBanner } from '@/features/cookie-consent';
 import { buildInfoNav } from '@/features/navigation';
 import { noto, notoHryvnia, playfair } from '@/shared/config';
 import { routes } from '@/shared/config/routes';
@@ -66,6 +67,7 @@ export default async function LocaleLayout({
           <Header lang={lang} infoNav={infoNav} />
           <main className="flex-1">{children}</main>
           <Footer lang={lang} />
+          <CookieBanner />
         </NextIntlClientProvider>
       </body>
     </html>

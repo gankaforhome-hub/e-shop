@@ -19,6 +19,7 @@ const CLIENT_COMMON_KEYS = [
   'subscribe',
   'label',
   'action',
+  'cookieConsent',
 ] as const satisfies readonly (keyof CommonDict)[];
 
 type ClientCommonKey = (typeof CLIENT_COMMON_KEYS)[number];

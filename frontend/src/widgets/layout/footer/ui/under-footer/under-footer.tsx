@@ -1,3 +1,4 @@
+import { CookieSettingsLink } from '@/features/cookie-consent';
 import { NavItem, type INavItemConfig } from '@/features/navigation';
 import { cn, getCurrentYear } from '@/shared/lib/utils';
 import { Icon } from '@/shared/ui/icon';
@@ -36,6 +37,9 @@ export function UnderFooter({
               />
             </li>
           ))}
+          <li>
+            <CookieSettingsLink />
+          </li>
         </ul>
       </nav>
       {/* /85: 4.8:1 on the footer grey (the inherited /70 is 3.4:1) */}

@@ -450,5 +450,28 @@
       "commentMax": "Comment must not exceed 500 characters",
       "termsRequired": "Please accept the public offer and privacy policy"
     }
+  },
+  "cookieConsent": {
+    "text": "We use necessary cookies to keep the shop working (cart, sign-in, language). With your consent we may also use analytics and marketing cookies.",
+    "privacy": "Privacy policy",
+    "acceptAll": "Accept all",
+    "necessaryOnly": "Only necessary",
+    "settings": "Settings",
+    "settingsTitle": "Cookie settings",
+    "settingsDescription": "Choose which cookies we may use. You can change it any time via \"Cookie settings\" at the bottom of the page.",
+    "necessary": {
+      "title": "Necessary",
+      "description": "Cart, favorites, sign-in and language. Always on: the shop does not work without them."
+    },
+    "analytics": {
+      "title": "Analytics",
+      "description": "Helps us understand how the shop is used, anonymously."
+    },
+    "marketing": {
+      "title": "Marketing",
+      "description": "Personalised offers and ads."
+    },
+    "save": "Save choice",
+    "footerLink": "Cookie settings"
   }
 }
