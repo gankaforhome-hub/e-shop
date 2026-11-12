@@ -44,7 +44,11 @@
     "admin:grant-staff": "ts-node prisma/grant-staff.ts",
     "admin:reset-users": "ts-node prisma/reset-users.ts",
     "docker:up": "docker-compose -f ./docker/postgres/docker-compose.yml up -d",
-    "docker:down": "docker-compose -f ./docker/postgres/docker-compose.yml down"
+    "docker:down": "docker-compose -f ./docker/postgres/docker-compose.yml down",
+    "docker:start": "docker compose -f ../compose.yaml up -d --build backend",
+    "docker:dev": "docker compose -f ../compose.yaml -f ../compose.dev.yaml up --build --watch backend",
+    "docker:stop": "docker compose -f ../compose.yaml stop backend",
+    "docker:logs": "docker compose -f ../compose.yaml logs -f backend"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^12.0.2",

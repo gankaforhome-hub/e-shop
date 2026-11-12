@@ -15,7 +15,11 @@
     "prettier": "prettier --write .",
     "check-format": "prettier --check .",
     "fix": "pnpm run prettier && pnpm run lint --fix",
-    "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
+    "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build",
+    "docker:start": "docker compose -f ../compose.yaml up -d --build cms",
+    "docker:dev": "docker compose -f ../compose.yaml -f ../compose.dev.yaml up --build --watch cms",
+    "docker:stop": "docker compose -f ../compose.yaml stop cms",
+    "docker:logs": "docker compose -f ../compose.yaml logs -f cms"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

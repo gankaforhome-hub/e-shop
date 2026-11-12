@@ -28,7 +28,11 @@
     "fix": "pnpm run prettier && pnpm run lint --fix",
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build",
     "test": "",
-    "commit": "cz"
+    "commit": "cz",
+    "docker:start": "docker compose -f ../compose.yaml up -d --build frontend",
+    "docker:dev": "docker compose -f ../compose.yaml -f ../compose.dev.yaml up --build --watch frontend",
+    "docker:stop": "docker compose -f ../compose.yaml stop frontend",
+    "docker:logs": "docker compose -f ../compose.yaml logs -f frontend"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

@@ -1,0 +1,60 @@
+# Dev override: hot reload via `docker compose watch` (files are copied into the containers,
+# so watching works on Windows without bind mounts or polling).
+#   docker compose -f compose.yaml -f compose.dev.yaml up --build --watch [service]
+# `sync` copies source changes; `rebuild` reinstalls dependencies / regenerates Prisma.
+services:
+  backend:
+    build:
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/backend/src
+        - action: rebuild
+          path: ./backend/prisma
+        - action: rebuild
+          path: ./backend/package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml
+
+  cms:
+    build:
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./cms/src
+          target: /app/cms/src
+        - action: sync
+          path: ./cms/dictionaries
+          target: /app/cms/dictionaries
+        - action: sync+restart
+          path: ./cms/next.config.ts
+          target: /app/cms/next.config.ts
+        - action: rebuild
+          path: ./cms/package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml
+
+  frontend:
+    build:
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/frontend/src
+        - action: sync
+          path: ./frontend/dictionaries
+          target: /app/frontend/dictionaries
+        - action: sync
+          path: ./frontend/public
+          target: /app/frontend/public
+        - action: sync+restart
+          path: ./frontend/next.config.ts
+          target: /app/frontend/next.config.ts
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml

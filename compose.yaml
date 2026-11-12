@@ -1,0 +1,74 @@
+# Whole project in Docker, started in order: backend → cms → frontend.
+#   All, production images: pnpm docker:start         (dev with hot reload: pnpm docker:dev)
+#   One app:                pnpm --filter <backend|cms|frontend> docker:start | docker:dev | docker:stop
+# Starting one app also starts the apps it depends on; add `--no-deps` to start it alone.
+# Values come from each app's own .env (copy from .env.example); only the in-network
+# addresses are overridden here. The database is the Supabase dev project from backend/.env.
+name: gankaforhome
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: prod
+    env_file: backend/.env
+    environment:
+      SERVER_PORT: 3001
+      # Storefront revalidation inside the Docker network (still needs REVALIDATE_SECRET).
+      FRONTEND_REVALIDATE_URL: http://frontend:3000/api/revalidate
+    ports:
+      - '3001:3001'
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3001/api/server/live').then(r =>
+          process.exit(r.ok ? 0 : 1), () => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
+
+  cms:
+    build:
+      context: .
+      dockerfile: cms/Dockerfile
+      target: prod
+    env_file: cms/.env
+    environment:
+      API_URL: http://backend:3001/api
+    ports:
+      - '3030:3030'
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      # `/` redirects to the login page without a session; any answer below 500 is healthy.
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3030/', { redirect: 'manual' }).then(r =>
+          process.exit(r.status < 500 ? 0 : 1), () => process.exit(1))"
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: prod
+    env_file: frontend/.env
+    environment:
+      API_URL: http://backend:3001/api
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_healthy
+      cms:
+        condition: service_healthy
