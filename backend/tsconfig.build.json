@@ -1,4 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  // Only the app goes to dist: prisma/ scripts run through ts-node, so `node dist/main` works.
+  "compilerOptions": { "rootDir": "./src" },
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "prisma", "prisma.config.ts"]
 }
