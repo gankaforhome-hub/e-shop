@@ -147,6 +147,46 @@ export class TeamService {
     });
   }
 
+  //COMMENT only after the person has accepted the invite and added a key
+  async approve(
+    actor: IAuthUser,
+    userId: string,
+    { ip }: Pick<IStaffActionContext, 'ip'>,
+  ): Promise<void> {
+    const account = await this.getManageableAccount(actor, userId);
+    if (account.revokedAt) {
+      throw new BadRequestException('The access of the user is revoked');
+    }
+    if (account.approvedAt) {
+      return;
+    }
+    if ((await this.staffRepository.countCredentials(userId)) === 0) {
+      throw new BadRequestException('The user has not added a key yet');
+    }
+
+    await this.staffRepository.approve(userId, actor.id, {
+      actorId: actor.id,
+      action: 'staff.approve',
+      targetId: userId,
+      ip,
+    });
+  }
+
+  async resetKeys(
+    actor: IAuthUser,
+    userId: string,
+    { ip }: Pick<IStaffActionContext, 'ip'>,
+  ): Promise<void> {
+    await this.getManageableAccount(actor, userId);
+
+    await this.staffRepository.resetKeys(userId, {
+      actorId: actor.id,
+      action: 'staff.reset_keys',
+      targetId: userId,
+      ip,
+    });
+  }
+
   async revoke(
     actor: IAuthUser,
     userId: string,

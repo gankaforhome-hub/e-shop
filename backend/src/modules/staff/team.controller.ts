@@ -58,7 +58,7 @@ export class TeamController {
   @ApiOperation({
     summary: 'Invite by email',
     description:
-      'Creates the account when the address is new and sends a link (7 days) to set the password. The role is approved at once. Inviting again renews the link of an invited or revoked member.',
+      'Creates the account when the address is new and sends a link (7 days) to set the password. The person then signs in and adds a key; the access works once an ADMIN or root approves it. Inviting again renews the link of an invited, pending or revoked member.',
   })
   @ApiAcceptedResponse({ description: 'The invitation is sent' })
   @ApiConflictResponse({ description: 'Already an active staff member' })
@@ -83,6 +83,41 @@ export class TeamController {
     @Ip() ip: string,
   ): Promise<void> {
     await this.teamService.changeRole(actor, userId, role, { ip });
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post(':userId/approve')
+  @ApiOperation({
+    summary: 'Approve the access',
+    description:
+      'After the person has accepted the invite and added a key. Approving again does nothing.',
+  })
+  @ApiNoContentResponse({ description: 'Approved' })
+  @ApiBadRequestResponse({ description: 'Revoked, or no key yet' })
+  @ApiNotFoundResponse({ description: 'Not a staff member' })
+  async approve(
+    @UUIDParam('userId') userId: string,
+    @CurrentUser() actor: IAuthUser,
+    @Ip() ip: string,
+  ): Promise<void> {
+    await this.teamService.approve(actor, userId, { ip });
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':userId/keys')
+  @ApiOperation({
+    summary: 'Reset the keys (lost or stolen device)',
+    description:
+      'Removes every key and session and the approval. On the next sign-in the person adds a new key, which waits for approval again.',
+  })
+  @ApiNoContentResponse({ description: 'Reset' })
+  @ApiNotFoundResponse({ description: 'Not a staff member' })
+  async resetKeys(
+    @UUIDParam('userId') userId: string,
+    @CurrentUser() actor: IAuthUser,
+    @Ip() ip: string,
+  ): Promise<void> {
+    await this.teamService.resetKeys(actor, userId, { ip });
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)

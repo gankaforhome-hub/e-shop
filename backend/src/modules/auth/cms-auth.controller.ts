@@ -7,6 +7,7 @@ import {
   UserAgent,
 } from '@common/decorators';
 import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
+import { StaffAccessService } from '@modules/staff/staff-access.service';
 import { FRESH_ASSERTION_HEADER } from '@modules/staff/staff.constants';
 import { WebAuthnService } from '@modules/staff/webauthn.service';
 import {
@@ -58,6 +59,7 @@ export class CmsAuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly webAuthnService: WebAuthnService,
+    private readonly staffAccess: StaffAccessService,
     private readonly cookieService: CookieService,
   ) {}
 
@@ -142,9 +144,9 @@ export class CmsAuthController {
   @ApiOperation({
     summary: 'profile and role of the signed-in staff member',
     description:
-      'Identifies the session only. Routes that change data have their own guards.',
+      'Identifies the session and tells the CMS which key step is left: add a key, confirm the session with it, or wait for approval. Routes that change data have their own guards.',
   })
-  me(@CurrentUser() user: IAuthUser): CmsProfileResponse {
+  async me(@CurrentUser() user: IAuthUser): Promise<CmsProfileResponse> {
     if (!user.staff || user.staff.revokedAt) {
       throw new UnauthorizedException();
     }
@@ -153,6 +155,10 @@ export class CmsAuthController {
       email: user.email,
       name: user.name,
       role: user.staff.role,
+      hasKey: (await this.webAuthnService.countKeys(user.id)) > 0,
+      keyConfirmed: user.aal >= 2,
+      approved: !!user.staff.approvedAt,
+      isRoot: this.staffAccess.isRoot(user),
     };
   }
 

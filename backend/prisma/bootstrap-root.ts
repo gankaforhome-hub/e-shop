@@ -102,10 +102,10 @@ Root account prepared for ${email}. These values are shown only once.
 Next steps:
   1. Add the user id to ROOT_USER_IDS on the server.
   2. Verify the email: POST /api/auth/resend-verification, then POST /api/auth/verify-email.
-  3. Sign in to the CMS: POST /api/auth/cms/sign-in.
-  4. Register a hardware key with the enrollment code: /api/auth/cms/webauthn/register/*.
-  5. Add the returned credential id to ROOT_CREDENTIAL_IDS and restart the API.
-  6. Sign in with that key, then register a spare key the same way, without a code.
+  3. Sign in to the CMS with the temporary password.
+  4. On the key step, enter the enrollment code and register a hardware key.
+  5. Add the key id the CMS shows to ROOT_CREDENTIAL_IDS and restart the API.
+  6. Confirm the sign-in with that key, then add a spare key in Profile (/account).
      Add its id to ROOT_CREDENTIAL_IDS too and keep the key in a safe place.
   7. Change the temporary password: POST /api/auth/change-password.
 `);

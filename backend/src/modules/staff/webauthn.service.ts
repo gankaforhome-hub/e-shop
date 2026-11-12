@@ -57,11 +57,16 @@ export class WebAuthnService {
   }
 
   /**
-   * A new key needs a code handed over outside of email, or an existing key.
-   * There is deliberately no way to add one through a link or a code sent by email:
-   * whoever controls the mailbox must not be able to add a factor.
+   * A new key needs a code handed over outside of email, or an existing key. One exception:
+   * a staff member (not root) with no key at all adds the first one from the password session.
+   * Such an account is not approved yet (an invite or a key reset clears the approval), so
+   * the key gives no access until an ADMIN or root approves it in the team list.
+   * Returns whether the fresh assertion of an existing key is needed.
    */
-  private async assertCanRegister(user: IAuthUser, enrollmentCode?: string) {
+  private async assertCanRegister(
+    user: IAuthUser,
+    enrollmentCode?: string,
+  ): Promise<{ needsFreshAssertion: boolean }> {
     if (!user.staff || user.staff.revokedAt) {
       throw new ForbiddenException();
     }
@@ -73,11 +78,22 @@ export class WebAuthnService {
       if (!code) {
         throw new ForbiddenException('Invalid or expired enrollment code');
       }
-      return;
+      return { needsFreshAssertion: false };
+    }
+    if (
+      !this.isRootRole(user) &&
+      (await this.staffRepository.countCredentials(user.id)) === 0
+    ) {
+      return { needsFreshAssertion: false };
     }
     if (user.aal < 2) {
       throw new ForbiddenException();
     }
+    return { needsFreshAssertion: true };
+  }
+
+  countKeys(userId: string): Promise<number> {
+    return this.staffRepository.countCredentials(userId);
   }
 
   async createRegistrationOptions(
@@ -123,8 +139,11 @@ export class WebAuthnService {
     freshAssertion: string | undefined,
     ip?: string,
   ): Promise<string> {
-    await this.assertCanRegister(user, enrollmentCode);
-    if (!enrollmentCode) {
+    const { needsFreshAssertion } = await this.assertCanRegister(
+      user,
+      enrollmentCode,
+    );
+    if (needsFreshAssertion) {
       await this.assertFresh(
         user,
         'webauthn.add_key',

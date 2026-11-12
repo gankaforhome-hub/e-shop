@@ -284,8 +284,9 @@ export class StaffRepository {
   }
 
   /**
-   * Creates the user when the address is new, gives the role approved by the inviter and
-   * returns a one-time link token. Accepting it sets the password and confirms the email.
+   * Creates the user when the address is new, gives the role (not approved: an ADMIN or root
+   * approves it once the person has added a key) and returns a one-time link token.
+   * Accepting it sets the password and confirms the email.
    */
   async invite(
     email: string,
@@ -303,11 +304,15 @@ export class StaffRepository {
         update: {},
         select: { id: true },
       });
-      const approval = { approvedAt: now, approvedById: audit.actorId };
       await tx.staffAccount.upsert({
         where: { userId: id },
-        create: { userId: id, role, ...approval },
-        update: { role, revokedAt: null, ...approval },
+        create: { userId: id, role },
+        update: {
+          role,
+          revokedAt: null,
+          approvedAt: null,
+          approvedById: null,
+        },
       });
       await tx.oneTimeToken.deleteMany({
         where: {
@@ -343,6 +348,26 @@ export class StaffRepository {
   ): Promise<void> {
     await this.db.$transaction([
       this.db.staffAccount.update({ where: { userId }, data: { role } }),
+      this.db.auditLog.create({ data: audit }),
+    ]);
+  }
+
+  /**
+   * For a lost or stolen device: every key and session goes, and the approval too, so the
+   * key the person adds on the next sign-in waits for approval again.
+   */
+  async resetKeys(userId: string, audit: IAuditEntry): Promise<void> {
+    await this.db.$transaction([
+      this.db.webAuthnCredential.deleteMany({ where: { userId } }),
+      this.db.webAuthnChallenge.deleteMany({ where: { userId } }),
+      this.db.token.deleteMany({ where: { userId } }),
+      this.db.oneTimeToken.deleteMany({
+        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT },
+      }),
+      this.db.staffAccount.update({
+        where: { userId },
+        data: { approvedAt: null, approvedById: null },
+      }),
       this.db.auditLog.create({ data: audit }),
     ]);
   }

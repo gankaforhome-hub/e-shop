@@ -54,11 +54,6 @@ class EnvironmentVariables {
   @Matches(/^[a-z0-9-]+$/)
   MEDIA_BUCKET: string;
 
-  //COMMENT development only, removed by the staff key prompt K.4; see validateEnv for production
-  @IsOptional()
-  @IsIn(['true', 'false'])
-  STAFF_KEY_REQUIRED?: string;
-
   //COMMENT storefront revalidation after CMS changes; empty or unset means skipped
   @ValidateIf((env: EnvironmentVariables) => !!env.FRONTEND_REVALIDATE_URL)
   @IsUrl({ require_tld: false })
@@ -87,11 +82,6 @@ export const validateEnv = (config: Record<string, unknown>) => {
   const messages = errors.flatMap(({ constraints }) =>
     Object.values(constraints ?? {}),
   );
-
-  //COMMENT password-only staff sessions must never reach production
-  if (env.NODE_ENV === 'production' && env.STAFF_KEY_REQUIRED === 'false') {
-    messages.push('STAFF_KEY_REQUIRED must not be "false" in production');
-  }
 
   if (messages.length > 0) {
     throw new Error(
