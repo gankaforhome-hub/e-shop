@@ -137,7 +137,7 @@ export async function changePasswordAction(
   }
 
   const { currentPassword, password } = input.data;
-  const result = await apiRequest<unknown>('/auth/change-password', {
+  const result = await apiRequest<unknown>('/auth/cms/change-password', {
     method: 'POST',
     json: { currentPassword, newPassword: password },
   });

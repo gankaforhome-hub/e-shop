@@ -120,14 +120,14 @@ export async function acceptInviteRequest(input: {
   token: string;
   password: string;
 }): Promise<ApiResult<{ email: string }>> {
-  return request<{ email: string }>('/auth/accept-invite', { body: input });
+  return request<{ email: string }>('/auth/cms/accept-invite', { body: input });
 }
 
 /** Emails a reset link; the API answers the same for unknown addresses. */
 export async function forgotPasswordRequest(input: {
   email: string;
 }): Promise<ApiResult<void>> {
-  return request<void>('/auth/forgot-password', { body: input });
+  return request<void>('/auth/cms/forgot-password', { body: input });
 }
 
 /** Sets a new password with the token from the reset link; ends every session. */
@@ -135,7 +135,7 @@ export async function resetPasswordRequest(input: {
   token: string;
   password: string;
 }): Promise<ApiResult<void>> {
-  return request<void>('/auth/reset-password', { body: input });
+  return request<void>('/auth/cms/reset-password', { body: input });
 }
 
 export type StaffRole =
