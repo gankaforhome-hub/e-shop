@@ -24,17 +24,16 @@ export const getCurrentCustomer = cache(async (): Promise<Customer | null> => {
     return null;
   }
 
-  const { id, email, name, phone, emailVerifiedAt, firstName, lastName } =
+  const { id, email, phone, emailVerifiedAt, firstName, lastName } =
     result.data;
   return {
     id,
     email,
-    name,
     phone,
     emailVerified: emailVerifiedAt !== null,
     firstName,
     lastName,
-    marketingConsent: result.data.marketingConsentAt !== null,
+    marketingConsent: result.data.marketingEmail,
     isProfileComplete: !!firstName && !!lastName,
   };
 });

@@ -2,7 +2,6 @@
 export type Customer = {
   id: string;
   email: string;
-  name: string | null;
   /** E.164, e.g. +380671234567 */
   phone: string | null;
   /** Soft verification: the account works without it */

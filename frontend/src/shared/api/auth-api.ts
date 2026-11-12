@@ -183,17 +183,19 @@ export function resendVerificationRequest(
   return request('/auth/resend-verification', { accessToken });
 }
 
-/** Mirrors backend `UserResponse` (modules/user/responses/user.response.ts). */
+/** Mirrors backend `CustomerResponse` (modules/customer/responses/customer.response.ts). */
 export type CustomerProfile = {
   id: string;
   email: string;
-  name: string | null;
   emailVerifiedAt: string | null;
   phone: string | null;
   phoneVerifiedAt: string | null;
   firstName: string | null;
   lastName: string | null;
-  marketingConsentAt: string | null;
+  /** Current news-and-offers choice (the proof is the consent journal) */
+  marketingEmail: boolean;
+  /** false: the account only signs in with Google */
+  hasPassword: boolean;
 };
 
 /** The own profile: names, phone (null removes it), news-and-offers consent. 409: phone taken. */
