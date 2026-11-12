@@ -11,9 +11,9 @@ export const routes = {
   home: '/',
   auth: {
     login: '/login',
-    register: '/register',
-    verifyEmail: '/verify-email',
     acceptInvite: '/accept-invite',
+    forgotPassword: '/forgot-password',
+    resetPassword: '/reset-password',
   },
   // Needs a session, so it stays out of the public `auth` paths
   securityKey: '/security-key',

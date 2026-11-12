@@ -1,8 +1,9 @@
-export { AddSpareKey } from './ui/add-spare-key';
+export { AddKey } from './ui/add-key';
 export { AcceptInviteForm } from './ui/accept-invite-form';
+export { ChangePasswordForm } from './ui/change-password-form';
+export { ForgotPasswordForm } from './ui/forgot-password-form';
+export { ResetPasswordForm } from './ui/reset-password-form';
 export { signOutAction } from './api/auth-actions';
 export { SecurityKeyStep } from './ui/security-key-step';
 export { SignInForm } from './ui/sign-in-form';
 export { SignOutButton } from './ui/sign-out-button';
-export { SignUpForm } from './ui/sign-up-form';
-export { VerifyEmailForm } from './ui/verify-email-form';

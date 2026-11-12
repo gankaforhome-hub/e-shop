@@ -8,8 +8,11 @@ export const CMS_ROLES = [
 
 export type CmsRole = (typeof CMS_ROLES)[number];
 
-/** What is left before the CMS opens: add a key, confirm the session with it, wait for approval. */
-export type KeyStep = 'add' | 'confirm' | 'approval';
+/**
+ * Left before the CMS opens: a root without a key adds one (with the env enrollment code),
+ * anyone with a key confirms the session with it.
+ */
+export type KeyStep = 'add' | 'confirm';
 
 export type CmsUser = {
   id: string;
@@ -18,8 +21,10 @@ export type CmsUser = {
   role: CmsRole;
   /** null when the session may use the CMS */
   keyStep: KeyStep | null;
-  /** A root account: its keys need the enrollment code from `admin:bootstrap-root` */
-  enrollmentCodeRequired: boolean;
-  /** The API confirmed a root session (listed in env, signed with a root key) */
+  /** At least one sign-in key is registered (optional, except for root) */
+  hasKey: boolean;
+  /** Role ROOT: keys need the env enrollment code first and their ids go to ROOT_CREDENTIAL_IDS */
+  isRootRole: boolean;
+  /** The API confirmed a root session (listed in env, confirmed with a listed root key) */
   isRoot: boolean;
 };

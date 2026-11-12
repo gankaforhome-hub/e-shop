@@ -17,19 +17,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: await getPageTitle(t('confirm.title')) };
 }
 
-/** Key step after the password; the CMS shell sends every unfinished session here. */
+/** Key step after the password (root: add a key first; with a key: confirm); the CMS shell sends them here. */
 export default async function SecurityKeyPage() {
-  const { keyStep, enrollmentCodeRequired } = await getCurrentUser();
+  const { keyStep } = await getCurrentUser();
   if (!keyStep) {
     return redirect({ href: routes.home, locale: await getLocale() });
   }
 
   // A new step starts with a fresh state (code, the shown key id, errors)
-  return (
-    <SecurityKeyStep
-      key={keyStep}
-      step={keyStep}
-      enrollmentCodeRequired={enrollmentCodeRequired}
-    />
-  );
+  return <SecurityKeyStep key={keyStep} step={keyStep} />;
 }

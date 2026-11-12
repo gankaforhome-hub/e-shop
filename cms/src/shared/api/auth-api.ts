@@ -112,27 +112,30 @@ export async function signOutRequest(refreshToken: string): Promise<void> {
   await request('/auth/cms/sign-out', { refreshToken });
 }
 
-export async function signUpRequest(account: {
-  email: string;
-  password: string;
-  passwordRepeat: string;
-}): Promise<ApiResult<void>> {
-  return request<void>('/auth/sign-up', { body: account });
-}
-
-export async function verifyEmailRequest(input: {
-  token: string;
-  password: string;
-}): Promise<ApiResult<void>> {
-  return request<void>('/auth/verify-email', { body: input });
-}
-
-/** Sets the password of an invited staff member; the link also confirms the email. */
+/**
+ * Sets the password of an invited staff member; the link also confirms the email.
+ * Returns the invited email, so the CMS can sign the person in at once.
+ */
 export async function acceptInviteRequest(input: {
   token: string;
   password: string;
+}): Promise<ApiResult<{ email: string }>> {
+  return request<{ email: string }>('/auth/accept-invite', { body: input });
+}
+
+/** Emails a reset link; the API answers the same for unknown addresses. */
+export async function forgotPasswordRequest(input: {
+  email: string;
 }): Promise<ApiResult<void>> {
-  return request<void>('/auth/accept-invite', { body: input });
+  return request<void>('/auth/forgot-password', { body: input });
+}
+
+/** Sets a new password with the token from the reset link; ends every session. */
+export async function resetPasswordRequest(input: {
+  token: string;
+  password: string;
+}): Promise<ApiResult<void>> {
+  return request<void>('/auth/reset-password', { body: input });
 }
 
 export type StaffRole =
@@ -143,13 +146,11 @@ export type CmsProfile = {
   email: string;
   name: string | null;
   role: StaffRole;
-  /** At least one key is registered */
+  /** At least one key is registered: every sign-in is confirmed with it */
   hasKey: boolean;
   /** The session was confirmed with a key */
   keyConfirmed: boolean;
-  /** An ADMIN or root approved the access */
-  approved: boolean;
-  /** A key-confirmed root listed in the API env: may assign ADMIN */
+  /** A root listed in ROOT_USER_IDS of the API: may assign ADMIN */
   isRoot: boolean;
 };
 

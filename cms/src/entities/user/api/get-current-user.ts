@@ -28,15 +28,13 @@ export const getCurrentUser = cache(async (): Promise<CmsUser> => {
     return redirect({ href: routes.auth.login, locale: await getLocale() });
   }
 
-  const { id, email, name, role, hasKey, keyConfirmed, approved, isRoot } =
-    result.data;
+  const { id, email, name, role, hasKey, keyConfirmed, isRoot } = result.data;
+  const isRootRole = role === 'ROOT';
   let keyStep: KeyStep | null = null;
-  if (!hasKey) {
+  if (isRootRole && !hasKey) {
     keyStep = 'add';
-  } else if (!keyConfirmed) {
+  } else if (hasKey && !keyConfirmed) {
     keyStep = 'confirm';
-  } else if (!approved) {
-    keyStep = 'approval';
   }
 
   return {
@@ -45,7 +43,8 @@ export const getCurrentUser = cache(async (): Promise<CmsUser> => {
     name: name ?? email,
     role: mapStaffRole(role),
     keyStep,
-    enrollmentCodeRequired: role === 'ROOT',
+    hasKey,
+    isRootRole,
     isRoot,
   };
 });

@@ -15,6 +15,8 @@ const currentPassword = z
 
 export const signInSchema = z.object({ email, password: currentPassword });
 
+export const forgotPasswordSchema = z.object({ email });
+
 const newPassword = z
   .string()
   .min(8, message('passwordTooShort'))
@@ -37,29 +39,25 @@ const mismatch = {
   path: ['passwordRepeat'],
 };
 
-export const signUpSchema = z
-  .object({ email, password: newPassword, passwordRepeat })
-  .refine(passwordsMatch, mismatch);
-
-export const verifyEmailSchema = z.object({
-  token: linkToken,
-  password: currentPassword,
-});
-
 const newPasswordFields = z.object({ password: newPassword, passwordRepeat });
 
-/** The fields of the invitation form; the token comes from the link. */
+/** The fields of the invitation and reset forms; the token comes from the link. */
 export const newPasswordSchema = newPasswordFields.refine(
   passwordsMatch,
   mismatch,
 );
 
-export const acceptInviteSchema = newPasswordFields
+/** Invitation and password reset send the same body: the link token and the new password. */
+export const linkPasswordSchema = newPasswordFields
   .extend({ token: linkToken })
   .refine(passwordsMatch, mismatch);
 
+export const changePasswordSchema = newPasswordFields
+  .extend({ currentPassword })
+  .refine(passwordsMatch, mismatch);
+
 export type SignInValues = z.infer<typeof signInSchema>;
-export type SignUpValues = z.infer<typeof signUpSchema>;
-export type VerifyEmailValues = z.infer<typeof verifyEmailSchema>;
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 export type NewPasswordValues = z.infer<typeof newPasswordSchema>;
-export type AcceptInviteValues = z.infer<typeof acceptInviteSchema>;
+export type LinkPasswordValues = z.infer<typeof linkPasswordSchema>;
+export type ChangePasswordValues = z.infer<typeof changePasswordSchema>;

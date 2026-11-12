@@ -74,10 +74,15 @@ export function SignInForm() {
         </Button>
       </form>
       <Text size="sm" variant="muted">
-        {t('signIn.noAccount')}{' '}
-        <AppLink href={routes.auth.register} className="text-brand underline">
-          {t('signIn.toSignUp')}
+        <AppLink
+          href={routes.auth.forgotPassword}
+          className="text-brand underline"
+        >
+          {t('signIn.forgotPassword')}
         </AppLink>
+      </Text>
+      <Text size="sm" variant="muted">
+        {t('signIn.inviteOnly')}
       </Text>
     </AuthCard>
   );

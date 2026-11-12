@@ -7,40 +7,39 @@
     "fields": {
       "email": "Email",
       "password": "Password",
-      "passwordRepeat": "Repeat the password"
+      "passwordRepeat": "Repeat the password",
+      "currentPassword": "Current password",
+      "newPassword": "New password"
     },
     "signIn": {
       "title": "Sign in to the CMS",
       "description": "Enter your email and password.",
       "submit": "Sign in",
-      "noAccount": "No account yet?",
-      "toSignUp": "Create one"
-    },
-    "signUp": {
-      "title": "Create an account",
-      "description": "Access to the CMS is granted by an administrator once your email is confirmed.",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "toSignIn": "Sign in",
-      "successTitle": "Check your email",
-      "successText": "Open the link from the email to finish. If this address already has an account, the email says so.",
-      "devHint": "Development: there is no mail provider yet, so the email is printed in the console of pnpm bdev. Open the link from it."
-    },
-    "verifyEmail": {
-      "title": "Confirm your email",
-      "description": "Enter the password of your account to finish.",
-      "submit": "Confirm",
-      "successTitle": "Email confirmed",
-      "successText": "You can sign in once an administrator grants you access to the CMS.",
-      "toSignIn": "Go to sign in"
+      "forgotPassword": "Forgot your password?",
+      "inviteOnly": "Access to the CMS is by invitation from an administrator."
     },
     "acceptInvite": {
       "title": "Accept the invitation",
-      "description": "Set a password for your CMS account.",
-      "submit": "Save the password",
-      "successTitle": "Password saved",
-      "successText": "Sign in to the CMS with your email and the new password.",
+      "description": "Set a password for your CMS account. You are signed in right after.",
+      "submit": "Save and sign in",
       "toSignIn": "Go to sign in"
+    },
+    "forgotPassword": {
+      "title": "Reset the password",
+      "description": "Enter your email: we will send a link to set a new password. Your current password keeps working until then.",
+      "submit": "Send the link",
+      "sentTitle": "Check your email",
+      "sentText": "If this address has an account, the email with the link is on its way. The link is valid for 30 minutes.",
+      "toSignIn": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Set a new password",
+      "description": "Enter the new password twice.",
+      "submit": "Save the password",
+      "doneTitle": "Password changed",
+      "doneText": "Sign in with your email and the new password. Other sessions have ended.",
+      "toSignIn": "Go to sign in",
+      "again": "Request a new link"
     },
     "errors": {
       "required": "This field is required.",
@@ -56,12 +55,12 @@
       "keyCancelled": "The confirmation was cancelled or timed out. Try again.",
       "keyFailed": "The key could not be verified. Try again or use another device.",
       "keyUnsupported": "This browser does not support sign-in keys. Open the CMS in Chrome, Edge or Safari.",
-      "enrollmentCodeInvalid": "The code is invalid, used or expired."
+      "enrollmentCodeInvalid": "The code is wrong or not set on the server."
     },
     "securityKey": {
       "add": {
         "title": "Add a sign-in key",
-        "description": "The CMS confirms sign-ins with your device: Windows Hello, Touch ID, a phone via QR code or a USB key. You add it once.",
+        "description": "Root rights work only with a key. Enter the enrollment code from the server env (ROOT_ENROLLMENT_CODE), then add your device: Windows Hello, Touch ID, a phone via QR code or a USB key.",
         "button": "Add a key"
       },
       "confirm": {
@@ -69,16 +68,11 @@
         "description": "Confirm the sign-in with the device you added as a key.",
         "button": "Confirm with key"
       },
-      "approval": {
-        "title": "Waiting for approval",
-        "description": "Your key is added. Access starts once an administrator approves it.",
-        "button": "Check again"
-      },
       "busy": "Waiting for the device…",
       "signOut": "Sign out",
       "code": {
         "label": "Enrollment code",
-        "hint": "The code printed by admin:bootstrap-root. It works once, for 15 minutes."
+        "hint": "The value of ROOT_ENROLLMENT_CODE in the server env (printed by admin:bootstrap-root)."
       }
     },
     "keyId": {
@@ -87,10 +81,19 @@
       "rootHint": "Add this id to ROOT_CREDENTIAL_IDS on the server and restart the API. Root rights start with that key.",
       "continue": "Continue"
     },
-    "spareKey": {
+    "changePassword": {
+      "title": "Password",
+      "description": "Change the password of your account. Other signed-in devices are signed out.",
+      "submit": "Change the password",
+      "done": "The password is changed."
+    },
+    "keys": {
       "title": "Sign-in keys",
-      "description": "Add a spare key in case this device is lost or breaks. First confirm with a key you already have, then register the new device.",
-      "button": "Add a spare key"
+      "descriptionNoKey": "Optional. Add a key (Windows Hello, Touch ID, a phone via QR code or a USB key) and every sign-in will ask for it after the password.",
+      "descriptionWithKey": "Every sign-in asks for your key after the password. Add a spare key in case this device is lost: your current key confirms it first.",
+      "addFirst": "Add a key",
+      "addSpare": "Add a spare key",
+      "added": "Key added."
     }
   },
   "brand": {
@@ -591,7 +594,7 @@
     "invite": {
       "button": "Invite",
       "title": "Invite to the CMS",
-      "description": "We will email a link to set the password. Then the person adds a sign-in key and you approve the access.",
+      "description": "We will email a link to set the password. Opening it and setting the password gives the access at once.",
       "email": "Email",
       "role": "Role",
       "submit": "Send the invitation",
@@ -616,10 +619,8 @@
     },
     "status": {
       "invited": "Invited",
-      "pending": "Awaiting approval",
       "active": "Active",
-      "revoked": "Revoked",
-      "awaitingKey": "Waiting for a key"
+      "revoked": "Revoked"
     },
     "key": {
       "yes": "Registered",
@@ -650,15 +651,12 @@
       "notFound": "This member is gone. Reload the page.",
       "revoked": "The access is revoked. Invite the person again.",
       "tooManyRequests": "Too many attempts. Try again in a minute.",
-      "serverError": "Something went wrong. Try again later.",
-      "noKey": "The person has not added a key yet."
+      "serverError": "Something went wrong. Try again later."
     },
-    "approve": "Approve access for {email}",
-    "approved": "Access for {email} approved.",
     "resetKeys": {
       "button": "Reset keys of {email}",
       "title": "Reset the keys of {email}?",
-      "description": "For a lost or stolen device. Every key and session is removed: the person adds a new key on the next sign-in, and you approve the access again.",
+      "description": "For a lost or stolen device. Every key and session is removed; the person signs in with the password again and may add a new key in the profile.",
       "confirm": "Reset",
       "cancel": "Cancel",
       "done": "Keys of {email} reset."

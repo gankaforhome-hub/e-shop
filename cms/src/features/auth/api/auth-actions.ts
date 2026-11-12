@@ -14,10 +14,10 @@ import { getLocale } from 'next-intl/server';
 import { apiRequest } from '@/shared/api/api-client';
 import {
   acceptInviteRequest,
+  forgotPasswordRequest,
+  resetPasswordRequest,
   signInRequest,
   signOutRequest,
-  signUpRequest,
-  verifyEmailRequest,
 } from '@/shared/api/auth-api';
 import { routes } from '@/shared/config';
 import { redirect } from '@/shared/i18n/navigation';
@@ -29,15 +29,15 @@ import {
 } from '@/shared/lib/session/session-cookies';
 
 import {
-  acceptInviteSchema,
+  changePasswordSchema,
+  forgotPasswordSchema,
+  linkPasswordSchema,
   signInSchema,
-  signUpSchema,
-  verifyEmailSchema,
-  type AcceptInviteValues,
   type AuthErrorKey,
+  type ChangePasswordValues,
+  type ForgotPasswordValues,
+  type LinkPasswordValues,
   type SignInValues,
-  type SignUpValues,
-  type VerifyEmailValues,
 } from '../model/auth.schema';
 
 type AuthFailure = { ok: false; error: AuthErrorKey };
@@ -54,15 +54,9 @@ function toFailure(
   return { ok: false, error: known[status] ?? 'serverError' };
 }
 
-export async function signInAction(
-  values: SignInValues,
-): Promise<AuthActionResult> {
-  const input = signInSchema.safeParse(values);
-  if (!input.success) {
-    return { ok: false, error: 'invalidCredentials' };
-  }
-
-  const result = await signInRequest(input.data);
+/** Stores the session cookies and opens the CMS (the shell sends a key holder to the key step). */
+async function startSession(credentials: SignInValues): Promise<AuthFailure> {
+  const result = await signInRequest(credentials);
   if (!result.ok) {
     return toFailure(result.status, { 401: 'invalidCredentials' });
   }
@@ -73,48 +67,84 @@ export async function signInAction(
   return redirect({ href: routes.home, locale: await getLocale() });
 }
 
-export async function signUpAction(
-  values: SignUpValues,
+export async function signInAction(
+  values: SignInValues,
 ): Promise<AuthActionResult> {
-  const input = signUpSchema.safeParse(values);
+  const input = signInSchema.safeParse(values);
   if (!input.success) {
-    return { ok: false, error: 'serverError' };
+    return { ok: false, error: 'invalidCredentials' };
   }
 
-  const result = await signUpRequest(input.data);
-
-  return result.ok ? { ok: true } : toFailure(result.status);
+  return startSession(input.data);
 }
 
-export async function verifyEmailAction(
-  values: VerifyEmailValues,
-): Promise<AuthActionResult> {
-  const input = verifyEmailSchema.safeParse(values);
-  if (!input.success) {
-    return { ok: false, error: 'invalidToken' };
-  }
-
-  const result = await verifyEmailRequest(input.data);
-
-  return result.ok
-    ? { ok: true }
-    : toFailure(result.status, { 400: 'invalidToken', 401: 'wrongPassword' });
-}
-
+/** The invitation link sets the password and signs the person in right away. */
 export async function acceptInviteAction(
-  values: AcceptInviteValues,
+  values: LinkPasswordValues,
 ): Promise<AuthActionResult> {
-  const input = acceptInviteSchema.safeParse(values);
+  const input = linkPasswordSchema.safeParse(values);
   if (!input.success) {
     return { ok: false, error: 'invalidToken' };
   }
 
   const { token, password } = input.data;
   const result = await acceptInviteRequest({ token, password });
+  if (!result.ok) {
+    return toFailure(result.status, { 400: 'invalidToken' });
+  }
+
+  return startSession({ email: result.data.email, password });
+}
+
+/** Always "check your email": the API never tells whether the address exists. */
+export async function forgotPasswordAction(
+  values: ForgotPasswordValues,
+): Promise<AuthActionResult> {
+  const input = forgotPasswordSchema.safeParse(values);
+  if (!input.success) {
+    return { ok: false, error: 'invalidEmail' };
+  }
+
+  const result = await forgotPasswordRequest(input.data);
+
+  return result.ok ? { ok: true } : toFailure(result.status);
+}
+
+/** Until this succeeds the old password keeps working. */
+export async function resetPasswordAction(
+  values: LinkPasswordValues,
+): Promise<AuthActionResult> {
+  const input = linkPasswordSchema.safeParse(values);
+  if (!input.success) {
+    return { ok: false, error: 'invalidToken' };
+  }
+
+  const { token, password } = input.data;
+  const result = await resetPasswordRequest({ token, password });
 
   return result.ok
     ? { ok: true }
     : toFailure(result.status, { 400: 'invalidToken' });
+}
+
+/** The API ends every other session of the user; this one stays signed in. */
+export async function changePasswordAction(
+  values: ChangePasswordValues,
+): Promise<AuthActionResult> {
+  const input = changePasswordSchema.safeParse(values);
+  if (!input.success) {
+    return { ok: false, error: 'serverError' };
+  }
+
+  const { currentPassword, password } = input.data;
+  const result = await apiRequest<unknown>('/auth/change-password', {
+    method: 'POST',
+    json: { currentPassword, newPassword: password },
+  });
+
+  return result.ok
+    ? { ok: true }
+    : toFailure(result.status, { 401: 'wrongPassword' });
 }
 
 export type KeyOptionsResult<T> = { ok: true; options: T } | AuthFailure;
@@ -129,15 +159,16 @@ const keyFailures: Partial<Record<number, AuthErrorKey>> = {
   403: 'keyFailed',
 };
 
-// With a code the API answers 403 for a wrong or expired one
+// With a code the API answers 403 for a wrong one
 const codeFailures: Partial<Record<number, AuthErrorKey>> = {
   ...keyFailures,
   403: 'enrollmentCodeInvalid',
 };
 
 /**
- * Challenge for a new key. The API allows it for the first key of a staff member (not root),
- * with an enrollment code, or from an aal 2 session with a fresh assertion (a spare key).
+ * Challenge for a new key. The API allows the first key from the password session (a root
+ * also sends ROOT_ENROLLMENT_CODE) and every further one from a key-confirmed session with a
+ * fresh assertion of an existing key.
  */
 export async function getAddKeyOptionsAction(
   enrollmentCode?: string,
@@ -153,8 +184,8 @@ export async function getAddKeyOptionsAction(
 
 /**
  * Registers the key. `assertion` is the signature of an existing key over the
- * `webauthn.add_key` challenge, needed for a spare key without a code.
- * Returns the key id: a root admin adds it to `ROOT_CREDENTIAL_IDS`.
+ * `webauthn.add_key` challenge, needed for every key after the first. Returns the key id:
+ * a root admin adds it to `ROOT_CREDENTIAL_IDS`.
  */
 export async function addKeyAction(
   response: RegistrationResponseJSON,

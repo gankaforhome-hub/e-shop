@@ -32,31 +32,25 @@ import { type AuthErrorKey } from '../model/auth.schema';
 
 interface SecurityKeyStepProps {
   step: KeyStep;
-  /** A root account adds keys only with the code from `admin:bootstrap-root` */
-  enrollmentCodeRequired: boolean;
 }
 
 /**
- * The step between the password and the CMS: add the first key, confirm the session with
- * it, or wait until an ADMIN / root approves the access.
+ * The step between the password and the CMS: a root without a key adds one (with the
+ * enrollment code from the server env, then copies the shown key id to ROOT_CREDENTIAL_IDS);
+ * anyone with a key confirms the session with it.
  */
-export function SecurityKeyStep({
-  step,
-  enrollmentCodeRequired,
-}: SecurityKeyStepProps) {
+export function SecurityKeyStep({ step }: SecurityKeyStepProps) {
   const t = useTranslations('auth');
   const router = useRouter();
   const codeId = useId();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<AuthErrorKey | null>(null);
   const [code, setCode] = useState('');
-  // A root admin copies the id of the new key to the server env before going on
   const [credentialId, setCredentialId] = useState<string | null>(null);
-  const withCode = step === 'add' && enrollmentCodeRequired;
 
   const addKey = async () => {
-    const enrollmentCode = code.trim() || undefined;
-    if (withCode && !enrollmentCode) {
+    const enrollmentCode = code.trim();
+    if (!enrollmentCode) {
       return setError('required');
     }
     const options = await getAddKeyOptionsAction(enrollmentCode);
@@ -71,14 +65,10 @@ export function SecurityKeyStep({
       if (!result.ok) {
         return setError(result.error);
       }
-      if (withCode) {
-        return setCredentialId(result.credentialId);
-      }
+      setCredentialId(result.credentialId);
     } catch (cause) {
-      return setError(toKeyError(cause));
+      setError(toKeyError(cause));
     }
-    // The page reads the session again and moves on to the confirmation
-    router.refresh();
   };
 
   const confirmKey = async () => {
@@ -102,7 +92,8 @@ export function SecurityKeyStep({
   const run = () =>
     startTransition(async () => {
       setError(null);
-      if (step === 'approval' || credentialId) {
+      if (credentialId) {
+        // The page reads the session again and moves on to the confirmation
         router.refresh();
       } else if (!browserSupportsWebAuthn()) {
         setError('keyUnsupported');
@@ -120,7 +111,7 @@ export function SecurityKeyStep({
     >
       <div className="flex flex-col gap-4">
         {credentialId ? <KeyIdNotice credentialId={credentialId} /> : null}
-        {withCode && !credentialId ? (
+        {step === 'add' && !credentialId ? (
           <FormField
             id={codeId}
             label={t('securityKey.code.label')}
@@ -143,7 +134,7 @@ export function SecurityKeyStep({
           <Icon name="key" />
           {credentialId
             ? t('keyId.continue')
-            : isPending && step !== 'approval'
+            : isPending
               ? t('securityKey.busy')
               : t(`securityKey.${step}.button`)}
         </Button>

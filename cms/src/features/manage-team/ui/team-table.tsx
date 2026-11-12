@@ -25,7 +25,6 @@ import { Text } from '@/shared/ui/text';
 
 import { InviteDialog } from './invite-dialog';
 import {
-  approveAccessAction,
   changeRoleAction,
   inviteMemberAction,
   resetKeysAction,
@@ -110,7 +109,7 @@ interface TeamTableProps {
   canAssignAdmin: boolean;
 }
 
-/** Staff list for admins: invite, change the role, approve, invite again, reset keys, revoke. */
+/** Staff list for admins: invite, change the role, invite again, reset keys, revoke. */
 export function TeamTable({ members, canAssignAdmin }: TeamTableProps) {
   const t = useTranslations('team');
   const roles = getAssignableRoles(canAssignAdmin);
@@ -191,8 +190,6 @@ export function TeamTable({ members, canAssignAdmin }: TeamTableProps) {
                 const isRevoked = status === 'revoked';
                 const canEditRole =
                   manageable && !isRevoked && isAssignableRole(role);
-                const canApprove =
-                  manageable && status === 'pending' && member.hasKey;
                 const canReinvite =
                   manageable &&
                   (status === 'invited' || isRevoked) &&
@@ -251,9 +248,7 @@ export function TeamTable({ members, canAssignAdmin }: TeamTableProps) {
                               : 'muted'
                         }
                       >
-                        {status === 'pending' && !member.hasKey
-                          ? t('status.awaitingKey')
-                          : t(`status.${status}`)}
+                        {t(`status.${status}`)}
                       </Text>
                     </td>
                     <td className={cell}>
@@ -263,23 +258,6 @@ export function TeamTable({ members, canAssignAdmin }: TeamTableProps) {
                     </td>
                     <td className={cell}>
                       <div className="flex justify-end gap-1">
-                        {canApprove ? (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            disabled={isPending}
-                            aria-label={t('approve', { email })}
-                            title={t('approve', { email })}
-                            onClick={() =>
-                              run(
-                                () => approveAccessAction(userId),
-                                t('approved', { email }),
-                              )
-                            }
-                          >
-                            <Icon name="approve" />
-                          </Button>
-                        ) : null}
                         {canReinvite ? (
                           <Button
                             variant="ghost"

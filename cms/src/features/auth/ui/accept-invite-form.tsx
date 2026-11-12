@@ -22,12 +22,11 @@ import {
 } from '../model/auth.schema';
 import { useLinkToken } from '../model/use-link-token';
 
-/** Landing of the invitation email: the invited person sets the password. */
+/** Landing of the invitation email: the invited person sets the password and is signed in. */
 export function AcceptInviteForm() {
   const t = useTranslations('auth');
   const token = useLinkToken();
   const [serverError, setServerError] = useState<AuthErrorKey | null>(null);
-  const [isAccepted, setIsAccepted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -42,23 +41,18 @@ export function AcceptInviteForm() {
 
   const onSubmit = handleSubmit(async values => {
     setServerError(null);
+    // On success the action signs in and redirects to the CMS
     const result = await acceptInviteAction({ ...values, token: token ?? '' });
-    if (result.ok) {
-      setIsAccepted(true);
-    } else {
+    if (!result.ok) {
       setServerError(result.error);
     }
   });
 
-  if (isAccepted || token === '') {
+  if (token === '') {
     return (
       <AuthCard
-        title={
-          isAccepted ? t('acceptInvite.successTitle') : t('acceptInvite.title')
-        }
-        description={
-          isAccepted ? t('acceptInvite.successText') : t('errors.invalidToken')
-        }
+        title={t('acceptInvite.title')}
+        description={t('errors.invalidToken')}
       >
         <Button asChild>
           <AppLink href={routes.auth.login}>

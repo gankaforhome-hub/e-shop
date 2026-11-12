@@ -10,6 +10,7 @@ import {
 
 import { useTranslations } from 'next-intl';
 
+import { useRouter } from '@/shared/i18n/navigation';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Text } from '@/shared/ui/text';
@@ -23,31 +24,35 @@ import {
 import { toKeyError } from '../lib/to-key-error';
 import { type AuthErrorKey } from '../model/auth.schema';
 
-interface AddSpareKeyProps {
+interface AddKeyProps {
   userId: string;
+  /** With a key already, the existing key confirms the new one first (two prompts in a row) */
+  hasKey: boolean;
   /** Root keys go to `ROOT_CREDENTIAL_IDS`, so the new id is shown */
   showKeyId: boolean;
 }
 
-/**
- * A second key for a lost or broken device: an existing key confirms the action
- * (fresh assertion), then the new device registers. Two prompts in a row.
- */
-export function AddSpareKey({ userId, showKeyId }: AddSpareKeyProps) {
+/** Optional sign-in key: the first one makes every later sign-in ask for it, more are spares. */
+export function AddKey({ userId, hasKey, showKeyId }: AddKeyProps) {
   const t = useTranslations('auth');
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<AuthErrorKey | null>(null);
   const [added, setAdded] = useState<string | null>(null);
 
   const addKey = async () => {
-    const assertionOptions = await getSpareKeyAssertionOptionsAction(userId);
-    if (!assertionOptions.ok) {
-      return setError(assertionOptions.error);
-    }
     try {
-      const assertion = await startAuthentication({
-        optionsJSON: assertionOptions.options,
-      });
+      let assertion;
+      if (hasKey) {
+        const assertionOptions =
+          await getSpareKeyAssertionOptionsAction(userId);
+        if (!assertionOptions.ok) {
+          return setError(assertionOptions.error);
+        }
+        assertion = await startAuthentication({
+          optionsJSON: assertionOptions.options,
+        });
+      }
       const options = await getAddKeyOptionsAction();
       if (!options.ok) {
         return setError(options.error);
@@ -60,6 +65,8 @@ export function AddSpareKey({ userId, showKeyId }: AddSpareKeyProps) {
         return setError(result.error);
       }
       setAdded(result.credentialId);
+      // The first key changes the session (it now needs the key): the shell reads it again
+      router.refresh();
     } catch (cause) {
       setError(toKeyError(cause));
     }
@@ -81,7 +88,7 @@ export function AddSpareKey({ userId, showKeyId }: AddSpareKeyProps) {
       {added && showKeyId ? <KeyIdNotice credentialId={added} /> : null}
       {added && !showKeyId ? (
         <Text role="status" size="sm" variant="brand">
-          {t('keyId.added')}
+          {t('keys.added')}
         </Text>
       ) : null}
       {error ? (
@@ -91,7 +98,11 @@ export function AddSpareKey({ userId, showKeyId }: AddSpareKeyProps) {
       ) : null}
       <Button onClick={run} disabled={isPending}>
         <Icon name="key" />
-        {isPending ? t('securityKey.busy') : t('spareKey.button')}
+        {isPending
+          ? t('securityKey.busy')
+          : hasKey
+            ? t('keys.addSpare')
+            : t('keys.addFirst')}
       </Button>
     </div>
   );

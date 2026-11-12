@@ -28,18 +28,7 @@ function toFailure(
   return { ok: false, error: byStatus[status] ?? 'serverError' };
 }
 
-/** Lets a member who has added a key into the CMS. */
-export async function approveAccessAction(
-  userId: string,
-): Promise<TeamActionResult> {
-  const result = await apiRequest<void>(
-    `/admin/team/${encodeURIComponent(userId)}/approve`,
-    { method: 'POST' },
-  );
-  return result.ok ? { ok: true } : toFailure(result.status, { 400: 'noKey' });
-}
-
-/** Lost or stolen device: removes every key and session, the access waits for approval again. */
+/** Lost or stolen device: removes every key and session; the password still signs in. */
 export async function resetKeysAction(
   userId: string,
 ): Promise<TeamActionResult> {

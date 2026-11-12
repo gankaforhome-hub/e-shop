@@ -18,7 +18,7 @@ const PUBLIC_PATHS: readonly string[] = Object.values(routes.auth);
 
 /**
  * Locale routing (`uk` without prefix, `/en/...`) and the gate of the whole CMS:
- * every page except sign-in, sign-up and email verification needs a session.
+ * every page except sign-in, the invitation and the password reset needs a session.
  * The cookie is only checked for presence here; `getCurrentUser` has the API verify it.
  */
 export default async function proxy(request: NextRequest) {
