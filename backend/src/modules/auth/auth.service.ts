@@ -70,6 +70,11 @@ export class AuthService {
     return user;
   }
 
+  //COMMENT a storefront session for a user found another way (Google), no password involved
+  signInVerifiedUser(user: User, userAgent?: string): Promise<ITokens> {
+    return this.generateTokens(user, userAgent, E_AuthAudience.STOREFRONT);
+  }
+
   //COMMENT sign in by email, password
   async signIn(signInDto: SignInDto, userAgent?: string): Promise<ITokens> {
     const user = await this.validateCredentials(signInDto);

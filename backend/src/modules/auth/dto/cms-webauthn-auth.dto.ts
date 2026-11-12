@@ -15,11 +15,12 @@ export class WebAuthnResponseDto {
   response: Record<string, unknown>;
 }
 
+//COMMENT a root's first key needs ROOT_ENROLLMENT_CODE from the server env
 export class RegistrationOptionsDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  @MaxLength(128)
+  @MaxLength(256)
   enrollmentCode?: string;
 }
 
@@ -27,7 +28,7 @@ export class VerifyRegistrationDto extends WebAuthnResponseDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  @MaxLength(128)
+  @MaxLength(256)
   enrollmentCode?: string;
 }
 

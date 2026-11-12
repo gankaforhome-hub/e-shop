@@ -69,8 +69,6 @@ export class TeamService {
         status = 'revoked';
       } else if (!member.hasPassword || !member.emailVerified) {
         status = 'invited';
-      } else if (!member.approvedAt) {
-        status = 'pending';
       }
 
       return {
@@ -86,7 +84,7 @@ export class TeamService {
     });
   }
 
-  //COMMENT inviting again renews the link of an invited, pending or revoked member
+  //COMMENT the invite is the permission; inviting again renews the link of an invited or revoked member
   async invite(
     actor: IAuthUser,
     rawEmail: string,
@@ -107,7 +105,6 @@ export class TeamService {
       }
       const isActive =
         !account.revokedAt &&
-        !!account.approvedAt &&
         existing.password !== null &&
         existing.emailVerifiedAt !== null;
       if (isActive) {
@@ -144,31 +141,6 @@ export class TeamService {
       targetId: userId,
       ip,
       meta: { from: account.role, to: role },
-    });
-  }
-
-  //COMMENT only after the person has accepted the invite and added a key
-  async approve(
-    actor: IAuthUser,
-    userId: string,
-    { ip }: Pick<IStaffActionContext, 'ip'>,
-  ): Promise<void> {
-    const account = await this.getManageableAccount(actor, userId);
-    if (account.revokedAt) {
-      throw new BadRequestException('The access of the user is revoked');
-    }
-    if (account.approvedAt) {
-      return;
-    }
-    if ((await this.staffRepository.countCredentials(userId)) === 0) {
-      throw new BadRequestException('The user has not added a key yet');
-    }
-
-    await this.staffRepository.approve(userId, actor.id, {
-      actorId: actor.id,
-      action: 'staff.approve',
-      targetId: userId,
-      ip,
     });
   }
 

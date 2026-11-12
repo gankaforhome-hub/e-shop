@@ -3,9 +3,14 @@ import { convertToSecondsUtil, normalizeEmail } from '@common/utils';
 import { IAuthUser } from '@modules/auth/interfaces';
 import { StaffRepository } from '@modules/staff/repository/staff.repository';
 import { StaffAccessService } from '@modules/staff/staff-access.service';
-import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
+import {
+  CreateUserDto,
+  UpdateProfileDto,
+  UpdateUserDto,
+} from '@modules/user/dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
+  ConflictException,
   ForbiddenException,
   Inject,
   Injectable,
@@ -15,7 +20,10 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { E_StaffRole, User } from '@prisma/client';
 import { Cache } from 'cache-manager';
-import { UserRepository } from './repository/user.repository';
+import {
+  type CustomerProfileData,
+  UserRepository,
+} from './repository/user.repository';
 
 @Injectable()
 export class UserService {
@@ -36,7 +44,7 @@ export class UserService {
     }
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto & CustomerProfileData) {
     const user = await this.userRepository.createUser({
       ...createUserDto,
       email: normalizeEmail(createUserDto.email),
@@ -78,6 +86,10 @@ export class UserService {
     return user;
   }
 
+  isPhoneTaken(phone: string) {
+    return this.userRepository.isPhoneTaken(phone);
+  }
+
   findOneByEmail(email: string) {
     return this.userRepository.getUserByEmail(normalizeEmail(email));
   }
@@ -94,6 +106,38 @@ export class UserService {
   findOne(id: string, actor: IAuthUser) {
     this.assertCanAccess(id, actor);
     return this.findOneByIdOrEmail(id);
+  }
+
+  //COMMENT the signed-in customer's own profile (names, phone, news and offers)
+  async updateProfile(
+    actor: IAuthUser,
+    { firstName, lastName, phone, marketingConsent }: UpdateProfileDto,
+  ): Promise<User> {
+    const current = await this.userRepository.getUserById(actor.id);
+    if (!current) {
+      throw new NotFoundException();
+    }
+
+    const isNewPhone = phone !== undefined && phone !== current.phone;
+    //COMMENT the same answer for any taken number: whose it is stays private
+    if (isNewPhone && phone && (await this.isPhoneTaken(phone))) {
+      throw new ConflictException('This phone can not be used');
+    }
+
+    let marketingConsentAt: Date | null | undefined;
+    if (marketingConsent === true && !current.marketingConsentAt) {
+      marketingConsentAt = new Date();
+    } else if (marketingConsent === false) {
+      marketingConsentAt = null;
+    }
+
+    await this.cacheManager.del(actor.id);
+    return this.userRepository.updateProfile(actor.id, {
+      firstName,
+      lastName,
+      ...(isNewPhone && { phone }),
+      ...(marketingConsentAt !== undefined && { marketingConsentAt }),
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto, actor: IAuthUser) {

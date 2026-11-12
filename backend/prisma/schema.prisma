@@ -72,6 +72,19 @@ model User {
   password            String?              @db.VarChar()
   name                String?              @db.VarChar(100)
   emailVerifiedAt     DateTime?            @map("email_verified_at") @db.Timestamptz()
+  // E.164 (+380…); optional at sign-up, login by phone (OTP) comes later
+  phone               String?              @unique @db.VarChar(20)
+  phoneVerifiedAt     DateTime?            @map("phone_verified_at") @db.Timestamptz()
+  // Google account id ("sub"), for the planned Google sign-in
+  googleSub           String?              @unique @map("google_sub") @db.VarChar(255)
+  // Customer profile; `name` stays for staff in the CMS
+  firstName           String?              @map("first_name") @db.VarChar(100)
+  lastName            String?              @map("last_name") @db.VarChar(100)
+  // Proof of the accepted terms and privacy policy (TERMS_VERSION at that moment)
+  termsAcceptedAt     DateTime?            @map("terms_accepted_at") @db.Timestamptz()
+  termsVersion        String?              @map("terms_version") @db.VarChar(32)
+  // Separate opt-in for news and offers; null = no consent
+  marketingConsentAt  DateTime?            @map("marketing_consent_at") @db.Timestamptz()
   // status    E_UserStatus[] @default([ACTIVE])
   // isActivated Boolean?    @default(false) @map("is_activated")
   createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz()

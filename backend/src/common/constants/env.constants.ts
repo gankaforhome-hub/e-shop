@@ -8,12 +8,14 @@ export const DATABASE_URL = 'DATABASE_URL';
 export const NODE_ENV = 'NODE_ENV';
 
 export const FRONTEND_URL = 'FRONTEND_URL';
+export const CMS_URL = 'CMS_URL';
 
 export const CMS_ORIGINS = 'CMS_ORIGINS';
 export const STOREFRONT_ORIGINS = 'STOREFRONT_ORIGINS';
 
 export const ROOT_USER_IDS = 'ROOT_USER_IDS';
 export const ROOT_CREDENTIAL_IDS = 'ROOT_CREDENTIAL_IDS';
+export const ROOT_ENROLLMENT_CODE = 'ROOT_ENROLLMENT_CODE';
 
 export const WEBAUTHN_RP_ID = 'WEBAUTHN_RP_ID';
 export const WEBAUTHN_RP_NAME = 'WEBAUTHN_RP_NAME';
@@ -28,3 +30,9 @@ export const REVALIDATE_SECRET = 'REVALIDATE_SECRET';
 
 export const RESEND_API_KEY = 'RESEND_API_KEY';
 export const MAIL_FROM = 'MAIL_FROM';
+
+export const TURNSTILE_SECRET_KEY = 'TURNSTILE_SECRET_KEY';
+
+//COMMENT storefront Google sign-in (POST /auth/google); unset = off
+export const GOOGLE_CLIENT_ID = 'GOOGLE_CLIENT_ID';
+export const GOOGLE_CLIENT_SECRET = 'GOOGLE_CLIENT_SECRET';

@@ -5,9 +5,4 @@ export class VerifyEmailDto {
   @IsNotEmpty()
   @MaxLength(128)
   token: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(72)
-  password: string;
 }

@@ -4,6 +4,7 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Ip,
   Post,
   Res,
   UnauthorizedException,
@@ -31,12 +32,14 @@ import { REFRESH_THROTTLE, STRICT_THROTTLE } from '@config';
 import { CookieService } from '../cookie/cookie.service';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
+import { GoogleAuthService } from './google-auth.service';
 
 import {
   ChangeEmailDto,
   ChangePasswordDto,
   ConfirmEmailChangeDto,
   EmailDto,
+  GoogleSignInDto,
   ResetPasswordDto,
   SignInDto,
   SignUpDto,
@@ -45,6 +48,7 @@ import {
 import { CheckOrigin, OriginGuard } from './guards/origin.guard';
 import { IAuthUser, ITokens } from './interfaces';
 import {
+  AcceptInviteResponse,
   ApiSignInBadRequestResponse,
   ApiSignInCreatedResponse,
   ApiSignInOperation,
@@ -56,6 +60,7 @@ import {
   ApiSignUpBadRequestResponse,
   ApiSignUpOperation,
   MessageResponse,
+  SignInResponse,
 } from './responses';
 
 //COMMENT the same for existing and unknown emails, so it does not reveal which accounts exist
@@ -68,6 +73,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly accountService: AccountService,
     private readonly cookiesService: CookieService,
+    private readonly googleAuthService: GoogleAuthService,
   ) {}
 
   @SkipAuth()
@@ -77,28 +83,43 @@ export class AuthController {
   @ApiSignUpOperation()
   @ApiSignUpAcceptedResponse()
   @ApiSignUpBadRequestResponse()
-  async signUp(@Body() signUpDto: SignUpDto): Promise<MessageResponse> {
-    await this.accountService.signUp(signUpDto);
+  async signUp(
+    @Body() signUpDto: SignUpDto,
+    @Ip() ip: string,
+  ): Promise<MessageResponse> {
+    await this.accountService.signUp(signUpDto, ip);
     return { message: CHECK_EMAIL_MESSAGE };
   }
 
-  @SkipAuth()
+  @ApiBearerAuth()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('resend-verification')
-  @ApiOperation({ summary: 'send the email verification link again' })
-  async resendVerification(@Body() dto: EmailDto): Promise<MessageResponse> {
-    await this.accountService.resendVerification(dto);
+  @ApiOperation({
+    summary: 'send the email verification link again',
+    description: 'To the own email of the signed-in customer.',
+  })
+  async resendVerification(
+    @CurrentUser() user: IAuthUser,
+  ): Promise<MessageResponse> {
+    await this.accountService.resendVerification(user);
     return { message: CHECK_EMAIL_MESSAGE };
   }
 
-  @SkipAuth()
+  @ApiBearerAuth()
   @Throttle(STRICT_THROTTLE)
   @HttpCode(HttpStatus.OK)
   @Post('verify-email')
-  @ApiOperation({ summary: 'confirm the email with the token from the link' })
-  async verifyEmail(@Body() dto: VerifyEmailDto): Promise<MessageResponse> {
-    await this.accountService.verifyEmail(dto);
+  @ApiOperation({
+    summary: 'confirm the email with the token from the link',
+    description:
+      'Needs the session of the account the link was sent for: the owner of a mailbox can never confirm an account someone else created with that address.',
+  })
+  async verifyEmail(
+    @CurrentUser() user: IAuthUser,
+    @Body() dto: VerifyEmailDto,
+  ): Promise<MessageResponse> {
+    await this.accountService.verifyEmail(user, dto);
     return { message: 'Email confirmed' };
   }
 
@@ -107,8 +128,11 @@ export class AuthController {
   @HttpCode(HttpStatus.ACCEPTED)
   @Post('forgot-password')
   @ApiOperation({ summary: 'send a password reset link' })
-  async forgotPassword(@Body() dto: EmailDto): Promise<MessageResponse> {
-    await this.accountService.forgotPassword(dto);
+  async forgotPassword(
+    @Body() dto: EmailDto,
+    @Ip() ip: string,
+  ): Promise<MessageResponse> {
+    await this.accountService.forgotPassword(dto, ip);
     return { message: CHECK_EMAIL_MESSAGE };
   }
 
@@ -133,11 +157,13 @@ export class AuthController {
     summary:
       'accept a CMS invitation: set the password with the token from the link',
     description:
-      'Also confirms the email. Ends every session of the user. An existing password is replaced.',
+      'Also confirms the email. Ends every session of the user. An existing password is replaced. Returns the email, so the CMS signs the person in right away.',
   })
-  async acceptInvite(@Body() dto: ResetPasswordDto): Promise<MessageResponse> {
-    await this.accountService.acceptStaffInvite(dto);
-    return { message: 'Password set, sign in to the CMS' };
+  async acceptInvite(
+    @Body() dto: ResetPasswordDto,
+  ): Promise<AcceptInviteResponse> {
+    const email = await this.accountService.acceptStaffInvite(dto);
+    return { email };
   }
 
   @ApiBearerAuth()
@@ -227,6 +253,33 @@ export class AuthController {
     res.status(HttpStatus.CREATED).json({
       accessToken,
     });
+  }
+
+  @SkipAuth()
+  @Throttle(STRICT_THROTTLE)
+  @CheckOrigin(E_AuthAudience.STOREFRONT)
+  @UseGuards(OriginGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('google')
+  @ApiOperation({
+    summary: 'storefront sign-in with Google (authorization code)',
+    description:
+      'Merges with the account of the same email (Google wins: an unverified account loses its password and sessions) and verifies the email. 404 while GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are not set.',
+  })
+  async signInWithGoogle(
+    @Body() { code, redirectUri }: GoogleSignInDto,
+    @UserAgent() userAgent: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<SignInResponse> {
+    const {
+      accessToken,
+      refreshToken: { token, expires },
+    } = await this.googleAuthService.signIn(code, redirectUri, userAgent);
+    await this.cookiesService.setToCookies(
+      { name: REFRESH_TOKEN, value: token, expires },
+      res,
+    );
+    return { accessToken };
   }
 
   @SkipAuth()

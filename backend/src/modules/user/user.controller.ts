@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
   UnauthorizedException,
@@ -22,7 +23,11 @@ import {
 
 // import { PrismaClientExceptionFilter } from '@database/prisma/prisma-client-exception/prisma-client-exception.filter';
 
-import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
+import {
+  CreateUserDto,
+  UpdateProfileDto,
+  UpdateUserDto,
+} from '@modules/user/dto';
 import { UserService } from './user.service';
 
 import { AnyAudience, CurrentUser, UUIDParam } from '@common/decorators';
@@ -75,6 +80,20 @@ export class UserController {
 
     const responseUser = user ? new UserResponse(user) : null;
     return responseUser;
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch('me')
+  @ApiOperation({
+    summary: 'update the own profile',
+    description:
+      'Names, phone (null removes it) and the news-and-offers consent. Email, password and rights have their own flows.',
+  })
+  async updateMe(
+    @CurrentUser() actor: IAuthUser,
+    @Body() dto: UpdateProfileDto,
+  ): Promise<UserResponse> {
+    return new UserResponse(await this.userService.updateProfile(actor, dto));
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

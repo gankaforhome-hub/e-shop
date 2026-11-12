@@ -47,6 +47,14 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
+      - key: CMS_URL
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
       - key: CMS_ORIGINS
         sync: false
       - key: STOREFRONT_ORIGINS
@@ -58,6 +66,8 @@ services:
       - key: ROOT_USER_IDS
         sync: false
       - key: ROOT_CREDENTIAL_IDS
+        sync: false
+      - key: ROOT_ENROLLMENT_CODE
         sync: false
       - key: FRONTEND_REVALIDATE_URL
         sync: false

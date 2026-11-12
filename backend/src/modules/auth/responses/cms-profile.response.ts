@@ -9,8 +9,6 @@ export class CmsProfileResponse {
   hasKey: boolean;
   /** This session was confirmed with a key (aal 2) */
   keyConfirmed: boolean;
-  /** An ADMIN or root approved the access */
-  approved: boolean;
-  /** A key-confirmed root listed in env: may assign ADMIN */
+  /** A root listed in ROOT_USER_IDS: may assign ADMIN */
   isRoot: boolean;
 }

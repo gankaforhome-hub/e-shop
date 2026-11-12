@@ -57,33 +57,26 @@ export class WebAuthnService {
   }
 
   /**
-   * A new key needs a code handed over outside of email, or an existing key. One exception:
-   * a staff member (not root) with no key at all adds the first one from the password session.
-   * Such an account is not approved yet (an invite or a key reset clears the approval), so
-   * the key gives no access until an ADMIN or root approves it in the team list.
+   * Keys are optional for staff: without a key, the first one is added from the password
+   * session. A root's first key also needs ROOT_ENROLLMENT_CODE from the server env, so a
+   * stolen root password can't enroll the thief's key. Every further key needs a key-confirmed
+   * session (aal 2) and a fresh signature of an existing key (for root: a listed root key).
    * Returns whether the fresh assertion of an existing key is needed.
    */
-  private async assertCanRegister(
+  private assertCanRegister(
     user: IAuthUser,
     enrollmentCode?: string,
-  ): Promise<{ needsFreshAssertion: boolean }> {
+  ): { needsFreshAssertion: boolean } {
     if (!user.staff || user.staff.revokedAt) {
       throw new ForbiddenException();
     }
-    if (enrollmentCode) {
-      const code = await this.staffRepository.findEnrollmentCode(
-        enrollmentCode,
-        user.id,
-      );
-      if (!code) {
-        throw new ForbiddenException('Invalid or expired enrollment code');
+    if (!user.hasKey) {
+      if (
+        this.isRootRole(user) &&
+        !this.staffAccess.isRootEnrollmentCode(enrollmentCode)
+      ) {
+        throw new ForbiddenException('Invalid enrollment code');
       }
-      return { needsFreshAssertion: false };
-    }
-    if (
-      !this.isRootRole(user) &&
-      (await this.staffRepository.countCredentials(user.id)) === 0
-    ) {
       return { needsFreshAssertion: false };
     }
     if (user.aal < 2) {
@@ -92,15 +85,11 @@ export class WebAuthnService {
     return { needsFreshAssertion: true };
   }
 
-  countKeys(userId: string): Promise<number> {
-    return this.staffRepository.countCredentials(userId);
-  }
-
   async createRegistrationOptions(
     user: IAuthUser,
     enrollmentCode?: string,
   ): Promise<PublicKeyCredentialCreationOptionsJSON> {
-    await this.assertCanRegister(user, enrollmentCode);
+    this.assertCanRegister(user, enrollmentCode);
 
     const credentials = await this.staffRepository.findCredentials(user.id);
     const options = await generateRegistrationOptions({
@@ -116,10 +105,6 @@ export class WebAuthnService {
       authenticatorSelection: {
         residentKey: 'preferred',
         userVerification: 'required',
-        //COMMENT a root key must be a separate device, see verifyRegistration
-        ...(this.isRootRole(user)
-          ? { authenticatorAttachment: 'cross-platform' as const }
-          : {}),
       },
     });
 
@@ -131,7 +116,7 @@ export class WebAuthnService {
     return options;
   }
 
-  //COMMENT returns the credential id: a root admin has to add it to ROOT_CREDENTIAL_IDS
+  //COMMENT returns the id of the new key: a root admin adds it to ROOT_CREDENTIAL_IDS
   async verifyRegistration(
     user: IAuthUser,
     response: RegistrationResponseJSON,
@@ -139,7 +124,7 @@ export class WebAuthnService {
     freshAssertion: string | undefined,
     ip?: string,
   ): Promise<string> {
-    const { needsFreshAssertion } = await this.assertCanRegister(
+    const { needsFreshAssertion } = this.assertCanRegister(
       user,
       enrollmentCode,
     );
@@ -177,16 +162,6 @@ export class WebAuthnService {
     const { credential, credentialDeviceType, credentialBackedUp } =
       registrationInfo;
 
-    //COMMENT a synced passkey lives in a cloud account, which a mailbox can often recover
-    if (
-      this.isRootRole(user) &&
-      (credentialDeviceType !== 'singleDevice' || credentialBackedUp)
-    ) {
-      throw new BadRequestException(
-        'A root admin needs a hardware key, synced passkeys are not accepted',
-      );
-    }
-
     const isAdded = await this.staffRepository.addCredential(
       {
         id: credential.id,
@@ -204,7 +179,6 @@ export class WebAuthnService {
         ip,
         meta: { credentialId: credential.id },
       },
-      enrollmentCode,
     );
     if (!isAdded) {
       throw new BadRequestException('The key could not be registered');

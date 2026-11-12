@@ -19,6 +19,7 @@ export const RequireFreshAssertion = (action: FreshAction) =>
 /**
  * Stolen tokens and a leaked JWT secret stop here: the request must carry a signature
  * from the physical key, over a challenge issued for this action on this target.
+ * Keys are optional, so a user without a key passes on the password session alone.
  */
 @Injectable()
 export class FreshAssertionGuard implements CanActivate {
@@ -33,6 +34,9 @@ export class FreshAssertionGuard implements CanActivate {
       ctx.getHandler(),
     );
     const req = ctx.switchToHttp().getRequest<Request & { user: IAuthUser }>();
+    if (!req.user.hasKey) {
+      return true;
+    }
 
     await this.webAuthn.assertFresh(
       req.user,

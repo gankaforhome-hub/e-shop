@@ -4,6 +4,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 import { AccountService } from './account.service';
+import { GoogleAuthService } from './google-auth.service';
+import { TurnstileService } from './turnstile.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { CmsAuthController } from './cms-auth.controller';
@@ -25,6 +27,8 @@ import { GUARDS } from './guards';
   providers: [
     AuthService,
     AccountService,
+    TurnstileService,
+    GoogleAuthService,
     AuthRepository,
     ...STRATEGIES,
     ...GUARDS,

@@ -84,7 +84,7 @@ export class CmsAuthController {
   @ApiOperation({
     summary: 'first step of a staff sign-in: email and password',
     description:
-      'The session can do nothing in the CMS until a hardware key confirms it.',
+      'Without a key the session is ready at once; a staff member who added a key confirms the session with it (webauthn/*) before it can do anything.',
   })
   async signIn(
     @Body() signInDto: SignInDto,
@@ -144,9 +144,9 @@ export class CmsAuthController {
   @ApiOperation({
     summary: 'profile and role of the signed-in staff member',
     description:
-      'Identifies the session and tells the CMS which key step is left: add a key, confirm the session with it, or wait for approval. Routes that change data have their own guards.',
+      'Identifies the session and tells the CMS whether the key step is left (hasKey without keyConfirmed). Routes that change data have their own guards.',
   })
-  async me(@CurrentUser() user: IAuthUser): Promise<CmsProfileResponse> {
+  me(@CurrentUser() user: IAuthUser): CmsProfileResponse {
     if (!user.staff || user.staff.revokedAt) {
       throw new UnauthorizedException();
     }
@@ -155,9 +155,8 @@ export class CmsAuthController {
       email: user.email,
       name: user.name,
       role: user.staff.role,
-      hasKey: (await this.webAuthnService.countKeys(user.id)) > 0,
+      hasKey: user.hasKey,
       keyConfirmed: user.aal >= 2,
-      approved: !!user.staff.approvedAt,
       isRoot: this.staffAccess.isRoot(user),
     };
   }
@@ -216,7 +215,7 @@ export class CmsAuthController {
   @ApiOperation({
     summary: 'challenge for registering a key',
     description:
-      'Needs an enrollment code, or an aal 2 session for adding another key.',
+      'The first key is added from the password session (a root also sends ROOT_ENROLLMENT_CODE); another key needs an aal 2 session.',
   })
   registrationOptions(
     @CurrentUser() user: IAuthUser,
@@ -229,7 +228,7 @@ export class CmsAuthController {
   @Post('webauthn/register/verify')
   @ApiOperation({
     summary: 'register a key',
-    description: `Without an enrollment code, the ${FRESH_ASSERTION_HEADER} header must confirm the webauthn.add_key action. A root admin adds the returned id to ROOT_CREDENTIAL_IDS.`,
+    description: `For every key after the first, the ${FRESH_ASSERTION_HEADER} header must confirm the webauthn.add_key action. A root admin adds the returned id to ROOT_CREDENTIAL_IDS.`,
   })
   async verifyRegistration(
     @CurrentUser() user: IAuthUser,

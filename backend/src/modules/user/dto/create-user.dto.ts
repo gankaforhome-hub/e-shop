@@ -4,11 +4,12 @@ import {
   IsByteLength,
   IsEmail,
   // IsEnum,
-  // IsPhoneNumber,
+  IsPhoneNumber,
   IsNotEmpty,
   IsOptional,
   IsString,
   Length,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -48,9 +49,12 @@ export class CreateUserDto {
   })
   readonly name?: string;
 
-  // @IsPhoneNumber()
-  // @ApiProperty({ example: '+380777777777' })
-  // phone?: string;
+  //COMMENT E.164 only: the storefront formats it (libphonenumber-js), the server checks it again
+  @IsOptional()
+  @Matches(/^\+[1-9]\d{7,14}$/, { message: 'phone must be in E.164 format' })
+  @IsPhoneNumber(undefined, { message: 'phone is not a valid number' })
+  @ApiPropertyOptional({ example: '+380671234567' })
+  readonly phone?: string;
 
   // @IsEnum(E_UserRole[])
   // @ApiProperty({

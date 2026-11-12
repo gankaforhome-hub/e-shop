@@ -4,9 +4,8 @@ import { E_StaffRole, PrismaClient } from '@prisma/client';
 import { normalizeEmail } from '../src/common/utils/normalize-email.util';
 
 /**
- * Lets a registered user sign in to the CMS with a password, before root and hardware keys
- * are set up. The account stays pending (no approvedAt), so backend routes that need an
- * approved staff member still refuse it. Running this takes access to the server.
+ * Gives a registered user (verified email) a CMS role, with access at once. Running this takes
+ * access to the server; normally an ADMIN or root invites people in Settings → Team instead.
  */
 
 const GRANTABLE_ROLES = Object.values(E_StaffRole).filter(
@@ -57,7 +56,7 @@ async function main() {
     prisma.staffAccount.upsert({
       where: { userId: user.id },
       create: { userId: user.id, role },
-      update: { role, approvedAt: null, approvedById: null, revokedAt: null },
+      update: { role, revokedAt: null },
     }),
     prisma.auditLog.create({
       data: {
@@ -68,7 +67,7 @@ async function main() {
     }),
   ]);
 
-  console.log(`${email} can now sign in to the CMS as ${role} (pending).`);
+  console.log(`${email} can now sign in to the CMS as ${role}.`);
 }
 
 main()

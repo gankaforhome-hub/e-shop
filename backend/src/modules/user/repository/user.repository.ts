@@ -4,6 +4,14 @@ import { CreateUserDto, UpdateUserDto } from '@modules/user/dto';
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 
+export type CustomerProfileData = {
+  firstName?: string;
+  lastName?: string;
+  termsAcceptedAt?: Date;
+  termsVersion?: string;
+  marketingConsentAt?: Date | null;
+};
+
 @Injectable()
 export class UserRepository {
   private readonly logger = new Logger(UserRepository.name);
@@ -13,8 +21,10 @@ export class UserRepository {
     private readonly passwordService: PasswordService,
   ) {}
 
-  //COMMENT createUser
-  async createUser(data: CreateUserDto): Promise<User | null> {
+  //COMMENT createUser; customer sign-up adds the profile and the consents
+  async createUser(
+    data: CreateUserDto & CustomerProfileData,
+  ): Promise<User | null> {
     const hashedPassword = await this.passwordService.getHashPassword(
       data.password,
     );
@@ -24,6 +34,12 @@ export class UserRepository {
           email: data.email,
           password: hashedPassword,
           name: data.name,
+          phone: data.phone,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          termsAcceptedAt: data.termsAcceptedAt,
+          termsVersion: data.termsVersion,
+          marketingConsentAt: data.marketingConsentAt,
         },
       })
       .catch(err => {
@@ -65,6 +81,11 @@ export class UserRepository {
     return user;
   }
 
+  //COMMENT whether a phone (E.164) already belongs to an account
+  async isPhoneTaken(phone: string): Promise<boolean> {
+    return (await this.db.user.count({ where: { phone } })) > 0;
+  }
+
   //COMMENT get user by email
   async getUserByEmail(email: string): Promise<User | null> {
     return await this.db.user
@@ -79,6 +100,26 @@ export class UserRepository {
   }
 
   //COMMENT update user by id
+  //COMMENT the customer's own profile fields only; never email, password or rights
+  async updateProfile(
+    id: string,
+    data: {
+      firstName?: string;
+      lastName?: string;
+      phone?: string | null;
+      marketingConsentAt?: Date | null;
+    },
+  ): Promise<User> {
+    return this.db.user.update({
+      where: { id },
+      data: {
+        ...data,
+        //COMMENT a new number is not verified yet
+        ...(data.phone !== undefined && { phoneVerifiedAt: null }),
+      },
+    });
+  }
+
   async updateUser(id: string, data: UpdateUserDto): Promise<User | null> {
     return await this.db.user.update({ where: { id }, data }).catch(err => {
       //TODO Add Logger

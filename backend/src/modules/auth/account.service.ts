@@ -1,6 +1,8 @@
+import { TERMS_VERSION } from '@common/constants';
 import { normalizeEmail } from '@common/utils';
 import { MailService } from '@modules/mail/mail.service';
 import { PasswordService } from '@modules/password/password.service';
+import { StaffRepository } from '@modules/staff/repository/staff.repository';
 import { UserService } from '@modules/user/user.service';
 import {
   BadRequestException,
@@ -21,6 +23,7 @@ import {
 } from './dto';
 import { IAuthUser } from './interfaces';
 import { AuthRepository } from './repository/auth.repository';
+import { TurnstileService } from './turnstile.service';
 
 const MINUTE_MS = 60 * 1000;
 const EMAIL_VERIFICATION_LIFETIME_MS = 24 * 60 * MINUTE_MS;
@@ -36,6 +39,8 @@ export class AccountService {
     private readonly passwordService: PasswordService,
     private readonly authRepository: AuthRepository,
     private readonly mailService: MailService,
+    private readonly staffRepository: StaffRepository,
+    private readonly turnstile: TurnstileService,
   ) {}
 
   private async sendEmailVerification({ id, email }: User): Promise<void> {
@@ -47,36 +52,68 @@ export class AccountService {
     this.mailService.sendEmailVerification(email, token);
   }
 
-  //COMMENT the caller gets the same answer either way, so sign-up does not reveal existing accounts
-  async signUp(signUpDto: SignUpDto): Promise<void> {
-    const existing = await this.userService.findOneByEmail(signUpDto.email);
+  /**
+   * The caller gets the same answer either way, so sign-up reveals neither existing emails nor
+   * taken phones. A new account works at once; the welcome mail only asks to confirm the email.
+   */
+  async signUp(
+    {
+      firstName,
+      lastName,
+      email,
+      password,
+      phone,
+      marketingConsent,
+      turnstileToken,
+    }: SignUpDto,
+    ip?: string,
+  ): Promise<void> {
+    await this.turnstile.assertHuman(turnstileToken, ip);
 
-    if (existing) {
+    const existing = await this.userService.findOneByEmail(email);
+    const isPhoneTaken = !!phone && (await this.userService.isPhoneTaken(phone));
+
+    if (existing || isPhoneTaken) {
       //COMMENT the same work as a real sign-up, so the timing does not reveal it either
-      await this.passwordService.getHashPassword(signUpDto.password);
-      this.mailService.sendAccountExists(existing.email);
+      await this.passwordService.getHashPassword(password);
+      if (existing) {
+        this.mailService.sendAccountExists(existing.email);
+      }
       return;
     }
 
-    const user = await this.userService.create(signUpDto);
+    //COMMENT the DTO only passes with acceptTerms === true; the version proves what was accepted
+    const now = new Date();
+    const user = await this.userService.create({
+      email,
+      password,
+      phone,
+      firstName,
+      lastName,
+      termsAcceptedAt: now,
+      termsVersion: TERMS_VERSION,
+      marketingConsentAt: marketingConsent ? now : null,
+    });
     if (user) {
       await this.sendEmailVerification(user);
     }
   }
 
-  async resendVerification({ email }: EmailDto): Promise<void> {
-    const user = await this.userService.findOneByEmail(email);
+  //COMMENT only to the signed-in customer's own address, so nobody can mail links to strangers
+  async resendVerification(actor: IAuthUser): Promise<void> {
+    const user = await this.userService.findById(actor.id);
     if (user && !user.emailVerifiedAt) {
       await this.sendEmailVerification(user);
     }
   }
 
   /**
-   * The password is required: someone could have signed up with this address before its
-   * owner, and a click on the link must not make that stranger's password valid.
-   * Such an owner uses the password reset instead, which replaces the password.
+   * Needs the session of the very account the link was sent for. Someone may sign up with a
+   * stranger's address; the stranger gets the link, but a click without that account's session
+   * confirms nothing. The real owner takes the address back with a password reset, which proves
+   * the mailbox, marks it verified and ends every session.
    */
-  async verifyEmail({ token, password }: VerifyEmailDto): Promise<void> {
+  async verifyEmail(actor: IAuthUser, { token }: VerifyEmailDto): Promise<void> {
     const oneTimeToken = await this.authRepository.findOneTimeToken(
       token,
       E_OneTimeTokenPurpose.EMAIL_VERIFICATION,
@@ -84,16 +121,8 @@ export class AccountService {
     const user =
       oneTimeToken && (await this.userService.findById(oneTimeToken.userId));
 
-    if (!oneTimeToken || !user) {
+    if (!oneTimeToken || !user || user.id !== actor.id) {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
-    }
-
-    const isPasswordValid = await this.passwordService.isPasswordValid(
-      password,
-      user.password,
-    );
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Password is invalid');
     }
 
     const isCompleted =
@@ -104,7 +133,13 @@ export class AccountService {
     await this.userService.clearCache(user.id);
   }
 
-  async forgotPassword({ email }: EmailDto): Promise<void> {
+  //COMMENT a staff member gets the CMS reset page, a customer the storefront one
+  async forgotPassword(
+    { email, turnstileToken }: EmailDto,
+    ip?: string,
+  ): Promise<void> {
+    await this.turnstile.assertHuman(turnstileToken, ip);
+
     const user = await this.userService.findOneByEmail(email);
     if (!user) {
       return;
@@ -115,7 +150,12 @@ export class AccountService {
       E_OneTimeTokenPurpose.PASSWORD_RESET,
       PASSWORD_RESET_LIFETIME_MS,
     );
-    this.mailService.sendPasswordReset(user.email, token);
+    const staff = await this.staffRepository.findStaffAccount(user.id);
+    this.mailService.sendPasswordReset(
+      user.email,
+      token,
+      staff && !staff.revokedAt ? 'cms' : 'storefront',
+    );
   }
 
   async resetPassword({ token, password }: ResetPasswordDto): Promise<void> {
@@ -142,11 +182,14 @@ export class AccountService {
     this.mailService.sendPasswordChanged(user.email);
   }
 
-  //COMMENT the same as a password reset: the link proves the mailbox, so it also confirms the email
+  /**
+   * The same as a password reset: the link proves the mailbox, so it also confirms the email.
+   * Returns the email, so the CMS can sign the person in with the new password at once.
+   */
   async acceptStaffInvite({
     token,
     password,
-  }: ResetPasswordDto): Promise<void> {
+  }: ResetPasswordDto): Promise<string> {
     const oneTimeToken = await this.authRepository.findOneTimeToken(
       token,
       E_OneTimeTokenPurpose.STAFF_INVITE,
@@ -166,6 +209,7 @@ export class AccountService {
       throw new BadRequestException(INVALID_TOKEN_MESSAGE);
     }
     await this.userService.clearCache(user.id);
+    return user.email;
   }
 
   async changePassword(

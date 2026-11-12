@@ -36,7 +36,7 @@ import { TeamService } from './team.service';
 @ApiBearerAuth()
 @ApiForbiddenResponse({
   description:
-    'Not an approved ADMIN, or the target is an ADMIN / ROOT / yourself (only a root manages an ADMIN)',
+    'Not an ADMIN, or the target is an ADMIN / ROOT / yourself (only a root manages an ADMIN)',
 })
 @Audiences(E_AuthAudience.CMS)
 @UseGuards(StaffGuard)
@@ -58,7 +58,7 @@ export class TeamController {
   @ApiOperation({
     summary: 'Invite by email',
     description:
-      'Creates the account when the address is new and sends a link (7 days) to set the password. The person then signs in and adds a key; the access works once an ADMIN or root approves it. Inviting again renews the link of an invited, pending or revoked member.',
+      'Creates the account when the address is new and sends a link (7 days) to set the password. Opening it and setting the password is the whole sign-up: the access works at once. Inviting again renews the link of an invited or revoked member.',
   })
   @ApiAcceptedResponse({ description: 'The invitation is sent' })
   @ApiConflictResponse({ description: 'Already an active staff member' })
@@ -86,29 +86,11 @@ export class TeamController {
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Post(':userId/approve')
-  @ApiOperation({
-    summary: 'Approve the access',
-    description:
-      'After the person has accepted the invite and added a key. Approving again does nothing.',
-  })
-  @ApiNoContentResponse({ description: 'Approved' })
-  @ApiBadRequestResponse({ description: 'Revoked, or no key yet' })
-  @ApiNotFoundResponse({ description: 'Not a staff member' })
-  async approve(
-    @UUIDParam('userId') userId: string,
-    @CurrentUser() actor: IAuthUser,
-    @Ip() ip: string,
-  ): Promise<void> {
-    await this.teamService.approve(actor, userId, { ip });
-  }
-
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':userId/keys')
   @ApiOperation({
     summary: 'Reset the keys (lost or stolen device)',
     description:
-      'Removes every key and session and the approval. On the next sign-in the person adds a new key, which waits for approval again.',
+      'Removes every key and session. The person signs in with the password again and may add a new key in the profile.',
   })
   @ApiNoContentResponse({ description: 'Reset' })
   @ApiNotFoundResponse({ description: 'Not a staff member' })

@@ -1,7 +1,9 @@
-import { FRONTEND_URL } from '@common/constants';
+import { CMS_URL, FRONTEND_URL } from '@common/constants';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IMailMessage, IMailTransport, MAIL_TRANSPORT } from './interfaces';
+
+export type LinkApp = 'storefront' | 'cms';
 
 @Injectable()
 export class MailService {
@@ -20,20 +22,30 @@ export class MailService {
     });
   }
 
-  //COMMENT the token stays in the fragment, so it never reaches server logs or a Referer header
-  private buildLink(path: string, token: string): string {
-    const baseUrl = this.configService.get<string>(
-      FRONTEND_URL,
-      'http://localhost:3000',
+  //COMMENT customer links open the storefront, staff links the CMS (without CMS_URL: FRONTEND_URL)
+  private getBaseUrl(app: LinkApp): string {
+    const storefront = this.configService.get<string>(FRONTEND_URL);
+    if (app === 'storefront') {
+      return storefront ?? 'http://localhost:3000';
+    }
+    return (
+      this.configService.get<string>(CMS_URL) ??
+      storefront ??
+      'http://localhost:3030'
     );
-    return `${new URL(path, baseUrl).href}#token=${token}`;
   }
 
+  //COMMENT the token stays in the fragment, so it never reaches server logs or a Referer header
+  private buildLink(path: string, token: string, app: LinkApp): string {
+    return `${new URL(path, this.getBaseUrl(app)).href}#token=${token}`;
+  }
+
+  //COMMENT soft verification: shopping never waits for it; the link works only signed in to that account
   sendEmailVerification(to: string, token: string): void {
     this.send({
       to,
-      subject: 'Confirm your email',
-      text: `Open this link to confirm your email:\n${this.buildLink('/verify-email', token)}\n\nThe link is valid for 24 hours. If you did not sign up, ignore this message.`,
+      subject: 'Confirm your email at Ganka for Home',
+      text: `Open this link and sign in to your account to confirm your email:\n${this.buildLink('/verify-email', token, 'storefront')}\n\nThe link is valid for 24 hours. If you did not create an account with this address, ignore this message: nothing is confirmed without signing in, and you can claim the address any time with "Forgot password".`,
     });
   }
 
@@ -41,7 +53,7 @@ export class MailService {
     this.send({
       to,
       subject: 'You are invited to Ganka CMS',
-      text: `You were given access to the Ganka for Home admin panel. Open this link to set your password:\n${this.buildLink('/accept-invite', token)}\n\nThe link is valid for 7 days. If you did not expect it, ignore this message.`,
+      text: `You were given access to the Ganka for Home admin panel. Open this link to set your password:\n${this.buildLink('/accept-invite', token, 'cms')}\n\nThe link is valid for 7 days. If you did not expect it, ignore this message.`,
     });
   }
 
@@ -53,11 +65,11 @@ export class MailService {
     });
   }
 
-  sendPasswordReset(to: string, token: string): void {
+  sendPasswordReset(to: string, token: string, app: LinkApp): void {
     this.send({
       to,
       subject: 'Reset your password',
-      text: `Open this link to set a new password:\n${this.buildLink('/reset-password', token)}\n\nThe link is valid for 30 minutes. If you did not request it, ignore this message.`,
+      text: `Open this link to set a new password:\n${this.buildLink('/reset-password', token, app)}\n\nThe link is valid for 30 minutes. If you did not request it, ignore this message.`,
     });
   }
 
@@ -73,7 +85,7 @@ export class MailService {
     this.send({
       to,
       subject: 'Confirm your email change',
-      text: `A change of your account email was requested. It takes effect once both the old and the new address confirm it. Open this link to confirm:\n${this.buildLink('/confirm-email-change', token)}\n\nThe link is valid for 1 hour. If you did not request it, ignore this message and change your password.`,
+      text: `A change of your account email was requested. It takes effect once both the old and the new address confirm it. Open this link to confirm:\n${this.buildLink('/confirm-email-change', token, 'storefront')}\n\nThe link is valid for 1 hour. If you did not request it, ignore this message and change your password.`,
     });
   }
 

@@ -2,7 +2,6 @@ import { E_StaffRole } from '@prisma/client';
 
 export const TEAM_MEMBER_STATUSES = [
   'invited',
-  'pending',
   'active',
   'revoked',
 ] as const;
@@ -15,8 +14,7 @@ export class TeamMemberResponse {
   name: string | null;
   role: E_StaffRole;
   /**
-   * invited: the invitation is not accepted yet; pending: waits for a key (`hasKey`) and approval;
-   * active: can work in the CMS; revoked: access was taken away
+   * invited: the invitation is not accepted yet; active: can work in the CMS; revoked: access was taken away
    */
   status: TeamMemberStatus;
   hasKey: boolean;

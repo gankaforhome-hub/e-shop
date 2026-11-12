@@ -1,5 +1,10 @@
-import { JWT_REFRESH_TOKEN_EXP } from '@common/constants';
-import { convertToSecondsUtil, generateToken, hashToken } from '@common/utils';
+import { JWT_REFRESH_TOKEN_EXP, TERMS_VERSION } from '@common/constants';
+import {
+  convertToSecondsUtil,
+  generateToken,
+  hashToken,
+  normalizeEmail,
+} from '@common/utils';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -9,6 +14,7 @@ import {
   OneTimeToken,
   Prisma,
   Token,
+  User,
 } from '@prisma/client';
 import { v4 } from 'uuid';
 import { IAuthUser } from '../interfaces';
@@ -197,8 +203,9 @@ export class AuthRepository {
             email: true,
             name: true,
             staffAccount: {
-              select: { role: true, approvedAt: true, revokedAt: true },
+              select: { role: true, revokedAt: true },
             },
+            _count: { select: { webAuthnCredentials: true } },
           },
         },
       },
@@ -214,6 +221,7 @@ export class AuthRepository {
       aud: audience,
       aal,
       credentialId,
+      hasKey: user._count.webAuthnCredentials > 0,
       staff: user.staffAccount,
     };
   }
@@ -328,6 +336,85 @@ export class AuthRepository {
           ],
         },
       },
+    });
+  }
+
+  /**
+   * One user per address: a Google sign-in lands on the account with the same email, and Google
+   * wins. The caller has checked that Google verified the email.
+   * - known Google id → that user;
+   * - same email, already verified → link (the same mailbox owner signed up with a password);
+   * - same email, NOT verified → it may be a stranger who signed up with this address: link,
+   *   mark the email verified, drop the password and phone, end every session and pending link;
+   * - no account → create one, verified, without a password ("Forgot password" sets one); the
+   *   Google button carries the terms notice, so the acceptance is recorded with TERMS_VERSION.
+   * Names from Google only fill empty fields (Google may send none; the storefront then asks).
+   * Staff rights live in `staff_accounts` and are never touched here.
+   */
+  async linkGoogleAccount(
+    googleSub: string,
+    rawEmail: string,
+    names: { firstName?: string; lastName?: string },
+  ): Promise<User> {
+    const email = normalizeEmail(rawEmail);
+    const now = new Date();
+
+    return await this.db.$transaction(async tx => {
+      //COMMENT never overwrite what the user typed
+      const fillNames = (user: Pick<User, 'firstName' | 'lastName'>) => ({
+        ...(!user.firstName && names.firstName && { firstName: names.firstName }),
+        ...(!user.lastName && names.lastName && { lastName: names.lastName }),
+      });
+
+      const linked = await tx.user.findUnique({ where: { googleSub } });
+      if (linked) {
+        const data = fillNames(linked);
+        return Object.keys(data).length
+          ? tx.user.update({ where: { id: linked.id }, data })
+          : linked;
+      }
+
+      const existing = await tx.user.findUnique({ where: { email } });
+      if (!existing) {
+        return tx.user.create({
+          data: {
+            email,
+            googleSub,
+            emailVerifiedAt: now,
+            password: null,
+            firstName: names.firstName,
+            lastName: names.lastName,
+            termsAcceptedAt: now,
+            termsVersion: TERMS_VERSION,
+          },
+        });
+      }
+
+      if (existing.emailVerifiedAt) {
+        return tx.user.update({
+          where: { id: existing.id },
+          data: { googleSub, ...fillNames(existing) },
+        });
+      }
+
+      await tx.token.deleteMany({ where: { userId: existing.id } });
+      await tx.oneTimeToken.deleteMany({ where: { userId: existing.id } });
+      return tx.user.update({
+        where: { id: existing.id },
+        //COMMENT everything the possible squatter typed goes; the owner accepts the terms anew
+        data: {
+          googleSub,
+          emailVerifiedAt: now,
+          password: null,
+          phone: null,
+          phoneVerifiedAt: null,
+          firstName: names.firstName ?? null,
+          lastName: names.lastName ?? null,
+          marketingConsentAt: null,
+          termsAcceptedAt: now,
+          termsVersion: TERMS_VERSION,
+        },
+      });
     });
   }
 

@@ -12,7 +12,6 @@ export interface IJwtPayload {
 
 export interface IStaffAccess {
   role: E_StaffRole;
-  approvedAt: Date | null;
   revokedAt: Date | null;
 }
 
@@ -26,5 +25,7 @@ export interface IAuthUser {
   aal: number;
   //COMMENT the key that raised this session to aal 2
   credentialId: string | null;
+  //COMMENT keys are optional; a user with one must confirm every CMS session with it
+  hasKey: boolean;
   staff: IStaffAccess | null;
 }

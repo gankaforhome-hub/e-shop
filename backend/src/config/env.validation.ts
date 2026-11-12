@@ -35,13 +35,38 @@ class EnvironmentVariables {
   @Matches(/^\d+$/)
   TRUST_PROXY_HOPS?: string;
 
-  //COMMENT links in emails; falls back to the local frontend outside production
+  //COMMENT storefront links in customer emails; falls back to the local frontend outside production
   @ValidateIf(
     (env: EnvironmentVariables) =>
       env.NODE_ENV === 'production' || env.FRONTEND_URL !== undefined,
   )
   @IsUrl({ require_tld: false })
   FRONTEND_URL?: string;
+
+  //COMMENT CMS links in staff emails (invite, password reset); unset: FRONTEND_URL, then localhost:3030
+  @ValidateIf((env: EnvironmentVariables) => !!env.CMS_URL)
+  @IsUrl({ require_tld: false })
+  CMS_URL?: string;
+
+  //COMMENT lets a root add the first key; empty or unset means no root can enroll a key
+  @ValidateIf((env: EnvironmentVariables) => !!env.ROOT_ENROLLMENT_CODE)
+  @IsString()
+  @MinLength(32)
+  ROOT_ENROLLMENT_CODE?: string;
+
+  //COMMENT Cloudflare Turnstile on sign-up and forgot-password; empty or unset means off
+  @IsOptional()
+  @IsString()
+  TURNSTILE_SECRET_KEY?: string;
+
+  //COMMENT storefront Google sign-in; both unset = POST /auth/google answers 404
+  @IsOptional()
+  @IsString()
+  GOOGLE_CLIENT_ID?: string;
+
+  @IsOptional()
+  @IsString()
+  GOOGLE_CLIENT_SECRET?: string;
 
   //COMMENT media storage: the project URL, not the S3 endpoint
   @IsUrl({ require_tld: false })

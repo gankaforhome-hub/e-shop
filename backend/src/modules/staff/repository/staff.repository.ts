@@ -5,7 +5,6 @@ import {
   E_OneTimeTokenPurpose,
   E_StaffRole,
   E_WebAuthnChallengePurpose,
-  OneTimeToken,
   Prisma,
   StaffAccount,
   WebAuthnCredential,
@@ -41,10 +40,6 @@ export class StaffRepository {
       where: { id: userId },
       select: { emailVerifiedAt: true, staffAccount: true },
     });
-  }
-
-  countCredentials(userId: string): Promise<number> {
-    return this.db.webAuthnCredential.count({ where: { userId } });
   }
 
   findCredentials(userId: string): Promise<WebAuthnCredential[]> {
@@ -119,50 +114,13 @@ export class StaffRepository {
     return count === 1 ? record.challenge : null;
   }
 
-  findEnrollmentCode(
-    code: string,
-    userId: string,
-  ): Promise<OneTimeToken | null> {
-    return this.db.oneTimeToken.findFirst({
-      where: {
-        hash: hashToken(code),
-        userId,
-        purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
-        consumedAt: null,
-        expires: { gt: new Date() },
-      },
-    });
-  }
-
-  /**
-   * Saves a key together with its audit record. With a code, the code is spent in the same
-   * transaction, so one code can't register two keys. False when the code is already spent
-   * or the key is already registered.
-   */
+  //COMMENT saves a key together with its audit record; false when the key is already registered
   async addCredential(
     credential: NewCredential,
     audit: IAuditEntry,
-    enrollmentCode?: string,
   ): Promise<boolean> {
-    const now = new Date();
-
     return await this.db
       .$transaction(async tx => {
-        if (enrollmentCode) {
-          const { count } = await tx.oneTimeToken.updateMany({
-            where: {
-              hash: hashToken(enrollmentCode),
-              userId: credential.userId,
-              purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
-              consumedAt: null,
-              expires: { gt: now },
-            },
-            data: { consumedAt: now },
-          });
-          if (count !== 1) {
-            return false;
-          }
-        }
         await tx.webAuthnCredential.create({ data: credential });
         await tx.auditLog.create({ data: audit });
         return true;
@@ -178,7 +136,7 @@ export class StaffRepository {
     await this.db.auditLog.create({ data: entry });
   }
 
-  //COMMENT a new grant always starts as pending; a pending email change must not survive it
+  //COMMENT a pending email change must not survive a new grant
   async grant(
     userId: string,
     role: E_StaffRole,
@@ -188,7 +146,7 @@ export class StaffRepository {
       this.db.staffAccount.upsert({
         where: { userId },
         create: { userId, role },
-        update: { role, approvedAt: null, approvedById: null, revokedAt: null },
+        update: { role, revokedAt: null },
       }),
       this.db.oneTimeToken.deleteMany({
         where: {
@@ -200,45 +158,6 @@ export class StaffRepository {
             ],
           },
         },
-      }),
-      this.db.auditLog.create({ data: audit }),
-    ]);
-  }
-
-  async createEnrollmentCode(
-    userId: string,
-    lifetimeMs: number,
-    audit: IAuditEntry,
-  ): Promise<string> {
-    const code = generateToken();
-
-    await this.db.$transaction([
-      this.db.oneTimeToken.deleteMany({
-        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT },
-      }),
-      this.db.oneTimeToken.create({
-        data: {
-          hash: hashToken(code),
-          userId,
-          purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
-          expires: new Date(Date.now() + lifetimeMs),
-        },
-      }),
-      this.db.auditLog.create({ data: audit }),
-    ]);
-
-    return code;
-  }
-
-  async approve(
-    userId: string,
-    approvedById: string,
-    audit: IAuditEntry,
-  ): Promise<void> {
-    await this.db.$transaction([
-      this.db.staffAccount.update({
-        where: { userId },
-        data: { approvedAt: new Date(), approvedById },
       }),
       this.db.auditLog.create({ data: audit }),
     ]);
@@ -284,9 +203,8 @@ export class StaffRepository {
   }
 
   /**
-   * Creates the user when the address is new, gives the role (not approved: an ADMIN or root
-   * approves it once the person has added a key) and returns a one-time link token.
-   * Accepting it sets the password and confirms the email.
+   * Creates the user when the address is new, gives the role and returns a one-time link token.
+   * Accepting it sets the password and confirms the email; the access works at once.
    */
   async invite(
     email: string,
@@ -307,12 +225,7 @@ export class StaffRepository {
       await tx.staffAccount.upsert({
         where: { userId: id },
         create: { userId: id, role },
-        update: {
-          role,
-          revokedAt: null,
-          approvedAt: null,
-          approvedById: null,
-        },
+        update: { role, revokedAt: null },
       });
       await tx.oneTimeToken.deleteMany({
         where: {
@@ -352,27 +265,17 @@ export class StaffRepository {
     ]);
   }
 
-  /**
-   * For a lost or stolen device: every key and session goes, and the approval too, so the
-   * key the person adds on the next sign-in waits for approval again.
-   */
+  //COMMENT for a lost or stolen device: every key and session goes; the password still works
   async resetKeys(userId: string, audit: IAuditEntry): Promise<void> {
     await this.db.$transaction([
       this.db.webAuthnCredential.deleteMany({ where: { userId } }),
       this.db.webAuthnChallenge.deleteMany({ where: { userId } }),
       this.db.token.deleteMany({ where: { userId } }),
-      this.db.oneTimeToken.deleteMany({
-        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT },
-      }),
-      this.db.staffAccount.update({
-        where: { userId },
-        data: { approvedAt: null, approvedById: null },
-      }),
       this.db.auditLog.create({ data: audit }),
     ]);
   }
 
-  //COMMENT access ends at once: every session and pending enrollment of the user goes too
+  //COMMENT access ends at once: every session and the pending invitation of the user go too
   async revoke(userId: string, audit: IAuditEntry): Promise<void> {
     await this.db.$transaction([
       this.db.staffAccount.update({
@@ -381,15 +284,7 @@ export class StaffRepository {
       }),
       this.db.token.deleteMany({ where: { userId } }),
       this.db.oneTimeToken.deleteMany({
-        where: {
-          userId,
-          purpose: {
-            in: [
-              E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
-              E_OneTimeTokenPurpose.STAFF_INVITE,
-            ],
-          },
-        },
+        where: { userId, purpose: E_OneTimeTokenPurpose.STAFF_INVITE },
       }),
       this.db.auditLog.create({ data: audit }),
     ]);

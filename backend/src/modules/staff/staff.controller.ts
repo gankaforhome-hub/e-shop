@@ -4,8 +4,6 @@ import {
   Body,
   Controller,
   Delete,
-  HttpCode,
-  HttpStatus,
   Ip,
   Post,
   UseGuards,
@@ -25,7 +23,6 @@ import {
   RequireFreshAssertion,
 } from './guards/fresh-assertion.guard';
 import { RootGuard } from './guards/root.guard';
-import { EnrollmentCodeResponse } from './responses/enrollment-code.response';
 import { FRESH_ASSERTION_HEADER } from './staff.constants';
 import { StaffService } from './staff.service';
 
@@ -47,7 +44,7 @@ export class StaffController {
   @RequireFreshAssertion('staff.grant')
   @Post(':userId')
   @ApiOperation({
-    summary: 'grant a role (pending until approved)',
+    summary: 'grant a role',
     description:
       'The email of the user must be verified. ROOT can not be granted here.',
   })
@@ -58,39 +55,7 @@ export class StaffController {
     @Ip() ip: string,
   ): Promise<MessageResponse> {
     await this.staffService.grant(userId, role, { actorId, ip });
-    return { message: 'Role granted, waiting for a key and approval' };
-  }
-
-  @RequireFreshAssertion('staff.enrollment_code')
-  @Post(':userId/enrollment-code')
-  @ApiOperation({
-    summary: 'create a one-time code for registering a key',
-    description:
-      'Shown only once. Hand it over outside of email: a mailbox must not be able to add a key.',
-  })
-  async createEnrollmentCode(
-    @UUIDParam('userId') userId: string,
-    @CurrentUser('id') actorId: string,
-    @Ip() ip: string,
-  ): Promise<EnrollmentCodeResponse> {
-    const code = await this.staffService.createEnrollmentCode(userId, {
-      actorId,
-      ip,
-    });
-    return { code };
-  }
-
-  @RequireFreshAssertion('staff.approve')
-  @HttpCode(HttpStatus.OK)
-  @Post(':userId/approve')
-  @ApiOperation({ summary: 'approve a user who has registered a key' })
-  async approve(
-    @UUIDParam('userId') userId: string,
-    @CurrentUser('id') actorId: string,
-    @Ip() ip: string,
-  ): Promise<MessageResponse> {
-    await this.staffService.approve(userId, { actorId, ip });
-    return { message: 'Approved' };
+    return { message: 'Role granted' };
   }
 
   @RequireFreshAssertion('staff.revoke')

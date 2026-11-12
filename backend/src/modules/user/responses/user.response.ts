@@ -21,6 +21,34 @@ export class UserResponse implements User {
   })
   emailVerifiedAt: Date | null;
 
+  @ApiProperty({ description: 'Phone in E.164', nullable: true })
+  phone: string | null;
+
+  @ApiProperty({ description: 'When the phone was verified', nullable: true })
+  phoneVerifiedAt: Date | null;
+
+  //COMMENT the Google account id stays on the server
+  @Exclude()
+  googleSub: string | null;
+
+  @ApiProperty({ description: 'First name', nullable: true })
+  firstName: string | null;
+
+  @ApiProperty({ description: 'Last name', nullable: true })
+  lastName: string | null;
+
+  @ApiProperty({ description: 'When the terms were accepted', nullable: true })
+  termsAcceptedAt: Date | null;
+
+  @ApiProperty({ description: 'Accepted terms version', nullable: true })
+  termsVersion: string | null;
+
+  @ApiProperty({
+    description: 'When news and offers were allowed; null = not allowed',
+    nullable: true,
+  })
+  marketingConsentAt: Date | null;
+
   @Exclude()
   createdAt: Date;
 

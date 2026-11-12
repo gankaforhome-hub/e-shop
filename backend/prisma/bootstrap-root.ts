@@ -5,7 +5,6 @@ import {
   E_StaffRole,
   PrismaClient,
 } from '@prisma/client';
-import { hash } from 'bcrypt';
 import { isEmail } from 'class-validator';
 import { randomBytes } from 'crypto';
 import { normalizeEmail } from '../src/common/utils/normalize-email.util';
@@ -13,12 +12,13 @@ import { generateToken, hashToken } from '../src/common/utils/token.util';
 
 /**
  * The only way to create a root admin; no HTTP route can.
- * Running it takes access to the server, which a stolen mailbox does not give.
- * It does not verify the email: the owner still has to prove the mailbox as usual.
+ * Runs against the database of DATABASE_URL, so every environment gets its own root.
+ * Prints a set-password link instead of sending it: running the command already proves
+ * access to the server, and it works before any mail provider is set up.
+ * The link is the same as a team invitation: opening it sets the password and confirms the email.
  */
 
-const BCRYPT_ROUNDS = 12;
-const ENROLLMENT_CODE_LIFETIME_MS = 15 * 60 * 1000;
+const INVITE_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
 const RESET_FLAG = '--reset-credentials';
 
 const prisma = new PrismaClient({
@@ -38,6 +38,15 @@ async function main() {
     return;
   }
 
+  const cmsUrl = process.env.CMS_URL;
+  if (!cmsUrl) {
+    console.error(
+      'CMS_URL is not set: it is the CMS address the link opens (e.g. http://localhost:3030)',
+    );
+    process.exitCode = 1;
+    return;
+  }
+
   const email = normalizeEmail(rawEmail);
   const existing = await prisma.user.findUnique({ where: { email } });
 
@@ -51,15 +60,13 @@ async function main() {
     return;
   }
 
-  const password = randomBytes(24).toString('base64url');
-  const passwordHash = await hash(password, BCRYPT_ROUNDS);
-  const enrollmentCode = generateToken();
+  const token = generateToken();
 
   const user = await prisma.$transaction(async tx => {
     const { id: userId } = await tx.user.upsert({
       where: { email },
-      create: { email, password: passwordHash },
-      update: { password: passwordHash, emailVerifiedAt: null },
+      create: { email },
+      update: { password: null, emailVerifiedAt: null },
     });
 
     await tx.token.deleteMany({ where: { userId } });
@@ -67,18 +74,17 @@ async function main() {
     await tx.webAuthnCredential.deleteMany({ where: { userId } });
     await tx.webAuthnChallenge.deleteMany({ where: { userId } });
 
-    const now = new Date();
     await tx.staffAccount.upsert({
       where: { userId },
-      create: { userId, role: E_StaffRole.ROOT, approvedAt: now },
-      update: { role: E_StaffRole.ROOT, approvedAt: now, revokedAt: null },
+      create: { userId, role: E_StaffRole.ROOT },
+      update: { role: E_StaffRole.ROOT, revokedAt: null },
     });
     await tx.oneTimeToken.create({
       data: {
-        hash: hashToken(enrollmentCode),
+        hash: hashToken(token),
         userId,
-        purpose: E_OneTimeTokenPurpose.STAFF_ENROLLMENT,
-        expires: new Date(now.getTime() + ENROLLMENT_CODE_LIFETIME_MS),
+        purpose: E_OneTimeTokenPurpose.STAFF_INVITE,
+        expires: new Date(Date.now() + INVITE_LIFETIME_MS),
       },
     });
     await tx.auditLog.create({
@@ -92,22 +98,27 @@ async function main() {
     return { id: userId };
   });
 
+  const link = `${new URL('/accept-invite', cmsUrl).href}#token=${token}`;
+  // A fresh value for the server env; the database never stores it
+  const enrollmentCode = randomBytes(32).toString('base64url');
+
   console.log(`
 Root account prepared for ${email}. These values are shown only once.
 
-  ROOT_USER_IDS        ${user.id}
-  Temporary password   ${password}
-  Enrollment code      ${enrollmentCode}  (valid for 15 minutes, one key)
+  ROOT_USER_IDS          ${user.id}
+  ROOT_ENROLLMENT_CODE   ${enrollmentCode}
+  Set-password link      ${link}
+                         (valid for 7 days, one use)
 
 Next steps:
-  1. Add the user id to ROOT_USER_IDS on the server.
-  2. Verify the email: POST /api/auth/resend-verification, then POST /api/auth/verify-email.
-  3. Sign in to the CMS with the temporary password.
-  4. On the key step, enter the enrollment code and register a hardware key.
-  5. Add the key id the CMS shows to ROOT_CREDENTIAL_IDS and restart the API.
-  6. Confirm the sign-in with that key, then add a spare key in Profile (/account).
-     Add its id to ROOT_CREDENTIAL_IDS too and keep the key in a safe place.
-  7. Change the temporary password: POST /api/auth/change-password.
+  1. In the env of this environment: add the id to ROOT_USER_IDS (comma-separated) and set
+     ROOT_ENROLLMENT_CODE to the value above. Restart the API.
+  2. Open the link and set the password: you are signed in to the CMS.
+  3. The CMS asks for the enrollment code and a key (Windows Hello, Touch ID, phone, USB key).
+     It shows the id of the new key: add it to ROOT_CREDENTIAL_IDS and restart the API.
+  4. Confirm the sign-in with the key: root rights start now (only in key-confirmed sessions).
+  5. Profile (/account): add a spare key, add its id to ROOT_CREDENTIAL_IDS too.
+  6. Clear ROOT_ENROLLMENT_CODE in env and restart the API.
 `);
 }
 

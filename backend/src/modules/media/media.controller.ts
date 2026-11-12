@@ -54,7 +54,7 @@ import { MediaListResponse, MediaResponse } from './responses';
 @ApiTags('🖼️ media library (CMS)')
 @ApiBearerAuth()
 @ApiForbiddenResponse({
-  description: 'Not an approved staff member with a key-confirmed session',
+  description: 'Not an active staff member (a member with a key must confirm the session with it)',
 })
 @Audiences(E_AuthAudience.CMS)
 @UseGuards(StaffGuard)

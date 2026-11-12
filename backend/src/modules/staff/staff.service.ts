@@ -7,8 +7,6 @@ import {
 import { E_StaffRole, StaffAccount } from '@prisma/client';
 import { StaffRepository } from './repository/staff.repository';
 
-const ENROLLMENT_CODE_LIFETIME_MS = 60 * 60 * 1000;
-
 export interface IStaffActionContext {
   actorId: string;
   ip?: string;
@@ -52,43 +50,6 @@ export class StaffService {
       targetId: userId,
       ip,
       meta: { role },
-    });
-  }
-
-  //COMMENT shown once to the root admin, who hands it over outside of email
-  async createEnrollmentCode(
-    userId: string,
-    { actorId, ip }: IStaffActionContext,
-  ): Promise<string> {
-    const account = await this.getManageableAccount(userId);
-    if (account.revokedAt) {
-      throw new BadRequestException('The access of the user is revoked');
-    }
-
-    return this.staffRepository.createEnrollmentCode(
-      userId,
-      ENROLLMENT_CODE_LIFETIME_MS,
-      { actorId, action: 'staff.enrollment_code', targetId: userId, ip },
-    );
-  }
-
-  async approve(
-    userId: string,
-    { actorId, ip }: IStaffActionContext,
-  ): Promise<void> {
-    const account = await this.getManageableAccount(userId);
-    if (account.revokedAt) {
-      throw new BadRequestException('The access of the user is revoked');
-    }
-    if ((await this.staffRepository.countCredentials(userId)) === 0) {
-      throw new BadRequestException('The user has not registered a key yet');
-    }
-
-    await this.staffRepository.approve(userId, actorId, {
-      actorId,
-      action: 'staff.approve',
-      targetId: userId,
-      ip,
     });
   }
 

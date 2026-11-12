@@ -7,7 +7,7 @@ import { SEED_USERS } from './seed-data/users';
 /**
  * Development only: brings the accounts back to the seed state. Every user not listed in
  * `seed-data/users.ts` (root included) is deleted with its sessions, tokens and keys; the seed
- * accounts get `SEED_USER_PASSWORD`, a verified email, their seed role (approved) and no keys.
+ * accounts get `SEED_USER_PASSWORD`, a verified email, their seed role and no keys.
  * The audit log is cleared. Content (collections, banners, media, seasons) stays.
  * Without `--confirm` it only prints what it would do.
  */
