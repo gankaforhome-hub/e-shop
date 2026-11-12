@@ -1,4 +1,5 @@
 import type AboutPageDict from '@/dictionaries/en/about.json';
+import type AccountPageDict from '@/dictionaries/en/account.json';
 import type CollectionsPageDict from '@/dictionaries/en/collections.json';
 import type CommonDictionary from '@/dictionaries/en/common.json';
 import type ContactsPageDict from '@/dictionaries/en/contacts.json';
@@ -33,7 +34,10 @@ export type RawDictionarySchemas = {
   contacts: typeof ContactsPageDict;
   faq: typeof FaqPageDict;
   product: typeof ProductPageDict;
+  account: typeof AccountPageDict;
 };
+
+export type AccountDict = RawDictionarySchemas['account'];
 
 export type LayoutDict = RawDictionarySchemas['layout'];
 export type CommonDict = RawDictionarySchemas['common'];

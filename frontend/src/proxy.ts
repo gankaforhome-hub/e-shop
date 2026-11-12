@@ -2,7 +2,13 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import createMiddleware from 'next-intl/middleware';
 
+import { refreshSessionRequest } from '@/shared/api/auth-api';
 import { routing } from '@/shared/i18n/routing';
+import {
+  ACCESS_TOKEN_COOKIE,
+  getSessionCookies,
+  REFRESH_TOKEN_COOKIE,
+} from '@/shared/lib/session';
 
 const handleI18nRouting = createMiddleware(routing);
 
@@ -45,7 +51,7 @@ const handleI18nRouting = createMiddleware(routing);
 //   return response;
 // }
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Accurate interceptor for /ua та /ua/...
@@ -57,7 +63,31 @@ export default function proxy(request: NextRequest) {
     // 301 Permanent Redirect для SEO (Google will understand the redirect to /uk)
     return NextResponse.redirect(url, 301);
   }
-  return handleI18nRouting(request);
+
+  // Customer session: the access token expired but the refresh token is there, so renew it
+  // silently. Visitors without a session never reach the API from here.
+  const refreshToken = request.cookies.get(REFRESH_TOKEN_COOKIE)?.value;
+  if (!refreshToken || request.cookies.has(ACCESS_TOKEN_COOKIE)) {
+    return handleI18nRouting(request);
+  }
+
+  const result = await refreshSessionRequest(refreshToken);
+  if (result.ok) {
+    const cookies = getSessionCookies(result.data);
+    // This render must see the new token too, not only the next request
+    cookies.forEach(({ name, value }) => request.cookies.set(name, value));
+
+    const response = handleI18nRouting(request);
+    cookies.forEach(cookie => response.cookies.set(cookie));
+    return response;
+  }
+
+  const response = handleI18nRouting(request);
+  // A rejected token is gone for good; keep it when the API was only unreachable
+  if (result.status === 401) {
+    response.cookies.delete(REFRESH_TOKEN_COOKIE);
+  }
+  return response;
 }
 
 export const config = {

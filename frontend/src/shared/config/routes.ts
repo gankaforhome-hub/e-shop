@@ -13,6 +13,14 @@ export const staticRoutes = {
   cart: '/cart' as const,
   checkout: '/checkout' as const,
   account: '/account' as const,
+  /** One-time step when Google gave no full name */
+  accountComplete: '/account/complete' as const,
+  signIn: '/sign-in' as const,
+  signUp: '/sign-up' as const,
+  forgotPassword: '/forgot-password' as const,
+  /** Landings of email links (`#token=`): password reset and email confirmation */
+  resetPassword: '/reset-password' as const,
+  verifyEmail: '/verify-email' as const,
   wishlist: '/wishlist' as const,
 };
 
@@ -76,6 +84,8 @@ export const apiRoutes = {
   cartTitles: '/api/cart/titles',
   favorites: '/api/favorites',
   search: '/api/search',
+  googleStart: '/api/auth/google/start',
+  googleCallback: '/api/auth/google/callback',
 } as const;
 
 //INFO Functions for dynamic routes

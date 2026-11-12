@@ -1,0 +1,100 @@
+{
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "passwordRepeat": "Repeat the password",
+    "phone": "Phone (optional)"
+  },
+  "signIn": {
+    "title": "Sign in",
+    "description": "Sign in to see your account. You can also order without one.",
+    "submit": "Sign in",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "No account yet?",
+    "toSignUp": "Create one"
+  },
+  "signUp": {
+    "title": "Create an account",
+    "description": "Your account works right away. We will email you a link to confirm the address when it suits you.",
+    "phoneHint": "For delivery questions. Signing in by phone is coming later.",
+    "submit": "Create account",
+    "hasAccount": "Already have an account?",
+    "toSignIn": "Sign in",
+    "checkEmailTitle": "Check your email",
+    "checkEmailText": "If this email already has an account, the email says so. Otherwise sign in with the new password.",
+    "termsBefore": "I accept the",
+    "termsLink": "terms of use",
+    "termsAnd": "and the",
+    "privacyLink": "privacy policy",
+    "marketing": "Send me news and offers (you can unsubscribe any time)"
+  },
+  "forgotPassword": {
+    "title": "Reset the password",
+    "description": "Enter your email: we will send a link to set a new password. Your current password keeps working until then.",
+    "submit": "Send the link",
+    "sentTitle": "Check your email",
+    "sentText": "If this address has an account, the email with the link is on its way. The link is valid for 30 minutes.",
+    "toSignIn": "Back to sign in"
+  },
+  "resetPassword": {
+    "title": "Set a new password",
+    "description": "Enter the new password twice.",
+    "submit": "Save the password",
+    "doneTitle": "Password changed",
+    "doneText": "Sign in with your email and the new password.",
+    "toSignIn": "Go to sign in",
+    "again": "Request a new link"
+  },
+  "verifyEmail": {
+    "title": "Email confirmation",
+    "busy": "Confirming your email…",
+    "doneTitle": "Email confirmed",
+    "doneText": "Thank you! Your address is confirmed.",
+    "toAccount": "Go to my account",
+    "signInFirst": "Sign in to your account to confirm the email. The link stays open in this tab."
+  },
+  "account": {
+    "name": "Name",
+    "title": "My account",
+    "email": "Email",
+    "phone": "Phone",
+    "noPhone": "Not added",
+    "verified": "Confirmed",
+    "notVerified": "Not confirmed",
+    "resend": "Send the confirmation link again",
+    "resent": "The link is sent. Check your email.",
+    "signOut": "Sign out"
+  },
+  "errors": {
+    "required": "This field is required.",
+    "invalidEmail": "Enter a valid email address.",
+    "invalidPhone": "Enter a valid phone number.",
+    "passwordTooShort": "The password must have at least 8 characters.",
+    "passwordTooLong": "This password is too long.",
+    "passwordsMismatch": "The passwords do not match.",
+    "invalidCredentials": "Wrong email or password.",
+    "invalidToken": "This link is invalid or has expired.",
+    "botCheck": "Please complete the check and try again.",
+    "tooManyRequests": "Too many attempts. Wait a minute and try again.",
+    "serverError": "Something went wrong. Try again later.",
+    "signInToConfirm": "Sign in to the account this link was sent for to confirm the email.",
+    "acceptTerms": "Accept the terms of use and the privacy policy to create an account.",
+    "nameTooLong": "This name is too long.",
+    "phoneTaken": "This phone number can not be used."
+  },
+  "google": {
+    "button": "Continue with Google",
+    "or": "or",
+    "notice": "By continuing with Google you accept the terms of use and the privacy policy."
+  },
+  "profile": {
+    "completeTitle": "Complete your profile",
+    "completeDescription": "Google did not share your full name. Add it once to finish your account.",
+    "editTitle": "Profile",
+    "save": "Save",
+    "saved": "Saved."
+  }
+}
