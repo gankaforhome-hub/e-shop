@@ -1,0 +1,20 @@
+# Build context of every image is the repository root (one pnpm workspace + lockfile).
+# Secrets never enter an image: compose passes them at runtime via `env_file`.
+**/node_modules
+**/.next
+**/dist
+**/coverage
+**/*.tsbuildinfo
+**/next-env.d.ts
+**/.env
+**/.env.*
+!**/.env.example
+
+.git
+.github
+.husky
+.vscode
+.claude
+.agents
+**/.claude
+backend/docker
