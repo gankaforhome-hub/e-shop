@@ -24,7 +24,7 @@ import { Text } from '@/shared/ui/text';
 
 import { inviteMemberAction } from '../api/team-actions';
 import {
-  ASSIGNABLE_ROLES,
+  type AssignableRole,
   inviteSchema,
   type InviteValues,
   type TeamErrorKey,
@@ -33,12 +33,13 @@ import {
 const EMPTY_INVITE: InviteValues = { email: '', role: 'CONTENT_EDITOR' };
 
 interface InviteDialogProps {
+  roles: readonly AssignableRole[];
   /** Called with the address once the invitation is sent. */
   onInvited: (email: string) => void;
 }
 
 /** Email + role in a modal; the API sends the link to set the password. */
-export function InviteDialog({ onInvited }: InviteDialogProps) {
+export function InviteDialog({ roles, onInvited }: InviteDialogProps) {
   const t = useTranslations('team');
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -106,7 +107,7 @@ export function InviteDialog({ onInvited }: InviteDialogProps) {
           </FormField>
           <FormField id={`${id}-role`} label={t('invite.role')}>
             <Select {...register('role')}>
-              {ASSIGNABLE_ROLES.map(role => (
+              {roles.map(role => (
                 <option key={role} value={role}>
                   {t(`roles.${role}`)}
                 </option>

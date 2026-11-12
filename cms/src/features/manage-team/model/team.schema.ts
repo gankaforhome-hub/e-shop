@@ -5,17 +5,23 @@ import { type Dictionary } from '@/shared/i18n/types';
 
 export type TeamErrorKey = keyof Dictionary['team']['errors'];
 
-/**
- * Roles an ADMIN may give. ADMIN itself needs a key-confirmed root (staff key plan K),
- * so the CMS does not offer it yet; the API enforces the same rule.
- */
+/** Roles the CMS can give; ROOT only comes from the CLI. */
 export const ASSIGNABLE_ROLES = [
   'CONTENT_EDITOR',
   'CATALOG_MANAGER',
   'ORDER_MANAGER',
+  'ADMIN',
 ] as const satisfies readonly StaffRole[];
 
 export type AssignableRole = (typeof ASSIGNABLE_ROLES)[number];
+
+/** ADMIN only for a key-confirmed root; the API enforces the same rule. */
+export const getAssignableRoles = (
+  canAssignAdmin: boolean,
+): readonly AssignableRole[] =>
+  canAssignAdmin
+    ? ASSIGNABLE_ROLES
+    : ASSIGNABLE_ROLES.filter(role => role !== 'ADMIN');
 
 export const isAssignableRole = (role: string): role is AssignableRole =>
   (ASSIGNABLE_ROLES as readonly string[]).includes(role);

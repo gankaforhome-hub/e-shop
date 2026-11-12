@@ -49,7 +49,7 @@ export default async function SettingsPage() {
           </Text>
         </div>
         {result.ok ? (
-          <TeamTable members={result.data} />
+          <TeamTable members={result.data} canAssignAdmin={user.isRoot} />
         ) : (
           <EmptyState
             icon="team"

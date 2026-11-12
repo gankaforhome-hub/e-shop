@@ -25,34 +25,43 @@ import { Text } from '@/shared/ui/text';
 
 import { InviteDialog } from './invite-dialog';
 import {
+  approveAccessAction,
   changeRoleAction,
   inviteMemberAction,
+  resetKeysAction,
   revokeAccessAction,
   type TeamActionResult,
 } from '../api/team-actions';
 import {
-  ASSIGNABLE_ROLES,
+  getAssignableRoles,
   isAssignableRole,
   type TeamErrorKey,
 } from '../model/team.schema';
 
-function RevokeButton({
-  member,
-  onDone,
-}: {
+interface ConfirmButtonProps {
+  kind: 'revoke' | 'resetKeys';
   member: TeamMember;
-  onDone: (result: TeamActionResult) => void;
-}) {
+  onDone: (result: TeamActionResult, success?: string) => void;
+}
+
+/** Revoke the access or reset the keys, each behind a confirmation dialog. */
+function ConfirmButton({ kind, member, onDone }: ConfirmButtonProps) {
   const t = useTranslations('team');
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
-  const { email } = member;
+  const { email, userId } = member;
 
   const confirm = () =>
     startTransition(async () => {
-      const result = await revokeAccessAction(member.userId);
+      const result =
+        kind === 'revoke'
+          ? await revokeAccessAction(userId)
+          : await resetKeysAction(userId);
       setOpen(false);
-      onDone(result);
+      onDone(
+        result,
+        kind === 'resetKeys' ? t('resetKeys.done', { email }) : undefined,
+      );
     });
 
   return (
@@ -61,21 +70,21 @@ function RevokeButton({
         <Button
           variant="ghostDestructive"
           size="icon"
-          aria-label={t('revoke.button', { email })}
-          title={t('revoke.button', { email })}
+          aria-label={t(`${kind}.button`, { email })}
+          title={t(`${kind}.button`, { email })}
         >
-          <Icon name="revoke" />
+          <Icon name={kind === 'revoke' ? 'revoke' : 'key'} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        <AlertDialogTitle>{t('revoke.title', { email })}</AlertDialogTitle>
+        <AlertDialogTitle>{t(`${kind}.title`, { email })}</AlertDialogTitle>
         <AlertDialogDescription>
-          {t('revoke.description')}
+          {t(`${kind}.description`)}
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
             <Button variant="ghost" disabled={isPending}>
-              {t('revoke.cancel')}
+              {t(`${kind}.cancel`)}
             </Button>
           </AlertDialogCancel>
           <AlertDialogAction
@@ -86,7 +95,7 @@ function RevokeButton({
             }}
           >
             <Button variant="destructive" disabled={isPending}>
-              {t('revoke.confirm')}
+              {t(`${kind}.confirm`)}
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -95,9 +104,16 @@ function RevokeButton({
   );
 }
 
-/** Staff list for admins: invite, change the role, invite again, revoke. */
-export function TeamTable({ members }: { members: TeamMember[] }) {
+interface TeamTableProps {
+  members: TeamMember[];
+  /** A key-confirmed root may also give the ADMIN role */
+  canAssignAdmin: boolean;
+}
+
+/** Staff list for admins: invite, change the role, approve, invite again, reset keys, revoke. */
+export function TeamTable({ members, canAssignAdmin }: TeamTableProps) {
   const t = useTranslations('team');
+  const roles = getAssignableRoles(canAssignAdmin);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [notice, setNotice] = useState<string | null>(null);
@@ -132,6 +148,7 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
           ) : null}
         </div>
         <InviteDialog
+          roles={roles}
           onInvited={email => settle({ ok: true }, t('invite.sent', { email }))}
         />
       </div>
@@ -163,7 +180,7 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                 <th scope="col" className={head}>
                   {t('table.key')}
                 </th>
-                <th scope="col" className={cn(head, 'w-24')}>
+                <th scope="col" className={cn(head, 'w-40')}>
                   <span className="sr-only">{t('table.actions')}</span>
                 </th>
               </tr>
@@ -174,6 +191,8 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                 const isRevoked = status === 'revoked';
                 const canEditRole =
                   manageable && !isRevoked && isAssignableRole(role);
+                const canApprove =
+                  manageable && status === 'pending' && member.hasKey;
                 const canReinvite =
                   manageable &&
                   (status === 'invited' || isRevoked) &&
@@ -208,7 +227,7 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                             run(() => changeRoleAction(userId, next));
                           }}
                         >
-                          {ASSIGNABLE_ROLES.map(option => (
+                          {roles.map(option => (
                             <option key={option} value={option}>
                               {t(`roles.${option}`)}
                             </option>
@@ -232,7 +251,9 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                               : 'muted'
                         }
                       >
-                        {t(`status.${status}`)}
+                        {status === 'pending' && !member.hasKey
+                          ? t('status.awaitingKey')
+                          : t(`status.${status}`)}
                       </Text>
                     </td>
                     <td className={cell}>
@@ -242,6 +263,23 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                     </td>
                     <td className={cell}>
                       <div className="flex justify-end gap-1">
+                        {canApprove ? (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            disabled={isPending}
+                            aria-label={t('approve', { email })}
+                            title={t('approve', { email })}
+                            onClick={() =>
+                              run(
+                                () => approveAccessAction(userId),
+                                t('approved', { email }),
+                              )
+                            }
+                          >
+                            <Icon name="approve" />
+                          </Button>
+                        ) : null}
                         {canReinvite ? (
                           <Button
                             variant="ghost"
@@ -260,8 +298,19 @@ export function TeamTable({ members }: { members: TeamMember[] }) {
                             <Icon name="invite" />
                           </Button>
                         ) : null}
+                        {manageable && !isRevoked && member.hasKey ? (
+                          <ConfirmButton
+                            kind="resetKeys"
+                            member={member}
+                            onDone={settle}
+                          />
+                        ) : null}
                         {manageable && !isRevoked ? (
-                          <RevokeButton member={member} onDone={settle} />
+                          <ConfirmButton
+                            kind="revoke"
+                            member={member}
+                            onDone={settle}
+                          />
                         ) : null}
                       </div>
                     </td>

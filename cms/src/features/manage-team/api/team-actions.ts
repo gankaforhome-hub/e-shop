@@ -12,7 +12,10 @@ import {
 export type TeamActionResult =
   { ok: true } | { ok: false; error: TeamErrorKey };
 
-function toFailure(status: number): TeamActionResult {
+function toFailure(
+  status: number,
+  known: Partial<Record<number, TeamErrorKey>> = {},
+): TeamActionResult {
   const byStatus: Partial<Record<number, TeamErrorKey>> = {
     400: 'revoked',
     401: 'forbidden',
@@ -20,8 +23,31 @@ function toFailure(status: number): TeamActionResult {
     404: 'notFound',
     409: 'alreadyStaff',
     429: 'tooManyRequests',
+    ...known,
   };
   return { ok: false, error: byStatus[status] ?? 'serverError' };
+}
+
+/** Lets a member who has added a key into the CMS. */
+export async function approveAccessAction(
+  userId: string,
+): Promise<TeamActionResult> {
+  const result = await apiRequest<void>(
+    `/admin/team/${encodeURIComponent(userId)}/approve`,
+    { method: 'POST' },
+  );
+  return result.ok ? { ok: true } : toFailure(result.status, { 400: 'noKey' });
+}
+
+/** Lost or stolen device: removes every key and session, the access waits for approval again. */
+export async function resetKeysAction(
+  userId: string,
+): Promise<TeamActionResult> {
+  const result = await apiRequest<void>(
+    `/admin/team/${encodeURIComponent(userId)}/keys`,
+    { method: 'DELETE' },
+  );
+  return result.ok ? { ok: true } : toFailure(result.status);
 }
 
 /** Sends (or renews) an invitation email; the API creates the account when it is new. */
