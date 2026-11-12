@@ -19,7 +19,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
-    "build": "nest build",
+    "build": "prisma generate && nest build",
     "check-types": "tsc --pretty --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
